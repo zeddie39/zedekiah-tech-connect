@@ -12,12 +12,14 @@ import {
   SidebarTrigger,
   SidebarInset,
 } from "@/components/ui/sidebar";
-import { BarChart2, MessagesSquare, Wrench, Bell, Users, Activity, FileText, Repeat } from "lucide-react";
+import { BarChart2, MessagesSquare, Wrench, Bell, Users, Activity, FileText, Repeat, User } from "lucide-react";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Card } from "@/components/ui/card";
 import { Loader2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import AdminUsers from "./admin/Users";
+import DashboardWidget from "@/components/admin/DashboardWidget";
 
 type Role = "super_admin" | "support_admin" | "data_analyst";
 
@@ -61,6 +63,11 @@ const ADMIN_ITEMS = [
     label: "Workflow",
     icon: Repeat,
     path: "/admin/workflow",
+  },
+  {
+    label: "User Management",
+    icon: User,
+    path: "/admin/users",
   },
 ];
 
