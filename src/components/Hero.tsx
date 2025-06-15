@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from 'react';
 import { Button } from './ui/button';
 import { supabase } from '@/integrations/supabase/client';
@@ -10,25 +11,32 @@ type Quote = {
 const Hero = () => {
   const [quote, setQuote] = useState<Quote | null>(null);
 
-  // Get a quote for today from Supabase
   useEffect(() => {
     const fetchDailyQuote = async () => {
-      // Calculates a pseudo-random index based on current date to rotate quotes each day.
+      console.log("[Hero] Fetching daily quote...");
+      const startTime = performance.now();
       const { data, error } = await supabase
         .from('quotes')
         .select('quote_text, author')
         .order('created_at', { ascending: true });
 
+      const endTime = performance.now();
+      console.log(`[Hero] Supabase fetch finished in ${endTime - startTime}ms`);
+      if (error) {
+        console.error("[Hero] Error fetching quote:", error.message);
+      }
+
       if (data && data.length > 0) {
-        // Pick a quote based on the current day, cycle through if not enough quotes
         const dayIndex = Math.abs(new Date().toDateString().split('').reduce((a, c) => a + c.charCodeAt(0), 0));
         const index = dayIndex % data.length;
         setQuote(data[index]);
+        console.log(`[Hero] Quote of the day set: ${data[index]?.quote_text}`);
       } else {
         setQuote({
           quote_text: "Empowering lives through technology.",
           author: "Zedekiah Team"
         });
+        console.log("[Hero] No data, default quote set.");
       }
     };
 
@@ -80,7 +88,6 @@ const Hero = () => {
             </Button>
           </div>
         </div>
-        
         {/* Floating Tech Icons */}
         <div className="absolute inset-0 pointer-events-none">
           <div className="absolute top-1/4 left-1/4 w-8 h-8 bg-accent/20 rounded-full animate-float" style={{ animationDelay: '0s' }}></div>
