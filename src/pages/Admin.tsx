@@ -1,4 +1,3 @@
-
 import { Outlet, NavLink, useLocation } from "react-router-dom";
 import {
   SidebarProvider,
@@ -155,9 +154,15 @@ export default function AdminLayout() {
           <SidebarContent>
             <SidebarGroup>
               <SidebarGroupLabel>
-                <div className="text-xl font-bold font-orbitron mb-1">Zedekiah Admin</div>
-                <span className="text-xs text-gray-400">{ROLE_NAMES[role]}</span>
-                <span className="text-xs text-muted-foreground block">{userEmail}</span>
+                <div className="mb-2">
+                  <div className="text-xl font-bold font-orbitron">Zedekiah Admin</div>
+                </div>
+                <div className="mb-1">
+                  <span className="text-xs text-gray-400 block">{ROLE_NAMES[role]}</span>
+                </div>
+                <div>
+                  <span className="text-xs text-muted-foreground block">{userEmail}</span>
+                </div>
               </SidebarGroupLabel>
               <SidebarGroupContent>
                 <SidebarMenu>
