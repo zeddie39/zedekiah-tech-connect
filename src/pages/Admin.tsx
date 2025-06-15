@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
@@ -18,7 +17,10 @@ export default function AdminPanel() {
   const [loading, setLoading] = useState(true);
   const [role, setRole] = useState<Role | null>(null);
   const [userEmail, setUserEmail] = useState<string | null>(null);
+  const [userId, setUserId] = useState<string | null>(null);
+  const [statuses, setStatuses] = useState<{ roles: string[] }>({ roles: [] });
   const [denied, setDenied] = useState(false);
+  const [showDebug, setShowDebug] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -32,12 +34,16 @@ export default function AdminPanel() {
         return;
       }
       setUserEmail(session.user.email || null);
+      setUserId(session.user.id || null);
 
       // Fetch user role(s)
       const { data: roles, error } = await supabase
         .from("user_roles")
         .select("role")
         .eq("user_id", session.user.id);
+
+      // Save for debug panel
+      setStatuses({ roles: roles ? roles.map((r) => r.role) : [] });
 
       if (error || !roles || roles.length === 0) {
         setDenied(true);
@@ -89,6 +95,39 @@ export default function AdminPanel() {
     <div className="flex min-h-screen bg-muted">
       <AdminSidebar role={role} email={userEmail} />
       <main className="flex-1 p-8">
+        {/* Debug Card - collapsible */}
+        <div className="mb-6">
+          <button
+            className="mb-2 text-xs text-gray-500 hover:underline"
+            onClick={() => setShowDebug((v) => !v)}
+            aria-expanded={showDebug}
+          >
+            {showDebug ? "Hide Debug Panel" : "Show Debug Panel"}
+          </button>
+          {showDebug && (
+            <Card className="p-4 bg-gray-50 border shadow-sm mb-8">
+              <strong className="block mb-2 text-sm">Debug Info</strong>
+              <div className="text-xs mb-1">
+                <span className="font-semibold">Email:</span> {userEmail || "(none)"}
+              </div>
+              <div className="text-xs mb-1">
+                <span className="font-semibold">User ID:</span> {userId || "(none)"}
+              </div>
+              <div className="text-xs mb-1">
+                <span className="font-semibold">Roles:</span>{" "}
+                {statuses.roles.length === 0 ? (
+                  <span className="text-red-500">No roles assigned</span>
+                ) : (
+                  statuses.roles.map((r) => (
+                    <span key={r} className="inline-block mr-2 px-2 py-0.5 bg-gray-200 rounded">
+                      {ROLE_NAMES[r as Role] || r}
+                    </span>
+                  ))
+                )}
+              </div>
+            </Card>
+          )}
+        </div>
         <h1 className="text-3xl font-bold mb-4">Admin Panel</h1>
         <p className="mb-3">Welcome, <span className="font-semibold">{userEmail || "Admin"}</span>!</p>
         <div className="rounded-lg bg-card shadow p-8">
