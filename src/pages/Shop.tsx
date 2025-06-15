@@ -7,6 +7,8 @@ import { Button } from "@/components/ui/button";
 import { useCart } from "@/components/CartContext";
 import { toast } from "@/components/ui/use-toast";
 import ShopNavbar from "@/components/ShopNavbar";
+import ShopHeroCarousel from "@/components/ShopHeroCarousel";
+import ShopCategories from "@/components/ShopCategories";
 
 type Product = {
   id: string;
@@ -121,7 +123,16 @@ export default function Shop() {
   return (
     <>
       <ShopNavbar />
-      <div className="max-w-6xl mx-auto py-10 px-3">
+      {/* HERO CAROUSEL */}
+      <div className="bg-gradient-to-b from-accent/30 to-transparent pb-2">
+        <ShopHeroCarousel />
+      </div>
+      {/* CATEGORIES */}
+      <div className="max-w-6xl mx-auto px-3">
+        <ShopCategories />
+      </div>
+      {/* PRODUCTS GRID */}
+      <div className="max-w-6xl mx-auto py-6 px-3">
         <div className="flex justify-between items-center mb-8 mt-2">
           <h1 className="text-3xl font-bold">Shop</h1>
           <div className="flex gap-2">
