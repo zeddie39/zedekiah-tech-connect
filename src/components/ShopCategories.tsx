@@ -1,10 +1,11 @@
 
 import { Card } from "@/components/ui/card";
+import type { LucideIcon } from "lucide-react";
 import { Smartphone, Laptop, Headphones, Gamepad2, Camera, Puzzle } from "lucide-react";
 
 type Category = {
   name: string;
-  icon: React.ComponentType<{ size?: number; className?: string }>;
+  icon: LucideIcon;  // Use LucideIcon type for compatibility
   color: string;
   desc: string;
 };
@@ -60,6 +61,7 @@ export default function ShopCategories({ selectedCategory, onSelectCategory }: S
       <div className="grid xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 max-w-5xl">
         {categories.map(cat => {
           const selected = cat.name === selectedCategory;
+          const Icon = cat.icon;
           return (
             <Card
               key={cat.name}
@@ -75,7 +77,7 @@ export default function ShopCategories({ selectedCategory, onSelectCategory }: S
                 focus:ring-2 focus:ring-primary
                 `}
             >
-              <cat.icon size={32} className="mb-1 transition-colors" />
+              <Icon size={32} className="mb-1 transition-colors" />
               <div className="font-semibold">{cat.name}</div>
               <div className="text-xs text-gray-500 text-center">{cat.desc}</div>
             </Card>
@@ -85,3 +87,4 @@ export default function ShopCategories({ selectedCategory, onSelectCategory }: S
     </div>
   );
 }
+
