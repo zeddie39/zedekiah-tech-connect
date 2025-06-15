@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
+import { useNavigate } from "react-router-dom";
 import RealtimeClock from "./RealtimeClock";
 
 type Quote = {
@@ -32,6 +33,25 @@ const fallbackQuotes: Quote[] = [
 
 const Hero = () => {
   const [quote, setQuote] = useState<Quote | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [session, setSession] = useState<any>(null);
+  const navigate = useNavigate();
+
+  // Fetch session on mount
+  useEffect(() => {
+    let mounted = true;
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (mounted) setSession(session);
+      setLoading(false);
+    });
+    const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
+      if (mounted) setSession(session);
+    });
+    return () => {
+      mounted = false;
+      listener?.subscription.unsubscribe();
+    };
+  }, []);
 
   useEffect(() => {
     const fetchDailyQuote = async () => {
@@ -67,13 +87,51 @@ const Hero = () => {
     fetchDailyQuote();
   }, []);
 
+  function handleNav(section: string) {
+    if (section === "/shop") {
+      // If not logged in, redirect to /auth first
+      if (!session) {
+        navigate("/auth?redirect=shop");
+      } else {
+        navigate("/shop");
+      }
+      return;
+    }
+    if (section.startsWith("#")) {
+      const element = document.getElementById(section.slice(1));
+      if (element) element.scrollIntoView({ behavior: "smooth" });
+    } else {
+      navigate(section);
+    }
+  }
+
   return (
-    <section id="home" className="hero-pattern min-h-screen flex items-center justify-center relative pt-24 md:pt-32 lg:pt-40">
-      <div className="container mx-auto px-6 text-center relative z-10">
-        {/* Realtime Clock at top right */}
-        <div className="absolute right-6 top-6 md:right-16 md:top-10 z-20">
-          <RealtimeClock />
+    <section id="home" className="hero-pattern min-h-screen flex items-center justify-center relative pt-28 md:pt-32 lg:pt-40">
+      {/* Navigation Bar inside Hero */}
+      <nav className="absolute top-0 left-0 w-full px-6 py-4 flex items-center justify-between z-30">
+        <div className="flex items-center gap-2">
+          <span className="font-orbitron font-bold text-xl text-white drop-shadow">Zedekiah</span>
+          <span className="text-gray-300 text-sm font-semibold">Tech Clinic</span>
         </div>
+        <div className="flex gap-5">
+          <button className="text-white hover:text-accent transition" onClick={() => handleNav("#home")}>Home</button>
+          <button className="text-white hover:text-accent transition" onClick={() => handleNav("#services")}>Services</button>
+          <button className="text-white hover:text-accent transition" onClick={() => handleNav("#team")}>Team</button>
+          <button className="text-white hover:text-accent transition" onClick={() => handleNav("#contact")}>Contact</button>
+          <button 
+            className="text-white font-semibold px-3 py-1 bg-accent rounded hover:bg-accent/80 transition"
+            onClick={() => handleNav("/shop")}
+          >
+            Shop
+          </button>
+        </div>
+      </nav>
+      {/* Realtime Clock */}
+      <div className="absolute right-6 top-6 md:right-16 md:top-10 z-20">
+        <RealtimeClock />
+      </div>
+      {/* Main Hero Section */}
+      <div className="container mx-auto px-6 text-center relative z-10">
         <div className="animate-fade-in">
           <h1 className="text-5xl md:text-7xl font-orbitron font-black text-white mb-6 leading-tight">
             Ztech Electronics
@@ -91,9 +149,8 @@ const Hero = () => {
             Expert electronics repair, tech consultations, CCTV installations, and comprehensive 
             computer solutions for homes and businesses.
           </p>
-          {/* Removed all action buttons (Get Started Today, View Services) */}
         </div>
-        {/* Floating Tech Icons */}
+        {/* Floating Tech Icons (unchanged) */}
         <div className="absolute inset-0 pointer-events-none">
           <div className="absolute top-1/4 left-1/4 w-8 h-8 bg-accent/20 rounded-full animate-float" style={{ animationDelay: '0s' }}></div>
           <div className="absolute top-1/3 right-1/4 w-6 h-6 bg-white/20 rounded-full animate-float" style={{ animationDelay: '1s' }}></div>

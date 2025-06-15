@@ -1,7 +1,6 @@
-
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -13,7 +12,9 @@ export default function AuthPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
+  const [signupNotice, setSignupNotice] = useState<string | null>(null);
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -25,10 +26,18 @@ export default function AuthPage() {
     return () => listener?.subscription.unsubscribe();
   }, [navigate]);
 
+  useEffect(() => {
+    // Show notice if redirected from Hero "Shop"
+    if (location.search.includes("redirect=shop")) {
+      setSignupNotice("You must log in or sign up to access the Shop.");
+    }
+  }, [location.search]);
+
   const handleAuth = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setError(null);
+    setSignupNotice(null);
     if (!email || !password) {
       setError("Both fields are required");
       setLoading(false);
@@ -45,6 +54,7 @@ export default function AuthPage() {
         options: { emailRedirectTo: redirectTo },
       });
       if (error) setError(error.message);
+      else setSignupNotice("Check your email to confirm registration before logging in!");
     }
     setLoading(false);
   };
@@ -55,6 +65,9 @@ export default function AuthPage() {
         <h1 className="text-2xl font-bold mb-4 text-center">
           {view === "login" ? "Sign In" : "Register"}
         </h1>
+        {signupNotice && (
+          <div className="mb-3 py-2 px-3 rounded bg-yellow-100 text-yellow-800 text-center text-sm">{signupNotice}</div>
+        )}
         <form onSubmit={handleAuth} className="space-y-3">
           <Input
             placeholder="Email"
@@ -84,14 +97,22 @@ export default function AuthPage() {
           {view === "login" ? (
             <>
               New here?{" "}
-              <button className="underline text-blue-700" onClick={() => setView("signup")}>
+              <button className="underline text-blue-700" onClick={() => {
+                setView("signup");
+                setError(null);
+                setSignupNotice(null);
+              }}>
                 Register
               </button>
             </>
           ) : (
             <>
               Already have an account?{" "}
-              <button className="underline text-blue-700" onClick={() => setView("login")}>
+              <button className="underline text-blue-700" onClick={() => {
+                setView("login");
+                setError(null);
+                setSignupNotice(null);
+              }}>
                 Sign In
               </button>
             </>
