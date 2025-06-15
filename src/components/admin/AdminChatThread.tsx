@@ -1,9 +1,10 @@
 
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { useRealtimeChat, sendChatEvent } from "@/hooks/useRealtimeChat";
 
 type Thread = {
   id: string;
@@ -31,57 +32,41 @@ export default function AdminChatThread({
   const [submitting, setSubmitting] = useState(false);
   const chatEndRef = useRef<HTMLDivElement | null>(null);
 
-  useEffect(() => {
-    let active = true;
-    const fetchData = async () => {
-      const { data: mainMsg } = await supabase
-        .from("messages")
-        .select("*")
-        .eq("id", thread.id)
-        .maybeSingle();
-      // Replies
-      const { data: replies } = await supabase
-        .from("message_replies")
-        .select("*")
-        .eq("message_id", thread.id)
-        .order("created_at", { ascending: true });
+  const fetchData = useCallback(async () => {
+    const { data: mainMsg } = await supabase
+      .from("messages")
+      .select("*")
+      .eq("id", thread.id)
+      .maybeSingle();
+    const { data: replies } = await supabase
+      .from("message_replies")
+      .select("*")
+      .eq("message_id", thread.id)
+      .order("created_at", { ascending: true });
 
-      const allMsgs: Message[] = mainMsg
-        ? [
-            { ...mainMsg, isAdmin: false },
-            ...(replies || []).map((r: any) => ({
-              id: r.id,
-              created_at: r.created_at,
-              content: r.content,
-              isAdmin: true,
-            })),
-          ]
-        : [];
-      if (active) setMessages(allMsgs);
-    };
-    fetchData();
-
-    // Real-time updates for new replies (admin/user)
-    const channel = supabase
-      .channel("admin-chat-" + thread.id)
-      .on(
-        "postgres_changes",
-        { event: "INSERT", schema: "public", table: "message_replies" },
-        () => fetchData()
-      )
-      .on(
-        "postgres_changes",
-        { event: "UPDATE", schema: "public", table: "messages" },
-        () => fetchData()
-      )
-      .subscribe();
-
-    return () => {
-      active = false;
-      supabase.removeChannel(channel);
-    };
-    // eslint-disable-next-line
+    const allMsgs: Message[] = mainMsg
+      ? [
+          { ...mainMsg, isAdmin: false },
+          ...(replies || []).map((r: any) => ({
+            id: r.id,
+            created_at: r.created_at,
+            content: r.content,
+            isAdmin: true,
+          })),
+        ]
+      : [];
+    setMessages(allMsgs);
   }, [thread.id]);
+
+  // Subscribe for instant messages
+  useRealtimeChat(thread.id, () => {
+    fetchData();
+  });
+
+  useEffect(() => {
+    fetchData();
+    // eslint-disable-next-line
+  }, [fetchData, thread.id]);
 
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -91,12 +76,19 @@ export default function AdminChatThread({
     e.preventDefault();
     setSubmitting(true);
 
-    // Insert new message as an admin reply
     await supabase.from("message_replies").insert({
       message_id: thread.id,
       content: input,
-      // Optionally: set admin_id if you want to track which admin replied
+      // Optionally, set admin_id.
     });
+
+    // Broadcast event (notifies all listening clients)
+    sendChatEvent({
+      type: "admin_reply",
+      threadId: thread.id,
+      data: { content: input },
+    });
+
     setInput("");
     setSubmitting(false);
   };
@@ -158,4 +150,3 @@ export default function AdminChatThread({
     </Card>
   );
 }
-

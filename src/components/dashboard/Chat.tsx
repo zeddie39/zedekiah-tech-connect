@@ -1,9 +1,10 @@
 
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { useRealtimeChat, sendChatEvent } from "@/hooks/useRealtimeChat";
 
 // Type for chat messages and admin replies
 type Message = {
@@ -18,70 +19,51 @@ export default function Chat({ userId, email }: { userId: string; email?: string
   const [input, setInput] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const chatEndRef = useRef<HTMLDivElement | null>(null);
+  const [threadId, setThreadId] = useState<string | null>(null);
 
-  // Fetch chat on load and listen for real-time updates
-  useEffect(() => {
-    let active = true;
+  // Fetch chat data
+  const fetchData = useCallback(async () => {
+    const { data: userMsgs } = await supabase
+      .from("messages")
+      .select("*")
+      .eq("user_id", userId)
+      .order("created_at", { ascending: true });
+    if (!userMsgs?.length) {
+      setMessages([]);
+      setThreadId(null);
+      return;
+    }
+    const mainMsg = userMsgs[0];
+    setThreadId(mainMsg.id);
 
-    const fetchData = async () => {
-      // User's main message thread
-      const { data: userMsgs } = await supabase
-        .from("messages")
-        .select("*")
-        .eq("user_id", userId)
-        .order("created_at", { ascending: true });
-      if (!userMsgs?.length) {
-        setMessages([]);
-        return;
-      }
-      const mainMsg = userMsgs[0];
+    const { data: replies } = await supabase
+      .from("message_replies")
+      .select("*")
+      .eq("message_id", mainMsg.id)
+      .order("created_at", { ascending: true });
 
-      // Get all replies to this message thread
-      const { data: replies } = await supabase
-        .from("message_replies")
-        .select("*")
-        .eq("message_id", mainMsg.id)
-        .order("created_at", { ascending: true });
-
-      // Format messages for UI: user (+ main), admin replies
-      const allMsgs: Message[] = [
-        { ...mainMsg, isAdmin: false },
-        ...(replies || []).map((r: any) => ({
-          id: r.id,
-          created_at: r.created_at,
-          content: r.content,
-          isAdmin: true,
-        })),
-      ];
-      if (active) setMessages(allMsgs);
-    };
-    fetchData();
-
-    // Realtime: subscribe to new message_replies
-    const channel = supabase
-      .channel("chat")
-      .on(
-        "postgres_changes",
-        { event: "INSERT", schema: "public", table: "message_replies" },
-        payload => {
-          fetchData();
-        }
-      )
-      .on(
-        "postgres_changes",
-        { event: "INSERT", schema: "public", table: "messages" },
-        payload => {
-          fetchData();
-        }
-      )
-      .subscribe();
-
-    return () => {
-      active = false;
-      supabase.removeChannel(channel);
-    };
-    // eslint-disable-next-line
+    // Format messages for UI: user (+ main), admin replies
+    const allMsgs: Message[] = [
+      { ...mainMsg, isAdmin: false },
+      ...(replies || []).map((r: any) => ({
+        id: r.id,
+        created_at: r.created_at,
+        content: r.content,
+        isAdmin: true,
+      })),
+    ];
+    setMessages(allMsgs);
   }, [userId]);
+
+  // Subscribe for instant updates
+  useRealtimeChat(threadId || "", () => {
+    fetchData();
+  });
+
+  useEffect(() => {
+    fetchData();
+    // eslint-disable-next-line
+  }, [fetchData, userId]);
 
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -91,13 +73,12 @@ export default function Chat({ userId, email }: { userId: string; email?: string
   const handleSend = async (e: React.FormEvent) => {
     e.preventDefault();
     setSubmitting(true);
-    // Look for existing chat
     const { data: userMsgs } = await supabase
       .from("messages")
       .select("*")
       .eq("user_id", userId)
       .order("created_at", { ascending: true });
-    let threadId: string;
+    let threadIdToSend: string;
     if (!(userMsgs && userMsgs.length)) {
       // Start new thread
       const { data, error } = await supabase
@@ -105,15 +86,23 @@ export default function Chat({ userId, email }: { userId: string; email?: string
         .insert({ user_id: userId, content: input })
         .select()
         .single();
-      threadId = data?.id;
+      threadIdToSend = data?.id;
     } else {
       // Append as a new message by the user (replace this with actual thread support if needed)
-      threadId = userMsgs[0].id;
+      threadIdToSend = userMsgs[0].id;
       await supabase
         .from("messages")
         .update({ content: input })
-        .eq("id", threadId);
+        .eq("id", threadIdToSend);
     }
+
+    // Broadcast user message event so admin sees it instantly
+    sendChatEvent({
+      type: "user_message",
+      threadId: threadIdToSend,
+      data: { content: input },
+    });
+
     setInput("");
     setSubmitting(false);
   };
