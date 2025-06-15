@@ -110,12 +110,12 @@ const Hero = () => {
       {/* Navigation Bar inside Hero */}
       <nav className="absolute top-0 left-0 w-full px-6 py-4 flex items-center justify-between z-30">
         <div className="flex flex-col items-start gap-1">
-          {/* Move the clock above the name */}
+          {/* RealtimeClock stays above name */}
           <div className="mb-1">
             <RealtimeClock />
           </div>
           <div className="flex items-center gap-2">
-            <span className="font-orbitron font-bold text-xl text-white drop-shadow">Zedekiah</span>
+            <span className="font-orbitron font-bold text-xl text-white drop-shadow">Ztech Electronics Limited</span>
             <span className="text-gray-300 text-sm font-semibold">Tech Clinic</span>
           </div>
         </div>
