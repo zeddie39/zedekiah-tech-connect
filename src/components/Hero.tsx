@@ -44,7 +44,8 @@ const Hero = () => {
   };
 
   return (
-    <section id="home" className="hero-pattern min-h-screen flex items-center justify-center relative">
+-    <section id="home" className="hero-pattern min-h-screen flex items-center justify-center relative">
++    <section id="home" className="hero-pattern min-h-screen flex items-center justify-center relative pt-24 md:pt-32 lg:pt-40">
       <div className="container mx-auto px-6 text-center relative z-10">
         <div className="animate-fade-in">
           <h1 className="text-5xl md:text-7xl font-orbitron font-black text-white mb-6 leading-tight">
