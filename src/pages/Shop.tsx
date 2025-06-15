@@ -33,6 +33,7 @@ export default function Shop() {
   const [session, setSession] = useState<any>(null);
   const [products, setProducts] = useState<Product[]>([]);
   const [images, setImages] = useState<Record<string, string>>({});
+  const [categoryFilter, setCategoryFilter] = useState<string | null>(null);
   const navigate = useNavigate();
   const { addToCart } = useCart();
 
@@ -98,6 +99,14 @@ export default function Shop() {
     fetchProducts();
   }, [session]);
 
+  // Filtered products by category
+  const filteredProducts = categoryFilter
+    ? products.filter((product) =>
+        // Case-insensitive match, fallback to '' for missing category.
+        (product.category || "").toLowerCase() === categoryFilter.toLowerCase()
+      )
+    : products;
+
   if (loading) {
     return (
       <div className="flex min-h-screen items-center justify-center">
@@ -130,7 +139,25 @@ export default function Shop() {
       </div>
       {/* CATEGORIES */}
       <div className="max-w-6xl mx-auto px-3">
-        <ShopCategories />
+        <ShopCategories
+          selectedCategory={categoryFilter}
+          onSelectCategory={setCategoryFilter}
+        />
+        {/* Show filter chip if active */}
+        {categoryFilter && (
+          <div className="flex items-center gap-2 mt-2 mb-8">
+            <span className="bg-primary text-white px-3 py-1 rounded-full text-xs font-medium">
+              {categoryFilter}
+            </span>
+            <button
+              className="ml-2 px-2 py-0.5 rounded hover:bg-muted text-xs border border-muted-foreground transition-colors"
+              onClick={() => setCategoryFilter(null)}
+              aria-label="Clear category filter"
+            >
+              Clear
+            </button>
+          </div>
+        )}
       </div>
       {/* PRODUCTS GRID */}
       <div className="max-w-6xl mx-auto py-6 px-3">
@@ -142,13 +169,13 @@ export default function Shop() {
             <Button variant="outline" onClick={() => navigate("/orders")}>My Orders</Button>
           </div>
         </div>
-        {products.length === 0 ? (
+        {filteredProducts.length === 0 ? (
           <div className="text-center text-muted-foreground text-lg mt-20">
-            No products listed yet. Be the first to post!
+            No {categoryFilter ? `${categoryFilter}` : "products"} listed yet. Be the first to post!
           </div>
         ) : (
           <ul className="grid gap-6 md:grid-cols-3 sm:grid-cols-2">
-            {products.map(product => (
+            {filteredProducts.map(product => (
               <li key={product.id}>
                 <Card
                   className="group p-0 overflow-hidden hover:shadow-xl transition-transform duration-150 border cursor-pointer flex flex-col hover:scale-105"
