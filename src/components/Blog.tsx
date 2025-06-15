@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { Button } from './ui/button';
@@ -78,7 +77,7 @@ const Blog = () => {
           <h2 className="text-4xl md:text-5xl font-orbitron font-bold text-primary mb-6">
             Tech Insights & Tips
           </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto font-playfair">
+          <p className="text-xl text-gray-600 max-w-3xl mx-auto font-sans">
             Stay informed with the latest technology trends, maintenance tips, and expert advice
           </p>
         </div>
