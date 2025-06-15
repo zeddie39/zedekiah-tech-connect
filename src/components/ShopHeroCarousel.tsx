@@ -3,19 +3,19 @@ import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious
 
 const carouselImages = [
   {
-    src: "https://images.unsplash.com/photo-1618160702438-9b02ab6515c9?auto=format&fit=crop&w=800&q=80",
-    title: "Best Deals on Fashion & Accessories",
-    desc: "Shop the latest trends at unbeatable prices.",
-  },
-  {
-    src: "https://images.unsplash.com/photo-1721322800607-8c38375eef04?auto=format&fit=crop&w=800&q=80",
-    title: "Upgrade Your Home",
-    desc: "Amazing discounts on furniture and home decor.",
-  },
-  {
     src: "https://images.unsplash.com/photo-1500673922987-e212871fec22?auto=format&fit=crop&w=800&q=80",
     title: "Electronics Blowout",
     desc: "Top gadgets for less. Shop now!",
+  },
+  {
+    src: "https://images.unsplash.com/photo-1618160702438-9b02ab6515c9?auto=format&fit=crop&w=800&q=80",
+    title: "Tech Essentials for You",
+    desc: "Find the best deals on phones, laptops, and accessories.",
+  },
+  {
+    src: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=800&q=80",
+    title: "All Things Electronics",
+    desc: "Upgrade your devices today.",
   },
 ];
 
