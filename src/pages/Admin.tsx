@@ -1,11 +1,69 @@
+
+import { Outlet, NavLink, useLocation } from "react-router-dom";
+import {
+  SidebarProvider,
+  Sidebar,
+  SidebarContent,
+  SidebarGroup,
+  SidebarGroupContent,
+  SidebarGroupLabel,
+  SidebarMenu,
+  SidebarMenuItem,
+  SidebarMenuButton,
+  SidebarTrigger,
+  SidebarInset,
+} from "@/components/ui/sidebar";
+import { BarChart2, MessagesSquare, Wrench, Bell, Users, Activity, FileText, Repeat } from "lucide-react";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
-import AdminSidebar from "@/components/admin/AdminSidebar";
 import { Card } from "@/components/ui/card";
 import { Loader2 } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 type Role = "super_admin" | "support_admin" | "data_analyst";
+
+const ADMIN_ITEMS = [
+  {
+    label: "Dashboard",
+    icon: BarChart2,
+    path: "/admin",
+  },
+  {
+    label: "Chat",
+    icon: MessagesSquare,
+    path: "/admin/chat",
+  },
+  {
+    label: "Repairs",
+    icon: Wrench,
+    path: "/admin/repairs",
+  },
+  {
+    label: "Notifications",
+    icon: Bell,
+    path: "/admin/notifications",
+  },
+  {
+    label: "Team & Roles",
+    icon: Users,
+    path: "/admin/team",
+  },
+  {
+    label: "Health Monitor",
+    icon: Activity,
+    path: "/admin/health",
+  },
+  {
+    label: "Reports",
+    icon: FileText,
+    path: "/admin/reports",
+  },
+  {
+    label: "Workflow",
+    icon: Repeat,
+    path: "/admin/workflow",
+  },
+];
 
 const ROLE_NAMES: Record<Role, string> = {
   super_admin: "Super Admin",
@@ -13,7 +71,7 @@ const ROLE_NAMES: Record<Role, string> = {
   data_analyst: "Data Analyst",
 };
 
-export default function AdminPanel() {
+export default function AdminLayout() {
   const [loading, setLoading] = useState(true);
   const [role, setRole] = useState<Role | null>(null);
   const [userEmail, setUserEmail] = useState<string | null>(null);
@@ -22,6 +80,7 @@ export default function AdminPanel() {
   const [denied, setDenied] = useState(false);
   const [showDebug, setShowDebug] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     let mounted = true;
@@ -30,19 +89,17 @@ export default function AdminPanel() {
       setLoading(true);
       const { data: { session } } = await supabase.auth.getSession();
       if (!session?.user) {
-        navigate("/"); // redirect if not logged in
+        navigate("/");
         return;
       }
       setUserEmail(session.user.email || null);
       setUserId(session.user.id || null);
 
-      // Fetch user role(s)
       const { data: roles, error } = await supabase
         .from("user_roles")
         .select("role")
         .eq("user_id", session.user.id);
 
-      // Save for debug panel
       setStatuses({ roles: roles ? roles.map((r) => r.role) : [] });
 
       if (error || !roles || roles.length === 0) {
@@ -50,7 +107,7 @@ export default function AdminPanel() {
         setLoading(false);
         return;
       }
-      // Pick the "highest" role (for now)
+
       const userRole = roles[0].role as Role;
       if (["super_admin", "support_admin", "data_analyst"].includes(userRole)) {
         if (mounted) setRole(userRole);
@@ -92,28 +149,62 @@ export default function AdminPanel() {
   }
 
   return (
-    <div className="flex min-h-screen bg-muted">
-      <AdminSidebar role={role} email={userEmail} />
-      <main className="flex-1 p-8">
-        {/* Debug Card - collapsible */}
-        <div className="mb-6">
-          <button
-            className="mb-2 text-xs text-gray-500 hover:underline"
-            onClick={() => setShowDebug((v) => !v)}
-            aria-expanded={showDebug}
-          >
-            {showDebug ? "Hide Debug Panel" : "Show Debug Panel"}
-          </button>
+    <SidebarProvider>
+      <div className="min-h-screen flex w-full bg-muted">
+        <Sidebar>
+          <SidebarContent>
+            <SidebarGroup>
+              <SidebarGroupLabel>
+                <div className="text-xl font-bold font-orbitron mb-1">Zedekiah Admin</div>
+                <span className="text-xs text-gray-400">{ROLE_NAMES[role]}</span>
+                <span className="text-xs text-muted-foreground block">{userEmail}</span>
+              </SidebarGroupLabel>
+              <SidebarGroupContent>
+                <SidebarMenu>
+                  {ADMIN_ITEMS.map(({ label, icon: Icon, path }) => (
+                    <SidebarMenuItem key={path}>
+                      <SidebarMenuButton asChild isActive={location.pathname === path}>
+                        <NavLink
+                          to={path}
+                          className={({ isActive }) =>
+                            "flex items-center gap-2 px-2 py-2 rounded transition " +
+                            (isActive
+                              ? "bg-accent text-primary font-semibold"
+                              : "hover:bg-accent/80 text-sidebar-foreground")
+                          }
+                        >
+                          <Icon size={20} className="mr-1" />
+                          <span>{label}</span>
+                        </NavLink>
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
+                  ))}
+                </SidebarMenu>
+              </SidebarGroupContent>
+            </SidebarGroup>
+          </SidebarContent>
+        </Sidebar>
+        <SidebarInset className="flex-1 flex flex-col">
+          <header className="flex items-center justify-between p-4 border-b bg-card/80 shadow-sm sticky top-0 z-10">
+            <SidebarTrigger />
+            <span className="font-medium">Welcome, {userEmail || "Admin"}!</span>
+            <button
+              className="text-xs text-muted-foreground hover:underline"
+              onClick={() => setShowDebug((v) => !v)}
+              aria-expanded={showDebug}
+            >
+              {showDebug ? "Hide Debug" : "Show Debug"}
+            </button>
+          </header>
           {showDebug && (
-            <Card className="p-4 bg-gray-50 border shadow-sm mb-8">
-              <strong className="block mb-2 text-sm">Debug Info</strong>
-              <div className="text-xs mb-1">
+            <div className="bg-card/70 p-3 border-b">
+              <div className="text-xs">
                 <span className="font-semibold">Email:</span> {userEmail || "(none)"}
               </div>
-              <div className="text-xs mb-1">
+              <div className="text-xs">
                 <span className="font-semibold">User ID:</span> {userId || "(none)"}
               </div>
-              <div className="text-xs mb-1">
+              <div className="text-xs">
                 <span className="font-semibold">Roles:</span>{" "}
                 {statuses.roles.length === 0 ? (
                   <span className="text-red-500">No roles assigned</span>
@@ -125,26 +216,13 @@ export default function AdminPanel() {
                   ))
                 )}
               </div>
-            </Card>
+            </div>
           )}
-        </div>
-        <h1 className="text-3xl font-bold mb-4">Admin Panel</h1>
-        <p className="mb-3">Welcome, <span className="font-semibold">{userEmail || "Admin"}</span>!</p>
-        <div className="rounded-lg bg-card shadow p-8">
-          <h2 className="text-xl font-semibold mb-2">Quick Preview</h2>
-          <p className="mb-4">Use the sidebar to access site analytics, chat management, repair requests, notifications, reporting, workflows, team, and health monitoring.</p>
-          <ul className="space-y-2">
-            <li>📊 Analytics Dashboard</li>
-            <li>💬 Chat Management</li>
-            <li>🛠️ Repair Request Tools</li>
-            <li>🔔 Real-Time Notifications</li>
-            <li>🧑‍💼 Team & RBAC Management</li>
-            <li>🖥️ System Health Monitor</li>
-            <li>📄 Reporting</li>
-            <li>⚙️ Workflow Automation</li>
-          </ul>
-        </div>
-      </main>
-    </div>
+          <main className="flex-1 p-8">
+            <Outlet />
+          </main>
+        </SidebarInset>
+      </div>
+    </SidebarProvider>
   );
 }
