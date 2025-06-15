@@ -264,7 +264,7 @@ export default function AdminLayout() {
                   {/* Users Management */}
                   <div className="rounded-xl p-5 bg-accent/20 border shadow hover:shadow-lg transition-all duration-200 hover-scale">
                     <div className="flex items-center mb-2">
-                      <UsersIcon size={22} className="text-primary mr-2" />
+                      <Users size={22} className="text-primary mr-2" />
                       <span className="text-lg font-bold">Users</span>
                     </div>
                     <div className="text-base text-muted-foreground mb-2">See all users, roles, and manage access.</div>
