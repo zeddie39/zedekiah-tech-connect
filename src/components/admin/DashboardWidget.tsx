@@ -4,9 +4,24 @@ import { supabase } from "@/integrations/supabase/client";
 import { Card } from "@/components/ui/card";
 import { Loader2 } from "lucide-react";
 
+// Restrict supabaseTable to valid literal table names
+type SupabaseTable =
+  | "blog_posts"
+  | "contact_messages"
+  | "message_replies"
+  | "messages"
+  | "notifications"
+  | "profiles"
+  | "quotes"
+  | "repair_requests"
+  | "services"
+  | "team_members"
+  | "testimonials"
+  | "user_roles";
+
 interface DashboardWidgetProps {
   label: string;
-  supabaseTable: string;
+  supabaseTable: SupabaseTable;
 }
 
 export default function DashboardWidget({ label, supabaseTable }: DashboardWidgetProps) {
