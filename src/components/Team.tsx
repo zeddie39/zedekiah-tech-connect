@@ -1,6 +1,8 @@
 
 import { Mail, Linkedin, Phone } from "lucide-react";
 
+const CEO_LINKEDIN_URL = "https://www.linkedin.com/in/zedekiah-profile"; // Replace with your real LinkedIn if you want
+
 const Team = () => {
   return (
     <section id="team" className="py-20 bg-gray-50">
@@ -17,22 +19,30 @@ const Team = () => {
         <div className="max-w-4xl mx-auto">
           <div className="flex flex-col md:flex-row items-center gap-12">
             {/* CEO Profile Image */}
-            <div className="flex-shrink-0">
-              <div className="relative group">
-                <div className="w-64 h-64 rounded-full bg-gradient-to-br from-primary to-accent p-1">
-                  <div className="w-full h-full rounded-full bg-gray-200 flex items-center justify-center text-6xl font-orbitron font-bold text-primary">
-                    Z
-                  </div>
+            <div className="flex-shrink-0 relative group">
+              <div className="relative w-64 h-64 rounded-full bg-gradient-to-br from-primary to-accent p-1 flex items-center justify-center">
+                <div className="w-full h-full rounded-full bg-gray-200 flex items-center justify-center text-6xl font-orbitron font-bold text-primary">
+                  Z
                 </div>
-                {/* Floating tech elements around the profile */}
-                <div className="absolute -top-4 -right-4 w-12 h-12 bg-accent rounded-full flex items-center justify-center text-white text-xl animate-float">
-                  {/* replaced emoji with Phone icon */}
-                  <Phone size={32} />
-                </div>
-                <div className="absolute -bottom-4 -left-4 w-10 h-10 bg-primary rounded-full flex items-center justify-center text-white text-lg animate-float" style={{ animationDelay: '1s' }}>
-                  {/* replaced emoji with Mail icon */}
-                  <Mail size={24} />
-                </div>
+                {/* LinkedIn overlay on the photo */}
+                <a
+                  href={CEO_LINKEDIN_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="absolute bottom-5 right-5 bg-primary rounded-full p-2 shadow-md hover:bg-accent transition-all z-10"
+                  aria-label="LinkedIn (CEO)"
+                  title="CEO LinkedIn"
+                  style={{ border: "3px solid white" }}
+                >
+                  <Linkedin size={30} className="text-white" />
+                </a>
+              </div>
+              {/* Floating tech elements around the profile */}
+              <div className="absolute -top-4 -right-4 w-12 h-12 bg-accent rounded-full flex items-center justify-center text-white text-xl animate-float">
+                <Phone size={32} />
+              </div>
+              <div className="absolute -bottom-4 -left-4 w-10 h-10 bg-primary rounded-full flex items-center justify-center text-white text-lg animate-float" style={{ animationDelay: '1s' }}>
+                <Mail size={24} />
               </div>
             </div>
 
@@ -77,15 +87,17 @@ const Team = () => {
                   href="mailto:info@zedekiahtechclinic.com" 
                   className="w-12 h-12 bg-primary rounded-full flex items-center justify-center text-white hover:bg-accent transition-all duration-200 hover:scale-110"
                   aria-label="Email"
+                  title="Send Email"
                 >
                   <Mail size={28} />
                 </a>
                 {/* LinkedIn */}
                 <a 
-                  href="https://www.linkedin.com/" 
+                  href={CEO_LINKEDIN_URL} 
                   target="_blank"
                   className="w-12 h-12 bg-primary rounded-full flex items-center justify-center text-white hover:bg-accent transition-all duration-200 hover:scale-110"
                   aria-label="LinkedIn"
+                  title="CEO LinkedIn"
                   rel="noopener noreferrer"
                 >
                   <Linkedin size={28} />
@@ -98,6 +110,15 @@ const Team = () => {
                   className="w-12 h-12 bg-primary rounded-full flex items-center justify-center text-white hover:bg-accent transition-all duration-200 hover:scale-110"
                   aria-label="WhatsApp"
                   title="Chat on WhatsApp"
+                >
+                  <Phone size={28} />
+                </a>
+                {/* Direct phone icon, to trigger dialer */}
+                <a
+                  href="tel:0757756763"
+                  className="w-12 h-12 bg-primary rounded-full flex items-center justify-center text-white hover:bg-accent transition-all duration-200 hover:scale-110"
+                  aria-label="Call"
+                  title="Call CEO"
                 >
                   <Phone size={28} />
                 </a>
@@ -117,6 +138,16 @@ const Team = () => {
                   <span className="text-sm ml-2 text-gray-500">(WhatsApp)</span>
                 </span>
               </div>
+              {/* Emergency Call Button */}
+              <div className="mt-6 flex justify-center md:justify-start">
+                <a
+                  href="tel:0757756763"
+                  className="inline-flex items-center gap-2 px-6 py-3 bg-red-600 text-white font-bold rounded-lg shadow hover:bg-red-700 transition text-lg"
+                  style={{ letterSpacing: "1px" }}
+                >
+                  <Phone size={24} /> Emergency Call: 0757 756 763
+                </a>
+              </div>
             </div>
           </div>
         </div>
@@ -126,4 +157,3 @@ const Team = () => {
 };
 
 export default Team;
-
