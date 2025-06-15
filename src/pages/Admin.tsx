@@ -10,6 +10,7 @@ import AdminHamburger from "@/components/admin/AdminHamburger";
 import AdminNavbar from "@/components/admin/AdminNavbar";
 import AdminSidebar from "@/components/admin/AdminSidebar";
 import AdminDebugInfo from "@/components/admin/AdminDebugInfo";
+import AdminAnalyticsWidget from "@/components/admin/AdminAnalyticsWidget";
 
 // Lucide icons for dashboard cards and quick links
 import { BarChart2, FileText, Users, Activity } from "lucide-react";
@@ -138,6 +139,10 @@ export default function AdminLayout() {
                 <p className="mb-8 text-muted-foreground text-base md:text-lg max-w-2xl font-medium animate-fade-in">
                   Manage the platform. View analytics, access tools, and monitor services all in one place.
                 </p>
+
+                <div className="mb-10">
+                  <AdminAnalyticsWidget />
+                </div>
 
                 {/* Widget Grid */}
                 <div className="grid gap-6 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 mb-8 animate-fade-in">
