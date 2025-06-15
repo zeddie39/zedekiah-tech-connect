@@ -1,4 +1,3 @@
-
 import { useEffect } from "react";
 import { useCart } from "@/components/CartContext";
 import { Button } from "@/components/ui/button";
@@ -6,6 +5,7 @@ import { Card } from "@/components/ui/card";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/components/ui/use-toast";
+import ShopNavbar from "@/components/ShopNavbar";
 
 export default function CheckoutPage() {
   const { cart, clearCart } = useCart();
@@ -53,29 +53,32 @@ export default function CheckoutPage() {
   };
 
   return (
-    <div className="max-w-3xl mx-auto py-10 px-3">
-      <h1 className="text-3xl font-bold mb-6">Order Summary</h1>
-      <Card className="p-6 space-y-4 mb-6">
-        <ul>
-          {cart.map(item => (
-            <li key={item.id} className="flex justify-between items-center mb-2">
-              <div>{item.title} <span className="text-muted-foreground">x{item.quantity}</span></div>
-              <div>${(item.price * item.quantity).toFixed(2)}</div>
-            </li>
-          ))}
-        </ul>
-        <div className="flex justify-between items-center border-t pt-4 mt-4 font-bold text-xl">
-          <span>Total</span>
-          <span>${total.toFixed(2)}</span>
+    <>
+      <ShopNavbar />
+      <div className="max-w-3xl mx-auto py-10 px-3">
+        <h1 className="text-3xl font-bold mb-6">Order Summary</h1>
+        <Card className="p-6 space-y-4 mb-6">
+          <ul>
+            {cart.map(item => (
+              <li key={item.id} className="flex justify-between items-center mb-2">
+                <div>{item.title} <span className="text-muted-foreground">x{item.quantity}</span></div>
+                <div>${(item.price * item.quantity).toFixed(2)}</div>
+              </li>
+            ))}
+          </ul>
+          <div className="flex justify-between items-center border-t pt-4 mt-4 font-bold text-xl">
+            <span>Total</span>
+            <span>${total.toFixed(2)}</span>
+          </div>
+        </Card>
+        <div className="flex gap-2">
+          <Button onClick={handleCheckout} className="w-full">Pay & Place Order</Button>
+          <Button variant="secondary" onClick={() => navigate("/cart")}>Back to Cart</Button>
         </div>
-      </Card>
-      <div className="flex gap-2">
-        <Button onClick={handleCheckout} className="w-full">Pay & Place Order</Button>
-        <Button variant="secondary" onClick={() => navigate("/cart")}>Back to Cart</Button>
+        <div className="text-xs text-muted-foreground mt-5 text-center">
+          Payments are simulated here. Stripe integration is coming next!
+        </div>
       </div>
-      <div className="text-xs text-muted-foreground mt-5 text-center">
-        Payments are simulated here. Stripe integration is coming next!
-      </div>
-    </div>
+    </>
   );
 }
