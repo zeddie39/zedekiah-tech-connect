@@ -1,7 +1,41 @@
 
+import { useEffect, useState } from 'react';
 import { Button } from './ui/button';
+import { supabase } from '@/integrations/supabase/client';
+
+type Quote = {
+  quote_text: string;
+  author?: string | null;
+};
 
 const Hero = () => {
+  const [quote, setQuote] = useState<Quote | null>(null);
+
+  // Get a quote for today from Supabase
+  useEffect(() => {
+    const fetchDailyQuote = async () => {
+      // Calculates a pseudo-random index based on current date to rotate quotes each day.
+      const { data, error } = await supabase
+        .from('quotes')
+        .select('quote_text, author')
+        .order('created_at', { ascending: true });
+
+      if (data && data.length > 0) {
+        // Pick a quote based on the current day, cycle through if not enough quotes
+        const dayIndex = Math.abs(new Date().toDateString().split('').reduce((a, c) => a + c.charCodeAt(0), 0));
+        const index = dayIndex % data.length;
+        setQuote(data[index]);
+      } else {
+        setQuote({
+          quote_text: "Empowering lives through technology.",
+          author: "Zedekiah Team"
+        });
+      }
+    };
+
+    fetchDailyQuote();
+  }, []);
+
   const scrollToContact = () => {
     const element = document.getElementById('contact');
     if (element) {
@@ -14,9 +48,17 @@ const Hero = () => {
       <div className="container mx-auto px-6 text-center relative z-10">
         <div className="animate-fade-in">
           <h1 className="text-5xl md:text-7xl font-orbitron font-black text-white mb-6 leading-tight">
-            Professional
-            <span className="text-accent block">Tech Solutions</span>
+            Zedekiah Tech Electronics Ltd
+            <span className="text-accent block">Professional Tech Solutions</span>
           </h1>
+          {quote && (
+            <div className="mb-7">
+              <blockquote className="text-xl italic text-gray-100 max-w-3xl mx-auto">
+                “{quote.quote_text}”
+              </blockquote>
+              <span className="block mt-2 text-accent font-semibold">{quote.author || 'Unknown'}</span>
+            </div>
+          )}
           <p className="text-xl md:text-2xl text-gray-200 mb-8 max-w-3xl mx-auto leading-relaxed">
             Expert electronics repair, tech consultations, CCTV installations, and comprehensive 
             computer solutions for homes and businesses.
