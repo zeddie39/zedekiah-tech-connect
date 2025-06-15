@@ -4,6 +4,8 @@ import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Textarea } from './ui/textarea';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
+import { supabase } from '@/integrations/supabase/client';
+import { toast } from '@/hooks/use-toast';
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -13,12 +15,39 @@ const Contact = () => {
     service: '',
     message: ''
   });
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Contact form submitted:', formData);
-    // Here you would typically send the data to your backend/Supabase
-    alert('Thank you for your message! We\'ll get back to you soon.');
+    setLoading(true);
+
+    const { name, email, phone, service, message } = formData;
+    const { error } = await supabase.from('contact_messages').insert([
+      {
+        name,
+        email,
+        phone,
+        service,
+        message
+      }
+    ]);
+    setLoading(false);
+
+    if (error) {
+      toast({
+        title: "Error",
+        description: "Failed to send your message. Please try again later.",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    toast({
+      title: "Message Sent!",
+      description: "Thank you for reaching out. We'll get back to you soon.",
+      variant: "default"
+    });
+
     setFormData({ name: '', email: '', phone: '', service: '', message: '' });
   };
 
@@ -201,8 +230,9 @@ const Contact = () => {
                 <Button 
                   type="submit" 
                   className="w-full bg-accent hover:bg-accent/90 text-white py-3 text-lg font-semibold rounded-lg transform hover:scale-105 transition-all duration-200"
+                  disabled={loading}
                 >
-                  Send Message
+                  {loading ? "Sending..." : "Send Message"}
                 </Button>
               </form>
             </CardContent>
@@ -214,3 +244,4 @@ const Contact = () => {
 };
 
 export default Contact;
+

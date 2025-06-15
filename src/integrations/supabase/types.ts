@@ -9,7 +9,266 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      [_ in never]: never
+      blog_posts: {
+        Row: {
+          author: string | null
+          body: string
+          category: string | null
+          created_at: string | null
+          id: string
+          image_url: string | null
+          read_time: string | null
+          title: string
+        }
+        Insert: {
+          author?: string | null
+          body: string
+          category?: string | null
+          created_at?: string | null
+          id?: string
+          image_url?: string | null
+          read_time?: string | null
+          title: string
+        }
+        Update: {
+          author?: string | null
+          body?: string
+          category?: string | null
+          created_at?: string | null
+          id?: string
+          image_url?: string | null
+          read_time?: string | null
+          title?: string
+        }
+        Relationships: []
+      }
+      contact_messages: {
+        Row: {
+          created_at: string | null
+          email: string | null
+          id: string
+          is_archived: boolean | null
+          is_read: boolean | null
+          message: string
+          name: string
+          phone: string | null
+          service: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          email?: string | null
+          id?: string
+          is_archived?: boolean | null
+          is_read?: boolean | null
+          message: string
+          name: string
+          phone?: string | null
+          service?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          email?: string | null
+          id?: string
+          is_archived?: boolean | null
+          is_read?: boolean | null
+          message?: string
+          name?: string
+          phone?: string | null
+          service?: string | null
+        }
+        Relationships: []
+      }
+      message_replies: {
+        Row: {
+          admin_id: string | null
+          content: string
+          created_at: string | null
+          id: string
+          message_id: string | null
+        }
+        Insert: {
+          admin_id?: string | null
+          content: string
+          created_at?: string | null
+          id?: string
+          message_id?: string | null
+        }
+        Update: {
+          admin_id?: string | null
+          content?: string
+          created_at?: string | null
+          id?: string
+          message_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "message_replies_message_id_fkey"
+            columns: ["message_id"]
+            isOneToOne: false
+            referencedRelation: "messages"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      messages: {
+        Row: {
+          content: string
+          created_at: string | null
+          id: string
+          user_id: string | null
+        }
+        Insert: {
+          content: string
+          created_at?: string | null
+          id?: string
+          user_id?: string | null
+        }
+        Update: {
+          content?: string
+          created_at?: string | null
+          id?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      quotes: {
+        Row: {
+          author: string | null
+          created_at: string | null
+          id: string
+          quote_text: string
+          scheduled_date: string | null
+        }
+        Insert: {
+          author?: string | null
+          created_at?: string | null
+          id?: string
+          quote_text: string
+          scheduled_date?: string | null
+        }
+        Update: {
+          author?: string | null
+          created_at?: string | null
+          id?: string
+          quote_text?: string
+          scheduled_date?: string | null
+        }
+        Relationships: []
+      }
+      repair_requests: {
+        Row: {
+          created_at: string | null
+          device_type: string | null
+          id: string
+          problem_description: string | null
+          status: string | null
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          device_type?: string | null
+          id?: string
+          problem_description?: string | null
+          status?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          device_type?: string | null
+          id?: string
+          problem_description?: string | null
+          status?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      services: {
+        Row: {
+          category: string | null
+          created_at: string | null
+          description: string | null
+          features: string[] | null
+          icon: string | null
+          id: string
+          title: string
+        }
+        Insert: {
+          category?: string | null
+          created_at?: string | null
+          description?: string | null
+          features?: string[] | null
+          icon?: string | null
+          id?: string
+          title: string
+        }
+        Update: {
+          category?: string | null
+          created_at?: string | null
+          description?: string | null
+          features?: string[] | null
+          icon?: string | null
+          id?: string
+          title?: string
+        }
+        Relationships: []
+      }
+      team_members: {
+        Row: {
+          avatar_url: string | null
+          bio: string | null
+          created_at: string | null
+          expertise: string[] | null
+          id: string
+          name: string
+          role: string | null
+          socials: Json | null
+        }
+        Insert: {
+          avatar_url?: string | null
+          bio?: string | null
+          created_at?: string | null
+          expertise?: string[] | null
+          id?: string
+          name: string
+          role?: string | null
+          socials?: Json | null
+        }
+        Update: {
+          avatar_url?: string | null
+          bio?: string | null
+          created_at?: string | null
+          expertise?: string[] | null
+          id?: string
+          name?: string
+          role?: string | null
+          socials?: Json | null
+        }
+        Relationships: []
+      }
+      testimonials: {
+        Row: {
+          created_at: string | null
+          id: string
+          name: string | null
+          rating: number | null
+          text: string
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          name?: string | null
+          rating?: number | null
+          text: string
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          name?: string | null
+          rating?: number | null
+          text?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
