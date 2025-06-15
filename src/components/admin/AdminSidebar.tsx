@@ -1,6 +1,6 @@
 
 import { Link, useLocation } from "react-router-dom";
-import { PanelBarChart, MessagesSquare, Wrench, Bell, Users, Activity, FileText, Repeat } from "lucide-react";
+import { BarChart2, MessagesSquare, Wrench, Bell, Users, Activity, FileText, Repeat } from "lucide-react";
 
 interface AdminSidebarProps {
   role: string;
@@ -10,7 +10,7 @@ interface AdminSidebarProps {
 const nav = [
   {
     label: "Dashboard",
-    icon: <PanelBarChart className="mr-2" size={20} />,
+    icon: <BarChart2 className="mr-2" size={20} />,
     path: "/admin",
   },
   {
