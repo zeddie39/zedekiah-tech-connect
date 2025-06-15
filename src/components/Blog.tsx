@@ -2,9 +2,20 @@
 import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { Button } from './ui/button';
+import { BookOpen, Camera, Laptop, Plug, Disc, Smartphone, Search } from 'lucide-react';
 
 const Blog = () => {
   const [visiblePosts, setVisiblePosts] = useState(3);
+
+  // Map category to lucide icon
+  const categoryIcon = {
+    'Maintenance': <Smartphone className="text-accent" size={30} />,
+    'Security': <Camera className="text-accent" size={30} />,
+    'Computers': <Laptop className="text-accent" size={30} />,
+    'Smart Home': <Plug className="text-accent" size={30} />,
+    'Data': <Disc className="text-accent" size={30} />,
+    'Business': <BookOpen className="text-accent" size={30} />,
+  };
 
   const blogPosts = [
     {
@@ -13,7 +24,6 @@ const Blog = () => {
       date: "June 10, 2025",
       category: "Maintenance",
       readTime: "5 min read",
-      image: "📱"
     },
     {
       title: "Home Security: Why CCTV Systems Are Worth the Investment",
@@ -21,7 +31,6 @@ const Blog = () => {
       date: "June 8, 2025",
       category: "Security",
       readTime: "7 min read",
-      image: "🏠"
     },
     {
       title: "Signs Your Computer Needs Professional Attention",
@@ -29,7 +38,6 @@ const Blog = () => {
       date: "June 5, 2025",
       category: "Computers",
       readTime: "6 min read",
-      image: "💻"
     },
     {
       title: "Smart Home Wiring: Planning Your Connected Future",
@@ -37,7 +45,6 @@ const Blog = () => {
       date: "June 3, 2025",
       category: "Smart Home",
       readTime: "8 min read",
-      image: "⚡"
     },
     {
       title: "Data Recovery: What You Need to Know",
@@ -45,7 +52,6 @@ const Blog = () => {
       date: "June 1, 2025",
       category: "Data",
       readTime: "6 min read",
-      image: "💾"
     },
     {
       title: "Choosing the Right Tech Consultant for Your Business",
@@ -53,7 +59,6 @@ const Blog = () => {
       date: "May 28, 2025",
       category: "Business",
       readTime: "9 min read",
-      image: "🔧"
     }
   ];
 
@@ -78,9 +83,8 @@ const Blog = () => {
             <Card key={index} className="group hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
               <CardHeader className="pb-4">
                 <div className="flex items-center justify-between mb-4">
-                  <span className="text-4xl group-hover:scale-110 transition-transform duration-300">
-                    {post.image}
-                  </span>
+                  {/* ICON */}
+                  <span className="">{categoryIcon[post.category as keyof typeof categoryIcon]}</span>
                   <span className="bg-accent/10 text-accent px-3 py-1 rounded-full text-sm font-semibold">
                     {post.category}
                   </span>

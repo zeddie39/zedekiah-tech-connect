@@ -70,7 +70,7 @@ export default {
 				sm: 'calc(var(--radius) - 4px)'
 			},
 			fontFamily: {
-				'sans': ['Poppins', 'sans-serif'],
+				'sans': ['Inter', 'Poppins', 'sans-serif'],
 				'heading': ['Space Grotesk', 'sans-serif'],
 			},
 			keyframes: {
