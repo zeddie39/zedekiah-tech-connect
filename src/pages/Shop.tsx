@@ -1,10 +1,11 @@
-
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Card } from "@/components/ui/card";
 import { Loader2, Image } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useCart } from "@/components/CartContext";
+import { toast } from "@/components/ui/use-toast";
 
 type Product = {
   id: string;
@@ -29,6 +30,7 @@ export default function Shop() {
   const [products, setProducts] = useState<Product[]>([]);
   const [images, setImages] = useState<Record<string, string>>({});
   const navigate = useNavigate();
+  const { addToCart } = useCart();
 
   // Check login state and fetch products
   useEffect(() => {
@@ -101,6 +103,20 @@ export default function Shop() {
   }
   if (!session) return null;
 
+  function handleAddToCart(product: Product) {
+    addToCart({
+      id: product.id,
+      title: product.title,
+      price: product.price,
+      image: images[product.id] || null,
+    });
+    toast({
+      title: "Added to cart",
+      description: `${product.title} has been added to your cart.`,
+      duration: 1800,
+    });
+  }
+
   return (
     <div className="max-w-6xl mx-auto py-10 px-3">
       <div className="flex justify-between items-center mb-8 mt-2">
@@ -115,8 +131,12 @@ export default function Shop() {
         <ul className="grid gap-6 md:grid-cols-3 sm:grid-cols-2">
           {products.map(product => (
             <li key={product.id}>
-              <Card className="group p-0 overflow-hidden hover:shadow-lg transition-shadow duration-150 border cursor-pointer"
-                onClick={() => navigate(`/shop/${product.id}`)}
+              <Card className="group p-0 overflow-hidden hover:shadow-lg transition-shadow duration-150 border cursor-pointer flex flex-col"
+                onClick={e => {
+                  // Only navigate on card click, not button
+                  if ((e.target as HTMLElement).tagName === "BUTTON") return;
+                  navigate(`/shop/${product.id}`);
+                }}
               >
                 {images[product.id] ? (
                   <img
@@ -129,7 +149,7 @@ export default function Shop() {
                     <Image size={48} className="text-gray-300" />
                   </div>
                 )}
-                <div className="p-4 space-y-2">
+                <div className="p-4 space-y-2 grow">
                   <h3 className="text-lg font-bold">{product.title}</h3>
                   <div className="font-medium text-primary">
                     ${product.price.toFixed(2)}
@@ -138,6 +158,18 @@ export default function Shop() {
                     {product.description}
                   </div>
                   <div className="text-xs text-gray-400">{product.category}</div>
+                </div>
+                <div className="p-4 pt-2 flex gap-2">
+                  <Button
+                    variant="secondary"
+                    onClick={e => {
+                      e.stopPropagation();
+                      handleAddToCart(product);
+                    }}
+                    className="w-full"
+                  >
+                    Add to Cart
+                  </Button>
                 </div>
               </Card>
             </li>
