@@ -12,7 +12,6 @@ export default function CheckoutPage() {
   const navigate = useNavigate();
   const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
-  // If cart cleared (on browser reload), redirect to cart page
   useEffect(() => {
     if (cart.length === 0) {
       navigate("/cart");
@@ -21,10 +20,6 @@ export default function CheckoutPage() {
 
   const handleCheckout = async () => {
     if (cart.length === 0) return;
-    // 1. Save order to Supabase orders table with status=pending
-    // 2. Receive back order id, and initiate payment (Stripe)
-    // 3. For demo, we'll just save the order, and show order placed message
-    // Real integration would redirect to Stripe
 
     const { data: { session } } = await supabase.auth.getSession();
     if (!session) {
@@ -33,29 +28,25 @@ export default function CheckoutPage() {
       return;
     }
 
-    // Prepare items payload
-    const items = cart.map(({ id, title, price, quantity }) => ({ product_id: id, title, price, quantity }));
+    // Insert one order per cart item (single product per order for DB compatibility)
+    const orderRows = cart.map(item => ({
+      buyer_id: session.user.id,
+      product_id: item.id,
+      amount: item.price * item.quantity,
+      status: "pending",
+      payment_status: "unpaid",
+    }));
 
-    // Insert into Supabase
-    const { data: order, error } = await supabase
+    // Insert all orders at once
+    const { error } = await supabase
       .from("orders")
-      .insert([{
-        buyer_id: session.user.id,
-        items,
-        amount: total,
-        status: "pending",
-        payment_status: "unpaid"
-      }])
-      .select()
-      .single();
+      .insert(orderRows);
 
-    if (error || !order) {
+    if (error) {
       toast({ title: "Order Failed", description: "There was a problem placing your order.", duration: 2000 });
       return;
     }
 
-    // TODO: Stripe integration here: call supabase.functions.invoke('create-payment', { ... }) etc.
-    // For now, just show confirmation:
     clearCart();
     toast({ title: "Order Placed!", description: "Thank you for your order.", duration: 2500 });
     navigate("/orders");

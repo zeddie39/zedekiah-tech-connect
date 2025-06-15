@@ -9,14 +9,9 @@ type Order = {
   id: string;
   created_at: string;
   amount: number;
-  status: string;
-  payment_status: string;
-  items: {
-    product_id: string;
-    title: string;
-    price: number;
-    quantity: number;
-  }[];
+  status: string | null;
+  payment_status: string | null;
+  product_id: string;
 };
 
 export default function OrdersPage() {
@@ -36,6 +31,7 @@ export default function OrdersPage() {
         .from("orders")
         .select("*")
         .order("created_at", { ascending: false });
+
       if (mounted && data) setOrders(data as Order[]);
       setLoading(false);
     };
@@ -67,12 +63,10 @@ export default function OrdersPage() {
                 <div className="text-xs text-muted-foreground">{new Date(order.created_at).toLocaleString()}</div>
               </div>
               <ul className="mb-2 text-sm">
-                {order.items.map(item => (
-                  <li key={item.product_id} className="flex justify-between">
-                    <span>{item.title} x{item.quantity}</span>
-                    <span>${(item.price * item.quantity).toFixed(2)}</span>
-                  </li>
-                ))}
+                <li>
+                  <span>Product: {order.product_id}</span>
+                  {/* In a real app, you would join to a products table for the product title */}
+                </li>
               </ul>
               <div className="flex justify-between border-t pt-2 mt-2">
                 <span className="font-bold">Total: ${order.amount.toFixed(2)}</span>
