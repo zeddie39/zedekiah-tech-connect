@@ -22,6 +22,7 @@ import CartPage from "./pages/Cart";
 import CheckoutPage from "./pages/Checkout";
 import OrdersPage from "./pages/Orders";
 import { CartProvider } from "@/components/CartContext";
+import ProductDetails from "./pages/ProductDetails";
 
 const queryClient = new QueryClient();
 
@@ -38,6 +39,7 @@ const App = () => (
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/shop" element={<Shop />} />
             <Route path="/shop/new" element={<ShopNew />} />
+            <Route path="/shop/:id" element={<ProductDetails />} />
             <Route path="/cart" element={<CartPage />} />
             <Route path="/checkout" element={<CheckoutPage />} />
             <Route path="/orders" element={<OrdersPage />} />
