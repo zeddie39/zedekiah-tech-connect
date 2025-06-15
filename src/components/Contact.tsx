@@ -6,6 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from '@/hooks/use-toast';
 import { Mail, Phone, MapPin, Clock } from "lucide-react";
+import EmergencyServiceCard from './EmergencyServiceCard';
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -117,23 +118,7 @@ const Contact = () => {
               </div>
             </div>
 
-            <Card className="bg-primary text-white">
-              <CardHeader>
-                <CardTitle className="font-orbitron">Emergency Service</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="mb-4">
-                  Need urgent tech support? We offer 24/7 emergency services for critical issues.
-                </p>
-                <a
-                  href="tel:0757756763"
-                  className="inline-flex items-center gap-2 px-6 py-3 bg-accent text-white font-bold rounded-lg shadow hover:bg-accent/90 transition text-lg"
-                  style={{ letterSpacing: "1px" }}
-                >
-                  Call Emergency Line: 0757 756 763
-                </a>
-              </CardContent>
-            </Card>
+            <EmergencyServiceCard />
           </div>
 
           {/* Contact Form */}
