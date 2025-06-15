@@ -18,6 +18,9 @@ import Dashboard from "./pages/Dashboard";
 import AdminUsers from "./pages/admin/Users";
 import Shop from "./pages/Shop";
 import ShopNew from "./pages/ShopNew";
+import CartPage from "./pages/Cart";
+import CheckoutPage from "./pages/Checkout";
+import OrdersPage from "./pages/Orders";
 import { CartProvider } from "@/components/CartContext";
 
 const queryClient = new QueryClient();
@@ -35,7 +38,10 @@ const App = () => (
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/shop" element={<Shop />} />
             <Route path="/shop/new" element={<ShopNew />} />
-            <Route path="/admin" element={<AdminLayout />}>
+            <Route path="/cart" element={<CartPage />} />
+            <Route path="/checkout" element={<CheckoutPage />} />
+            <Route path="/orders" element={<OrdersPage />} />
+            <Route path="admin" element={<AdminLayout />}>
               <Route index element={
                 <div>
                   <h1 className="text-3xl font-bold mb-4">Admin Panel</h1>

@@ -121,7 +121,11 @@ export default function Shop() {
     <div className="max-w-6xl mx-auto py-10 px-3">
       <div className="flex justify-between items-center mb-8 mt-2">
         <h1 className="text-3xl font-bold">Shop</h1>
-        <Button onClick={() => navigate("/shop/new")}>Add Product</Button>
+        <div className="flex gap-2">
+          <Button onClick={() => navigate("/shop/new")}>Add Product</Button>
+          <Button variant="secondary" onClick={() => navigate("/cart")}>Cart</Button>
+          <Button variant="outline" onClick={() => navigate("/orders")}>My Orders</Button>
+        </div>
       </div>
       {products.length === 0 ? (
         <div className="text-center text-muted-foreground text-lg mt-20">
