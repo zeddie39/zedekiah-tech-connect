@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useNavigate } from "react-router-dom";
@@ -89,7 +90,6 @@ const Hero = () => {
 
   function handleNav(section: string) {
     if (section === "/shop") {
-      // If not logged in, redirect to /auth first
       if (!session) {
         navigate("/auth?redirect=shop");
       } else {
@@ -109,9 +109,15 @@ const Hero = () => {
     <section id="home" className="hero-pattern min-h-screen flex items-center justify-center relative pt-28 md:pt-32 lg:pt-40">
       {/* Navigation Bar inside Hero */}
       <nav className="absolute top-0 left-0 w-full px-6 py-4 flex items-center justify-between z-30">
-        <div className="flex items-center gap-2">
-          <span className="font-orbitron font-bold text-xl text-white drop-shadow">Zedekiah</span>
-          <span className="text-gray-300 text-sm font-semibold">Tech Clinic</span>
+        <div className="flex flex-col items-start gap-1">
+          {/* Move the clock above the name */}
+          <div className="mb-1">
+            <RealtimeClock />
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="font-orbitron font-bold text-xl text-white drop-shadow">Zedekiah</span>
+            <span className="text-gray-300 text-sm font-semibold">Tech Clinic</span>
+          </div>
         </div>
         <div className="flex gap-5">
           <button className="text-white hover:text-accent transition" onClick={() => handleNav("#home")}>Home</button>
@@ -126,10 +132,6 @@ const Hero = () => {
           </button>
         </div>
       </nav>
-      {/* Realtime Clock */}
-      <div className="absolute right-6 top-6 md:right-16 md:top-10 z-20">
-        <RealtimeClock />
-      </div>
       {/* Main Hero Section */}
       <div className="container mx-auto px-6 text-center relative z-10">
         <div className="animate-fade-in">
@@ -163,3 +165,4 @@ const Hero = () => {
 };
 
 export default Hero;
+
