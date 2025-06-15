@@ -164,7 +164,7 @@ const Services = () => {
                 <div className="flex justify-center mb-4">
                   {service.icon}
                 </div>
-                <CardTitle className="text-xl font-orbitron text-primary group-hover:text-accent transition-colors duration-300">
+                <CardTitle className="text-xl font-heading text-primary group-hover:text-accent transition-colors duration-300">
                   {service.title}
                 </CardTitle>
               </CardHeader>
@@ -195,7 +195,7 @@ const Services = () => {
         <Dialog open={modalOpen} onOpenChange={setModalOpen}>
           <DialogContent>
             <DialogHeader>
-              <DialogTitle className="font-orbitron">
+              <DialogTitle className="font-heading">
                 {selectedService?.title}
               </DialogTitle>
             </DialogHeader>
