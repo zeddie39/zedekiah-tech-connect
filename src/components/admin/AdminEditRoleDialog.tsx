@@ -48,7 +48,12 @@ export default function AdminEditRoleDialog({
     }
     // Add new role (if any)
     if (selectedRole) {
-      let { error: insError } = await supabase.from("user_roles").insert([{ user_id: user.id, role: selectedRole }]);
+      let { error: insError } = await supabase
+        .from("user_roles")
+        .insert([{
+          user_id: user.id,
+          role: selectedRole as "super_admin" | "support_admin" | "data_analyst"
+        }]);
       if (insError) {
         toast({ title: "Failed to add role", description: insError.message, variant: "destructive" });
         setSaving(false);
