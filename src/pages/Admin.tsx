@@ -154,6 +154,9 @@ export default function AdminLayout() {
     );
   }
 
+  // --- Dashboard Content ---
+  // We'll enhance the default /admin landing page with a styled widget grid.
+  const isAdminDashboard = location.pathname === "/admin";
   return (
     <SidebarProvider>
       <div className="min-h-screen flex w-full bg-muted">
@@ -230,8 +233,83 @@ export default function AdminLayout() {
               </div>
             </div>
           )}
-          <main className="flex-1 p-8">
-            <Outlet />
+          <main className="flex-1 p-8 bg-gradient-to-br from-white via-zinc-100 to-accent/20">
+            {isAdminDashboard ? (
+              <div>
+                <h1 className="text-3xl md:text-4xl font-heading font-bold mb-2 tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-primary via-accent to-primary/70 animate-fade-in">
+                  Admin Dashboard
+                </h1>
+                <p className="mb-6 text-muted-foreground text-base md:text-lg max-w-2xl">
+                  Manage your platform. View analytics, access tools, and monitor services all in one place.
+                </p>
+
+                {/* Widget Grid */}
+                <div className="grid gap-6 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 mb-7 animate-fade-in">
+                  <DashboardWidget
+                    label="Total Users"
+                    supabaseTable="profiles"
+                  />
+                  <DashboardWidget
+                    label="Active (14d)"
+                    supabaseTable="profiles"
+                  />
+                  <DashboardWidget
+                    label="Active (7d)"
+                    supabaseTable="profiles"
+                  />
+                </div>
+
+                {/* Quick Links */}
+                <div className="grid md:grid-cols-3 sm:grid-cols-2 gap-6 mt-8">
+                  {/* Users Management */}
+                  <div className="rounded-xl p-5 bg-accent/20 border shadow hover:shadow-lg transition-all duration-200 hover-scale">
+                    <div className="flex items-center mb-2">
+                      <UsersIcon size={22} className="text-primary mr-2" />
+                      <span className="text-lg font-bold">Users</span>
+                    </div>
+                    <div className="text-base text-muted-foreground mb-2">See all users, roles, and manage access.</div>
+                    <NavLink to="/admin/users">
+                      <button className="mt-1 text-accent-foreground underline text-sm">Go to User Management</button>
+                    </NavLink>
+                  </div>
+                  {/* Reports */}
+                  <div className="rounded-xl p-5 bg-accent/20 border shadow hover:shadow-lg transition-all duration-200 hover-scale">
+                    <div className="flex items-center mb-2">
+                      <FileText size={22} className="text-primary mr-2" />
+                      <span className="text-lg font-bold">Reports</span>
+                    </div>
+                    <div className="text-base text-muted-foreground mb-2">View analytics and generate audit reports.</div>
+                    <NavLink to="/admin/reports">
+                      <button className="mt-1 text-accent-foreground underline text-sm">View Reports</button>
+                    </NavLink>
+                  </div>
+                  {/* Health */}
+                  <div className="rounded-xl p-5 bg-accent/20 border shadow hover:shadow-lg transition-all duration-200 hover-scale">
+                    <div className="flex items-center mb-2">
+                      <Activity size={22} className="text-primary mr-2" />
+                      <span className="text-lg font-bold">Health</span>
+                    </div>
+                    <div className="text-base text-muted-foreground mb-2">Monitor system status and health metrics.</div>
+                    <NavLink to="/admin/health">
+                      <button className="mt-1 text-accent-foreground underline text-sm">Monitor Health</button>
+                    </NavLink>
+                  </div>
+                </div>
+
+                {/* Announcements or Tips */}
+                <div className="rounded-xl py-4 mt-10 px-6 bg-gradient-to-r from-accent/10 to-card/30 border border-accent/20 shadow flex flex-col md:flex-row md:items-center gap-5">
+                  <div className="font-heading text-lg md:text-xl flex items-center gap-2 text-accent-foreground">
+                    <BarChart2 size={21} className="mr-1 text-accent" />
+                    Tip: Use the sidebar or these quick links for efficient admin work!
+                  </div>
+                  <div className="text-muted-foreground text-sm">
+                    Want new dashboard widgets? Just let us know!
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <Outlet />
+            )}
           </main>
         </SidebarInset>
       </div>
