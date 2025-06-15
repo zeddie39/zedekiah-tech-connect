@@ -6,11 +6,13 @@ import RepairRequests from "@/components/dashboard/RepairRequests";
 import Chat from "@/components/dashboard/Chat";
 import { Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Menu } from "lucide-react";
 
 export default function Dashboard() {
   const [loading, setLoading] = useState(true);
   const [session, setSession] = useState<any>(null);
   const navigate = useNavigate();
+  const [drawerOpen, setDrawerOpen] = useState(false);
 
   useEffect(() => {
     let mounted = true;
@@ -39,18 +41,56 @@ export default function Dashboard() {
 
   if (!session) return null;
 
+  // Responsive drawer menu for mobile dashboard
   return (
     <div className="min-h-screen flex flex-col md:flex-row bg-muted">
-      <aside className="w-full md:w-56 bg-primary text-white flex-shrink-0 p-4">
+      {/* Mobile Hamburger */}
+      <div className="md:hidden flex items-center justify-between px-4 py-2 bg-primary text-white sticky top-0 z-40">
+        <span className="font-bold text-lg">User Dashboard</span>
+        <button
+          className="rounded p-1 hover:bg-primary/30"
+          onClick={() => setDrawerOpen(!drawerOpen)}
+          aria-label="Open Menu"
+        >
+          <Menu size={28} />
+        </button>
+      </div>
+      {/* Mobile Drawer menu */}
+      {drawerOpen && (
+        <div className="fixed inset-0 z-50 bg-black/60 flex">
+          <aside className="bg-primary w-[220px] h-full p-6 flex flex-col text-white animate-slide-in-right">
+            <button
+              className="mb-6 self-end"
+              onClick={() => setDrawerOpen(false)}
+              aria-label="Close Menu"
+            >
+              ✕
+            </button>
+            <nav className="space-y-3">
+              <a href="#profile" className="block hover:underline" onClick={() => setDrawerOpen(false)}>Profile</a>
+              <a href="#repairs" className="block hover:underline" onClick={() => setDrawerOpen(false)}>Repair Requests</a>
+              <a href="#chat" className="block hover:underline" onClick={() => setDrawerOpen(false)}>Support Chat</a>
+              <hr className="border-white/30 my-2" />
+              <a href="/admin" className="block hover:underline" onClick={() => setDrawerOpen(false)}>Admin Panel</a>
+            </nav>
+            <Button
+              variant="secondary"
+              className="mt-6"
+              onClick={async () => { await supabase.auth.signOut(); navigate("/"); }}
+            >Logout</Button>
+          </aside>
+          <div className="flex-1" tabIndex={-1} aria-hidden onClick={() => setDrawerOpen(false)} />
+        </div>
+      )}
+
+      {/* Sidebar for Desktop */}
+      <aside className="hidden md:block w-56 bg-primary text-white flex-shrink-0 p-4">
         <div className="mb-6">
           <div className="font-bold text-xl">User Dashboard</div>
           <Button
             variant="secondary"
             className="mt-4"
-            onClick={async () => {
-              await supabase.auth.signOut();
-              navigate("/");
-            }}
+            onClick={async () => { await supabase.auth.signOut(); navigate("/"); }}
           >
             Logout
           </Button>
@@ -60,12 +100,7 @@ export default function Dashboard() {
           <a href="#repairs" className="block hover:underline">Repair Requests</a>
           <a href="#chat" className="block hover:underline">Support Chat</a>
           <hr className="border-white/30 my-2" />
-          <a
-            href="/admin"
-            className="block hover:underline"
-          >
-            Admin Panel
-          </a>
+          <a href="/admin" className="block hover:underline">Admin Panel</a>
         </nav>
       </aside>
       <main className="flex-1 p-8 max-w-4xl mx-auto w-full">

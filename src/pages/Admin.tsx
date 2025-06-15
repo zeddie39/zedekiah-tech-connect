@@ -20,6 +20,7 @@ import { Loader2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import AdminUsers from "./admin/Users";
 import DashboardWidget from "@/components/admin/DashboardWidget";
+import AdminHamburger from "@/components/admin/AdminHamburger";
 
 type Role = "super_admin" | "support_admin" | "data_analyst";
 
@@ -158,17 +159,18 @@ export default function AdminLayout() {
   const isAdminDashboard = location.pathname === "/admin";
   return (
     <SidebarProvider>
-      {/* ADMIN NAVBAR with profile info at top-right */}
-      <nav className="w-full bg-primary text-white px-6 py-3 flex items-center justify-between shadow z-30 fixed top-0 left-0 right-0">
+      {/* ADMIN NAVBAR with hamburger & profile info at top-right */}
+      <nav className="w-full bg-primary text-white px-4 md:px-6 py-3 flex items-center justify-between shadow fixed top-0 left-0 right-0 z-30">
         <div className="flex items-center gap-2">
-          <span className="font-orbitron font-bold text-xl tracking-wider">Zedekiah</span>
-          <span className="text-accent text-xs font-semibold ml-2">Admin Panel</span>
+          {/* Hamburger - only visible on mobile */}
+          <AdminHamburger />
+          <span className="font-orbitron font-bold text-xl tracking-wider ml-2">Zedekiah</span>
+          <span className="text-accent text-xs font-semibold ml-2 hidden sm:inline-block">Admin Panel</span>
         </div>
         <div className="flex items-center gap-4">
-          {/* Profile Info (Email, Role, Avatar placeholder) */}
+          {/* Profile Info */}
           <div className="flex items-center gap-2 p-1 rounded-md bg-accent/10 border border-accent/10">
             <div className="w-8 h-8 rounded-full bg-muted/50 flex items-center justify-center text-primary text-base font-medium mr-1">
-              {/* Could show user initials if available: fallback to icon */}
               <span className="font-bold">{(userEmail?.[0] || "A").toUpperCase()}</span>
             </div>
             <div className="flex flex-col items-start leading-tight">
@@ -179,11 +181,11 @@ export default function AdminLayout() {
         </div>
       </nav>
       {/* Spacing below navbar */}
-      <div className="pt-16"></div>
+      <div className="pt-16" />
       <div className="min-h-screen flex w-full bg-gradient-to-br from-accent/10 via-muted/30 to-background">
-        {/* SIDEBAR aligned left, always under navbar */}
+        {/* SIDEBAR -- shadcn sidebar handles its itself on mobile, thanks to our SidebarProvider/Sidebar */}
         <Sidebar>
-          <SidebarContent className="bg-sidebar rounded-r-xl border-r border-sidebar-border shadow-lg min-h-screen mt-4">
+          <SidebarContent className="bg-sidebar rounded-r-xl border-r border-sidebar-border shadow-lg min-h-screen mt-2 md:mt-4">
             <SidebarGroup>
               <SidebarGroupLabel>
                 <div className="mb-4 mt-4 pl-2 flex flex-col gap-1">
