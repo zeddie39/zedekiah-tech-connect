@@ -1,6 +1,6 @@
-
 import { useEffect, useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
+import RealtimeClock from "./RealtimeClock";
 
 type Quote = {
   quote_text: string;
@@ -70,9 +70,13 @@ const Hero = () => {
   return (
     <section id="home" className="hero-pattern min-h-screen flex items-center justify-center relative pt-24 md:pt-32 lg:pt-40">
       <div className="container mx-auto px-6 text-center relative z-10">
+        {/* Realtime Clock at top right */}
+        <div className="absolute right-6 top-6 md:right-16 md:top-10 z-20">
+          <RealtimeClock />
+        </div>
         <div className="animate-fade-in">
           <h1 className="text-5xl md:text-7xl font-orbitron font-black text-white mb-6 leading-tight">
-            Zedekiah Tech Electronics Ltd
+            Ztech Electronics
             <span className="text-accent block">Professional Tech Solutions</span>
           </h1>
           {quote && (
