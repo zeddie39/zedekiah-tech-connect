@@ -1,78 +1,19 @@
-import { Outlet, NavLink, useLocation } from "react-router-dom";
-import {
-  SidebarProvider,
-  Sidebar,
-  SidebarContent,
-  SidebarGroup,
-  SidebarGroupContent,
-  SidebarGroupLabel,
-  SidebarMenu,
-  SidebarMenuItem,
-  SidebarMenuButton,
-  SidebarTrigger,
-  SidebarInset,
-} from "@/components/ui/sidebar";
-import { BarChart2, MessagesSquare, Wrench, Bell, Users, Activity, FileText, Repeat, User } from "lucide-react";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
+import { SidebarProvider, SidebarInset, SidebarTrigger } from "@/components/ui/sidebar";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Card } from "@/components/ui/card";
 import { Loader2 } from "lucide-react";
-import { useNavigate } from "react-router-dom";
-import AdminUsers from "./admin/Users";
 import DashboardWidget from "@/components/admin/DashboardWidget";
+import AdminUsers from "./admin/Users";
 import AdminHamburger from "@/components/admin/AdminHamburger";
+import AdminNavbar from "@/components/admin/AdminNavbar";
+import AdminSidebar from "@/components/admin/AdminSidebar";
+import AdminDebugInfo from "@/components/admin/AdminDebugInfo";
 
 type Role = "super_admin" | "support_admin" | "data_analyst";
 
-const ADMIN_ITEMS = [
-  {
-    label: "Dashboard",
-    icon: BarChart2,
-    path: "/admin",
-  },
-  {
-    label: "Chat",
-    icon: MessagesSquare,
-    path: "/admin/chat",
-  },
-  {
-    label: "Repairs",
-    icon: Wrench,
-    path: "/admin/repairs",
-  },
-  {
-    label: "Notifications",
-    icon: Bell,
-    path: "/admin/notifications",
-  },
-  {
-    label: "Team & Roles",
-    icon: Users,
-    path: "/admin/team",
-  },
-  {
-    label: "Health Monitor",
-    icon: Activity,
-    path: "/admin/health",
-  },
-  {
-    label: "Reports",
-    icon: FileText,
-    path: "/admin/reports",
-  },
-  {
-    label: "Workflow",
-    icon: Repeat,
-    path: "/admin/workflow",
-  },
-  {
-    label: "User Management",
-    icon: User,
-    path: "/admin/users",
-  },
-];
-
-const ROLE_NAMES: Record<Role, string> = {
+export const ROLE_NAMES: Record<Role, string> = {
   super_admin: "Super Admin",
   support_admin: "Support Admin",
   data_analyst: "Data Analyst",
@@ -159,68 +100,10 @@ export default function AdminLayout() {
   const isAdminDashboard = location.pathname === "/admin";
   return (
     <SidebarProvider>
-      {/* ADMIN NAVBAR with hamburger & profile info at top-right */}
-      <nav className="w-full bg-primary text-white px-4 md:px-6 py-3 flex items-center justify-between shadow fixed top-0 left-0 right-0 z-30">
-        <div className="flex items-center gap-2">
-          {/* Hamburger - only visible on mobile */}
-          <AdminHamburger />
-          <span className="font-orbitron font-bold text-xl tracking-wider ml-2">Zedekiah</span>
-          <span className="text-accent text-xs font-semibold ml-2 hidden sm:inline-block">Admin Panel</span>
-        </div>
-        <div className="flex items-center gap-4">
-          {/* Profile Info */}
-          <div className="flex items-center gap-2 p-1 rounded-md bg-accent/10 border border-accent/10">
-            <div className="w-8 h-8 rounded-full bg-muted/50 flex items-center justify-center text-primary text-base font-medium mr-1">
-              <span className="font-bold">{(userEmail?.[0] || "A").toUpperCase()}</span>
-            </div>
-            <div className="flex flex-col items-start leading-tight">
-              <span className="text-xs text-white font-semibold">{userEmail}</span>
-              <span className="text-[10px] text-white/60 leading-none">{ROLE_NAMES[role]}</span>
-            </div>
-          </div>
-        </div>
-      </nav>
-      {/* Spacing below navbar */}
+      <AdminNavbar userEmail={userEmail} role={role} />
       <div className="pt-16" />
       <div className="min-h-screen flex w-full bg-gradient-to-br from-accent/10 via-muted/30 to-background">
-        {/* SIDEBAR -- shadcn sidebar handles its itself on mobile, thanks to our SidebarProvider/Sidebar */}
-        <Sidebar>
-          <SidebarContent className="bg-sidebar rounded-r-xl border-r border-sidebar-border shadow-lg min-h-screen mt-2 md:mt-4">
-            <SidebarGroup>
-              <SidebarGroupLabel>
-                <div className="mb-4 mt-4 pl-2 flex flex-col gap-1">
-                  <div className="text-2xl font-extrabold font-orbitron text-primary tracking-tight">
-                    Zedekiah Admin
-                  </div>
-                  
-                </div>
-              </SidebarGroupLabel>
-              <SidebarGroupContent>
-                <SidebarMenu>
-                  {ADMIN_ITEMS.map(({ label, icon: Icon, path }) => (
-                    <SidebarMenuItem key={path}>
-                      <SidebarMenuButton asChild isActive={location.pathname === path}>
-                        <NavLink
-                          to={path}
-                          className={({ isActive }) =>
-                            "flex items-center gap-2 px-3 py-2 rounded-md transition-all font-semibold " +
-                            (isActive
-                              ? "bg-accent text-primary shadow ring-2 ring-accent"
-                              : "hover:bg-accent/40 hover:text-primary text-sidebar-foreground")
-                          }
-                        >
-                          <Icon size={20} className="mr-1" />
-                          <span>{label}</span>
-                        </NavLink>
-                      </SidebarMenuButton>
-                    </SidebarMenuItem>
-                  ))}
-                </SidebarMenu>
-              </SidebarGroupContent>
-            </SidebarGroup>
-          </SidebarContent>
-        </Sidebar>
-        {/* MAIN CONTENT */}
+        <AdminSidebar />
         <SidebarInset className="flex-1 flex flex-col">
           <header className="flex items-center justify-between p-4 border-b bg-card/80 shadow sticky top-0 z-10">
             <SidebarTrigger />
@@ -236,32 +119,16 @@ export default function AdminLayout() {
             </button>
           </header>
           {showDebug && (
-            <div className="bg-card/90 p-4 border-b border-accent/30">
-              <div className="text-xs">
-                <span className="font-semibold">Email:</span> {userEmail || "(none)"}
-              </div>
-              <div className="text-xs">
-                <span className="font-semibold">User ID:</span> {userId || "(none)"}
-              </div>
-              <div className="text-xs">
-                <span className="font-semibold">Roles:</span>{" "}
-                {statuses.roles.length === 0 ? (
-                  <span className="text-red-500">No roles assigned</span>
-                ) : (
-                  statuses.roles.map((r) => (
-                    <span key={r} className="inline-block mr-2 px-2 py-0.5 bg-accent/20 rounded text-accent-foreground">
-                      {ROLE_NAMES[r as Role] || r}
-                    </span>
-                  ))
-                )}
-              </div>
-            </div>
+            <AdminDebugInfo
+              userEmail={userEmail}
+              userId={userId}
+              statuses={statuses}
+              roleNames={ROLE_NAMES}
+            />
           )}
           <main className="flex-1 p-4 sm:p-8 bg-gradient-to-br from-background via-muted/40 to-accent/5 min-h-[calc(100vh-64px)]">
             {isAdminDashboard ? (
-              
               <div>
-                
                 <h1 className="text-3xl md:text-4xl font-heading font-bold mb-2 tracking-tight bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent drop-shadow animate-fade-in">
                   Admin Dashboard
                 </h1>
@@ -357,6 +224,3 @@ export default function AdminLayout() {
     </SidebarProvider>
   );
 }
-
-// NOTE: This file is now quite long (over 300 lines).
-//       Consider refactoring components/widgets into separate files for maintainability.
