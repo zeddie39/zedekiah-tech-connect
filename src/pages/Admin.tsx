@@ -1,4 +1,4 @@
-import { Outlet, useLocation, useNavigate } from "react-router-dom";
+import { Outlet, useLocation, useNavigate, NavLink } from "react-router-dom";
 import { SidebarProvider, SidebarInset, SidebarTrigger } from "@/components/ui/sidebar";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
@@ -10,6 +10,9 @@ import AdminHamburger from "@/components/admin/AdminHamburger";
 import AdminNavbar from "@/components/admin/AdminNavbar";
 import AdminSidebar from "@/components/admin/AdminSidebar";
 import AdminDebugInfo from "@/components/admin/AdminDebugInfo";
+
+// Lucide icons for dashboard cards and quick links
+import { BarChart2, FileText, Users, Activity } from "lucide-react";
 
 type Role = "super_admin" | "support_admin" | "data_analyst";
 
