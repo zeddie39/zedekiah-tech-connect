@@ -1,4 +1,3 @@
-
 import { Outlet, NavLink, useLocation } from "react-router-dom";
 import {
   SidebarProvider,
@@ -159,20 +158,30 @@ export default function AdminLayout() {
   const isAdminDashboard = location.pathname === "/admin";
   return (
     <SidebarProvider>
-      {/* ADMIN NAVBAR */}
+      {/* ADMIN NAVBAR with profile info at top-right */}
       <nav className="w-full bg-primary text-white px-6 py-3 flex items-center justify-between shadow z-30 fixed top-0 left-0 right-0">
         <div className="flex items-center gap-2">
           <span className="font-orbitron font-bold text-xl tracking-wider">Zedekiah</span>
-          <span className="text-accent text-xs font-semibold">Admin Panel</span>
+          <span className="text-accent text-xs font-semibold ml-2">Admin Panel</span>
         </div>
         <div className="flex items-center gap-4">
-          <span className="text-sm text-white/80">{ROLE_NAMES[role]}</span>
+          {/* Profile Info (Email, Role, Avatar placeholder) */}
+          <div className="flex items-center gap-2 p-1 rounded-md bg-accent/10 border border-accent/10">
+            <div className="w-8 h-8 rounded-full bg-muted/50 flex items-center justify-center text-primary text-base font-medium mr-1">
+              {/* Could show user initials if available: fallback to icon */}
+              <span className="font-bold">{(userEmail?.[0] || "A").toUpperCase()}</span>
+            </div>
+            <div className="flex flex-col items-start leading-tight">
+              <span className="text-xs text-white font-semibold">{userEmail}</span>
+              <span className="text-[10px] text-white/60 leading-none">{ROLE_NAMES[role]}</span>
+            </div>
+          </div>
         </div>
       </nav>
-      {/* Spacing below navbar so sidebar & content don't go under the nav */}
+      {/* Spacing below navbar */}
       <div className="pt-16"></div>
       <div className="min-h-screen flex w-full bg-gradient-to-br from-accent/10 via-muted/30 to-background">
-        {/* SIDEBAR */}
+        {/* SIDEBAR aligned left, always under navbar */}
         <Sidebar>
           <SidebarContent className="bg-sidebar rounded-r-xl border-r border-sidebar-border shadow-lg min-h-screen mt-4">
             <SidebarGroup>
@@ -181,8 +190,7 @@ export default function AdminLayout() {
                   <div className="text-2xl font-extrabold font-orbitron text-primary tracking-tight">
                     Zedekiah Admin
                   </div>
-                  <span className="text-xs text-muted-foreground font-medium">{ROLE_NAMES[role]}</span>
-                  <span className="text-xs text-muted-foreground block">{userEmail}</span>
+                  
                 </div>
               </SidebarGroupLabel>
               <SidebarGroupContent>
@@ -249,7 +257,9 @@ export default function AdminLayout() {
           )}
           <main className="flex-1 p-4 sm:p-8 bg-gradient-to-br from-background via-muted/40 to-accent/5 min-h-[calc(100vh-64px)]">
             {isAdminDashboard ? (
+              
               <div>
+                
                 <h1 className="text-3xl md:text-4xl font-heading font-bold mb-2 tracking-tight bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent drop-shadow animate-fade-in">
                   Admin Dashboard
                 </h1>
@@ -348,4 +358,3 @@ export default function AdminLayout() {
 
 // NOTE: This file is now quite long (over 300 lines).
 //       Consider refactoring components/widgets into separate files for maintainability.
-
