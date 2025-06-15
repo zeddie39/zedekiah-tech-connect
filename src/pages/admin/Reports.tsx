@@ -1,6 +1,7 @@
 
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { BarChart2, FileText } from "lucide-react";
+import AdminAdvancedReport from "@/components/admin/AdminAdvancedReport";
 
 export default function AdminReports() {
   return (
@@ -55,6 +56,9 @@ export default function AdminReports() {
             </button>
           </CardContent>
         </Card>
+      </div>
+      <div className="mt-8">
+        <AdminAdvancedReport />
       </div>
       <div className="mt-10 text-center text-muted-foreground italic">More advanced reports coming soon...</div>
     </div>
