@@ -1,6 +1,5 @@
-import { useNavigate } from "react-router-dom";
+
 import { useEffect, useState } from 'react';
-import { Button } from './ui/button';
 import { supabase } from '@/integrations/supabase/client';
 
 type Quote = {
@@ -8,9 +7,31 @@ type Quote = {
   author?: string | null;
 };
 
+const fallbackQuotes: Quote[] = [
+  {
+    quote_text: "Technology is best when it brings people together.",
+    author: "Matt Mullenweg"
+  },
+  {
+    quote_text: "Any sufficiently advanced technology is indistinguishable from magic.",
+    author: "Arthur C. Clarke"
+  },
+  {
+    quote_text: "We are changing the world with technology.",
+    author: "Bill Gates"
+  },
+  {
+    quote_text: "Electronics is the backbone of modern civilization.",
+    author: "Zedekiah Team"
+  },
+  {
+    quote_text: "Innovation in electronics powers the future.",
+    author: "Zedekiah Team"
+  }
+];
+
 const Hero = () => {
   const [quote, setQuote] = useState<Quote | null>(null);
-  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchDailyQuote = async () => {
@@ -27,18 +48,20 @@ const Hero = () => {
         console.error("[Hero] Error fetching quote:", error.message);
       }
 
+      let q: Quote | null = null;
       if (data && data.length > 0) {
         const dayIndex = Math.abs(new Date().toDateString().split('').reduce((a, c) => a + c.charCodeAt(0), 0));
         const index = dayIndex % data.length;
-        setQuote(data[index]);
+        q = data[index];
         console.log(`[Hero] Quote of the day set: ${data[index]?.quote_text}`);
       } else {
-        setQuote({
-          quote_text: "Empowering lives through technology.",
-          author: "Zedekiah Team"
-        });
-        console.log("[Hero] No data, default quote set.");
+        // Select a random fallback quote
+        const dayIndex = Math.abs(new Date().toDateString().split('').reduce((a, c) => a + c.charCodeAt(0), 0));
+        const fallbackIndex = dayIndex % fallbackQuotes.length;
+        q = fallbackQuotes[fallbackIndex];
+        console.log(`[Hero] Fallback quote set: ${q.quote_text}`);
       }
+      setQuote(q);
     };
 
     fetchDailyQuote();
@@ -64,23 +87,7 @@ const Hero = () => {
             Expert electronics repair, tech consultations, CCTV installations, and comprehensive 
             computer solutions for homes and businesses.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <Button 
-              size="lg" 
-              className="bg-accent hover:bg-accent/90 text-white px-8 py-4 text-lg font-semibold rounded-lg transform hover:scale-105 transition-all duration-200"
-              onClick={() => navigate("/auth")}
-            >
-              Get Started Today
-            </Button>
-            <Button 
-              variant="outline" 
-              size="lg" 
-              className="border-white text-white hover:bg-white hover:text-primary px-8 py-4 text-lg font-semibold rounded-lg transform hover:scale-105 transition-all duration-200"
-              onClick={() => document.getElementById('services')?.scrollIntoView({ behavior: 'smooth' })}
-            >
-              View Services
-            </Button>
-          </div>
+          {/* Removed all action buttons (Get Started Today, View Services) */}
         </div>
         {/* Floating Tech Icons */}
         <div className="absolute inset-0 pointer-events-none">
