@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
@@ -6,6 +5,7 @@ import { Textarea } from './ui/textarea';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from '@/hooks/use-toast';
+import { Mail, Phone, MapPin, Clock } from "lucide-react";
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -80,16 +80,16 @@ const Contact = () => {
               <div className="space-y-6">
                 <div className="flex items-center space-x-4">
                   <div className="w-12 h-12 bg-accent rounded-full flex items-center justify-center text-white text-xl">
-                    📍
+                    <MapPin size={28} />
                   </div>
                   <div>
                     <h4 className="font-semibold text-primary">Location</h4>
-                    <p className="text-gray-600">Visit us for in-person consultations</p>
+                    <p className="text-gray-600">Find us for in-person consultations</p>
                   </div>
                 </div>
                 <div className="flex items-center space-x-4">
                   <div className="w-12 h-12 bg-accent rounded-full flex items-center justify-center text-white text-xl">
-                    📞
+                    <Phone size={26} />
                   </div>
                   <div>
                     <h4 className="font-semibold text-primary">Phone</h4>
@@ -98,7 +98,7 @@ const Contact = () => {
                 </div>
                 <div className="flex items-center space-x-4">
                   <div className="w-12 h-12 bg-accent rounded-full flex items-center justify-center text-white text-xl">
-                    📧
+                    <Mail size={26} />
                   </div>
                   <div>
                     <h4 className="font-semibold text-primary">Email</h4>
@@ -107,7 +107,7 @@ const Contact = () => {
                 </div>
                 <div className="flex items-center space-x-4">
                   <div className="w-12 h-12 bg-accent rounded-full flex items-center justify-center text-white text-xl">
-                    🕒
+                    <Clock size={26} />
                   </div>
                   <div>
                     <h4 className="font-semibold text-primary">Hours</h4>
@@ -244,4 +244,3 @@ const Contact = () => {
 };
 
 export default Contact;
-

@@ -1,3 +1,4 @@
+import { Mail, Phone, Clock, Facebook, Twitter, Instagram, Linkedin, Youtube } from "lucide-react";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -79,20 +80,38 @@ const Footer = () => {
           <div>
             <h4 className="font-orbitron font-bold text-lg mb-4">Contact</h4>
             <div className="space-y-2 text-gray-300">
-              <p>📞 +1 (555) 123-TECH</p>
-              <p>📧 info@zedekiahtechclinic.com</p>
-              <p>🕒 Mon-Fri 9AM-6PM</p>
-              <p>🕒 Sat 10AM-4PM</p>
+              <div className="flex items-center space-x-2">
+                <Phone size={18} className="text-accent" />
+                <span>+1 (555) 123-TECH</span>
+              </div>
+              <div className="flex items-center space-x-2">
+                <Mail size={18} className="text-accent" />
+                <span>info@zedekiahtechclinic.com</span>
+              </div>
+              <div className="flex items-center space-x-2">
+                <Clock size={18} className="text-accent" />
+                <span>Mon-Fri 9AM-6PM</span>
+              </div>
+              <div className="flex items-center space-x-2">
+                <Clock size={18} className="text-accent" />
+                <span>Sat 10AM-4PM</span>
+              </div>
             </div>
             <div className="flex space-x-4 mt-4">
-              <a href="#" className="w-10 h-10 bg-accent rounded-full flex items-center justify-center text-white hover:bg-accent/80 transition-colors duration-200">
-                📧
+              <a href="#" className="w-10 h-10 bg-accent rounded-full flex items-center justify-center text-white hover:bg-accent/80 transition-colors duration-200" aria-label="Facebook">
+                <Facebook size={22} />
               </a>
-              <a href="#" className="w-10 h-10 bg-accent rounded-full flex items-center justify-center text-white hover:bg-accent/80 transition-colors duration-200">
-                💼
+              <a href="#" className="w-10 h-10 bg-accent rounded-full flex items-center justify-center text-white hover:bg-accent/80 transition-colors duration-200" aria-label="Twitter">
+                <Twitter size={22} />
               </a>
-              <a href="#" className="w-10 h-10 bg-accent rounded-full flex items-center justify-center text-white hover:bg-accent/80 transition-colors duration-200">
-                📱
+              <a href="#" className="w-10 h-10 bg-accent rounded-full flex items-center justify-center text-white hover:bg-accent/80 transition-colors duration-200" aria-label="Instagram">
+                <Instagram size={22} />
+              </a>
+              <a href="#" className="w-10 h-10 bg-accent rounded-full flex items-center justify-center text-white hover:bg-accent/80 transition-colors duration-200" aria-label="LinkedIn">
+                <Linkedin size={22} />
+              </a>
+              <a href="#" className="w-10 h-10 bg-accent rounded-full flex items-center justify-center text-white hover:bg-accent/80 transition-colors duration-200" aria-label="YouTube">
+                <Youtube size={22} />
               </a>
             </div>
           </div>
