@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useNavigate } from "react-router-dom";
@@ -116,7 +115,6 @@ const Hero = () => {
           </div>
           <div className="flex items-center gap-2">
             <span className="font-orbitron font-bold text-xl text-white drop-shadow">Ztech Electronics Limited</span>
-            <span className="text-gray-300 text-sm font-semibold">Tech Clinic</span>
           </div>
         </div>
         <div className="flex gap-5">
@@ -165,4 +163,3 @@ const Hero = () => {
 };
 
 export default Hero;
-
