@@ -6,6 +6,7 @@ import { Loader2, Image } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useCart } from "@/components/CartContext";
 import { toast } from "@/components/ui/use-toast";
+import ShopNavbar from "@/components/ShopNavbar";
 
 type Product = {
   id: string;
@@ -118,68 +119,70 @@ export default function Shop() {
   }
 
   return (
-    <div className="max-w-6xl mx-auto py-10 px-3">
-      <div className="flex justify-between items-center mb-8 mt-2">
-        <h1 className="text-3xl font-bold">Shop</h1>
-        <div className="flex gap-2">
-          <Button onClick={() => navigate("/shop/new")}>Add Product</Button>
-          <Button variant="secondary" onClick={() => navigate("/cart")}>Cart</Button>
-          <Button variant="outline" onClick={() => navigate("/orders")}>My Orders</Button>
+    <>
+      <ShopNavbar />
+      <div className="max-w-6xl mx-auto py-10 px-3">
+        <div className="flex justify-between items-center mb-8 mt-2">
+          <h1 className="text-3xl font-bold">Shop</h1>
+          <div className="flex gap-2">
+            <Button onClick={() => navigate("/shop/new")}>Add Product</Button>
+            <Button variant="secondary" onClick={() => navigate("/cart")}>Cart</Button>
+            <Button variant="outline" onClick={() => navigate("/orders")}>My Orders</Button>
+          </div>
         </div>
+        {products.length === 0 ? (
+          <div className="text-center text-muted-foreground text-lg mt-20">
+            No products listed yet. Be the first to post!
+          </div>
+        ) : (
+          <ul className="grid gap-6 md:grid-cols-3 sm:grid-cols-2">
+            {products.map(product => (
+              <li key={product.id}>
+                <Card className="group p-0 overflow-hidden hover:shadow-lg transition-shadow duration-150 border cursor-pointer flex flex-col"
+                  onClick={e => {
+                    if ((e.target as HTMLElement).tagName === "BUTTON") return;
+                    navigate(`/shop/${product.id}`);
+                  }}
+                >
+                  {images[product.id] ? (
+                    <img
+                      src={images[product.id]}
+                      alt={product.title}
+                      className="w-full object-cover h-44 bg-gray-100"
+                    />
+                  ) : (
+                    <div className="flex items-center justify-center bg-muted h-44 w-full">
+                      <Image size={48} className="text-gray-300" />
+                    </div>
+                  )}
+                  <div className="p-4 space-y-2 grow">
+                    <h3 className="text-lg font-bold">{product.title}</h3>
+                    <div className="font-medium text-primary">
+                      ${product.price.toFixed(2)}
+                    </div>
+                    <div className="text-sm text-muted-foreground truncate">
+                      {product.description}
+                    </div>
+                    <div className="text-xs text-gray-400">{product.category}</div>
+                  </div>
+                  <div className="p-4 pt-2 flex gap-2">
+                    <Button
+                      variant="secondary"
+                      onClick={e => {
+                        e.stopPropagation();
+                        handleAddToCart(product);
+                      }}
+                      className="w-full"
+                    >
+                      Add to Cart
+                    </Button>
+                  </div>
+                </Card>
+              </li>
+            ))}
+          </ul>
+        )}
       </div>
-      {products.length === 0 ? (
-        <div className="text-center text-muted-foreground text-lg mt-20">
-          No products listed yet. Be the first to post!
-        </div>
-      ) : (
-        <ul className="grid gap-6 md:grid-cols-3 sm:grid-cols-2">
-          {products.map(product => (
-            <li key={product.id}>
-              <Card className="group p-0 overflow-hidden hover:shadow-lg transition-shadow duration-150 border cursor-pointer flex flex-col"
-                onClick={e => {
-                  // Only navigate on card click, not button
-                  if ((e.target as HTMLElement).tagName === "BUTTON") return;
-                  navigate(`/shop/${product.id}`);
-                }}
-              >
-                {images[product.id] ? (
-                  <img
-                    src={images[product.id]}
-                    alt={product.title}
-                    className="w-full object-cover h-44 bg-gray-100"
-                  />
-                ) : (
-                  <div className="flex items-center justify-center bg-muted h-44 w-full">
-                    <Image size={48} className="text-gray-300" />
-                  </div>
-                )}
-                <div className="p-4 space-y-2 grow">
-                  <h3 className="text-lg font-bold">{product.title}</h3>
-                  <div className="font-medium text-primary">
-                    ${product.price.toFixed(2)}
-                  </div>
-                  <div className="text-sm text-muted-foreground truncate">
-                    {product.description}
-                  </div>
-                  <div className="text-xs text-gray-400">{product.category}</div>
-                </div>
-                <div className="p-4 pt-2 flex gap-2">
-                  <Button
-                    variant="secondary"
-                    onClick={e => {
-                      e.stopPropagation();
-                      handleAddToCart(product);
-                    }}
-                    className="w-full"
-                  >
-                    Add to Cart
-                  </Button>
-                </div>
-              </Card>
-            </li>
-          ))}
-        </ul>
-      )}
-    </div>
+    </>
   );
 }
