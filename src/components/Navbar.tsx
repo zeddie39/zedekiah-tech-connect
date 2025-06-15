@@ -1,4 +1,3 @@
-
 import { Link } from "react-router-dom";
 
 const Navbar = () => (
@@ -9,7 +8,7 @@ const Navbar = () => (
     </div>
     <div className="flex gap-6">
       <Link to="/" className="hover:underline">Home</Link>
-      <Link to="/dashboard" className="hover:underline">Dashboard</Link>
+      {/* Add additional public links here as needed */}
       <Link to="/auth" className="hover:underline">Login</Link>
     </div>
   </nav>

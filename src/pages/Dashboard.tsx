@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useNavigate } from "react-router-dom";
@@ -50,7 +49,7 @@ export default function Dashboard() {
             className="mt-4"
             onClick={async () => {
               await supabase.auth.signOut();
-              navigate("/auth");
+              navigate("/");
             }}
           >
             Logout
@@ -60,6 +59,13 @@ export default function Dashboard() {
           <a href="#profile" className="block hover:underline">Profile</a>
           <a href="#repairs" className="block hover:underline">Repair Requests</a>
           <a href="#chat" className="block hover:underline">Support Chat</a>
+          <hr className="border-white/30 my-2" />
+          <a
+            href="/admin"
+            className="block hover:underline"
+          >
+            Admin Panel
+          </a>
         </nav>
       </aside>
       <main className="flex-1 p-8 max-w-4xl mx-auto w-full">
