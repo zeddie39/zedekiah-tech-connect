@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from './ui/dialog';
@@ -10,7 +9,10 @@ const serviceImages = [
   "https://images.unsplash.com/photo-1461749280684-dccba630e2f6", // CCTV
   "https://images.unsplash.com/photo-1531297484001-80022131f5a1", // Wiring/network
   "https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7", // Software
-  "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158"  // Consultation
+  "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158",  // Consultation
+  "https://images.unsplash.com/photo-1603791440384-56cd371ee9a7", // Gaming Console
+  "https://images.unsplash.com/photo-1454023492550-5696f8ff10e1", // Smart TV
+  "https://images.unsplash.com/photo-1519389950473-47ba0277781c"  // Printer & Peripherals
 ];
 
 const Services = () => {
@@ -72,6 +74,33 @@ const Services = () => {
       features: ['Tech Planning', 'System Recommendations', 'IT Strategy', 'Business Solutions'],
       image: serviceImages[5],
       more: 'Our consultants work closely with you for tailored IT strategies, digital transformation, and reliable tech roadmaps for business growth.'
+    },
+    {
+      title: 'Gaming Console Repair',
+      description: 'Troubleshooting, motherboard repair, and upgrade services for PlayStation, Xbox, and Nintendo devices',
+      category: 'repair',
+      icon: <Disc className="text-accent" size={40} />, // Re-using Disc icon for gaming/electronics
+      features: ['Motherboard Fix', 'HDMI Repair', 'Storage Upgrade', 'System Cleaning'],
+      image: serviceImages[6],
+      more: 'Get your favorite gaming console back in action! We provide motherboard-level repairs, HDMI port fixes, storage upgrades, and cleaning for all major brands and generations.'
+    },
+    {
+      title: 'Smart TV Setup & Repair',
+      description: 'Installation, app setup, software repair, and calibration for all Smart TV brands',
+      category: 'installation',
+      icon: <Laptop className="text-accent" size={40} />, // Re-using Laptop icon for Smart TV/Screen
+      features: ['Wall Mounting', 'OS Setup', 'App Configuration', 'Screen Calibration'],
+      image: serviceImages[7],
+      more: 'Enjoy your Smart TV with perfect installation and setup. We handle mounting, app configuration, software repairs, and in-depth display tuning for best quality.'
+    },
+    {
+      title: 'Printer & Peripheral Support',
+      description: 'Printer setup, troubleshooting, network configuration, and peripheral optimization',
+      category: 'software',
+      icon: <Plug className="text-accent" size={40} />, // Re-using Plug for peripherals
+      features: ['Printer Setup', 'Driver Installation', 'Network Printers', 'Accessory Support'],
+      image: serviceImages[8],
+      more: 'From stubborn printers to finicky accessories, we set up, configure, and repair printers, scanners, and essential peripherals for home and office environments.'
     }
   ];
 
