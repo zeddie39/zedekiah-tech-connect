@@ -1,4 +1,4 @@
-
+import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from 'react';
 import { Button } from './ui/button';
 import { supabase } from '@/integrations/supabase/client';
@@ -10,6 +10,7 @@ type Quote = {
 
 const Hero = () => {
   const [quote, setQuote] = useState<Quote | null>(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchDailyQuote = async () => {
@@ -43,13 +44,6 @@ const Hero = () => {
     fetchDailyQuote();
   }, []);
 
-  const scrollToContact = () => {
-    const element = document.getElementById('contact');
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
-
   return (
     <section id="home" className="hero-pattern min-h-screen flex items-center justify-center relative pt-24 md:pt-32 lg:pt-40">
       <div className="container mx-auto px-6 text-center relative z-10">
@@ -74,7 +68,7 @@ const Hero = () => {
             <Button 
               size="lg" 
               className="bg-accent hover:bg-accent/90 text-white px-8 py-4 text-lg font-semibold rounded-lg transform hover:scale-105 transition-all duration-200"
-              onClick={scrollToContact}
+              onClick={() => navigate("/auth")}
             >
               Get Started Today
             </Button>
