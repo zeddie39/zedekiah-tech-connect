@@ -2,13 +2,14 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Card } from "@/components/ui/card";
-import { Loader2, Image } from "lucide-react";
+import { Loader2, Image, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useCart } from "@/components/CartContext";
 import { toast } from "@/components/ui/use-toast";
 import ShopNavbar from "@/components/ShopNavbar";
 import ShopHeroCarousel from "@/components/ShopHeroCarousel";
 import ShopCategories from "@/components/ShopCategories";
+import { Badge } from "@/components/ui/badge";
 
 type Product = {
   id: string;
@@ -134,7 +135,7 @@ export default function Shop() {
       {/* PRODUCTS GRID */}
       <div className="max-w-6xl mx-auto py-6 px-3">
         <div className="flex justify-between items-center mb-8 mt-2">
-          <h1 className="text-3xl font-bold">Shop</h1>
+          <h1 className="text-3xl font-bold">Electronics Store</h1>
           <div className="flex gap-2">
             <Button onClick={() => navigate("/shop/new")}>Add Product</Button>
             <Button variant="secondary" onClick={() => navigate("/cart")}>Cart</Button>
@@ -149,32 +150,40 @@ export default function Shop() {
           <ul className="grid gap-6 md:grid-cols-3 sm:grid-cols-2">
             {products.map(product => (
               <li key={product.id}>
-                <Card className="group p-0 overflow-hidden hover:shadow-lg transition-shadow duration-150 border cursor-pointer flex flex-col"
+                <Card
+                  className="group p-0 overflow-hidden hover:shadow-xl transition-transform duration-150 border cursor-pointer flex flex-col hover:scale-105"
                   onClick={e => {
                     if ((e.target as HTMLElement).tagName === "BUTTON") return;
                     navigate(`/shop/${product.id}`);
                   }}
                 >
-                  {images[product.id] ? (
-                    <img
-                      src={images[product.id]}
-                      alt={product.title}
-                      className="w-full object-cover h-44 bg-gray-100"
-                    />
-                  ) : (
-                    <div className="flex items-center justify-center bg-muted h-44 w-full">
-                      <Image size={48} className="text-gray-300" />
+                  <div className="relative">
+                    {images[product.id] ? (
+                      <img
+                        src={images[product.id]}
+                        alt={product.title}
+                        className="w-full object-cover h-48 bg-gray-100 transition-transform duration-100 group-hover:scale-105"
+                      />
+                    ) : (
+                      <div className="flex items-center justify-center bg-muted h-48 w-full">
+                        <Image size={48} className="text-gray-300" />
+                      </div>
+                    )}
+                    {/* In Stock badge */}
+                    <div className="absolute top-2 left-2 z-10">
+                      <Badge variant="secondary" className="bg-green-100 text-green-700 font-semibold">In Stock</Badge>
                     </div>
-                  )}
+                  </div>
                   <div className="p-4 space-y-2 grow">
-                    <h3 className="text-lg font-bold">{product.title}</h3>
-                    <div className="font-medium text-primary">
-                      ${product.price.toFixed(2)}
-                    </div>
-                    <div className="text-sm text-muted-foreground truncate">
-                      {product.description}
+                    <h3 className="text-lg font-bold line-clamp-1">{product.title}</h3>
+                    <div className="font-medium text-primary">${product.price.toFixed(2)}</div>
+                    <div className="flex items-center gap-1 mb-1">
+                      <Star className="text-yellow-400" size={16} />
+                      <span className="font-semibold text-yellow-800 text-sm">4.8</span>
+                      <span className="text-xs text-gray-400 ml-1">(245 reviews)</span>
                     </div>
                     <div className="text-xs text-gray-400">{product.category}</div>
+                    <div className="text-sm text-muted-foreground truncate">{product.description}</div>
                   </div>
                   <div className="p-4 pt-2 flex gap-2">
                     <Button
