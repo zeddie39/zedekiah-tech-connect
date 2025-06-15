@@ -15,6 +15,7 @@ import AdminReports from "./pages/admin/Reports";
 import AdminWorkflow from "./pages/admin/Workflow";
 import AuthPage from "./pages/Auth";
 import Dashboard from "./pages/Dashboard";
+import AdminUsers from "./pages/admin/Users";
 
 const queryClient = new QueryClient();
 
@@ -56,6 +57,7 @@ const App = () => (
             <Route path="health" element={<AdminHealth />} />
             <Route path="reports" element={<AdminReports />} />
             <Route path="workflow" element={<AdminWorkflow />} />
+            <Route path="users" element={<AdminUsers />} />
           </Route>
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
