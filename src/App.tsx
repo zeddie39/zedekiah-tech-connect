@@ -16,6 +16,7 @@ import AdminWorkflow from "./pages/admin/Workflow";
 import AuthPage from "./pages/Auth";
 import Dashboard from "./pages/Dashboard";
 import AdminUsers from "./pages/admin/Users";
+import Shop from "./pages/Shop";
 
 const queryClient = new QueryClient();
 
@@ -29,6 +30,7 @@ const App = () => (
           <Route path="/" element={<Index />} />
           <Route path="/auth" element={<AuthPage />} />
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/shop" element={<Shop />} />
           <Route path="/admin" element={<AdminLayout />}>
             <Route index element={
               <div>
