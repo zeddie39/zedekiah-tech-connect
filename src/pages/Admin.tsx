@@ -159,10 +159,22 @@ export default function AdminLayout() {
   const isAdminDashboard = location.pathname === "/admin";
   return (
     <SidebarProvider>
+      {/* ADMIN NAVBAR */}
+      <nav className="w-full bg-primary text-white px-6 py-3 flex items-center justify-between shadow z-30 fixed top-0 left-0 right-0">
+        <div className="flex items-center gap-2">
+          <span className="font-orbitron font-bold text-xl tracking-wider">Zedekiah</span>
+          <span className="text-accent text-xs font-semibold">Admin Panel</span>
+        </div>
+        <div className="flex items-center gap-4">
+          <span className="text-sm text-white/80">{ROLE_NAMES[role]}</span>
+        </div>
+      </nav>
+      {/* Spacing below navbar so sidebar & content don't go under the nav */}
+      <div className="pt-16"></div>
       <div className="min-h-screen flex w-full bg-gradient-to-br from-accent/10 via-muted/30 to-background">
         {/* SIDEBAR */}
         <Sidebar>
-          <SidebarContent className="bg-sidebar rounded-r-xl border-r border-sidebar-border shadow-lg min-h-screen">
+          <SidebarContent className="bg-sidebar rounded-r-xl border-r border-sidebar-border shadow-lg min-h-screen mt-4">
             <SidebarGroup>
               <SidebarGroupLabel>
                 <div className="mb-4 mt-4 pl-2 flex flex-col gap-1">
@@ -336,3 +348,4 @@ export default function AdminLayout() {
 
 // NOTE: This file is now quite long (over 300 lines).
 //       Consider refactoring components/widgets into separate files for maintainability.
+
