@@ -1,4 +1,3 @@
-
 import type { Config } from "tailwindcss";
 
 export default {
@@ -72,6 +71,7 @@ export default {
 			fontFamily: {
 				'sans': ['Inter', 'Poppins', 'sans-serif'],
 				'heading': ['Space Grotesk', 'sans-serif'],
+				'playfair': ['Playfair Display', 'serif'],
 			},
 			keyframes: {
 				'accordion-down': {

@@ -2,65 +2,70 @@
 import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { Button } from './ui/button';
-import { BookOpen, Camera, Laptop, Plug, Disc, Smartphone, Search } from 'lucide-react';
+import { BookOpen, Camera, Laptop, Plug, Disc, Smartphone } from 'lucide-react';
+
+const blogPosts = [
+  {
+    title: "Essential Phone Maintenance Tips for Longer Device Life",
+    excerpt: "Learn simple habits that can extend your smartphone's lifespan and prevent common issues.",
+    date: "June 10, 2025",
+    category: "Maintenance",
+    readTime: "5 min read",
+    image: 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=600&q=80',
+  },
+  {
+    title: "Home Security: Why CCTV Systems Are Worth the Investment",
+    excerpt: "Discover the benefits of professional CCTV installation and how it protects your property.",
+    date: "June 8, 2025",
+    category: "Security",
+    readTime: "7 min read",
+    image: 'https://images.unsplash.com/photo-1531297484001-80022131f5a1?auto=format&fit=crop&w=600&q=80',
+  },
+  {
+    title: "Signs Your Computer Needs Professional Attention",
+    excerpt: "Identify warning signs that indicate it's time to seek professional computer repair services.",
+    date: "June 5, 2025",
+    category: "Computers",
+    readTime: "6 min read",
+    image: 'https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?auto=format&fit=crop&w=600&q=80',
+  },
+  {
+    title: "Smart Home Wiring: Planning Your Connected Future",
+    excerpt: "A comprehensive guide to preparing your home's electrical infrastructure for smart devices.",
+    date: "June 3, 2025",
+    category: "Smart Home",
+    readTime: "8 min read",
+    image: 'https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?auto=format&fit=crop&w=600&q=80',
+  },
+  {
+    title: "Data Recovery: What You Need to Know",
+    excerpt: "Understanding data loss scenarios and recovery options to protect your valuable information.",
+    date: "June 1, 2025",
+    category: "Data",
+    readTime: "6 min read",
+    image: 'https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7?auto=format&fit=crop&w=600&q=80',
+  },
+  {
+    title: "Choosing the Right Tech Consultant for Your Business",
+    excerpt: "Key factors to consider when selecting technology consulting services for your company.",
+    date: "May 28, 2025",
+    category: "Business",
+    readTime: "9 min read",
+    image: 'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&w=600&q=80',
+  }
+];
+
+const categoryIcon = {
+  'Maintenance': <Smartphone className="text-accent" size={30} />,
+  'Security': <Camera className="text-accent" size={30} />,
+  'Computers': <Laptop className="text-accent" size={30} />,
+  'Smart Home': <Plug className="text-accent" size={30} />,
+  'Data': <Disc className="text-accent" size={30} />,
+  'Business': <BookOpen className="text-accent" size={30} />,
+};
 
 const Blog = () => {
   const [visiblePosts, setVisiblePosts] = useState(3);
-
-  // Map category to lucide icon
-  const categoryIcon = {
-    'Maintenance': <Smartphone className="text-accent" size={30} />,
-    'Security': <Camera className="text-accent" size={30} />,
-    'Computers': <Laptop className="text-accent" size={30} />,
-    'Smart Home': <Plug className="text-accent" size={30} />,
-    'Data': <Disc className="text-accent" size={30} />,
-    'Business': <BookOpen className="text-accent" size={30} />,
-  };
-
-  const blogPosts = [
-    {
-      title: "Essential Phone Maintenance Tips for Longer Device Life",
-      excerpt: "Learn simple habits that can extend your smartphone's lifespan and prevent common issues.",
-      date: "June 10, 2025",
-      category: "Maintenance",
-      readTime: "5 min read",
-    },
-    {
-      title: "Home Security: Why CCTV Systems Are Worth the Investment",
-      excerpt: "Discover the benefits of professional CCTV installation and how it protects your property.",
-      date: "June 8, 2025",
-      category: "Security",
-      readTime: "7 min read",
-    },
-    {
-      title: "Signs Your Computer Needs Professional Attention",
-      excerpt: "Identify warning signs that indicate it's time to seek professional computer repair services.",
-      date: "June 5, 2025",
-      category: "Computers",
-      readTime: "6 min read",
-    },
-    {
-      title: "Smart Home Wiring: Planning Your Connected Future",
-      excerpt: "A comprehensive guide to preparing your home's electrical infrastructure for smart devices.",
-      date: "June 3, 2025",
-      category: "Smart Home",
-      readTime: "8 min read",
-    },
-    {
-      title: "Data Recovery: What You Need to Know",
-      excerpt: "Understanding data loss scenarios and recovery options to protect your valuable information.",
-      date: "June 1, 2025",
-      category: "Data",
-      readTime: "6 min read",
-    },
-    {
-      title: "Choosing the Right Tech Consultant for Your Business",
-      excerpt: "Key factors to consider when selecting technology consulting services for your company.",
-      date: "May 28, 2025",
-      category: "Business",
-      readTime: "9 min read",
-    }
-  ];
 
   const loadMorePosts = () => {
     setVisiblePosts(prev => Math.min(prev + 3, blogPosts.length));
@@ -73,7 +78,7 @@ const Blog = () => {
           <h2 className="text-4xl md:text-5xl font-orbitron font-bold text-primary mb-6">
             Tech Insights & Tips
           </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+          <p className="text-xl text-gray-600 max-w-3xl mx-auto font-playfair">
             Stay informed with the latest technology trends, maintenance tips, and expert advice
           </p>
         </div>
@@ -82,8 +87,13 @@ const Blog = () => {
           {blogPosts.slice(0, visiblePosts).map((post, index) => (
             <Card key={index} className="group hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
               <CardHeader className="pb-4">
+                <img
+                  src={post.image}
+                  alt={post.title}
+                  className="rounded-lg w-full h-44 object-cover mb-4"
+                  loading="lazy"
+                />
                 <div className="flex items-center justify-between mb-4">
-                  {/* ICON */}
                   <span className="">{categoryIcon[post.category as keyof typeof categoryIcon]}</span>
                   <span className="bg-accent/10 text-accent px-3 py-1 rounded-full text-sm font-semibold">
                     {post.category}
