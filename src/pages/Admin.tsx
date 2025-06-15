@@ -1,3 +1,4 @@
+
 import { Outlet, NavLink, useLocation } from "react-router-dom";
 import {
   SidebarProvider,
@@ -131,8 +132,8 @@ export default function AdminLayout() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center">
-        <Loader2 className="animate-spin mb-4" size={42} />
+      <div className="min-h-screen flex flex-col items-center justify-center bg-background">
+        <Loader2 className="animate-spin mb-4 text-accent" size={42} />
         <p className="text-lg text-muted-foreground">Checking admin access...</p>
       </div>
     );
@@ -140,9 +141,9 @@ export default function AdminLayout() {
 
   if (denied || !role) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center">
-        <Card className="p-8 text-center max-w-xl">
-          <h2 className="text-2xl font-bold mb-2">Access Denied</h2>
+      <div className="min-h-screen flex flex-col items-center justify-center bg-background">
+        <Card className="p-8 text-center max-w-xl bg-card/95 border border-accent">
+          <h2 className="text-2xl font-bold mb-2 text-destructive">Access Denied</h2>
           <p className="text-gray-500">
             This admin panel is only accessible to authorized staff.
           </p>
@@ -155,22 +156,20 @@ export default function AdminLayout() {
   }
 
   // --- Dashboard Content ---
-  // We'll enhance the default /admin landing page with a styled widget grid.
   const isAdminDashboard = location.pathname === "/admin";
   return (
     <SidebarProvider>
-      <div className="min-h-screen flex w-full bg-muted">
+      <div className="min-h-screen flex w-full bg-gradient-to-br from-accent/10 via-muted/30 to-background">
+        {/* SIDEBAR */}
         <Sidebar>
-          <SidebarContent>
+          <SidebarContent className="bg-sidebar rounded-r-xl border-r border-sidebar-border shadow-lg min-h-screen">
             <SidebarGroup>
               <SidebarGroupLabel>
-                <div className="mb-2">
-                  <div className="text-xl font-bold font-orbitron">Zedekiah Admin</div>
-                </div>
-                <div className="mb-1">
-                  <span className="text-xs text-gray-400 block">{ROLE_NAMES[role]}</span>
-                </div>
-                <div>
+                <div className="mb-4 mt-4 pl-2 flex flex-col gap-1">
+                  <div className="text-2xl font-extrabold font-orbitron text-primary tracking-tight">
+                    Zedekiah Admin
+                  </div>
+                  <span className="text-xs text-muted-foreground font-medium">{ROLE_NAMES[role]}</span>
                   <span className="text-xs text-muted-foreground block">{userEmail}</span>
                 </div>
               </SidebarGroupLabel>
@@ -182,10 +181,10 @@ export default function AdminLayout() {
                         <NavLink
                           to={path}
                           className={({ isActive }) =>
-                            "flex items-center gap-2 px-2 py-2 rounded transition " +
+                            "flex items-center gap-2 px-3 py-2 rounded-md transition-all font-semibold " +
                             (isActive
-                              ? "bg-accent text-primary font-semibold"
-                              : "hover:bg-accent/80 text-sidebar-foreground")
+                              ? "bg-accent text-primary shadow ring-2 ring-accent"
+                              : "hover:bg-accent/40 hover:text-primary text-sidebar-foreground")
                           }
                         >
                           <Icon size={20} className="mr-1" />
@@ -199,10 +198,13 @@ export default function AdminLayout() {
             </SidebarGroup>
           </SidebarContent>
         </Sidebar>
+        {/* MAIN CONTENT */}
         <SidebarInset className="flex-1 flex flex-col">
-          <header className="flex items-center justify-between p-4 border-b bg-card/80 shadow-sm sticky top-0 z-10">
+          <header className="flex items-center justify-between p-4 border-b bg-card/80 shadow sticky top-0 z-10">
             <SidebarTrigger />
-            <span className="font-medium">Welcome, {userEmail || "Admin"}!</span>
+            <span className="font-medium text-base text-primary">
+              Welcome, {userEmail || "Admin"}!
+            </span>
             <button
               className="text-xs text-muted-foreground hover:underline"
               onClick={() => setShowDebug((v) => !v)}
@@ -212,7 +214,7 @@ export default function AdminLayout() {
             </button>
           </header>
           {showDebug && (
-            <div className="bg-card/70 p-3 border-b">
+            <div className="bg-card/90 p-4 border-b border-accent/30">
               <div className="text-xs">
                 <span className="font-semibold">Email:</span> {userEmail || "(none)"}
               </div>
@@ -225,7 +227,7 @@ export default function AdminLayout() {
                   <span className="text-red-500">No roles assigned</span>
                 ) : (
                   statuses.roles.map((r) => (
-                    <span key={r} className="inline-block mr-2 px-2 py-0.5 bg-gray-200 rounded">
+                    <span key={r} className="inline-block mr-2 px-2 py-0.5 bg-accent/20 rounded text-accent-foreground">
                       {ROLE_NAMES[r as Role] || r}
                     </span>
                   ))
@@ -233,18 +235,18 @@ export default function AdminLayout() {
               </div>
             </div>
           )}
-          <main className="flex-1 p-8 bg-gradient-to-br from-white via-zinc-100 to-accent/20">
+          <main className="flex-1 p-4 sm:p-8 bg-gradient-to-br from-background via-muted/40 to-accent/5 min-h-[calc(100vh-64px)]">
             {isAdminDashboard ? (
               <div>
-                <h1 className="text-3xl md:text-4xl font-heading font-bold mb-2 tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-primary via-accent to-primary/70 animate-fade-in">
+                <h1 className="text-3xl md:text-4xl font-heading font-bold mb-2 tracking-tight bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent drop-shadow animate-fade-in">
                   Admin Dashboard
                 </h1>
-                <p className="mb-6 text-muted-foreground text-base md:text-lg max-w-2xl">
-                  Manage your platform. View analytics, access tools, and monitor services all in one place.
+                <p className="mb-8 text-muted-foreground text-base md:text-lg max-w-2xl font-medium animate-fade-in">
+                  Manage the platform. View analytics, access tools, and monitor services all in one place.
                 </p>
 
                 {/* Widget Grid */}
-                <div className="grid gap-6 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 mb-7 animate-fade-in">
+                <div className="grid gap-6 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 mb-8 animate-fade-in">
                   <DashboardWidget
                     label="Total Users"
                     supabaseTable="profiles"
@@ -260,44 +262,59 @@ export default function AdminLayout() {
                 </div>
 
                 {/* Quick Links */}
-                <div className="grid md:grid-cols-3 sm:grid-cols-2 gap-6 mt-8">
+                <div className="grid md:grid-cols-3 sm:grid-cols-2 gap-6 mt-5">
                   {/* Users Management */}
-                  <div className="rounded-xl p-5 bg-accent/20 border shadow hover:shadow-lg transition-all duration-200 hover-scale">
+                  <div className="rounded-xl bg-accent/30 border border-accent/30 shadow hover:shadow-xl transition-all duration-200 hover-scale p-6 group relative overflow-hidden">
                     <div className="flex items-center mb-2">
                       <Users size={22} className="text-primary mr-2" />
-                      <span className="text-lg font-bold">Users</span>
+                      <span className="text-lg font-bold text-primary">Users</span>
                     </div>
                     <div className="text-base text-muted-foreground mb-2">See all users, roles, and manage access.</div>
                     <NavLink to="/admin/users">
-                      <button className="mt-1 text-accent-foreground underline text-sm">Go to User Management</button>
+                      <button className="mt-1 underline text-accent-foreground text-sm transition hover:text-accent">
+                        Go to User Management
+                      </button>
                     </NavLink>
+                    <span className="absolute bottom-0 right-3 text-[110px] text-accent/10 pointer-events-none transition group-hover:scale-110">
+                      <Users size={90} />
+                    </span>
                   </div>
                   {/* Reports */}
-                  <div className="rounded-xl p-5 bg-accent/20 border shadow hover:shadow-lg transition-all duration-200 hover-scale">
+                  <div className="rounded-xl bg-gradient-to-br from-accent/30 via-card/90 to-muted/20 border border-accent/40 shadow hover:shadow-xl transition-all duration-200 hover-scale p-6 group relative overflow-hidden">
                     <div className="flex items-center mb-2">
                       <FileText size={22} className="text-primary mr-2" />
-                      <span className="text-lg font-bold">Reports</span>
+                      <span className="text-lg font-bold text-primary">Reports</span>
                     </div>
                     <div className="text-base text-muted-foreground mb-2">View analytics and generate audit reports.</div>
                     <NavLink to="/admin/reports">
-                      <button className="mt-1 text-accent-foreground underline text-sm">View Reports</button>
+                      <button className="mt-1 underline text-accent-foreground text-sm transition hover:text-accent">
+                        View Reports
+                      </button>
                     </NavLink>
+                    <span className="absolute bottom-0 right-2 text-[100px] text-accent/10 pointer-events-none transition group-hover:scale-110">
+                      <FileText size={80} />
+                    </span>
                   </div>
                   {/* Health */}
-                  <div className="rounded-xl p-5 bg-accent/20 border shadow hover:shadow-lg transition-all duration-200 hover-scale">
+                  <div className="rounded-xl bg-gradient-to-bl from-muted/30 via-accent/10 to-card/80 border border-accent/20 shadow hover:shadow-xl transition-all duration-200 hover-scale p-6 group relative overflow-hidden">
                     <div className="flex items-center mb-2">
                       <Activity size={22} className="text-primary mr-2" />
-                      <span className="text-lg font-bold">Health</span>
+                      <span className="text-lg font-bold text-primary">Health</span>
                     </div>
                     <div className="text-base text-muted-foreground mb-2">Monitor system status and health metrics.</div>
                     <NavLink to="/admin/health">
-                      <button className="mt-1 text-accent-foreground underline text-sm">Monitor Health</button>
+                      <button className="mt-1 underline text-accent-foreground text-sm transition hover:text-accent">
+                        Monitor Health
+                      </button>
                     </NavLink>
+                    <span className="absolute bottom-0 right-4 text-[90px] text-accent/10 pointer-events-none transition group-hover:scale-110">
+                      <Activity size={85} />
+                    </span>
                   </div>
                 </div>
 
                 {/* Announcements or Tips */}
-                <div className="rounded-xl py-4 mt-10 px-6 bg-gradient-to-r from-accent/10 to-card/30 border border-accent/20 shadow flex flex-col md:flex-row md:items-center gap-5">
+                <div className="rounded-xl py-4 mt-10 px-6 bg-gradient-to-r from-accent/15 to-card/50 border border-accent/25 shadow flex flex-col md:flex-row md:items-center gap-5">
                   <div className="font-heading text-lg md:text-xl flex items-center gap-2 text-accent-foreground">
                     <BarChart2 size={21} className="mr-1 text-accent" />
                     Tip: Use the sidebar or these quick links for efficient admin work!
@@ -316,3 +333,6 @@ export default function AdminLayout() {
     </SidebarProvider>
   );
 }
+
+// NOTE: This file is now quite long (over 300 lines).
+//       Consider refactoring components/widgets into separate files for maintainability.
