@@ -70,8 +70,8 @@ export default {
 				sm: 'calc(var(--radius) - 4px)'
 			},
 			fontFamily: {
-				'inter': ['Inter', 'sans-serif'],
-				'orbitron': ['Orbitron', 'monospace'],
+				'sans': ['Poppins', 'sans-serif'],
+				'heading': ['Space Grotesk', 'sans-serif'],
 			},
 			keyframes: {
 				'accordion-down': {
