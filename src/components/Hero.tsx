@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useNavigate } from "react-router-dom";
@@ -134,13 +135,15 @@ const Hero = () => {
       <div className="container mx-auto px-6 text-center relative z-10">
         <div className="animate-fade-in">
           <h1 className="text-5xl md:text-7xl font-orbitron font-black text-white mb-6 leading-tight">
-            Ztech Electronics
-            <span className="text-accent block">Professional Tech Solutions</span>
+            Ztech Electronics Limited
           </h1>
+          <h2 className="text-2xl md:text-3xl font-orbitron text-accent mb-6">
+            Service Beyond the Obvious
+          </h2>
           {quote && (
             <div className="mb-7">
               <blockquote className="text-xl italic text-gray-100 max-w-3xl mx-auto">
-                “{quote.quote_text}”
+                "{quote.quote_text}"
               </blockquote>
               <span className="block mt-2 text-accent font-semibold">{quote.author || 'Unknown'}</span>
             </div>
