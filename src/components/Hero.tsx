@@ -109,13 +109,21 @@ const Hero = () => {
     <section id="home" className="hero-pattern min-h-screen flex items-center justify-center relative pt-28 md:pt-32 lg:pt-40">
       {/* Navigation Bar inside Hero */}
       <nav className="absolute top-0 left-0 w-full px-6 py-4 flex items-center justify-between z-30">
-        <div className="flex flex-col items-start gap-1">
-          {/* RealtimeClock stays above name */}
-          <div className="mb-1">
-            <RealtimeClock />
-          </div>
-          <div className="flex items-center gap-2">
-            <span className="font-orbitron font-bold text-xl text-white drop-shadow">Ztech Electronics Limited</span>
+        <div className="flex items-center gap-4">
+          {/* Logo */}
+          <img 
+            src="/lovable-uploads/48de53de-a799-42bb-bad4-44bba23daaab.png" 
+            alt="Ztech Electronics Logo" 
+            className="w-12 h-12 md:w-16 md:h-16"
+          />
+          <div className="flex flex-col items-start gap-1">
+            {/* RealtimeClock stays above name */}
+            <div className="mb-1">
+              <RealtimeClock />
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="font-orbitron font-bold text-xl text-white drop-shadow">Ztech Electronics Limited</span>
+            </div>
           </div>
         </div>
         <div className="flex gap-5">

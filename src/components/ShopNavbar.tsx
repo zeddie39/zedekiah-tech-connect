@@ -25,9 +25,14 @@ export default function ShopNavbar() {
     <nav className="w-full px-3 py-4 bg-primary text-white shadow sticky top-0 z-20">
       <div className="max-w-6xl mx-auto flex items-center justify-between">
         <div
-          className="font-bold text-lg cursor-pointer font-orbitron flex items-center gap-2"
+          className="font-bold text-lg cursor-pointer font-orbitron flex items-center gap-3"
           onClick={() => handleNav("/shop")}
         >
+          <img 
+            src="/lovable-uploads/48de53de-a799-42bb-bad4-44bba23daaab.png" 
+            alt="Ztech Electronics Logo" 
+            className="w-8 h-8"
+          />
           <span>Zedekiah Shop</span>
         </div>
         {/* Desktop nav */}

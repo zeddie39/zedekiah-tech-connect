@@ -18,10 +18,12 @@ const Navigation = () => {
       <div className="container mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <div className="flex items-center space-x-2">
-            <div className="w-10 h-10 bg-accent rounded-lg flex items-center justify-center">
-              <span className="text-white font-orbitron font-bold text-lg">Z</span>
-            </div>
+          <div className="flex items-center space-x-3">
+            <img 
+              src="/lovable-uploads/48de53de-a799-42bb-bad4-44bba23daaab.png" 
+              alt="Ztech Electronics Logo" 
+              className="w-10 h-10"
+            />
             <div>
               <h1 className="text-white font-orbitron font-bold text-xl">Zedekiah</h1>
               <p className="text-gray-300 text-xs">Tech Clinic</p>
