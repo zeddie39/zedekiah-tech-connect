@@ -112,48 +112,7 @@ const Hero = () => {
         alt="Ztech Logo"
         className="absolute top-2 left-2 w-10 h-10 sm:w-12 sm:h-12 md:w-16 md:h-16 object-contain z-40"
       />
-      {/* Navigation Bar inside Hero */}
-      <nav className="absolute top-0 left-0 w-full px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between z-30">
-        <div className="flex items-center gap-2 sm:gap-4">
-          {/* Logo */}
-          <img
-            src="/ztech%20logo.jpg"
-            alt="Ztech Logo"
-            className="w-10 h-10 sm:w-12 sm:h-12 md:w-16 md:h-16"
-          />
-          <div className="flex flex-col items-start gap-1">
-            {/* RealtimeClock stays above name */}
-            <div className="mb-1">
-              <RealtimeClock />
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="font-orbitron font-bold text-lg sm:text-xl text-white drop-shadow">Ztech Electronics Limited</span>
-            </div>
-          </div>
-        </div>
-        {/* Responsive Nav Links */}
-        <div className="hidden md:flex gap-3 lg:gap-5">
-          <button className="text-white hover:text-accent transition" onClick={() => handleNav("#home")}>Home</button>
-          <button className="text-white hover:text-accent transition" onClick={() => handleNav("#services")}>Services</button>
-          <button className="text-white hover:text-accent transition" onClick={() => handleNav("#team")}>Team</button>
-          <button className="text-white hover:text-accent transition" onClick={() => handleNav("#contact")}>Contact</button>
-          <button
-            className="text-white font-semibold px-3 py-1 bg-accent rounded hover:bg-accent/80 transition"
-            onClick={() => handleNav("/shop")}
-          >
-            Shop
-          </button>
-        </div>
-        {/* Hamburger for mobile */}
-        <div className="md:hidden">
-          {/* You can add a hamburger menu here for mobile navigation */}
-          <button className="text-white focus:outline-none" aria-label="Open menu">
-            <svg className="w-7 h-7" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
-            </svg>
-          </button>
-        </div>
-      </nav>
+      {/* Removed duplicate Navigation Bar from Hero */}
       {/* Main Hero Section */}
       <div className="container mx-auto px-4 sm:px-6 text-center relative z-10">
         <div className="animate-fade-in">
