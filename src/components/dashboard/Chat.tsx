@@ -1,4 +1,3 @@
-
 import { useEffect, useState, useRef, useCallback } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Card } from "@/components/ui/card";
@@ -109,7 +108,7 @@ export default function Chat({ userId, email }: { userId: string; email?: string
 
   return (
     <Card className="p-8">
-      <h2 className="font-bold text-xl mb-4">Support Chat</h2>
+      <h2 className="font-bold text-xl mb-4 font-playfair">Support Chat</h2>
       <div className="h-64 overflow-y-auto bg-muted mb-4 rounded p-4">
         {messages.length === 0 ? (
           <div className="text-gray-500 text-sm">

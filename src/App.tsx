@@ -23,6 +23,9 @@ import CheckoutPage from "./pages/Checkout";
 import OrdersPage from "./pages/Orders";
 import { CartProvider } from "@/components/CartContext";
 import ProductDetails from "./pages/ProductDetails";
+import ConfirmedCelebration from "./pages/ConfirmedCelebration";
+import BlogPage from "./pages/Blog";
+import BackToTopButton from "@/components/BackToTopButton";
 
 const queryClient = new QueryClient();
 
@@ -43,6 +46,7 @@ const App = () => (
             <Route path="/cart" element={<CartPage />} />
             <Route path="/checkout" element={<CheckoutPage />} />
             <Route path="/orders" element={<OrdersPage />} />
+            <Route path="/blog" element={<BlogPage />} />
             <Route path="admin" element={<AdminLayout />}>
               <Route index element={
                 <div>
@@ -73,9 +77,11 @@ const App = () => (
               <Route path="workflow" element={<AdminWorkflow />} />
               <Route path="users" element={<AdminUsers />} />
             </Route>
+            <Route path="/ConfirmedCelebration" element={<ConfirmedCelebration />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
+          <BackToTopButton />
         </BrowserRouter>
       </CartProvider>
     </TooltipProvider>

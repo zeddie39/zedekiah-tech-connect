@@ -1,4 +1,3 @@
-
 import { Button } from './ui/button';
 
 const About = () => {
@@ -6,8 +5,8 @@ const About = () => {
     <section id="about" className="py-20 bg-gray-50">
       <div className="container mx-auto px-6">
         <div className="max-w-4xl mx-auto text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-orbitron font-bold text-primary mb-6">
-            About Zedekiah Tech Clinic
+          <h2 className="text-4xl md:text-5xl font-orbitron font-bold text-primary mb-6 font-playfair">
+            About Zedekiah Tech Electronics Limited
           </h2>
           <p className="text-xl text-gray-600 leading-relaxed">
             Your trusted partner in comprehensive technology solutions
@@ -20,7 +19,7 @@ const About = () => {
               Our Mission
             </h3>
             <p className="text-gray-700 leading-relaxed text-lg">
-              At Zedekiah Tech Clinic, we're committed to providing affordable, reliable, and 
+              At Zedekiah Tech Electronics Limited, we're committed to providing affordable, reliable, and 
               professional electronic repair services alongside cutting-edge tech consultations. 
               We believe technology should enhance your life, not complicate it.
             </p>

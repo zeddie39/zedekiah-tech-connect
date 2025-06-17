@@ -63,7 +63,7 @@ const Contact = () => {
     <section id="contact" className="py-20 bg-gray-50">
       <div className="container mx-auto px-6">
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-orbitron font-bold text-primary mb-6">
+          <h2 className="text-4xl md:text-5xl font-orbitron font-bold text-primary mb-6 font-playfair">
             Get In Touch
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
@@ -85,7 +85,7 @@ const Contact = () => {
                   </div>
                   <div>
                     <h4 className="font-semibold text-primary">Location</h4>
-                    <p className="text-gray-600">Find us for in-person consultations</p>
+                    <p className="text-gray-600">Kisii University</p>
                   </div>
                 </div>
                 <div className="flex items-center space-x-4">
@@ -94,7 +94,7 @@ const Contact = () => {
                   </div>
                   <div>
                     <h4 className="font-semibold text-primary">Phone</h4>
-                    <p className="text-gray-600">+1 (555) 123-TECH</p>
+                    <p className="text-gray-600">0757 756 763</p>
                   </div>
                 </div>
                 <div className="flex items-center space-x-4">
@@ -103,7 +103,7 @@ const Contact = () => {
                   </div>
                   <div>
                     <h4 className="font-semibold text-primary">Email</h4>
-                    <p className="text-gray-600">info@zedekiahtechclinic.com</p>
+                    <p className="text-gray-600">zeedy028@gmail.com</p>
                   </div>
                 </div>
                 <div className="flex items-center space-x-4">

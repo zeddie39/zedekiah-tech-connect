@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
@@ -83,35 +82,35 @@ export default function ProductDetails() {
   return (
     <>
       <ShopNavbar />
-      <div className="max-w-3xl mx-auto py-10 px-3">
+      <div className="max-w-3xl mx-auto py-6 sm:py-10 px-2 sm:px-3">
         <Button variant="ghost" onClick={() => navigate(-1)} className="mb-3">
           <ChevronLeft size={18} className="mr-2" /> Back to Shop
         </Button>
-        <Card className="p-0 flex flex-col md:flex-row gap-3">
-          <div className="md:w-5/12 w-full flex flex-col gap-3 items-center justify-center min-h-[300px] bg-muted rounded-md p-3">
+        <Card className="p-0 flex flex-col md:flex-row gap-2 sm:gap-3">
+          <div className="md:w-5/12 w-full flex flex-col gap-2 sm:gap-3 items-center justify-center min-h-[220px] sm:min-h-[300px] bg-muted rounded-md p-2 sm:p-3">
             {images.length > 0 ? (
               <img
                 src={images[0].image_url}
                 alt={product.title}
-                className="w-full h-56 object-cover rounded-lg bg-gray-100"
+                className="w-full h-40 sm:h-56 object-cover rounded-lg bg-gray-100"
               />
             ) : (
-              <div className="flex flex-col items-center justify-center h-56 w-full bg-muted text-muted-foreground rounded-lg">
-                <ImageIcon size={48} />
+              <div className="flex flex-col items-center justify-center h-40 sm:h-56 w-full bg-muted text-muted-foreground rounded-lg">
+                <ImageIcon size={40} className="sm:size-48" />
                 <span className="mt-1 text-xs">No image available</span>
               </div>
             )}
           </div>
-          <div className="flex-1 p-5 flex flex-col gap-2">
+          <div className="flex-1 p-3 sm:p-5 flex flex-col gap-2">
             <div className="flex flex-col gap-1">
-              <h1 className="text-2xl font-extrabold">{product.title}</h1>
+              <h1 className="text-lg sm:text-2xl font-extrabold">{product.title}</h1>
               {product.category && (
                 <div className="inline-block px-2 py-1 rounded bg-secondary text-xs text-muted-foreground mb-2 w-fit">
                   {product.category}
                 </div>
               )}
-              <div className="text-primary text-2xl font-bold mb-2">${product.price.toFixed(2)}</div>
-              <div className="text-muted-foreground">{product.description}</div>
+              <div className="text-primary text-lg sm:text-2xl font-bold mb-2">${product.price.toFixed(2)}</div>
+              <div className="text-muted-foreground text-xs sm:text-base">{product.description}</div>
             </div>
             <Button className="mt-4 w-full" onClick={() => navigate("/cart")}>Add to Cart</Button>
             <div className="text-xs text-muted-foreground mt-1">

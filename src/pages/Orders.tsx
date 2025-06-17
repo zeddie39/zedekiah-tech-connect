@@ -50,28 +50,27 @@ export default function OrdersPage() {
   return (
     <>
       <ShopNavbar />
-      <div className="max-w-3xl mx-auto py-10 px-3">
-        <h1 className="text-3xl font-bold mb-6">Your Orders</h1>
+      <div className="max-w-3xl mx-auto py-6 sm:py-10 px-2 sm:px-3">
+        <h1 className="text-2xl sm:text-3xl font-bold mb-4 sm:mb-6">Your Orders</h1>
         {orders.length === 0 ? (
-          <div className="text-center text-muted-foreground mt-12 text-lg">
+          <div className="text-center text-muted-foreground mt-8 sm:mt-12 text-base sm:text-lg">
             You have no orders yet.
           </div>
         ) : (
-          <ul className="space-y-4">
+          <ul className="space-y-3 sm:space-y-4">
             {orders.map(order => (
-              <Card key={order.id} className="p-4">
-                <div className="flex justify-between items-center mb-2">
-                  <div className="font-semibold">Order ID: <span className="text-xs">{order.id.slice(0,8)}...</span></div>
+              <Card key={order.id} className="p-3 sm:p-4">
+                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-2 gap-1 sm:gap-0">
+                  <div className="font-semibold text-xs sm:text-base">Order ID: <span className="text-xs">{order.id.slice(0,8)}...</span></div>
                   <div className="text-xs text-muted-foreground">{new Date(order.created_at).toLocaleString()}</div>
                 </div>
-                <ul className="mb-2 text-sm">
+                <ul className="mb-2 text-xs sm:text-sm">
                   <li>
                     <span>Product: {order.product_id}</span>
-                    {/* In a real app, you would join to a products table for the product title */}
                   </li>
                 </ul>
-                <div className="flex justify-between border-t pt-2 mt-2">
-                  <span className="font-bold">Total: ${order.amount.toFixed(2)}</span>
+                <div className="flex flex-col sm:flex-row justify-between border-t pt-2 mt-2 gap-1 sm:gap-0">
+                  <span className="font-bold text-xs sm:text-base">Total: ${order.amount.toFixed(2)}</span>
                   <span className="text-xs">{order.status} / {order.payment_status}</span>
                 </div>
               </Card>

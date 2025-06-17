@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import {
@@ -37,10 +36,13 @@ export default function AdminRepairRequestTable() {
 
   async function updateStatus(id: string, newStatus: string) {
     setUpdating(id);
-    await supabase
+    const { error } = await supabase
       .from("repair_requests")
       .update({ status: newStatus })
       .eq("id", id);
+    if (error) {
+      alert("Failed to update status: " + error.message);
+    }
     setUpdating(null);
     fetchRequests();
   }
@@ -50,82 +52,61 @@ export default function AdminRepairRequestTable() {
   }, []);
 
   return (
-    <div className="rounded border bg-background p-4">
-      <h2 className="font-bold text-lg mb-4">All Repair Requests</h2>
+    <div className="rounded border bg-background p-2 sm:p-4 overflow-x-auto">
+      <h2 className="font-bold text-base sm:text-lg mb-2 sm:mb-4 font-playfair">
+        All Repair Requests
+      </h2>
       {loading ? (
         <div className="text-muted-foreground">Loading repair requests...</div>
       ) : (
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Device</TableHead>
-              <TableHead>Problem</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead>User ID</TableHead>
-              <TableHead>Submitted</TableHead>
-              <TableHead>Actions</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {requests.length === 0 ? (
+        <div className="min-w-[340px] sm:min-w-0">
+          <Table className="text-xs sm:text-sm">
+            <TableHeader>
               <TableRow>
-                <TableCell colSpan={6}>
-                  <span className="text-muted-foreground">No repair requests.</span>
-                </TableCell>
+                <TableHead>Device</TableHead>
+                <TableHead>Problem</TableHead>
+                <TableHead>Status</TableHead>
+                <TableHead>Requested</TableHead>
+                <TableHead>Actions</TableHead>
               </TableRow>
-            ) : (
-              requests.map((rq) => (
-                <TableRow key={rq.id}>
-                  <TableCell>{rq.device_type || "-"}</TableCell>
-                  <TableCell>{rq.problem_description || "-"}</TableCell>
-                  <TableCell>
-                    <span
-                      className={
-                        rq.status === "completed"
-                          ? "text-green-600 font-semibold"
-                          : rq.status === "pending"
-                          ? "text-yellow-600 font-semibold"
-                          : "text-gray-600"
-                      }
-                    >
-                      {rq.status}
-                    </span>
+            </TableHeader>
+            <TableBody>
+              {requests.map((req) => (
+                <TableRow key={req.id}>
+                  <TableCell>{req.device_type}</TableCell>
+                  <TableCell className="max-w-[120px] truncate">
+                    {req.problem_description}
                   </TableCell>
-                  <TableCell className="truncate max-w-[140px]">{rq.user_id?.slice(0,6) + "..." || "-"}</TableCell>
+                  <TableCell>{req.status}</TableCell>
                   <TableCell>
-                    {rq.created_at
-                      ? new Date(rq.created_at).toLocaleString()
-                      : "-"}
+                    {req.created_at
+                      ? new Date(req.created_at).toLocaleString()
+                      : ""}
                   </TableCell>
                   <TableCell>
-                    <div className="flex gap-2">
-                      {rq.status !== "completed" && (
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          disabled={updating === rq.id}
-                          onClick={() => updateStatus(rq.id, "completed")}
-                        >
-                          Mark Completed
-                        </Button>
-                      )}
-                      {rq.status !== "pending" && (
-                        <Button
-                          variant="secondary"
-                          size="sm"
-                          disabled={updating === rq.id}
-                          onClick={() => updateStatus(rq.id, "pending")}
-                        >
-                          Mark Pending
-                        </Button>
-                      )}
+                    <div className="flex flex-col gap-1 sm:flex-row sm:gap-2">
+                      <Button
+                        size="sm"
+                        disabled={updating === req.id}
+                        onClick={() => updateStatus(req.id, "completed")}
+                      >
+                        Mark Completed
+                      </Button>
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        disabled={updating === req.id}
+                        onClick={() => updateStatus(req.id, "pending")}
+                      >
+                        Set Pending
+                      </Button>
                     </div>
                   </TableCell>
                 </TableRow>
-              ))
-            )}
-          </TableBody>
-        </Table>
+              ))}
+            </TableBody>
+          </Table>
+        </div>
       )}
     </div>
   );

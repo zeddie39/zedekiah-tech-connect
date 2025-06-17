@@ -1,9 +1,24 @@
-
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import { Link } from 'react-router-dom';
 import { Button } from './ui/button';
 
 const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [showNav, setShowNav] = useState(true);
+  const lastScrollY = useRef(window.scrollY);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > lastScrollY.current && window.scrollY > 80) {
+        setShowNav(false); // Hide nav on scroll down
+      } else {
+        setShowNav(true); // Show nav on scroll up
+      }
+      lastScrollY.current = window.scrollY;
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
@@ -14,117 +29,110 @@ const Navigation = () => {
   };
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-primary shadow-lg">
+    <nav className={`fixed top-0 left-0 right-0 z-[9999] bg-primary shadow-lg transition-transform duration-300 ${showNav ? 'translate-y-0' : '-translate-y-full'}`}>
       <div className="container mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
           {/* Logo */}
           <div className="flex items-center space-x-3">
             <img 
-              src="/lovable-uploads/48de53de-a799-42bb-bad4-44bba23daaab.png" 
-              alt="Ztech Electronics Logo" 
-              className="w-10 h-10"
+              src="/ztech%20logo.jpg" 
+              alt="Ztech Logo" 
+              className="w-10 h-10 rounded-full object-cover"
             />
             <div>
               <h1 className="text-white font-orbitron font-bold text-xl">Zedekiah</h1>
-              <p className="text-gray-300 text-xs">Tech Clinic</p>
+              <p className="text-gray-300 text-xs">Tech Electronics Limited</p>
             </div>
           </div>
 
           {/* Desktop Menu */}
-          <div className="hidden md:flex items-center space-x-8">
-            <button 
-              onClick={() => scrollToSection('home')}
-              className="text-white hover:text-accent transition-colors duration-200"
+          <div className="hidden md:flex items-center space-x-4">
+            <Link 
+              to="/"
+              className="bg-white hover:bg-gray-200 text-primary font-semibold rounded px-4 py-2 transition-colors duration-200 block"
             >
               Home
-            </button>
-            <button 
-              onClick={() => scrollToSection('about')}
-              className="text-white hover:text-accent transition-colors duration-200"
+            </Link>
+            <Link 
+              to="/about"
+              className="bg-white hover:bg-gray-200 text-primary font-semibold rounded px-4 py-2 transition-colors duration-200 block"
             >
               About
-            </button>
-            <button 
-              onClick={() => scrollToSection('services')}
-              className="text-white hover:text-accent transition-colors duration-200"
+            </Link>
+            <Link 
+              to="/services"
+              className="bg-white hover:bg-gray-200 text-primary font-semibold rounded px-4 py-2 transition-colors duration-200 block"
             >
               Services
-            </button>
-            <button 
-              onClick={() => scrollToSection('team')}
-              className="text-white hover:text-accent transition-colors duration-200"
+            </Link>
+            <Link 
+              to="/team"
+              className="bg-white hover:bg-gray-200 text-primary font-semibold rounded px-4 py-2 transition-colors duration-200 block"
             >
               Team
-            </button>
-            <button 
-              onClick={() => scrollToSection('blog')}
-              className="text-white hover:text-accent transition-colors duration-200"
+            </Link>
+            <Link 
+              to="/blog"
+              className="bg-white hover:bg-gray-200 text-primary font-semibold rounded px-4 py-2 transition-colors duration-200 block"
             >
               Blog
-            </button>
-            <button 
-              onClick={() => scrollToSection('contact')}
-              className="text-white hover:text-accent transition-colors duration-200"
+            </Link>
+            <Link 
+              to="/contact"
+              className="bg-white hover:bg-gray-200 text-primary font-semibold rounded px-4 py-2 transition-colors duration-200 block"
             >
               Contact
-            </button>
-            <Button className="bg-accent hover:bg-accent/90 text-white">
+            </Link>
+            <Button
+              className="bg-primary text-accent font-semibold rounded px-4 py-2 border border-accent hover:bg-accent hover:text-primary transition-colors duration-200 block"
+              onClick={() => scrollToSection('contact')}
+            >
               Get Quote
             </Button>
           </div>
 
           {/* Mobile Hamburger */}
           <button
-            className="md:hidden text-white"
+            className="md:hidden z-[99999] relative"
+            style={{ position: 'relative' }}
             onClick={() => setIsMenuOpen(!isMenuOpen)}
+            aria-label="Open menu"
           >
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-6 h-6" fill="none" stroke="#1e293b" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
             </svg>
           </button>
         </div>
 
-        {/* Mobile Menu */}
+        {/* Mobile Menu - only rendered when isMenuOpen is true */}
         {isMenuOpen && (
-          <div className="md:hidden mt-4 pb-4 animate-slide-in-right">
-            <div className="flex flex-col space-y-4">
-              <button 
-                onClick={() => scrollToSection('home')}
-                className="text-white hover:text-accent transition-colors duration-200 text-left"
-              >
+          <div className="md:hidden z-[200] fixed inset-0 bg-primary bg-opacity-95 animate-slide-in-right">
+            <div className="flex flex-col space-y-4 p-6">
+              <Link to="/" className="bg-white hover:bg-gray-200 text-primary font-semibold rounded px-4 py-3 transition-colors duration-200 block" onClick={() => setIsMenuOpen(false)}>
                 Home
-              </button>
-              <button 
-                onClick={() => scrollToSection('about')}
-                className="text-white hover:text-accent transition-colors duration-200 text-left"
-              >
+              </Link>
+              <Link to="/about" className="bg-white hover:bg-gray-200 text-primary font-semibold rounded px-4 py-3 transition-colors duration-200 block" onClick={() => setIsMenuOpen(false)}>
                 About
-              </button>
-              <button 
-                onClick={() => scrollToSection('services')}
-                className="text-white hover:text-accent transition-colors duration-200 text-left"
-              >
+              </Link>
+              <Link to="/services" className="bg-white hover:bg-gray-200 text-primary font-semibold rounded px-4 py-3 transition-colors duration-200 block" onClick={() => setIsMenuOpen(false)}>
                 Services
-              </button>
-              <button 
-                onClick={() => scrollToSection('team')}
-                className="text-white hover:text-accent transition-colors duration-200 text-left"
-              >
+              </Link>
+              <Link to="/team" className="bg-white hover:bg-gray-200 text-primary font-semibold rounded px-4 py-3 transition-colors duration-200 block" onClick={() => setIsMenuOpen(false)}>
                 Team
-              </button>
-              <button 
-                onClick={() => scrollToSection('blog')}
-                className="text-white hover:text-accent transition-colors duration-200 text-left"
-              >
+              </Link>
+              <Link to="/blog" className="bg-white hover:bg-gray-200 text-primary font-semibold rounded px-4 py-3 transition-colors duration-200 block" onClick={() => setIsMenuOpen(false)}>
                 Blog
-              </button>
-              <button 
-                onClick={() => scrollToSection('contact')}
-                className="text-white hover:text-accent transition-colors duration-200 text-left"
-              >
+              </Link>
+              <Link to="/contact" className="bg-white hover:bg-gray-200 text-primary font-semibold rounded px-4 py-3 transition-colors duration-200 block" onClick={() => setIsMenuOpen(false)}>
                 Contact
-              </button>
-              <Button className="bg-accent hover:bg-accent/90 text-white w-fit">
+              </Link>
+              <Button
+                className="bg-primary text-accent font-semibold rounded px-4 py-3 border border-accent hover:bg-accent hover:text-primary transition-colors duration-200 block"
+                onClick={() => {
+                  setIsMenuOpen(false);
+                  scrollToSection('contact');
+                }}
+              >
                 Get Quote
               </Button>
             </div>

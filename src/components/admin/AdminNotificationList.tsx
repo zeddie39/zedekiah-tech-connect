@@ -1,4 +1,3 @@
-
 import { useEffect, useState, useRef } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Card } from "@/components/ui/card";
@@ -120,7 +119,7 @@ export default function AdminNotificationList() {
 
   return (
     <div className="max-w-2xl mx-auto">
-      <h2 className="text-2xl font-bold mb-2 flex items-center gap-2">
+      <h2 className="text-2xl font-bold mb-2 flex items-center gap-2 font-playfair">
         <Bell size={22} /> Notifications
       </h2>
       <div className="mb-2 flex items-center justify-between">

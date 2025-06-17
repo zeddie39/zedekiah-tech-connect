@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { services, categories } from '@/data/servicesData';
 import { Service } from '@/types/service';
@@ -10,6 +9,9 @@ const Services = () => {
   const [activeFilter, setActiveFilter] = useState('all');
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedService, setSelectedService] = useState<Service | null>(null);
+  const [showAll, setShowAll] = useState(false);
+
+  const SERVICES_TO_SHOW = 6;
 
   const filteredServices = activeFilter === 'all'
     ? services
@@ -21,13 +23,13 @@ const Services = () => {
   };
 
   return (
-    <section id="services" className="py-20 bg-white">
-      <div className="container mx-auto px-6">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-orbitron font-bold text-primary mb-6">
+    <section id="services" className="py-10 sm:py-16 md:py-20 bg-white">
+      <div className="container mx-auto px-2 sm:px-4 md:px-6">
+        <div className="text-center mb-8 sm:mb-12 md:mb-16">
+          <h2 className="text-2xl sm:text-4xl md:text-5xl font-orbitron font-bold text-primary mb-4 sm:mb-6">
             Our Services
           </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+          <p className="text-base sm:text-xl text-gray-600 max-w-3xl mx-auto">
             Comprehensive technology solutions for all your electronic and digital needs
           </p>
         </div>
@@ -38,8 +40,8 @@ const Services = () => {
           onFilterChange={setActiveFilter}
         />
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {filteredServices.map((service, index) => (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-8">
+          {(showAll ? filteredServices : filteredServices.slice(0, SERVICES_TO_SHOW)).map((service, index) => (
             <ServiceCard
               key={index}
               service={service}
@@ -47,6 +49,16 @@ const Services = () => {
             />
           ))}
         </div>
+        {filteredServices.length > SERVICES_TO_SHOW && (
+          <div className="flex justify-center mt-6">
+            <button
+              className="px-6 py-3 bg-primary text-white rounded-lg font-semibold hover:bg-primary/90 transition-colors duration-200"
+              onClick={() => setShowAll((v) => !v)}
+            >
+              {showAll ? 'Show Less' : 'Show More'}
+            </button>
+          </div>
+        )}
 
         <ServiceModal
           isOpen={modalOpen}

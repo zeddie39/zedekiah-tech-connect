@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Card } from "@/components/ui/card";
@@ -88,7 +87,7 @@ export default function AdminTeamMemberList() {
 
   return (
     <div className="max-w-3xl mx-auto">
-      <h2 className="text-2xl font-bold mb-2 flex items-center gap-2">
+      <h2 className="text-2xl font-bold mb-2 flex items-center gap-2 font-playfair">
         <Users size={22} /> Team Members & Roles
       </h2>
       <Card className="mb-6 p-4">

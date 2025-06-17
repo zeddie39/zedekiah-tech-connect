@@ -46,19 +46,19 @@ export default function Dashboard() {
     <div className="min-h-screen flex flex-col md:flex-row bg-muted">
       {/* Mobile Hamburger */}
       <div className="md:hidden flex items-center justify-between px-4 py-2 bg-primary text-white sticky top-0 z-40">
-        <span className="font-bold text-lg">User Dashboard</span>
+        <span className="font-bold text-base sm:text-lg">User Dashboard</span>
         <button
           className="rounded p-1 hover:bg-primary/30"
           onClick={() => setDrawerOpen(!drawerOpen)}
           aria-label="Open Menu"
         >
-          <Menu size={28} />
+          <Menu size={24} />
         </button>
       </div>
       {/* Mobile Drawer menu */}
       {drawerOpen && (
         <div className="fixed inset-0 z-50 bg-black/60 flex">
-          <aside className="bg-primary w-[220px] h-full p-6 flex flex-col text-white animate-slide-in-right">
+          <aside className="bg-primary w-4/5 max-w-xs h-full p-4 flex flex-col text-white animate-slide-in-right">
             <button
               className="mb-6 self-end"
               onClick={() => setDrawerOpen(false)}
@@ -84,9 +84,9 @@ export default function Dashboard() {
       )}
 
       {/* Sidebar for Desktop */}
-      <aside className="hidden md:block w-56 bg-primary text-white flex-shrink-0 p-4">
+      <aside className="hidden md:block w-48 sm:w-56 bg-primary text-white flex-shrink-0 p-2 sm:p-4">
         <div className="mb-6">
-          <div className="font-bold text-xl">User Dashboard</div>
+          <div className="font-bold text-base sm:text-xl">User Dashboard</div>
           <Button
             variant="secondary"
             className="mt-4"
@@ -103,11 +103,11 @@ export default function Dashboard() {
           <a href="/admin" className="block hover:underline">Admin Panel</a>
         </nav>
       </aside>
-      <main className="flex-1 p-8 max-w-4xl mx-auto w-full">
-        <section id="profile" className="mb-10">
+      <main className="flex-1 p-2 sm:p-4 md:p-8 max-w-4xl mx-auto w-full">
+        <section id="profile" className="mb-8 md:mb-10">
           <ProfileSection userId={session.user.id} />
         </section>
-        <section id="repairs" className="mb-10">
+        <section id="repairs" className="mb-8 md:mb-10">
           <RepairRequests userId={session.user.id} />
         </section>
         <section id="chat">

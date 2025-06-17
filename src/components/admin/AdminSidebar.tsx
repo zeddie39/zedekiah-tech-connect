@@ -1,4 +1,3 @@
-
 import { NavLink, useLocation } from "react-router-dom";
 import {
   Sidebar,
@@ -57,6 +56,11 @@ const ADMIN_ITEMS = [
     label: "User Management",
     icon: User,
     path: "/admin/users",
+  },
+  {
+    label: "Logout",
+    icon: User,
+    path: "/admin/logout",
   },
 ];
 

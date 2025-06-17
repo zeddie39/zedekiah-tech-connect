@@ -107,128 +107,54 @@ export default function Shop() {
       )
     : products;
 
-  if (loading) {
+  if (loading || !session) {
     return (
       <div className="flex min-h-screen items-center justify-center">
         <Loader2 className="animate-spin" size={32} />
       </div>
     );
   }
-  if (!session) return null;
+  if (!session && !loading) {
+    navigate("/auth");
+    return null;
+  }
 
   function handleAddToCart(product: Product) {
-    addToCart({
-      id: product.id,
-      title: product.title,
-      price: product.price,
-      image: images[product.id] || null,
-    });
-    toast({
-      title: "Added to cart",
-      description: `${product.title} has been added to your cart.`,
-      duration: 1800,
-    });
+    addToCart({ ...product });
+    toast({ title: 'Added to cart', description: product.title });
   }
 
   return (
     <>
       <ShopNavbar />
-      {/* HERO CAROUSEL */}
-      <div className="bg-gradient-to-b from-accent/30 to-transparent pb-2">
-        <ShopHeroCarousel />
-      </div>
-      {/* CATEGORIES */}
-      <div className="max-w-6xl mx-auto px-3">
-        <ShopCategories
-          selectedCategory={categoryFilter}
-          onSelectCategory={setCategoryFilter}
-        />
-        {/* Show filter chip if active */}
-        {categoryFilter && (
-          <div className="flex items-center gap-2 mt-2 mb-8">
-            <span className="bg-primary text-white px-3 py-1 rounded-full text-xs font-medium">
-              {categoryFilter}
-            </span>
-            <button
-              className="ml-2 px-2 py-0.5 rounded hover:bg-muted text-xs border border-muted-foreground transition-colors"
-              onClick={() => setCategoryFilter(null)}
-              aria-label="Clear category filter"
-            >
-              Clear
-            </button>
-          </div>
-        )}
-      </div>
-      {/* PRODUCTS GRID */}
-      <div className="max-w-6xl mx-auto py-6 px-3">
-        <div className="flex justify-between items-center mb-8 mt-2">
-          <h1 className="text-3xl font-bold">Electronics Store</h1>
-          <div className="flex gap-2">
-            <Button onClick={() => navigate("/shop/new")}>Add Product</Button>
-            <Button variant="secondary" onClick={() => navigate("/cart")}>Cart</Button>
-            <Button variant="outline" onClick={() => navigate("/orders")}>My Orders</Button>
-          </div>
+      <ShopHeroCarousel />
+      <div className="container mx-auto px-2 sm:px-4 md:px-8 py-4">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-4">
+          <ShopCategories selectedCategory={categoryFilter} onSelectCategory={setCategoryFilter} />
+          <Button variant="outline" onClick={() => navigate("/dashboard")} className="w-full sm:w-auto">Go Back to Dashboard</Button>
         </div>
-        {filteredProducts.length === 0 ? (
-          <div className="text-center text-muted-foreground text-lg mt-20">
-            No {categoryFilter ? `${categoryFilter}` : "products"} listed yet. Be the first to post!
-          </div>
-        ) : (
-          <ul className="grid gap-6 md:grid-cols-3 sm:grid-cols-2">
-            {filteredProducts.map(product => (
-              <li key={product.id}>
-                <Card
-                  className="group p-0 overflow-hidden hover:shadow-xl transition-transform duration-150 border cursor-pointer flex flex-col hover:scale-105"
-                  onClick={e => {
-                    if ((e.target as HTMLElement).tagName === "BUTTON") return;
-                    navigate(`/shop/${product.id}`);
-                  }}
-                >
-                  <div className="relative">
-                    {images[product.id] ? (
-                      <img
-                        src={images[product.id]}
-                        alt={product.title}
-                        className="w-full object-cover h-48 bg-gray-100 transition-transform duration-100 group-hover:scale-105"
-                      />
-                    ) : (
-                      <div className="flex items-center justify-center bg-muted h-48 w-full">
-                        <Image size={48} className="text-gray-300" />
-                      </div>
-                    )}
-                    {/* In Stock badge */}
-                    <div className="absolute top-2 left-2 z-10">
-                      <Badge variant="secondary" className="bg-green-100 text-green-700 font-semibold">In Stock</Badge>
-                    </div>
-                  </div>
-                  <div className="p-4 space-y-2 grow">
-                    <h3 className="text-lg font-bold line-clamp-1">{product.title}</h3>
-                    <div className="font-medium text-primary">${product.price.toFixed(2)}</div>
-                    <div className="flex items-center gap-1 mb-1">
-                      <Star className="text-yellow-400" size={16} />
-                      <span className="font-semibold text-yellow-800 text-sm">4.8</span>
-                      <span className="text-xs text-gray-400 ml-1">(245 reviews)</span>
-                    </div>
-                    <div className="text-xs text-gray-400">{product.category}</div>
-                    <div className="text-sm text-muted-foreground truncate">{product.description}</div>
-                  </div>
-                  <div className="p-4 pt-2 flex gap-2">
-                    <Button
-                      variant="secondary"
-                      onClick={e => {
-                        e.stopPropagation();
-                        handleAddToCart(product);
-                      }}
-                      className="w-full"
-                    >
-                      Add to Cart
-                    </Button>
-                  </div>
-                </Card>
-              </li>
-            ))}
-          </ul>
-        )}
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          {filteredProducts.map((product) => (
+            <Card key={product.id} className="flex flex-col h-full p-3">
+              <div className="flex-1 flex flex-col gap-2">
+                <div className="w-full h-40 sm:h-48 bg-muted rounded-lg flex items-center justify-center mb-2 overflow-hidden">
+                  {images[product.id] ? (
+                    <img src={images[product.id]} alt={product.title} className="object-cover w-full h-full" />
+                  ) : (
+                    <Image className="w-10 h-10 text-muted-foreground" />
+                  )}
+                </div>
+                <div className="flex flex-col gap-1">
+                  <h3 className="font-bold text-base sm:text-lg truncate" title={product.title}>{product.title}</h3>
+                  <div className="text-accent font-bold text-lg">${product.price.toFixed(2)}</div>
+                  <div className="text-xs text-muted-foreground mb-1 truncate" title={product.description || ''}>{product.description}</div>
+                  {product.category && <Badge className="w-fit text-xs mb-1">{product.category}</Badge>}
+                </div>
+              </div>
+              <Button className="mt-2 w-full" onClick={() => handleAddToCart(product)}>Add to Cart</Button>
+            </Card>
+          ))}
+        </div>
       </div>
     </>
   );

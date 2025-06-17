@@ -1,17 +1,29 @@
-
-import { Smartphone, Laptop, Camera, Plug, Disc, BookOpen } from 'lucide-react';
+import { Smartphone, Laptop, Camera, Plug, Disc, BookOpen, Shield, Server, Globe, Cloud, Smartphone as MobileIcon, Home, Sun, Wifi, Cpu, Trash2, Monitor, ShoppingCart } from 'lucide-react';
 import { Service, Category } from '@/types/service';
 
 export const serviceImages = [
-  "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b", // Laptop Repair
-  "https://images.unsplash.com/photo-1518770660439-4636190af475", // Circuit Board/PC
-  "https://images.unsplash.com/photo-1461749280684-dccba630e2f6", // CCTV
-  "https://images.unsplash.com/photo-1531297484001-80022131f5a1", // Wiring/network
-  "https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7", // Software
-  "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158",  // Consultation
-  "https://images.unsplash.com/photo-1603791440384-56cd371ee9a7", // Gaming Console
-  "https://images.unsplash.com/photo-1454023492550-5696f8ff10e1", // Smart TV
-  "https://images.unsplash.com/photo-1519389950473-47ba0277781c"  // Printer & Peripherals
+  "/phonere.jpg", // Phone & Tablet Repair
+  "/laptop repair.jpg", // Laptop & Computer Repair
+  "/cctvin.jpg", // CCTV Installation
+  "/wiring-.webp", // Home & Office Wiring
+  "/smart.jpg", // Software Solutions
+  "/tech consult.webp", // Tech Consultation
+  "/gamingc.jpg", // Gaming Console Repair
+  "/smart.jpg", // Smart TV Setup & Repair
+  "/printer re.jpg", // Printer & Peripheral Support
+  "/network installation.jpg", // Network Installation
+  // Aligned Unsplash images for new services
+  "https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=800&q=80", // Data Recovery & Backup
+  "https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=800&q=80", // Cybersecurity & Virus Removal
+  "https://images.unsplash.com/photo-1515168833906-d2a3b82b3029?auto=format&fit=crop&w=800&q=80", // POS System Setup
+  "https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=800&q=80", // Website Design & Hosting
+  "https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=800&q=80", // Cloud Services & Migration
+  "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=800&q=80", // Mobile Device Management
+  "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80", // Smart Home Automation
+  "https://images.unsplash.com/photo-1509395176047-4a66953fd231?auto=format&fit=crop&w=800&q=80", // Solar Power & Inverter Installation
+  "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&w=800&q=80", // Networking for Events
+  "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=800&q=80", // Custom PC Building & Upgrades
+  "https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=800&q=80"  // E-Waste Recycling
 ];
 
 export const services: Service[] = [
@@ -95,6 +107,114 @@ export const services: Service[] = [
     features: ['Printer Setup', 'Driver Installation', 'Network Printers', 'Accessory Support'],
     image: serviceImages[8],
     more: 'From stubborn printers to finicky accessories, we set up, configure, and repair printers, scanners, and essential peripherals for home and office environments.'
+  },
+  {
+    title: 'Network Installation',
+    description: 'Professional network cable installation, router setup, and Wi-Fi optimization for homes and businesses',
+    category: 'installation',
+    icon: <Plug className="text-accent" size={40} />,
+    features: ['Network Cabling', 'Router Setup', 'Wi-Fi Optimization', 'Troubleshooting'],
+    image: serviceImages[9],
+    more: 'Get fast, reliable, and secure network installations for your home or office. We handle everything from cabling to router configuration and Wi-Fi optimization.'
+  },
+  {
+    title: 'Data Recovery & Backup',
+    description: 'Recover lost files, set up automated backups, and secure data storage solutions.',
+    category: 'software',
+    icon: <Server className="text-accent" size={40} />,
+    features: ['File Recovery', 'Backup Setup', 'Cloud Storage', 'Data Security'],
+    image: serviceImages[10],
+    more: 'We help you recover lost data and set up reliable backup systems to keep your information safe.'
+  },
+  {
+    title: 'Cybersecurity & Virus Removal',
+    description: 'Malware/virus removal, firewall setup, and security audits for devices and networks.',
+    category: 'software',
+    icon: <Shield className="text-accent" size={40} />,
+    features: ['Virus Removal', 'Firewall Setup', 'Security Audit', 'Device Protection'],
+    image: serviceImages[11],
+    more: 'Protect your devices and data from threats with our comprehensive cybersecurity services.'
+  },
+  {
+    title: 'POS System Setup',
+    description: 'Installation and support for retail POS systems, including hardware and software.',
+    category: 'installation',
+    icon: <ShoppingCart className="text-accent" size={40} />,
+    features: ['POS Installation', 'Software Setup', 'Training', 'Support'],
+    image: serviceImages[12],
+    more: 'Get your business running smoothly with our expert POS system installation and support.'
+  },
+  {
+    title: 'Website Design & Hosting',
+    description: 'Build, host, and maintain business or personal websites.',
+    category: 'software',
+    icon: <Globe className="text-accent" size={40} />,
+    features: ['Web Design', 'Hosting', 'Maintenance', 'SEO'],
+    image: serviceImages[13],
+    more: 'We create beautiful, responsive websites and provide reliable hosting and ongoing support.'
+  },
+  {
+    title: 'Cloud Services & Migration',
+    description: 'Help businesses move to cloud platforms (Google Workspace, Microsoft 365, etc.).',
+    category: 'software',
+    icon: <Cloud className="text-accent" size={40} />,
+    features: ['Cloud Migration', 'Setup', 'Training', 'Support'],
+    image: serviceImages[14],
+    more: 'Migrate your business to the cloud for better collaboration, security, and scalability.'
+  },
+  {
+    title: 'Mobile Device Management',
+    description: 'Set up and manage business phones/tablets, including security and app deployment.',
+    category: 'software',
+    icon: <MobileIcon className="text-accent" size={40} />,
+    features: ['Device Setup', 'Security', 'App Deployment', 'Remote Management'],
+    image: serviceImages[15],
+    more: 'We manage your mobile devices for security, productivity, and easy administration.'
+  },
+  {
+    title: 'Smart Home Automation',
+    description: 'Install and configure smart lights, thermostats, security systems, and voice assistants. We use Arduino and Raspberry Pi to automate your home, including automatic water pumps, remote-controlled gates, and automatic door openers.',
+    category: 'installation',
+    icon: <Home className="text-accent" size={40} />,
+    features: ['Smart Lights', 'Thermostats', 'Security', 'Voice Assistants', 'Arduino Automation', 'Raspberry Pi Projects', 'Automatic Pump', 'Remote Gate', 'Auto Door'],
+    image: serviceImages[16],
+    more: 'Upgrade your home with the latest smart technology for comfort and security. We build custom automation using Arduino and Raspberry Pi, including automatic water pumps, remote-controlled gates, and automatic door openers for a truly modern home.'
+  },
+  {
+    title: 'Solar Power & Inverter Installation',
+    description: 'Design and install solar energy systems and backup power solutions.',
+    category: 'installation',
+    icon: <Sun className="text-accent" size={40} />,
+    features: ['Solar Panels', 'Inverters', 'Battery Backup', 'Maintenance'],
+    image: serviceImages[17],
+    more: 'Go green and save on energy costs with our solar and inverter installation services.'
+  },
+  {
+    title: 'Networking for Events',
+    description: 'Temporary Wi-Fi and networking for conferences, weddings, or outdoor events.',
+    category: 'installation',
+    icon: <Wifi className="text-accent" size={40} />,
+    features: ['Event Wi-Fi', 'Temporary Networks', 'Setup & Support', 'Coverage Planning'],
+    image: serviceImages[18],
+    more: 'Ensure your event has fast, reliable internet and networking for all your guests.'
+  },
+  {
+    title: 'Custom PC Building & Upgrades',
+    description: 'Build gaming or workstation PCs, upgrade components, and optimize performance.',
+    category: 'repair',
+    icon: <Cpu className="text-accent" size={40} />,
+    features: ['PC Building', 'Upgrades', 'Performance Tuning', 'Consultation'],
+    image: serviceImages[19],
+    more: 'Get a custom-built PC or upgrade your current system for gaming, work, or creative projects.'
+  },
+  {
+    title: 'E-Waste Recycling',
+    description: 'Safe disposal and recycling of old electronics.',
+    category: 'consultation',
+    icon: <Trash2 className="text-accent" size={40} />,
+    features: ['Device Collection', 'Data Wipe', 'Eco-Friendly Disposal', 'Certification'],
+    image: serviceImages[20],
+    more: 'Dispose of your old electronics safely and responsibly with our e-waste recycling service.'
   }
 ];
 

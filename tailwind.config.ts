@@ -111,6 +111,10 @@ export default {
 				'twinkle': {
 					'0%, 100%': { opacity: '0.3' },
 					'50%': { opacity: '1' }
+				},
+				'confetti-blast': {
+					'0%': { transform: 'translateY(0)' },
+					'100%': { transform: 'translateY(100vh)' }
 				}
 			},
 			animation: {
@@ -119,7 +123,8 @@ export default {
 				'fade-in': 'fade-in 0.6s ease-out',
 				'slide-in-right': 'slide-in-right 0.3s ease-out',
 				'float': 'float 3s ease-in-out infinite',
-				'twinkle': 'twinkle 2s ease-in-out infinite'
+				'twinkle': 'twinkle 2s ease-in-out infinite',
+				'confetti-blast': 'confetti-blast 0.7s linear forwards'
 			}
 		}
 	},

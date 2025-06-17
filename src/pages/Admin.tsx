@@ -105,13 +105,13 @@ export default function AdminLayout() {
   return (
     <SidebarProvider>
       <AdminNavbar userEmail={userEmail} role={role} />
-      <div className="pt-16" />
-      <div className="min-h-screen flex w-full bg-gradient-to-br from-accent/10 via-muted/30 to-background">
+      <div className="pt-14 sm:pt-16" />
+      <div className="min-h-screen flex flex-col md:flex-row w-full bg-gradient-to-br from-accent/10 via-muted/30 to-background">
         <AdminSidebar />
-        <SidebarInset className="flex-1 flex flex-col">
-          <header className="flex items-center justify-between p-4 border-b bg-card/80 shadow sticky top-0 z-10">
+        <SidebarInset className="flex-1 flex flex-col px-2 sm:px-4 md:px-8 py-2 sm:py-4">
+          <header className="flex flex-col sm:flex-row items-center justify-between gap-2 p-2 sm:p-4 border-b bg-card/80 shadow sticky top-0 z-10">
             <SidebarTrigger />
-            <span className="font-medium text-base text-primary">
+            <span className="font-medium text-sm sm:text-base text-primary">
               Welcome, {userEmail || "Admin"}!
             </span>
             <button
@@ -122,110 +122,17 @@ export default function AdminLayout() {
               {showDebug ? "Hide Debug" : "Show Debug"}
             </button>
           </header>
-          {showDebug && (
-            <AdminDebugInfo
-              userEmail={userEmail}
-              userId={userId}
-              statuses={statuses}
-              roleNames={ROLE_NAMES}
-            />
-          )}
-          <main className="flex-1 p-4 sm:p-8 bg-gradient-to-br from-background via-muted/40 to-accent/5 min-h-[calc(100vh-64px)]">
-            {isAdminDashboard ? (
-              <div>
-                <h1 className="text-3xl md:text-4xl font-heading font-bold mb-2 tracking-tight bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent drop-shadow animate-fade-in">
-                  Admin Dashboard
-                </h1>
-                <p className="mb-8 text-muted-foreground text-base md:text-lg max-w-2xl font-medium animate-fade-in">
-                  Manage the platform. View analytics, access tools, and monitor services all in one place.
-                </p>
-
-                <div className="mb-10">
-                  <AdminAnalyticsWidget />
-                </div>
-
-                {/* Widget Grid */}
-                <div className="grid gap-6 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 mb-8 animate-fade-in">
-                  <DashboardWidget
-                    label="Total Users"
-                    supabaseTable="profiles"
-                  />
-                  <DashboardWidget
-                    label="Active (14d)"
-                    supabaseTable="profiles"
-                  />
-                  <DashboardWidget
-                    label="Active (7d)"
-                    supabaseTable="profiles"
-                  />
-                </div>
-
-                {/* Quick Links */}
-                <div className="grid md:grid-cols-3 sm:grid-cols-2 gap-6 mt-5">
-                  {/* Users Management */}
-                  <div className="rounded-xl bg-accent/30 border border-accent/30 shadow hover:shadow-xl transition-all duration-200 hover-scale p-6 group relative overflow-hidden">
-                    <div className="flex items-center mb-2">
-                      <Users size={22} className="text-primary mr-2" />
-                      <span className="text-lg font-bold text-primary">Users</span>
-                    </div>
-                    <div className="text-base text-muted-foreground mb-2">See all users, roles, and manage access.</div>
-                    <NavLink to="/admin/users">
-                      <button className="mt-1 underline text-accent-foreground text-sm transition hover:text-accent">
-                        Go to User Management
-                      </button>
-                    </NavLink>
-                    <span className="absolute bottom-0 right-3 text-[110px] text-accent/10 pointer-events-none transition group-hover:scale-110">
-                      <Users size={90} />
-                    </span>
-                  </div>
-                  {/* Reports */}
-                  <div className="rounded-xl bg-gradient-to-br from-accent/30 via-card/90 to-muted/20 border border-accent/40 shadow hover:shadow-xl transition-all duration-200 hover-scale p-6 group relative overflow-hidden">
-                    <div className="flex items-center mb-2">
-                      <FileText size={22} className="text-primary mr-2" />
-                      <span className="text-lg font-bold text-primary">Reports</span>
-                    </div>
-                    <div className="text-base text-muted-foreground mb-2">View analytics and generate audit reports.</div>
-                    <NavLink to="/admin/reports">
-                      <button className="mt-1 underline text-accent-foreground text-sm transition hover:text-accent">
-                        View Reports
-                      </button>
-                    </NavLink>
-                    <span className="absolute bottom-0 right-2 text-[100px] text-accent/10 pointer-events-none transition group-hover:scale-110">
-                      <FileText size={80} />
-                    </span>
-                  </div>
-                  {/* Health */}
-                  <div className="rounded-xl bg-gradient-to-bl from-muted/30 via-accent/10 to-card/80 border border-accent/20 shadow hover:shadow-xl transition-all duration-200 hover-scale p-6 group relative overflow-hidden">
-                    <div className="flex items-center mb-2">
-                      <Activity size={22} className="text-primary mr-2" />
-                      <span className="text-lg font-bold text-primary">Health</span>
-                    </div>
-                    <div className="text-base text-muted-foreground mb-2">Monitor system status and health metrics.</div>
-                    <NavLink to="/admin/health">
-                      <button className="mt-1 underline text-accent-foreground text-sm transition hover:text-accent">
-                        Monitor Health
-                      </button>
-                    </NavLink>
-                    <span className="absolute bottom-0 right-4 text-[90px] text-accent/10 pointer-events-none transition group-hover:scale-110">
-                      <Activity size={85} />
-                    </span>
-                  </div>
-                </div>
-
-                {/* Announcements or Tips */}
-                <div className="rounded-xl py-4 mt-10 px-6 bg-gradient-to-r from-accent/15 to-card/50 border border-accent/25 shadow flex flex-col md:flex-row md:items-center gap-5">
-                  <div className="font-heading text-lg md:text-xl flex items-center gap-2 text-accent-foreground">
-                    <BarChart2 size={21} className="mr-1 text-accent" />
-                    Tip: Use the sidebar or these quick links for efficient admin work!
-                  </div>
-                  <div className="text-muted-foreground text-sm">
-                    Want new dashboard widgets? Just let us know!
-                  </div>
-                </div>
+          <main className="flex-1 w-full max-w-6xl mx-auto py-2 sm:py-4">
+            {isAdminDashboard && (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+                <DashboardWidget label="Repair Requests" supabaseTable="repair_requests" />
+                <DashboardWidget label="Users" supabaseTable="profiles" />
+                <AdminAnalyticsWidget />
+                {/* Add more widgets as needed */}
               </div>
-            ) : (
-              <Outlet />
             )}
+            <Outlet />
+            {showDebug && <AdminDebugInfo userId={userId} userEmail={userEmail} statuses={statuses} roleNames={ROLE_NAMES} />}
           </main>
         </SidebarInset>
       </div>
