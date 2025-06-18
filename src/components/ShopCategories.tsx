@@ -1,4 +1,3 @@
-
 import { Card } from "@/components/ui/card";
 import type { LucideIcon } from "lucide-react";
 import { Smartphone, Laptop, Headphones, Gamepad2, Camera, Puzzle } from "lucide-react";
@@ -10,7 +9,7 @@ type Category = {
   desc: string;
 };
 
-const categories: Category[] = [
+export const categories = [
   {
     name: "Gadgets",
     icon: Smartphone,

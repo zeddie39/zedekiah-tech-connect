@@ -42,7 +42,7 @@ export default function Shop() {
     let mounted = true;
     supabase.auth.getSession().then(({ data: { session } }) => {
       if (!session && mounted) {
-        navigate("/auth");
+        navigate("/auth?redirect=shop");
         return;
       }
       setSession(session);
@@ -124,6 +124,11 @@ export default function Shop() {
     toast({ title: 'Added to cart', description: product.title });
   }
 
+  async function handleLogout() {
+    await supabase.auth.signOut();
+    navigate("/");
+  }
+
   return (
     <>
       <ShopNavbar />
@@ -131,7 +136,10 @@ export default function Shop() {
       <div className="container mx-auto px-2 sm:px-4 md:px-8 py-4">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-4">
           <ShopCategories selectedCategory={categoryFilter} onSelectCategory={setCategoryFilter} />
-          <Button variant="outline" onClick={() => navigate("/dashboard")} className="w-full sm:w-auto">Go Back to Dashboard</Button>
+          <div className="flex gap-2 w-full sm:w-auto">
+            <Button variant="outline" onClick={() => navigate("/dashboard")} className="w-full sm:w-auto">Go Back to Dashboard</Button>
+            <Button variant="destructive" onClick={handleLogout} className="w-full sm:w-auto">Logout</Button>
+          </div>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {filteredProducts.map((product) => (

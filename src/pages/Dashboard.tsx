@@ -70,6 +70,7 @@ export default function Dashboard() {
               <a href="#profile" className="block hover:underline" onClick={() => setDrawerOpen(false)}>Profile</a>
               <a href="#repairs" className="block hover:underline" onClick={() => setDrawerOpen(false)}>Repair Requests</a>
               <a href="#chat" className="block hover:underline" onClick={() => setDrawerOpen(false)}>Support Chat</a>
+              <a href="/shop" className="block hover:underline" onClick={() => setDrawerOpen(false)}>Shop</a>
               <hr className="border-white/30 my-2" />
               <a href="/admin" className="block hover:underline" onClick={() => setDrawerOpen(false)}>Admin Panel</a>
             </nav>
@@ -99,6 +100,7 @@ export default function Dashboard() {
           <a href="#profile" className="block hover:underline">Profile</a>
           <a href="#repairs" className="block hover:underline">Repair Requests</a>
           <a href="#chat" className="block hover:underline">Support Chat</a>
+          <a href="/shop" className="block hover:underline">Shop</a>
           <hr className="border-white/30 my-2" />
           <a href="/admin" className="block hover:underline">Admin Panel</a>
         </nav>

@@ -11,6 +11,7 @@ import AdminNavbar from "@/components/admin/AdminNavbar";
 import AdminSidebar from "@/components/admin/AdminSidebar";
 import AdminDebugInfo from "@/components/admin/AdminDebugInfo";
 import AdminAnalyticsWidget from "@/components/admin/AdminAnalyticsWidget";
+import DashboardHome from "./admin/DashboardHome";
 
 // Lucide icons for dashboard cards and quick links
 import { BarChart2, FileText, Users, Activity } from "lucide-react";
@@ -105,7 +106,7 @@ export default function AdminLayout() {
   return (
     <SidebarProvider>
       <AdminNavbar userEmail={userEmail} role={role} />
-      <div className="pt-14 sm:pt-16" />
+      <div className="pt-24 sm:pt-28" />
       <div className="min-h-screen flex flex-col md:flex-row w-full bg-gradient-to-br from-accent/10 via-muted/30 to-background">
         <AdminSidebar />
         <SidebarInset className="flex-1 flex flex-col px-2 sm:px-4 md:px-8 py-2 sm:py-4">
@@ -115,24 +116,21 @@ export default function AdminLayout() {
               Welcome, {userEmail || "Admin"}!
             </span>
             <button
-              className="text-xs text-muted-foreground hover:underline"
+              className="text-xs text-muted-foreground hover:underline mt-2 sm:mt-0"
               onClick={() => setShowDebug((v) => !v)}
               aria-expanded={showDebug}
             >
               {showDebug ? "Hide Debug" : "Show Debug"}
             </button>
           </header>
-          <main className="flex-1 w-full max-w-6xl mx-auto py-2 sm:py-4">
-            {isAdminDashboard && (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-                <DashboardWidget label="Repair Requests" supabaseTable="repair_requests" />
-                <DashboardWidget label="Users" supabaseTable="profiles" />
-                <AdminAnalyticsWidget />
-                {/* Add more widgets as needed */}
+          <main className="flex-1 w-full max-w-6xl mx-auto py-2 sm:py-4 relative">
+            {isAdminDashboard && <DashboardHome />}
+            <Outlet />
+            {showDebug && (
+              <div className="absolute left-0 right-0 top-full mt-2 z-50">
+                <AdminDebugInfo userId={userId} userEmail={userEmail} statuses={statuses} roleNames={ROLE_NAMES} />
               </div>
             )}
-            <Outlet />
-            {showDebug && <AdminDebugInfo userId={userId} userEmail={userEmail} statuses={statuses} roleNames={ROLE_NAMES} />}
           </main>
         </SidebarInset>
       </div>

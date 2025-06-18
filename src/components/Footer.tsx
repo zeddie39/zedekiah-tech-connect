@@ -63,6 +63,22 @@ const Footer = () => {
                   Blog
                 </Link>
               </li>
+              <li>
+                <Link
+                  to="/terms"
+                  className="text-gray-300 hover:text-accent transition-colors duration-200 text-xs sm:text-base"
+                >
+                  Terms & Conditions
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/privacy"
+                  className="text-gray-300 hover:text-accent transition-colors duration-200 text-xs sm:text-base"
+                >
+                  Privacy Policy
+                </Link>
+              </li>
             </ul>
           </div>
 
@@ -70,29 +86,29 @@ const Footer = () => {
           <div>
             <h4 className="font-orbitron font-bold text-base sm:text-lg mb-2 sm:mb-4">Services</h4>
             <ul className="space-y-1 sm:space-y-2">
-              <li><button onClick={() => document.getElementById('phone-tablet-repair')?.scrollIntoView({ behavior: 'smooth' })} className="text-gray-300 hover:text-accent transition-colors duration-200 text-xs sm:text-base">Phone & Tablet Repair</button></li>
-              <li><button onClick={() => document.getElementById('laptop-computer-repair')?.scrollIntoView({ behavior: 'smooth' })} className="text-gray-300 hover:text-accent transition-colors duration-200 text-xs sm:text-base">Laptop & Computer Repair</button></li>
-              <li><button onClick={() => document.getElementById('cctv-installation')?.scrollIntoView({ behavior: 'smooth' })} className="text-gray-300 hover:text-accent transition-colors duration-200 text-xs sm:text-base">CCTV Installation</button></li>
-              <li><button onClick={() => document.getElementById('home-office-wiring')?.scrollIntoView({ behavior: 'smooth' })} className="text-gray-300 hover:text-accent transition-colors duration-200 text-xs sm:text-base">Home & Office Wiring</button></li>
-              <li><button onClick={() => document.getElementById('software-solutions')?.scrollIntoView({ behavior: 'smooth' })} className="text-gray-300 hover:text-accent transition-colors duration-200 text-xs sm:text-base">Software Solutions</button></li>
-              <li><button onClick={() => document.getElementById('tech-consultation')?.scrollIntoView({ behavior: 'smooth' })} className="text-gray-300 hover:text-accent transition-colors duration-200 text-xs sm:text-base">Tech Consultation</button></li>
-              <li><button onClick={() => document.getElementById('gaming-console-repair')?.scrollIntoView({ behavior: 'smooth' })} className="text-gray-300 hover:text-accent transition-colors duration-200 text-xs sm:text-base">Gaming Console Repair</button></li>
-              <li><button onClick={() => document.getElementById('smart-tv-setup-repair')?.scrollIntoView({ behavior: 'smooth' })} className="text-gray-300 hover:text-accent transition-colors duration-200 text-xs sm:text-base">Smart TV Setup & Repair</button></li>
-              <li><button onClick={() => document.getElementById('printer-peripheral-support')?.scrollIntoView({ behavior: 'smooth' })} className="text-gray-300 hover:text-accent transition-colors duration-200 text-xs sm:text-base">Printer & Peripheral Support</button></li>
-              <li><button onClick={() => document.getElementById('network-installation')?.scrollIntoView({ behavior: 'smooth' })} className="text-gray-300 hover:text-accent transition-colors duration-200 text-xs sm:text-base">Network Installation</button></li>
+              <li><Link to="/services#phone-tablet-repair" className="text-gray-300 hover:text-accent transition-colors duration-200 text-xs sm:text-base">Phone & Tablet Repair</Link></li>
+              <li><Link to="/services#laptop-computer-repair" className="text-gray-300 hover:text-accent transition-colors duration-200 text-xs sm:text-base">Laptop & Computer Repair</Link></li>
+              <li><Link to="/services#cctv-installation" className="text-gray-300 hover:text-accent transition-colors duration-200 text-xs sm:text-base">CCTV Installation</Link></li>
+              <li><Link to="/services#home-office-wiring" className="text-gray-300 hover:text-accent transition-colors duration-200 text-xs sm:text-base">Home & Office Wiring</Link></li>
+              <li><Link to="/services#software-solutions" className="text-gray-300 hover:text-accent transition-colors duration-200 text-xs sm:text-base">Software Solutions</Link></li>
+              <li><Link to="/services#tech-consultation" className="text-gray-300 hover:text-accent transition-colors duration-200 text-xs sm:text-base">Tech Consultation</Link></li>
+              <li><Link to="/services#gaming-console-repair" className="text-gray-300 hover:text-accent transition-colors duration-200 text-xs sm:text-base">Gaming Console Repair</Link></li>
+              <li><Link to="/services#smart-tv-setup-repair" className="text-gray-300 hover:text-accent transition-colors duration-200 text-xs sm:text-base">Smart TV Setup & Repair</Link></li>
+              <li><Link to="/services#printer-peripheral-support" className="text-gray-300 hover:text-accent transition-colors duration-200 text-xs sm:text-base">Printer & Peripheral Support</Link></li>
+              <li><Link to="/services#network-installation" className="text-gray-300 hover:text-accent transition-colors duration-200 text-xs sm:text-base">Network Installation</Link></li>
             </ul>
           </div>
 
           {/* Contact Info */}
-          <div className="space-y-2">
+          <div className="space-y-2 sm:col-span-2 md:col-span-1 flex flex-col items-start justify-start">
             <h4 className="font-orbitron font-bold text-base sm:text-lg mb-2 sm:mb-4">Contact</h4>
             <div className="flex items-center gap-2 text-xs sm:text-base">
               <Mail className="w-4 h-4 sm:w-5 sm:h-5" />
-              <span>info@ztech.co.ke</span>
+              <span className="break-all">info@ztechelectronicslimited.co.ke</span>
             </div>
             <div className="flex items-center gap-2 text-xs sm:text-base">
               <Phone className="w-4 h-4 sm:w-5 sm:h-5" />
-              <span>+254 712 345 678</span>
+              <span>+254757756763</span>
             </div>
             <div className="flex items-center gap-2 text-xs sm:text-base">
               <Clock className="w-4 h-4 sm:w-5 sm:h-5" />

@@ -20,6 +20,17 @@ const Navigation = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  useEffect(() => {
+    if (isMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isMenuOpen]);
+
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
     if (element) {
@@ -83,6 +94,12 @@ const Navigation = () => {
             >
               Contact
             </Link>
+            <Link 
+              to="/shop"
+              className="bg-white hover:bg-gray-200 text-primary font-semibold rounded px-4 py-2 transition-colors duration-200 block"
+            >
+              Shop
+            </Link>
             <Button
               className="bg-primary text-accent font-semibold rounded px-4 py-2 border border-accent hover:bg-accent hover:text-primary transition-colors duration-200 block"
               onClick={() => scrollToSection('contact')}
@@ -106,7 +123,7 @@ const Navigation = () => {
 
         {/* Mobile Menu - only rendered when isMenuOpen is true */}
         {isMenuOpen && (
-          <div className="md:hidden z-[200] fixed inset-0 bg-primary bg-opacity-95 animate-slide-in-right">
+          <div className="md:hidden z-[200] fixed inset-0 bg-primary bg-opacity-95 animate-slide-in-right overflow-y-auto w-full h-full">
             <div className="flex flex-col space-y-4 p-6">
               <Link to="/" className="bg-white hover:bg-gray-200 text-primary font-semibold rounded px-4 py-3 transition-colors duration-200 block" onClick={() => setIsMenuOpen(false)}>
                 Home
@@ -125,6 +142,9 @@ const Navigation = () => {
               </Link>
               <Link to="/contact" className="bg-white hover:bg-gray-200 text-primary font-semibold rounded px-4 py-3 transition-colors duration-200 block" onClick={() => setIsMenuOpen(false)}>
                 Contact
+              </Link>
+              <Link to="/shop" className="bg-white hover:bg-gray-200 text-primary font-semibold rounded px-4 py-3 transition-colors duration-200 block" onClick={() => setIsMenuOpen(false)}>
+                Shop
               </Link>
               <Button
                 className="bg-primary text-accent font-semibold rounded px-4 py-3 border border-accent hover:bg-accent hover:text-primary transition-colors duration-200 block"

@@ -62,6 +62,11 @@ const ADMIN_ITEMS = [
     icon: User,
     path: "/admin/logout",
   },
+  {
+    label: "Product Approvals",
+    icon: FileText,
+    path: "/admin/ProductsApproval",
+  },
 ];
 
 const AdminSidebar = () => {

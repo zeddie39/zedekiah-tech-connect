@@ -5,15 +5,19 @@ import Team from "@/components/Team";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 import Navigation from "@/components/Navigation";
+import About from "@/components/About";
+import Blog from "@/components/Blog";
 
 function Index() {
   return (
     <div>
       <Navigation />
       <Hero />
+      <About />
       <Services />
       <Testimonials />
       <Team />
+      <Blog />
       <Contact />
       <Footer />
     </div>

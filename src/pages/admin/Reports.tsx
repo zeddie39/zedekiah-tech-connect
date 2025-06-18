@@ -1,11 +1,10 @@
-
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { BarChart2, FileText } from "lucide-react";
 import AdminAdvancedReport from "@/components/admin/AdminAdvancedReport";
 
 export default function AdminReports() {
   return (
-    <div>
+    <div className="pt-24 sm:pt-28">
       <h1 className="text-2xl font-bold mb-4 flex items-center gap-2">
         <FileText className="text-primary" size={26} /> Reporting & Analytics
       </h1>

@@ -20,15 +20,30 @@ export default function AuthPage() {
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [resetSuccess, setResetSuccess] = useState(false);
+  const [acceptedTerms, setAcceptedTerms] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
-      if (session) navigate("/dashboard");
+      if (session) {
+        const params = new URLSearchParams(location.search);
+        if (params.get("redirect") === "shop") {
+          navigate("/shop");
+        } else {
+          navigate("/dashboard");
+        }
+      }
     });
     const { data: listener } = supabase.auth.onAuthStateChange((event, session) => {
-      if (session) navigate("/dashboard");
+      if (session) {
+        const params = new URLSearchParams(location.search);
+        if (params.get("redirect") === "shop") {
+          navigate("/shop");
+        } else {
+          navigate("/dashboard");
+        }
+      }
     });
     // If user lands with ?view=signup, show signup form
     if (location.search.includes("view=signup")) {
@@ -232,8 +247,27 @@ export default function AuthPage() {
                 required
                 disabled={loading}
               />
+              {/* Terms and Privacy checkbox for signup */}
+              {view === "signup" && (
+                <div className="flex items-start gap-2 text-xs text-gray-700">
+                  <input
+                    type="checkbox"
+                    id="accept-terms"
+                    checked={acceptedTerms}
+                    onChange={e => setAcceptedTerms(e.target.checked)}
+                    className="mt-1"
+                    required
+                  />
+                  <label htmlFor="accept-terms" className="select-none">
+                    I agree to the
+                    <a href="/terms" target="_blank" rel="noopener noreferrer" className="underline text-primary mx-1">Terms & Conditions</a>
+                    and
+                    <a href="/privacy" target="_blank" rel="noopener noreferrer" className="underline text-primary mx-1">Privacy Policy</a>.
+                  </label>
+                </div>
+              )}
               {error && <div className="text-red-500 text-sm">{error}</div>}
-              <Button type="submit" className="w-full" disabled={loading}>
+              <Button type="submit" className="w-full" disabled={loading || (view === "signup" && !acceptedTerms)}>
                 {loading ? <Loader2 className="animate-spin mr-2" /> : null}
                 {view === "login" ? "Sign In" : "Create Account"}
               </Button>

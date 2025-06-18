@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useCart } from "@/components/CartContext";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -6,11 +6,24 @@ import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/components/ui/use-toast";
 import ShopNavbar from "@/components/ShopNavbar";
+import ZtechPaystackButton from "@/components/PaystackButton";
+import ZtechFlutterwaveButton from "@/components/FlutterwaveButton";
 
 export default function CheckoutPage() {
   const { cart, clearCart } = useCart();
   const navigate = useNavigate();
   const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  const [userEmail, setUserEmail] = useState("");
+  const [userPhone, setUserPhone] = useState("");
+  const [userName, setUserName] = useState("");
+
+  useEffect(() => {
+    supabase.auth.getUser().then(({ data }) => {
+      setUserEmail(data?.user?.email || "");
+      setUserName(data?.user?.user_metadata?.full_name || "");
+      setUserPhone(data?.user?.user_metadata?.phone || "");
+    });
+  }, []);
 
   useEffect(() => {
     if (cart.length === 0) {
@@ -52,6 +65,54 @@ export default function CheckoutPage() {
     navigate("/orders");
   };
 
+  const handlePaystackSuccess = async (reference) => {
+    const { data: { session } } = await supabase.auth.getSession();
+    if (!session) {
+      toast({ title: "Login Required", description: "Please log in to checkout.", duration: 1800 });
+      navigate("/auth");
+      return;
+    }
+    // Call backend to verify payment and save to Supabase
+    const res = await fetch("http://localhost:5001/verify-paystack", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        reference: reference.reference,
+        email: session.user.email,
+        amount: Math.round(total * 100), // Paystack expects kobo
+      }),
+    });
+    const result = await res.json();
+    if (result.verified && result.saved) {
+      clearCart();
+      toast({ title: "Payment Successful!", description: "Thank you for your order.", duration: 2500 });
+      navigate("/orders");
+    } else {
+      toast({ title: "Payment Failed", description: result.message || "Could not verify payment.", duration: 2500 });
+    }
+  };
+
+  const handleFlutterwaveSuccess = async (response) => {
+    // Optionally verify on backend, then save to Supabase
+    const res = await fetch("http://localhost:5001/verify-flutterwave", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        transaction_id: response.transaction_id,
+        email: userEmail,
+        amount: total,
+      }),
+    });
+    const result = await res.json();
+    if (result.verified && result.saved) {
+      clearCart();
+      toast({ title: "Payment Successful!", description: "Thank you for your order.", duration: 2500 });
+      navigate("/orders");
+    } else {
+      toast({ title: "Payment Failed", description: result.message || "Could not verify payment.", duration: 2500 });
+    }
+  };
+
   return (
     <>
       <ShopNavbar />
@@ -72,7 +133,18 @@ export default function CheckoutPage() {
           </div>
         </Card>
         <div className="flex gap-2">
-          <Button onClick={handleCheckout} className="w-full">Pay & Place Order</Button>
+          <ZtechPaystackButton
+            email={userEmail || "customer@email.com"}
+            amount={Math.round(total * 100)}
+            onSuccess={handlePaystackSuccess}
+          />
+          <ZtechFlutterwaveButton
+            email={userEmail}
+            amount={total}
+            phone={userPhone}
+            name={userName}
+            onSuccess={handleFlutterwaveSuccess}
+          />
           <Button variant="secondary" onClick={() => navigate("/cart")}>Back to Cart</Button>
         </div>
         <div className="text-xs text-muted-foreground mt-5 text-center">

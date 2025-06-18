@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
@@ -7,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
+import { categories as shopCategories } from "@/components/ShopCategories";
 
 export default function ShopNew() {
   const navigate = useNavigate();
@@ -14,7 +14,7 @@ export default function ShopNew() {
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
   const [category, setCategory] = useState("");
-  const [image, setImage] = useState<File | null>(null);
+  const [images, setImages] = useState<File[]>([]); // Multiple images
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -22,6 +22,13 @@ export default function ShopNew() {
     e.preventDefault();
     setLoading(true);
     setError(null);
+
+    // Require at least one image
+    if (images.length === 0) {
+      setError("Please select at least one image.");
+      setLoading(false);
+      return;
+    }
 
     // Get logged in session
     const { data: { session } } = await supabase.auth.getSession();
@@ -40,7 +47,7 @@ export default function ShopNew() {
         description,
         price: Number(price),
         category,
-        status: "pending",
+        status: "approved", // changed from pending to approved
       }])
       .select()
       .single();
@@ -51,18 +58,40 @@ export default function ShopNew() {
       return;
     }
 
-    // Upload image if provided (simulate, since storage buckets not set up)
-    if (image) {
-      // In real implementation, upload to Storage, then get public URL
-      // For now, we fail gracefully.
-      setError("Image upload is not implemented yet.");
-      setLoading(false);
-      return;
+    // Upload each image to Supabase Storage
+    const uploadedUrls: string[] = [];
+    for (const file of images) {
+      const fileExt = file.name.split('.').pop();
+      const filePath = `products/${product.id}/${Date.now()}-${Math.random().toString(36).slice(2)}.${fileExt}`;
+      const { error: uploadError } = await supabase.storage.from('product-images').upload(filePath, file);
+      if (uploadError) {
+        setError(`Failed to upload image: ${file.name}`);
+        setLoading(false);
+        return;
+      }
+      // Get public URL
+      const { data } = supabase.storage.from('product-images').getPublicUrl(filePath);
+      if (!data?.publicUrl) {
+        setError("Failed to get image URL.");
+        setLoading(false);
+        return;
+      }
+      uploadedUrls.push(data.publicUrl);
     }
 
-    // Optionally: Add to product_images table (skipped for now)
+    // Insert image URLs into product_images table
+    for (const url of uploadedUrls) {
+      const { error: imgInsertError } = await supabase
+        .from('product_images')
+        .insert([{ product_id: product.id, image_url: url }]);
+      if (imgInsertError) {
+        setError("Failed to save image info to database.");
+        setLoading(false);
+        return;
+      }
+    }
 
-    // Redirect to shop page.
+    // Redirect to shop page
     navigate("/shop");
   }
 
@@ -106,26 +135,41 @@ export default function ShopNew() {
           </div>
           <div>
             <Label htmlFor="category">Category</Label>
-            <Input
+            <select
               id="category"
               value={category}
               onChange={e => setCategory(e.target.value)}
+              required
               disabled={loading}
-              placeholder="Eg: Gadgets, Property, Services"
-            />
+              className="w-full border rounded px-3 py-2 bg-background text-foreground"
+            >
+              <option value="" disabled>Select a category</option>
+              {shopCategories.map(cat => (
+                <option key={cat.name} value={cat.name}>{cat.name}</option>
+              ))}
+            </select>
           </div>
           <div>
-            <Label htmlFor="image">Image (coming soon)</Label>
+            <Label htmlFor="images">Images <span className='text-red-500'>*</span></Label>
             <Input
-              id="image"
+              id="images"
               type="file"
               accept="image/*"
-              onChange={e => setImage(e.target.files?.[0] || null)}
+              multiple
+              required
+              onChange={e => setImages(e.target.files ? Array.from(e.target.files) : [])}
               disabled={loading}
             />
             <div className="text-xs text-muted-foreground">
-              Image upload not yet implemented.
+              You must select at least one image. Multiple images allowed.
             </div>
+            {images.length > 0 && (
+              <ul className="mt-2 text-xs text-green-600">
+                {images.map((img, idx) => (
+                  <li key={idx}>{img.name}</li>
+                ))}
+              </ul>
+            )}
           </div>
           {error && (
             <div className="text-red-500 text-sm">{error}</div>

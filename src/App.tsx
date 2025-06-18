@@ -26,6 +26,13 @@ import ProductDetails from "./pages/ProductDetails";
 import ConfirmedCelebration from "./pages/ConfirmedCelebration";
 import BlogPage from "./pages/Blog";
 import BackToTopButton from "@/components/BackToTopButton";
+import AboutPage from "./pages/About";
+import ServicesPage from "./pages/Services";
+import TeamPage from "./pages/Team";
+import ContactPage from "./pages/Contact";
+import ProductsApproval from "./pages/admin/ProductsApproval";
+import Terms from "./pages/Terms";
+import Privacy from "./pages/Privacy";
 
 const queryClient = new QueryClient();
 
@@ -47,27 +54,12 @@ const App = () => (
             <Route path="/checkout" element={<CheckoutPage />} />
             <Route path="/orders" element={<OrdersPage />} />
             <Route path="/blog" element={<BlogPage />} />
+            <Route path="/about" element={<AboutPage />} />
+            <Route path="/services" element={<ServicesPage />} />
+            <Route path="/team" element={<TeamPage />} />
+            <Route path="/contact" element={<ContactPage />} />
             <Route path="admin" element={<AdminLayout />}>
-              <Route index element={
-                <div>
-                  <h1 className="text-3xl font-bold mb-4">Admin Panel</h1>
-                  <p className="mb-3">Welcome to your dashboard!</p>
-                  <div className="rounded-lg bg-card shadow p-8">
-                    <h2 className="text-xl font-semibold mb-2">Quick Preview</h2>
-                    <p className="mb-4">Use the sidebar to access site analytics, chat management, repair requests, notifications, reporting, workflows, team, and health monitoring.</p>
-                    <ul className="space-y-2">
-                      <li>📊 Analytics Dashboard</li>
-                      <li>💬 Chat Management</li>
-                      <li>🛠️ Repair Request Tools</li>
-                      <li>🔔 Real-Time Notifications</li>
-                      <li>🧑‍💼 Team & RBAC Management</li>
-                      <li>🖥️ System Health Monitor</li>
-                      <li>📄 Reporting</li>
-                      <li>⚙️ Workflow Automation</li>
-                    </ul>
-                  </div>
-                </div>
-              } />
+              <Route index element={null} />
               <Route path="chat" element={<AdminChat />} />
               <Route path="repairs" element={<AdminRepairs />} />
               <Route path="notifications" element={<AdminNotifications />} />
@@ -76,8 +68,11 @@ const App = () => (
               <Route path="reports" element={<AdminReports />} />
               <Route path="workflow" element={<AdminWorkflow />} />
               <Route path="users" element={<AdminUsers />} />
+              <Route path="ProductsApproval" element={<ProductsApproval />} />
             </Route>
             <Route path="/ConfirmedCelebration" element={<ConfirmedCelebration />} />
+            <Route path="/terms" element={<Terms />} />
+            <Route path="/privacy" element={<Privacy />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
