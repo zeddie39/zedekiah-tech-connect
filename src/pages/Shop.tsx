@@ -10,6 +10,7 @@ import ShopNavbar from "@/components/ShopNavbar";
 import ShopHeroCarousel from "@/components/ShopHeroCarousel";
 import ShopCategories from "@/components/ShopCategories";
 import { Badge } from "@/components/ui/badge";
+import ImagePreviewModal from "@/components/ImagePreviewModal";
 
 type Product = {
   id: string;
@@ -34,6 +35,8 @@ export default function Shop() {
   const [products, setProducts] = useState<Product[]>([]);
   const [images, setImages] = useState<Record<string, string>>({});
   const [categoryFilter, setCategoryFilter] = useState<string | null>(null);
+  const [previewImg, setPreviewImg] = useState<string | null>(null);
+  const [previewAlt, setPreviewAlt] = useState<string>("");
   const navigate = useNavigate();
   const { addToCart } = useCart();
 
@@ -145,7 +148,15 @@ export default function Shop() {
           {filteredProducts.map((product) => (
             <Card key={product.id} className="flex flex-col h-full p-3">
               <div className="flex-1 flex flex-col gap-2">
-                <div className="w-full h-40 sm:h-48 bg-muted rounded-lg flex items-center justify-center mb-2 overflow-hidden">
+                <div className="w-full h-40 sm:h-48 bg-muted rounded-lg flex items-center justify-center mb-2 overflow-hidden cursor-pointer"
+                  onClick={() => {
+                    if (images[product.id]) {
+                      setPreviewImg(images[product.id]);
+                      setPreviewAlt(product.title);
+                    }
+                  }}
+                  title="Click to preview image"
+                >
                   {images[product.id] ? (
                     <img src={images[product.id]} alt={product.title} className="object-cover w-full h-full" />
                   ) : (
@@ -164,6 +175,12 @@ export default function Shop() {
           ))}
         </div>
       </div>
+      <ImagePreviewModal
+        open={!!previewImg}
+        onClose={() => setPreviewImg(null)}
+        src={previewImg}
+        alt={previewAlt}
+      />
     </>
   );
 }

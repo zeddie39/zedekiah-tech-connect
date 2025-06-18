@@ -13,7 +13,7 @@ const AdminNavbar = ({ userEmail, role }: AdminNavbarProps) => {
   const navigate = useNavigate();
   const handleLogout = async () => {
     await supabase.auth.signOut();
-    navigate("/");
+    navigate("/"); // Redirect to home after logout
   };
 
   return (

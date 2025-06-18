@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { categories as shopCategories } from "@/components/ShopCategories";
+import { toast } from "@/components/ui/use-toast";
 
 export default function ShopNew() {
   const navigate = useNavigate();
@@ -47,7 +48,7 @@ export default function ShopNew() {
         description,
         price: Number(price),
         category,
-        status: "approved", // changed from pending to approved
+        status: "pending", // Set to pending for admin approval
       }])
       .select()
       .single();
@@ -91,7 +92,12 @@ export default function ShopNew() {
       }
     }
 
-    // Redirect to shop page
+    // Show notice and redirect
+    toast({
+      title: "Product Submitted",
+      description: "Your product is pending admin approval.",
+      duration: 3500,
+    });
     navigate("/shop");
   }
 

@@ -105,7 +105,7 @@ const Hero = () => {
   }
 
   return (
-    <section id="home" className="hero-pattern min-h-[80vh] flex flex-col items-center justify-center relative pt-16 pb-6 sm:pt-20 sm:pb-20 md:pt-32 md:pb-32 lg:pt-40 lg:pb-40">
+    <section id="home" className="hero-pattern min-h-[60vh] flex flex-col items-center justify-center relative pt-8 pb-4 sm:pt-12 sm:pb-12 md:pt-16 md:pb-16 lg:pt-20 lg:pb-20">
       {/* Ztech Logo Top Left */}
       <img
         src="/ztech%20logo.jpg"
