@@ -52,15 +52,15 @@ export default function AdminRepairRequestTable() {
   }, []);
 
   return (
-    <div className="rounded border bg-background p-2 sm:p-4 overflow-x-auto">
+    <div className="rounded border bg-background p-2 sm:p-4">
       <h2 className="font-bold text-base sm:text-lg mb-2 sm:mb-4 font-playfair">
         All Repair Requests
       </h2>
       {loading ? (
         <div className="text-muted-foreground">Loading repair requests...</div>
       ) : (
-        <div className="min-w-[340px] sm:min-w-0">
-          <Table className="text-xs sm:text-sm">
+        <div className="w-full overflow-x-auto">
+          <Table className="min-w-[700px] text-xs sm:text-sm">
             <TableHeader>
               <TableRow>
                 <TableHead>Device</TableHead>

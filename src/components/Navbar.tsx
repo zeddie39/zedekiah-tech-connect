@@ -17,8 +17,8 @@ const Navbar = () => {
         <Link to="/auth" className="hover:underline">Login</Link>
       </div>
       {/* Hamburger for mobile */}
-      <button className="md:hidden flex items-center" onClick={() => setOpen(!open)} aria-label="Open menu">
-        <svg className="w-7 h-7" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+      <button className="md:hidden flex items-center bg-white/90 rounded-full shadow p-2" onClick={() => setOpen(!open)} aria-label="Open menu">
+        <svg className="w-8 h-8" fill="none" stroke="#1e293b" strokeWidth="2" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
         </svg>
       </button>

@@ -51,11 +51,11 @@ export default function ShopNavbar() {
 				</div>
 				{/* Hamburger (mobile) */}
 				<button
-					className="md:hidden p-2 rounded hover:bg-accent/10"
+					className="md:hidden p-2 rounded-full bg-white/90 shadow flex items-center justify-center"
 					onClick={() => setOpen((o) => !o)}
 					aria-label="Open navigation menu"
 				>
-					<Menu size={24} />
+					<Menu size={32} color="#1e293b" />
 				</button>
 			</div>
 			{/* Mobile drawer */}
