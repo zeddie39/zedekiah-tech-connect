@@ -49,6 +49,26 @@ const About = () => {
             </p>
           </div>
 
+          {/* Mission Card */}
+          <div className="bg-white rounded-2xl shadow-lg p-8 border border-accent/20 flex-1 min-w-[300px] max-w-sm mb-4">
+            <h3 className="text-2xl font-orbitron font-bold text-primary mb-2 text-center">🎯 Our Mission</h3>
+            <p className="text-gray-700 text-base md:text-lg mb-4 text-center">
+              To bridge the gap between people and technology by delivering accessible, innovative, and reliable electronics solutions, empowering communities and driving digital transformation across Africa.
+            </p>
+          </div>
+
+          {/* Core Values Card */}
+          <div className="bg-white rounded-2xl shadow-lg p-8 border border-accent/20 flex-1 min-w-[300px] max-w-sm mb-4">
+            <h3 className="text-2xl font-orbitron font-bold text-primary mb-2 text-center">⭐ Core Values</h3>
+            <ul className="list-disc pl-5 space-y-3 text-gray-700 text-base md:text-lg text-left">
+              <li><span className="font-semibold text-primary">Integrity:</span> We act with honesty, transparency, and accountability in all we do.</li>
+              <li><span className="font-semibold text-primary">Innovation:</span> We embrace new ideas and technologies to deliver the best solutions.</li>
+              <li><span className="font-semibold text-primary">Customer Focus:</span> We put our clients’ needs first and strive for their satisfaction.</li>
+              <li><span className="font-semibold text-primary">Excellence:</span> We pursue the highest standards in service and results.</li>
+              <li><span className="font-semibold text-primary">Community:</span> We empower, support, and give back to our communities.</li>
+            </ul>
+          </div>
+
           {/* Why Ztech Card */}
           <div className="bg-white rounded-2xl shadow-lg p-8 border border-accent/20 flex-1 min-w-[300px] max-w-sm mb-4">
             <h3 className="text-2xl font-orbitron font-bold text-accent mb-2 text-center">🌍 Why Ztech?</h3>
@@ -61,11 +81,24 @@ const About = () => {
           </div>
         </div>
 
-        <div className="max-w-2xl mx-auto mt-12">
-          <div className="bg-primary/90 rounded-xl p-6 text-white text-center shadow-lg border border-accent/30">
-            <h4 className="text-xl font-bold mb-2">📌 Slogan:</h4>
-            <p className="text-lg font-semibold mb-1">“Revive. Reimagine. Reconnect.”</p>
-            <p className="text-base">Because every device deserves a second chance—and every person deserves access to smart technology.</p>
+        <div className="max-w-7xl mx-auto mt-12 flex flex-col md:flex-row gap-8 items-stretch">
+          <div className="flex-1 flex flex-col justify-center mb-8 md:mb-0">
+            <div className="bg-primary/90 rounded-xl p-6 text-white text-center shadow-lg border border-accent/30">
+              <h4 className="text-xl font-bold mb-2">📌 Slogan:</h4>
+              <p className="text-lg font-semibold mb-1">“Revive. Reimagine. Reconnect.”</p>
+              <p className="text-base">Because every device deserves a second chance—and every person deserves access to smart technology.</p>
+            </div>
+          </div>
+          <div className="flex-1 rounded-xl overflow-hidden shadow-lg border border-accent/30 min-h-[350px] md:min-h-[400px] h-full">
+            <iframe
+              title="Kisii University Location"
+              src="https://maps.google.com/maps?q=Kisii%20University&t=&z=15&ie=UTF8&iwloc=&output=embed"
+              width="100%"
+              height="100%"
+              style={{ border: 0, width: '100%', height: '100%', minHeight: 350 }}
+              allowFullScreen={true}
+              loading="lazy"
+            ></iframe>
           </div>
         </div>
       </div>

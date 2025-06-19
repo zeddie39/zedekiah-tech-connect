@@ -1,10 +1,12 @@
 import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from './ui/button';
+import WhyChooseUsModal from "./WhyChooseUsModal";
 
 const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [showNav, setShowNav] = useState(true);
+  const [whyOpen, setWhyOpen] = useState(false);
   const lastScrollY = useRef(window.scrollY);
 
   useEffect(() => {
@@ -100,6 +102,12 @@ const Navigation = () => {
             >
               Shop
             </Link>
+            <Link 
+              to="/why-choose-us"
+              className="bg-white hover:bg-gray-200 text-primary font-semibold rounded px-4 py-2 transition-colors duration-200 block"
+            >
+              Why Choose Us
+            </Link>
             <Button
               className="bg-primary text-accent font-semibold rounded px-4 py-2 border border-accent hover:bg-accent hover:text-primary transition-colors duration-200 block"
               onClick={() => scrollToSection('contact')}
@@ -146,6 +154,9 @@ const Navigation = () => {
               <Link to="/shop" className="bg-white hover:bg-gray-200 text-primary font-semibold rounded px-4 py-3 transition-colors duration-200 block" onClick={() => setIsMenuOpen(false)}>
                 Shop
               </Link>
+              <Link to="/why-choose-us" className="bg-white hover:bg-gray-200 text-primary font-semibold rounded px-4 py-3 transition-colors duration-200 block" onClick={() => setIsMenuOpen(false)}>
+                Why Choose Us
+              </Link>
               <Button
                 className="bg-primary text-accent font-semibold rounded px-4 py-3 border border-accent hover:bg-accent hover:text-primary transition-colors duration-200 block"
                 onClick={() => {
@@ -159,6 +170,7 @@ const Navigation = () => {
           </div>
         )}
       </div>
+      <WhyChooseUsModal open={whyOpen} onOpenChange={setWhyOpen} />
     </nav>
   );
 };
