@@ -108,6 +108,12 @@ const Navigation = () => {
             >
               Why Choose Us
             </Link>
+            <Link 
+              to="/faq"
+              className="bg-white hover:bg-gray-200 text-primary font-semibold rounded px-4 py-2 transition-colors duration-200 block"
+            >
+              FAQ
+            </Link>
             <Button
               className="bg-primary text-accent font-semibold rounded px-4 py-2 border border-accent hover:bg-accent hover:text-primary transition-colors duration-200 block"
               onClick={() => scrollToSection('contact')}
@@ -156,6 +162,9 @@ const Navigation = () => {
               </Link>
               <Link to="/why-choose-us" className="bg-white hover:bg-gray-200 text-primary font-semibold rounded px-4 py-3 transition-colors duration-200 block" onClick={() => setIsMenuOpen(false)}>
                 Why Choose Us
+              </Link>
+              <Link to="/faq" className="bg-white hover:bg-gray-200 text-primary font-semibold rounded px-4 py-3 transition-colors duration-200 block" onClick={() => setIsMenuOpen(false)}>
+                FAQ
               </Link>
               <Button
                 className="bg-primary text-accent font-semibold rounded px-4 py-3 border border-accent hover:bg-accent hover:text-primary transition-colors duration-200 block"

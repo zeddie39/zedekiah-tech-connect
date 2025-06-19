@@ -117,6 +117,14 @@ export default function CheckoutPage() {
     <>
       <ShopNavbar />
       <div className="max-w-3xl mx-auto py-10 px-3">
+        <div className="mb-6">
+          <button
+            onClick={() => window.history.length > 1 ? window.history.back() : window.location.assign('/')}
+            className="bg-primary text-accent font-semibold rounded px-4 py-2 border border-accent hover:bg-accent hover:text-primary transition-colors duration-200 mb-4"
+          >
+             Go Back
+          </button>
+        </div>
         <h1 className="text-3xl font-bold mb-6">Order Summary</h1>
         <Card className="p-6 space-y-4 mb-6">
           <ul>

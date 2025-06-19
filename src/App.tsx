@@ -34,6 +34,8 @@ import ProductsApproval from "./pages/admin/ProductsApproval";
 import Terms from "./pages/Terms";
 import Privacy from "./pages/Privacy";
 import WhyChooseUs from "./pages/WhyChooseUs";
+import FAQPage from "./pages/FAQ";
+import CookieConsent from "@/components/CookieConsent";
 
 const queryClient = new QueryClient();
 
@@ -75,10 +77,12 @@ const App = () => (
             <Route path="/terms" element={<Terms />} />
             <Route path="/privacy" element={<Privacy />} />
             <Route path="/why-choose-us" element={<WhyChooseUs />} />
+            <Route path="/faq" element={<FAQPage />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
           <BackToTopButton />
+          <CookieConsent />
         </BrowserRouter>
       </CartProvider>
     </TooltipProvider>

@@ -51,6 +51,14 @@ export default function OrdersPage() {
     <>
       <ShopNavbar />
       <div className="max-w-3xl mx-auto py-6 sm:py-10 px-2 sm:px-3">
+        <div className="mb-6">
+          <button
+            onClick={() => window.history.length > 1 ? window.history.back() : window.location.assign('/')}
+            className="bg-primary text-accent font-semibold rounded px-4 py-2 border border-accent hover:bg-accent hover:text-primary transition-colors duration-200 mb-4"
+          >
+             Go Back
+          </button>
+        </div>
         <h1 className="text-2xl sm:text-3xl font-bold mb-4 sm:mb-6">Your Orders</h1>
         {orders.length === 0 ? (
           <div className="text-center text-muted-foreground mt-8 sm:mt-12 text-base sm:text-lg">

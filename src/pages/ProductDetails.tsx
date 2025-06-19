@@ -83,6 +83,14 @@ export default function ProductDetails() {
     <>
       <ShopNavbar />
       <div className="max-w-3xl mx-auto py-6 sm:py-10 px-2 sm:px-3">
+        <div className="mb-6">
+          <button
+            onClick={() => window.history.length > 1 ? window.history.back() : window.location.assign('/')}
+            className="bg-primary text-accent font-semibold rounded px-4 py-2 border border-accent hover:bg-accent hover:text-primary transition-colors duration-200 mb-4"
+          >
+             Go Back
+          </button>
+        </div>
         <Button variant="ghost" onClick={() => navigate(-1)} className="mb-3">
           <ChevronLeft size={18} className="mr-2" /> Back to Shop
         </Button>
