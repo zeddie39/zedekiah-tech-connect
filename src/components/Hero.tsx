@@ -23,11 +23,11 @@ const fallbackQuotes: Quote[] = [
   },
   {
     quote_text: "Electronics is the backbone of modern civilization.",
-    author: "Zedekiah Team"
+    author: "Ztech Electronics Ltd Team"
   },
   {
     quote_text: "Innovation in electronics powers the future.",
-    author: "Zedekiah Team"
+    author: "Ztech Electronics Ltd Team"
   }
 ];
 

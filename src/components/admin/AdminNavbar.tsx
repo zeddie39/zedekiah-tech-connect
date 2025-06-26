@@ -20,7 +20,7 @@ const AdminNavbar = ({ userEmail, role }: AdminNavbarProps) => {
     <nav className="w-full bg-primary text-white px-4 md:px-6 py-3 flex items-center justify-between shadow fixed top-0 left-0 right-0 z-30">
       <div className="flex items-center gap-2">
         <AdminHamburger />
-        <span className="font-orbitron font-bold text-xl tracking-wider ml-2">Zedekiah</span>
+        <span className="font-orbitron font-bold text-xl tracking-wider ml-2">Ztech Electronics Ltd</span>
         <span className="text-accent text-xs font-semibold ml-2 hidden sm:inline-block">Admin Panel</span>
       </div>
       <div className="flex items-center gap-4">

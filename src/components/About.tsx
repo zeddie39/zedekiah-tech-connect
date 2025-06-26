@@ -10,7 +10,7 @@ const About = () => {
           </h2>
           <p className="text-xl text-accent font-semibold mb-2">"Reviving Technology. Empowering People."</p>
           <p className="text-lg text-gray-600 leading-relaxed mb-4">
-            Ztech Electronics Limited is a forward-thinking electronics and technology company founded with the mission to bridge the gap between people and the technology they rely on daily. Originally launched as Zedekiah Tech Clinic (ZTC), the company evolved into Ztech Electronics Limited to reflect its broader vision: delivering smart, accessible, and tech-powered services that go beyond conventional electronics repair.
+            Ztech Electronics Ltd is a forward-thinking electronics and technology company founded with the mission to bridge the gap between people and the technology they rely on daily. Originally launched as Zedekiah Tech Clinic (ZTC), the company evolved into Ztech Electronics Ltd to reflect its broader vision: delivering smart, accessible, and tech-powered services that go beyond conventional electronics repair.
           </p>
         </div>
 

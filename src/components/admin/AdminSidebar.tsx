@@ -79,7 +79,7 @@ const AdminSidebar = () => {
           <SidebarGroupLabel>
             <div className="mb-4 mt-4 pl-2 flex flex-col gap-1">
               <div className="text-2xl font-extrabold font-orbitron text-primary tracking-tight">
-                Zedekiah Admin
+                Ztech Electronics Ltd Admin
               </div>
             </div>
           </SidebarGroupLabel>

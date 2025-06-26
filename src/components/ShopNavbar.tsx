@@ -39,7 +39,7 @@ export default function ShopNavbar() {
 						alt="Ztech Logo"
 						className="w-7 h-7 sm:w-8 sm:h-8 rounded-full shadow"
 					/>
-					<span className="text-primary">Zedekiah Shop</span>
+					<span className="text-primary">Ztech Electronics Ltd Shop</span>
 				</div>
 				{/* Desktop nav */}
 				<div className="hidden md:flex gap-4 sm:gap-6 items-center">

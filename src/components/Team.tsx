@@ -99,7 +99,7 @@ const Team = () => {
                         From a young age, Vincent was the go-to tech problem solver in his community in Nairobi. What began as a fascination with broken radios and fried phone boards turned into a lifelong pursuit of understanding the language of circuits, code, and innovation. His natural curiosity and determination led him to pursue formal training in Computer Science, where he deepened his skills in hardware diagnostics, software engineering, and AI integration.
                       </div>
                       <div className="bg-gray-50 rounded-lg p-4 shadow">
-                        Recognizing a gap in reliable, affordable, and intelligent electronics support, he launched Zedekiah Tech Electronics Limited (ZTEL). The goal was clear: create a modern tech hub that not only repairs electronics but also reimagines the experience using cutting-edge technologies like Artificial Intelligence, Augmented Reality, and automation.
+                        Recognizing a gap in reliable, affordable, and intelligent electronics support, he launched Ztech Electronics Ltd (ZTEL). The goal was clear: create a modern tech hub that not only repairs electronics but also reimagines the experience using cutting-edge technologies like Artificial Intelligence, Augmented Reality, and automation.
                       </div>
                       <div className="bg-gray-50 rounded-lg p-4 shadow">
                         <b>Under his leadership, Ztech has evolved into more than just a repair shop. It's now a platform that blends:</b>
@@ -123,7 +123,7 @@ const Team = () => {
                     {/* See more about Vincent Button in the modal */}
                     <div className="flex justify-center mt-4 md:col-span-2">
                       <a
-                        href="https://zedekiah.netlify.app/"
+                        href="https://ztech-electronics-ltd.netlify.app/"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="px-5 py-2 rounded-lg bg-gradient-to-r from-accent to-primary text-white font-extrabold text-lg shadow-lg hover:scale-105 transition-all animate-pulse border-2 border-accent"
@@ -159,7 +159,7 @@ const Team = () => {
               <div className="flex justify-center md:justify-start space-x-4">
                 {/* Email */}
                 <a 
-                  href="mailto:info@zedekiahtechclinic.com" 
+                  href="mailto:info@ztechelectronicsltd.com" 
                   className="w-12 h-12 bg-primary rounded-full flex items-center justify-center text-white hover:bg-accent transition-all duration-200 hover:scale-110"
                   aria-label="Email"
                   title="Send Email"
@@ -227,7 +227,7 @@ const Team = () => {
               {/* See more about Vincent Button */}
               <div className="flex justify-center md:justify-start mt-4">
                 <a
-                  href="https://zedekiah.netlify.app/"
+                  href="https://ztech-electronics-ltd.netlify.app/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="px-5 py-2 rounded-lg bg-gradient-to-r from-accent to-primary text-white font-extrabold text-lg shadow-lg hover:scale-105 transition-all animate-pulse border-2 border-accent"

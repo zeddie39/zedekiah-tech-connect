@@ -10,7 +10,7 @@ const WhyChooseUsModal: React.FC<WhyChooseUsModalProps> = ({ open, onOpenChange 
   <Dialog open={open} onOpenChange={onOpenChange}>
     <DialogContent className="max-w-lg">
       <DialogHeader>
-        <DialogTitle>Why Choose Zedekiah Tech Electronics?</DialogTitle>
+        <DialogTitle>Why Choose Ztech Electronics Ltd?</DialogTitle>
         <DialogDescription>
           <ul className="list-disc pl-5 space-y-3 text-gray-700 text-base mt-2">
             <li><span className="font-semibold text-primary">Trusted Expertise:</span> Our certified technicians and consultants have years of experience in electronics repair, IT, and security solutions.</li>

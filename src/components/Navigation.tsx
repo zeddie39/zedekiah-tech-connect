@@ -46,8 +46,8 @@ const Navigation = () => {
       <div className="container mx-auto flex items-center justify-between px-4 py-2">
         <div className="flex items-center gap-2 sm:gap-3">
           <img src="/ZTech electrictronics logo.png" alt="Ztech Logo" className="w-8 h-8 rounded-full shadow" />
-          <span className="font-orbitron font-bold text-lg sm:text-xl text-white">Zedekiah</span>
-          <span className="text-accent text-xs sm:text-sm font-semibold ml-1">Tech Clinic</span>
+          <span className="font-orbitron font-bold text-lg sm:text-xl text-white">Ztech</span>
+          <span className="text-accent text-xs sm:text-sm font-semibold ml-1">Electronics Ltd</span>
         </div>
         <div className="hidden md:flex gap-4 sm:gap-6 items-center">
           <button onClick={() => scrollToSection('home')} className="hover:text-accent text-white font-medium transition-colors">Home</button>

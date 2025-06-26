@@ -57,7 +57,7 @@ const WhyChooseUs = () => (
 	<section id="whychooseus" className="py-16 bg-gradient-to-b from-gray-50 via-white to-gray-100 text-gray-900">
 		<div className="container mx-auto px-4 py-12 min-h-screen">
 			<h1 className="text-4xl font-bold text-center text-primary mb-8 font-orbitron">
-				Why Choose Zedekiah Tech Electronics?
+				Why Choose Ztech Electronics Ltd?
 			</h1>
 			<p className="text-lg text-center text-gray-700 mb-10 max-w-2xl mx-auto">
 				Discover what sets us apart and why so many individuals and businesses trust

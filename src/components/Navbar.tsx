@@ -22,7 +22,7 @@ const Navbar = () => {
           </button>
         )}
         <img src="/ZTech electrictronics logo.png" alt="Ztech Logo" className="w-8 h-8 rounded-full shadow" />
-        <span className="font-orbitron font-bold text-lg sm:text-xl text-primary">Zedekiah</span>
+        <span className="font-orbitron font-bold text-lg sm:text-xl text-primary">Ztech Electronics Ltd</span>
         <span className="text-gray-400 text-xs sm:text-sm font-semibold ml-1">Tech Clinic</span>
       </div>
       {/* Desktop Links */}

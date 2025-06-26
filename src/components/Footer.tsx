@@ -17,7 +17,7 @@ const Footer = () => {
                 className="w-8 h-8 sm:w-10 sm:h-10 rounded-full object-cover bg-accent"
               />
               <div>
-                <h3 className="font-orbitron font-bold text-lg sm:text-xl">Zedekiah</h3>
+                <h3 className="font-orbitron font-bold text-lg sm:text-xl">Ztech Electronics Ltd</h3>
                 <p className="text-gray-300 text-xs sm:text-sm">Tech Electronics Limited</p>
               </div>
             </div>
@@ -129,7 +129,7 @@ const Footer = () => {
           </div>
         </div>
         <div className="mt-8 text-center text-xs sm:text-sm text-gray-400">
-          &copy; {currentYear} Zedekiah Tech Electronics Limited. All rights reserved.
+          &copy; {currentYear} Ztech Electronics Ltd. All rights reserved.
         </div>
       </div>
     </footer>
