@@ -78,7 +78,7 @@ export default function OrdersPage() {
                   </li>
                 </ul>
                 <div className="flex flex-col sm:flex-row justify-between border-t pt-2 mt-2 gap-1 sm:gap-0">
-                  <span className="font-bold text-xs sm:text-base">Total: ${order.amount.toFixed(2)}</span>
+                  <span className="font-bold text-xs sm:text-base">Total: Ksh {order.amount.toFixed(2)}</span>
                   <span className="text-xs">{order.status} / {order.payment_status}</span>
                 </div>
               </Card>

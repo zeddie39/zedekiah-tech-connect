@@ -54,51 +54,40 @@ const reasons = [
 ];
 
 const WhyChooseUs = () => (
-	<div className="container mx-auto px-4 py-12 min-h-screen">
-		<div className="mb-6">
-			<button
-				onClick={() =>
-					window.history.length > 1
-						? window.history.back()
-						: window.location.assign("/")
-				}
-				className="bg-primary text-accent font-semibold rounded px-4 py-2 border border-accent hover:bg-accent hover:text-primary transition-colors duration-200 mb-4"
-			>
-				{" "}
-				Go Back
-			</button>
-		</div>
-		<h1 className="text-4xl font-bold text-center text-primary mb-8 font-orbitron">
-			Why Choose Zedekiah Tech Electronics?
-		</h1>
-		<p className="text-lg text-center text-gray-700 mb-10 max-w-2xl mx-auto">
-			Discover what sets us apart and why so many individuals and businesses trust
-			us for their electronics, IT, and security needs.
-		</p>
-		<div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-			{reasons.map((reason, idx) => (
-				<div
-					key={idx}
-					className="bg-white rounded-2xl shadow-lg p-8 border border-accent/20 flex flex-col items-center text-center hover:shadow-xl transition"
+	<section id="whychooseus" className="py-16 bg-gradient-to-b from-gray-50 via-white to-gray-100 text-gray-900">
+		<div className="container mx-auto px-4 py-12 min-h-screen">
+			<h1 className="text-4xl font-bold text-center text-primary mb-8 font-orbitron">
+				Why Choose Zedekiah Tech Electronics?
+			</h1>
+			<p className="text-lg text-center text-gray-700 mb-10 max-w-2xl mx-auto">
+				Discover what sets us apart and why so many individuals and businesses trust
+				us for their electronics, IT, and security needs.
+			</p>
+			<div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+				{reasons.map((reason, idx) => (
+					<div
+						key={idx}
+						className="bg-white rounded-2xl shadow-lg p-8 border border-accent/20 flex flex-col items-center text-center hover:shadow-xl transition"
+					>
+						<h2 className="text-2xl font-semibold text-accent mb-3 font-orbitron">
+							{reason.title}
+						</h2>
+						<p className="text-gray-700 text-base">
+							{reason.description}
+						</p>
+					</div>
+				))}
+			</div>
+			<div className="mt-12 text-center">
+				<a
+					href="/contact"
+					className="inline-block bg-accent text-white font-bold px-8 py-4 rounded-lg shadow-lg hover:bg-accent/80 transition-all text-lg"
 				>
-					<h2 className="text-2xl font-semibold text-accent mb-3 font-orbitron">
-						{reason.title}
-					</h2>
-					<p className="text-gray-700 text-base">
-						{reason.description}
-					</p>
-				</div>
-			))}
+					Contact Us Today
+				</a>
+			</div>
 		</div>
-		<div className="mt-12 text-center">
-			<a
-				href="/contact"
-				className="inline-block bg-accent text-white font-bold px-8 py-4 rounded-lg shadow-lg hover:bg-accent/80 transition-all text-lg"
-			>
-				Contact Us Today
-			</a>
-		</div>
-	</div>
+	</section>
 );
 
 export default WhyChooseUs;

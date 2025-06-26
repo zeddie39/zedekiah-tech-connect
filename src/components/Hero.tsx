@@ -105,14 +105,8 @@ const Hero = () => {
   }
 
   return (
-    <section id="home" className="hero-pattern min-h-[60vh] flex flex-col items-center justify-center relative pt-8 pb-4 sm:pt-12 sm:pb-12 md:pt-16 md:pb-16 lg:pt-20 lg:pb-20">
-      {/* Ztech Logo Top Left */}
-      <img
-        src="/ztech%20logo.jpg"
-        alt="Ztech Logo"
-        className="absolute top-2 left-2 w-10 h-10 sm:w-12 sm:h-12 md:w-16 md:h-16 object-contain z-40"
-      />
-      {/* Removed duplicate Navigation Bar from Hero */}
+    <section id="home" className="hero-pattern min-h-[60vh] flex flex-col items-center justify-center relative pt-24 pb-4 sm:pt-32 sm:pb-12 md:pt-36 md:pb-16 lg:pt-40 lg:pb-20">
+      {/* Removed Ztech Logo from Hero section */}
       {/* Main Hero Section */}
       <div className="container mx-auto px-4 sm:px-6 text-center relative z-10">
         <div className="animate-fade-in">

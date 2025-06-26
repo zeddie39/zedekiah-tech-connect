@@ -66,7 +66,7 @@ export default function ProductsApproval() {
               <div className="font-bold text-lg">{product.title}</div>
               <div className="text-sm text-muted-foreground">{product.description}</div>
               <div className="text-sm">Category: {product.category}</div>
-              <div className="text-sm">Price: ${product.price}</div>
+              <div className="text-sm">Price: Ksh {product.price}</div>
               <div className="flex gap-2 mt-2">
                 <Button onClick={() => handleApprove(product.id)} size="sm" variant="default">Approve</Button>
                 <Button onClick={() => handleReject(product.id)} size="sm" variant="destructive">Reject</Button>

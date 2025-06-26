@@ -117,7 +117,7 @@ export default function ProductDetails() {
                   {product.category}
                 </div>
               )}
-              <div className="text-primary text-lg sm:text-2xl font-bold mb-2">${product.price.toFixed(2)}</div>
+              <div className="text-primary text-lg sm:text-2xl font-bold mb-2">Ksh {product.price.toFixed(2)}</div>
               <div className="text-muted-foreground text-xs sm:text-base">{product.description}</div>
             </div>
             <Button className="mt-4 w-full" onClick={() => navigate("/cart")}>Add to Cart</Button>

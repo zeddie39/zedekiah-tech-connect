@@ -9,14 +9,6 @@ const Team = () => {
   return (
     <section id="team" className="py-10 sm:py-16 md:py-20 bg-gray-50">
       <div className="container mx-auto px-2 sm:px-4 md:px-6 relative">
-        {/* Ztech Logo Top Left */}
-        <img
-          src="/ztech%20logo.jpg"
-          alt="Ztech Logo"
-          className="absolute top-0 left-0 w-10 h-10 sm:w-16 sm:h-16 md:w-20 md:h-20 object-cover rounded-full z-20"
-          style={{ marginTop: '0.5rem', marginLeft: '2.5rem' }}
-        />
-
         <div className="text-center mb-8 sm:mb-12 md:mb-16">
           <h2 className="text-2xl sm:text-4xl md:text-5xl font-orbitron font-bold text-primary mb-4 sm:mb-6 font-playfair">
             Meet Our Team
@@ -60,18 +52,19 @@ const Team = () => {
             {/* CEO Information */}
             <div className="flex-1 text-center md:text-left">
               <h3 className="text-xl sm:text-3xl font-orbitron font-bold text-primary mb-2">
-                Zedekiah
+                Vincent Ombati
               </h3>
               <p className="text-base sm:text-xl text-accent mb-2 sm:mb-4 font-semibold">
                 Founder & Chief Executive Officer
               </p>
               <p className="text-gray-700 leading-relaxed text-sm sm:text-lg mb-4 sm:mb-6">
                 With over a decade of experience in electronics repair and technology consulting, 
-                Zedekiah founded ZTC with a vision to make professional tech services accessible 
+                Vincent founded ZTC with a vision to make professional tech services accessible 
                 to everyone. His expertise spans from intricate circuit board repairs to 
                 comprehensive IT infrastructure planning.
                 <button
-                  className="ml-2 text-accent underline hover:text-primary font-semibold focus:outline-none"
+                  className="ml-2 text-accent underline hover:text-primary font-semibold focus:outline-none transition-all duration-300 border-b-2 border-accent border-opacity-0 focus:border-opacity-100 hover:border-opacity-100"
+                  style={{ boxShadow: 'none' }}
                   onClick={() => setShowReadMore(true)}
                 >
                   Read More
@@ -91,19 +84,19 @@ const Team = () => {
                     <div className="flex flex-col items-center justify-center mb-4 md:mb-0">
                       <img
                         src="/me1.jpg"
-                        alt="Zedekiah Detailed"
+                        alt="Vincent Ombati Detailed"
                         className="w-32 h-32 sm:w-40 sm:h-40 object-cover rounded-full mb-4 border-4 border-primary shadow-lg object-top"
                       />
-                      <h3 className="text-xl sm:text-2xl font-bold text-primary text-center mb-1">Zedekiah</h3>
+                      <h3 className="text-xl sm:text-2xl font-bold text-primary text-center mb-1">Vincent Ombati</h3>
                       <p className="text-center text-accent font-semibold mb-4">Founder & Chief Executive Officer<br/>Ztech Electronics Limited</p>
                     </div>
                     {/* Right: Carded bio */}
                     <div className="space-y-4 max-h-[50vh] sm:max-h-96 overflow-y-auto text-sm sm:text-base">
                       <div className="bg-gray-50 rounded-lg p-4 shadow">
-                        With over a decade of hands-on experience in electronics repair, software development, and technology consulting, Zedekiah has always been driven by one core mission: to revive tech and empower people with it.
+                        With over a decade of hands-on experience in electronics repair, software development, and technology consulting, Vincent has always been driven by one core mission: to revive tech and empower people with it.
                       </div>
                       <div className="bg-gray-50 rounded-lg p-4 shadow">
-                        From a young age, Zedekiah was the go-to tech problem solver in his community. What began as a fascination with broken radios and fried phone boards turned into a lifelong pursuit of understanding the language of circuits, code, and innovation. His natural curiosity and determination led him to pursue formal training in Computer Science, where he deepened his skills in hardware diagnostics, software engineering, and AI integration.
+                        From a young age, Vincent was the go-to tech problem solver in his community in Nairobi. What began as a fascination with broken radios and fried phone boards turned into a lifelong pursuit of understanding the language of circuits, code, and innovation. His natural curiosity and determination led him to pursue formal training in Computer Science, where he deepened his skills in hardware diagnostics, software engineering, and AI integration.
                       </div>
                       <div className="bg-gray-50 rounded-lg p-4 shadow">
                         Recognizing a gap in reliable, affordable, and intelligent electronics support, he launched Zedekiah Tech Electronics Limited (ZTEL). The goal was clear: create a modern tech hub that not only repairs electronics but also reimagines the experience using cutting-edge technologies like Artificial Intelligence, Augmented Reality, and automation.
@@ -121,22 +114,22 @@ const Team = () => {
                         “If a device can be revived, it still has value—and if people can learn through tech, they can be empowered for life.”
                       </div>
                       <div className="bg-gray-50 rounded-lg p-4 shadow">
-                        Today, Zedekiah continues to lead Ztech Electronics Limited with vision and heart. He balances the technical side with entrepreneurial agility, constantly exploring ways to automate, scale, and personalize tech support for everyday users and enterprises alike.
+                        Today, Vincent continues to lead Ztech Electronics Limited with vision and heart. He balances the technical side with entrepreneurial agility, constantly exploring ways to automate, scale, and personalize tech support for everyday users and enterprises alike.
                       </div>
                       <div className="bg-gray-50 rounded-lg p-4 shadow">
-                        He is also passionate about youth mentorship, helping upcoming developers and engineers build their own tech paths. Through his platform, he’s laying the foundation for a new era of smart, sustainable, and human-centered electronics innovation—starting from Africa and expanding globally.
+                        He is also passionate about youth mentorship, helping upcoming developers and engineers build their own tech paths. Through his platform, he’s laying the foundation for a new era of smart, sustainable, and human-centered electronics innovation—starting from Kenya and expanding globally.
                       </div>
                     </div>
-                    {/* See more about Zedekiah Button in the modal */}
+                    {/* See more about Vincent Button in the modal */}
                     <div className="flex justify-center mt-4 md:col-span-2">
                       <a
-                        href="https://voluble-brigadeiros-7980d1.netlify.app/"
+                        href="https://zedekiah.netlify.app/"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="px-5 py-2 rounded-lg bg-gradient-to-r from-accent to-primary text-white font-extrabold text-lg shadow-lg hover:scale-105 transition-all animate-pulse border-2 border-accent"
                         style={{ fontFamily: 'Playfair Display, serif', letterSpacing: '1px' }}
                       >
-                        See more about Zedekiah
+                        See more about Vincent
                       </a>
                     </div>
                   </div>
@@ -231,16 +224,16 @@ const Team = () => {
                 </a>
               </div>
 
-              {/* See more about Zedekiah Button */}
+              {/* See more about Vincent Button */}
               <div className="flex justify-center md:justify-start mt-4">
                 <a
-                  href="https://voluble-brigadeiros-7980d1.netlify.app/"
+                  href="https://zedekiah.netlify.app/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="px-5 py-2 rounded-lg bg-gradient-to-r from-accent to-primary text-white font-extrabold text-lg shadow-lg hover:scale-105 transition-all animate-pulse border-2 border-accent"
                   style={{ fontFamily: 'Playfair Display, serif', letterSpacing: '1px' }}
                 >
-                  See more about Zedekiah
+                  See more about Vincent
                 </a>
               </div>
             </div>

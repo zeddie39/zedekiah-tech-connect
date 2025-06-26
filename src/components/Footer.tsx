@@ -12,7 +12,7 @@ const Footer = () => {
           <div className="space-y-4">
             <div className="flex items-center space-x-2">
               <img 
-                src="/ztech%20logo.jpg" 
+                src="/ZTech electrictronics logo.png" 
                 alt="Ztech Logo" 
                 className="w-8 h-8 sm:w-10 sm:h-10 rounded-full object-cover bg-accent"
               />

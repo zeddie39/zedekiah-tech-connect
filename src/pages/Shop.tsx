@@ -165,7 +165,7 @@ export default function Shop() {
                 </div>
                 <div className="flex flex-col gap-1">
                   <h3 className="font-bold text-base sm:text-lg truncate" title={product.title}>{product.title}</h3>
-                  <div className="text-accent font-bold text-lg">${product.price.toFixed(2)}</div>
+                  <div className="text-accent font-bold text-lg">Ksh {product.price.toFixed(2)}</div>
                   <div className="text-xs text-muted-foreground mb-1 truncate" title={product.description || ''}>{product.description}</div>
                   {product.category && <Badge className="w-fit text-xs mb-1">{product.category}</Badge>}
                 </div>

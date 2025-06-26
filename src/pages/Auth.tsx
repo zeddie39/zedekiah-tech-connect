@@ -142,7 +142,7 @@ export default function AuthPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-muted">
+    <div className="min-h-screen flex items-center justify-center bg-muted relative">
       <Card className="max-w-sm w-full mx-2 p-8">
         {resetToken ? (
           <>
@@ -308,6 +308,14 @@ export default function AuthPage() {
             </div>
           </>
         )}
+        <div className="mt-4 text-center">
+          <button
+            className="inline-block bg-accent text-white font-bold px-6 py-2 rounded-lg shadow hover:bg-accent/80 transition-all text-base"
+            onClick={() => navigate('/')}
+          >
+            Go to Home
+          </button>
+        </div>
       </Card>
     </div>
   );

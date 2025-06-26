@@ -7,6 +7,8 @@ import Footer from "@/components/Footer";
 import Navigation from "@/components/Navigation";
 import About from "@/components/About";
 import Blog from "@/components/Blog";
+import FAQ from "@/pages/FAQ";
+import WhyChooseUs from "@/pages/WhyChooseUs";
 
 function Index() {
   return (
@@ -18,6 +20,8 @@ function Index() {
       <Testimonials />
       <Team />
       <Blog />
+      <FAQ />
+      <WhyChooseUs />
       <Contact />
       <Footer />
     </div>

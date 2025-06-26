@@ -118,22 +118,10 @@ const faqs = [
 ];
 
 const FAQPage = () => (
-	<div className="container mx-auto px-4 py-12 min-h-screen">
+	<div className="container mx-auto px-4 py-12 min-h-screen" id="faq">
 		<h1 className="text-4xl font-bold text-center text-primary mb-8 font-orbitron">
 			Frequently Asked Questions (FAQs)
 		</h1>
-		<div className="mb-6">
-			<button
-				onClick={() =>
-					window.history.length > 1
-						? window.history.back()
-						: window.location.assign("/")
-				}
-				className="bg-primary text-accent font-semibold rounded px-4 py-2 border border-accent hover:bg-accent hover:text-primary transition-colors duration-200 mb-4"
-			>
-				 Go Back
-			</button>
-		</div>
 		<div className="max-w-3xl mx-auto space-y-6">
 			{faqs.map((faq, idx) => (
 				<div

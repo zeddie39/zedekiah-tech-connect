@@ -37,163 +37,48 @@ const Navigation = () => {
     const element = document.getElementById(sectionId);
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' });
+      setIsMenuOpen(false);
     }
-    setIsMenuOpen(false);
   };
 
   return (
-    <nav className={`fixed top-0 left-0 right-0 z-[99999] bg-primary shadow-2xl transition-transform duration-300 ${showNav ? 'translate-y-0' : '-translate-y-full'}`}>
-      <div className="container mx-auto px-6 py-4">
-        <div className="flex items-center justify-between">
-          {/* Logo */}
-          <div className="flex items-center space-x-3">
-            <img 
-              src="/ztech%20logo.jpg" 
-              alt="Ztech Logo" 
-              className="w-10 h-10 rounded-full object-cover"
-            />
-            <div>
-              <h1 className="text-white font-orbitron font-bold text-xl">Zedekiah</h1>
-              <p className="text-gray-300 text-xs">Tech Electronics Limited</p>
-            </div>
-          </div>
-
-          {/* Desktop Menu */}
-          <div className="hidden md:flex items-center space-x-4 overflow-x-auto whitespace-nowrap scrollbar-thin scrollbar-thumb-accent/60 scrollbar-track-transparent">
-            <Link 
-              to="/"
-              className="bg-white hover:bg-gray-200 text-primary font-semibold rounded px-4 py-2 transition-colors duration-200 block"
-            >
-              Home
-            </Link>
-            <Link 
-              to="/about"
-              className="bg-white hover:bg-gray-200 text-primary font-semibold rounded px-4 py-2 transition-colors duration-200 block"
-            >
-              About
-            </Link>
-            <Link 
-              to="/services"
-              className="bg-white hover:bg-gray-200 text-primary font-semibold rounded px-4 py-2 transition-colors duration-200 block"
-            >
-              Services
-            </Link>
-            <Link 
-              to="/team"
-              className="bg-white hover:bg-gray-200 text-primary font-semibold rounded px-4 py-2 transition-colors duration-200 block"
-            >
-              Team
-            </Link>
-            <Link 
-              to="/blog"
-              className="bg-white hover:bg-gray-200 text-primary font-semibold rounded px-4 py-2 transition-colors duration-200 block"
-            >
-              Blog
-            </Link>
-            <Link 
-              to="/contact"
-              className="bg-white hover:bg-gray-200 text-primary font-semibold rounded px-4 py-2 transition-colors duration-200 block"
-            >
-              Contact
-            </Link>
-            <Link 
-              to="/shop"
-              className="bg-white hover:bg-gray-200 text-primary font-semibold rounded px-4 py-2 transition-colors duration-200 block"
-            >
-              Shop
-            </Link>
-            <Link 
-              to="/why-choose-us"
-              className="bg-white hover:bg-gray-200 text-primary font-semibold rounded px-4 py-2 transition-colors duration-200 block"
-            >
-              Why Choose Us
-            </Link>
-            <Link 
-              to="/faq"
-              className="bg-white hover:bg-gray-200 text-primary font-semibold rounded px-4 py-2 transition-colors duration-200 block"
-            >
-              FAQ
-            </Link>
-            <Button
-              className="bg-primary text-accent font-semibold rounded px-4 py-2 border border-accent hover:bg-accent hover:text-primary transition-colors duration-200 block"
-              onClick={() => scrollToSection('contact')}
-            >
-              Get Quote
-            </Button>
-          </div>
-
-          {/* Mobile Hamburger */}
-          {!isMenuOpen && (
-            <button
-              className="md:hidden z-[9999] relative bg-slate-800 hover:bg-slate-700 rounded-full shadow p-2 border border-accent"
-              style={{ position: 'relative' }}
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-              aria-label="Open menu"
-            >
-              <svg className="w-8 h-8" fill="none" stroke="#fff" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-              </svg>
-            </button>
-          )}
+    <nav className="fixed top-0 left-0 w-full z-50 bg-primary/95 backdrop-blur border-b border-accent/30 shadow-lg">
+      <div className="container mx-auto flex items-center justify-between px-4 py-2">
+        <div className="flex items-center gap-2 sm:gap-3">
+          <img src="/ZTech electrictronics logo.png" alt="Ztech Logo" className="w-8 h-8 rounded-full shadow" />
+          <span className="font-orbitron font-bold text-lg sm:text-xl text-white">Zedekiah</span>
+          <span className="text-accent text-xs sm:text-sm font-semibold ml-1">Tech Clinic</span>
         </div>
-
-        {/* Mobile Menu - only rendered when isMenuOpen is true */}
-        {isMenuOpen && (
-          <div className="md:hidden z-[99999] fixed left-0 right-0 top-0 h-[50vh] bg-primary bg-opacity-95 animate-slide-in-right w-full flex flex-col overflow-y-auto px-0 sm:px-24 lg:px-48 pt-4 pb-10">
-            {/* Close button */}
-            <div className="flex justify-end p-4 z-[100000]">
-              <button
-                className="bg-white/90 rounded-full shadow p-2"
-                onClick={() => setIsMenuOpen(false)}
-                aria-label="Close menu"
-              >
-                <svg className="w-6 h-6" fill="none" stroke="#1e293b" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              </button>
-            </div>
-            <div className="flex-1 flex flex-col justify-center items-center space-y-8 px-6">
-              <Link to="/" className="bg-slate-800 hover:bg-slate-700 text-accent font-bold rounded px-8 py-4 text-lg w-full text-center transition-colors duration-200" onClick={() => setIsMenuOpen(false)}>
-                Home
-              </Link>
-              <Link to="/about" className="bg-slate-800 hover:bg-slate-700 text-accent font-bold rounded px-8 py-4 text-lg w-full text-center transition-colors duration-200" onClick={() => setIsMenuOpen(false)}>
-                About
-              </Link>
-              <Link to="/services" className="bg-slate-800 hover:bg-slate-700 text-accent font-bold rounded px-8 py-4 text-lg w-full text-center transition-colors duration-200" onClick={() => setIsMenuOpen(false)}>
-                Services
-              </Link>
-              <Link to="/team" className="bg-slate-800 hover:bg-slate-700 text-accent font-bold rounded px-8 py-4 text-lg w-full text-center transition-colors duration-200" onClick={() => setIsMenuOpen(false)}>
-                Team
-              </Link>
-              <Link to="/blog" className="bg-slate-800 hover:bg-slate-700 text-accent font-bold rounded px-8 py-4 text-lg w-full text-center transition-colors duration-200" onClick={() => setIsMenuOpen(false)}>
-                Blog
-              </Link>
-              <Link to="/contact" className="bg-slate-800 hover:bg-slate-700 text-accent font-bold rounded px-8 py-4 text-lg w-full text-center transition-colors duration-200" onClick={() => setIsMenuOpen(false)}>
-                Contact
-              </Link>
-              <Link to="/shop" className="bg-slate-800 hover:bg-slate-700 text-accent font-bold rounded px-8 py-4 text-lg w-full text-center transition-colors duration-200" onClick={() => setIsMenuOpen(false)}>
-                Shop
-              </Link>
-              <Link to="/why-choose-us" className="bg-slate-800 hover:bg-slate-700 text-accent font-bold rounded px-8 py-4 text-lg w-full text-center transition-colors duration-200" onClick={() => setIsMenuOpen(false)}>
-                Why Choose Us
-              </Link>
-              <Link to="/faq" className="bg-slate-800 hover:bg-slate-700 text-accent font-bold rounded px-8 py-4 text-lg w-full text-center transition-colors duration-200" onClick={() => setIsMenuOpen(false)}>
-                FAQ
-              </Link>
-              <Button
-                className="bg-primary text-accent font-bold rounded px-8 py-4 border border-accent hover:bg-accent hover:text-primary transition-colors duration-200 w-full text-lg"
-                onClick={() => {
-                  setIsMenuOpen(false);
-                  scrollToSection('contact');
-                }}
-              >
-                Get Quote
-              </Button>
-            </div>
-          </div>
-        )}
+        <div className="hidden md:flex gap-4 sm:gap-6 items-center">
+          <button onClick={() => scrollToSection('home')} className="hover:text-accent text-white font-medium transition-colors">Home</button>
+          <button onClick={() => scrollToSection('about')} className="hover:text-accent text-white font-medium transition-colors">About</button>
+          <button onClick={() => scrollToSection('services')} className="hover:text-accent text-white font-medium transition-colors">Services</button>
+          <button onClick={() => scrollToSection('team')} className="hover:text-accent text-white font-medium transition-colors">Team</button>
+          <button onClick={() => scrollToSection('blog')} className="hover:text-accent text-white font-medium transition-colors">Blog</button>
+          <button onClick={() => scrollToSection('faq')} className="hover:text-accent text-white font-medium transition-colors">FAQ</button>
+          <button onClick={() => scrollToSection('whychooseus')} className="hover:text-accent text-white font-medium transition-colors">Why Choose Us</button>
+          <button onClick={() => scrollToSection('contact')} className="hover:text-accent text-white font-medium transition-colors">Contact</button>
+          <a href="/shop" className="hover:text-accent text-white font-medium transition-colors">Shop</a>
+        </div>
+        <button className="md:hidden flex items-center bg-accent/10 rounded-full shadow p-2 border border-accent/30" onClick={() => setIsMenuOpen(!isMenuOpen)} aria-label="Open menu">
+          <svg className="w-7 h-7" fill="none" stroke="#fff" strokeWidth="2" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
       </div>
-      <WhyChooseUsModal open={whyOpen} onOpenChange={setWhyOpen} />
+      {isMenuOpen && (
+        <div className="md:hidden bg-primary/95 border-b border-accent/20 shadow-md flex flex-col items-start px-6 py-4 gap-3 animate-fade-in z-40">
+          <button onClick={() => scrollToSection('home')} className="hover:text-accent text-white font-medium w-full text-left">Home</button>
+          <button onClick={() => scrollToSection('about')} className="hover:text-accent text-white font-medium w-full text-left">About</button>
+          <button onClick={() => scrollToSection('services')} className="hover:text-accent text-white font-medium w-full text-left">Services</button>
+          <button onClick={() => scrollToSection('team')} className="hover:text-accent text-white font-medium w-full text-left">Team</button>
+          <button onClick={() => scrollToSection('blog')} className="hover:text-accent text-white font-medium w-full text-left">Blog</button>
+          <button onClick={() => scrollToSection('faq')} className="hover:text-accent text-white font-medium w-full text-left">FAQ</button>
+          <button onClick={() => scrollToSection('whychooseus')} className="hover:text-accent text-white font-medium w-full text-left">Why Choose Us</button>
+          <button onClick={() => scrollToSection('contact')} className="hover:text-accent text-white font-medium w-full text-left">Contact</button>
+          <a href="/shop" className="hover:text-accent text-white font-medium w-full text-left">Shop</a>
+        </div>
+      )}
     </nav>
   );
 };

@@ -30,7 +30,7 @@ export default function CartPage() {
                     )}
                     <div>
                       <div className="font-semibold">{item.title}</div>
-                      <div className="text-primary">${item.price.toFixed(2)}</div>
+                      <div className="text-primary">Ksh {item.price.toFixed(2)}</div>
                     </div>
                   </div>
                   <div className="flex gap-2 items-center">
@@ -54,7 +54,7 @@ export default function CartPage() {
             </ul>
             <div className="flex justify-between items-center mb-6 font-bold text-xl">
               <span>Total:</span>
-              <span>${total.toFixed(2)}</span>
+              <span>Ksh {total.toFixed(2)}</span>
             </div>
             <div className="flex gap-2">
               <Button type="submit" className="w-full">Checkout</Button>

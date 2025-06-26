@@ -2,7 +2,7 @@ import { Button } from './ui/button';
 
 const About = () => {
   return (
-    <section id="about" className="py-20 bg-gray-50">
+    <section id="about" className="py-20 bg-gray-50 relative">
       <div className="container mx-auto px-6">
         <div className="max-w-4xl mx-auto text-center mb-12">
           <h2 className="text-4xl md:text-5xl font-orbitron font-bold text-primary mb-4 font-playfair">
