@@ -61,6 +61,7 @@ export default function AdminNotificationList() {
 
   async function fetchNotifications() {
     setLoading(true);
+
     // Get user id for filtering
     const { data: { session } } = await supabase.auth.getSession();
     const userId = session?.user?.id || null;
