@@ -1,3 +1,11 @@
+              <li>
+                <Link
+                  to="/gallery"
+                  className="text-gray-300 hover:text-accent transition-colors duration-200 text-xs sm:text-base"
+                >
+                  Gallery
+                </Link>
+              </li>
 import { Link } from "react-router-dom";
 import { Mail, Phone, Clock, Facebook, Twitter, Instagram, Linkedin, Youtube } from "lucide-react";
 
@@ -17,7 +25,7 @@ const Footer = () => {
                 className="w-8 h-8 sm:w-10 sm:h-10 rounded-full object-cover bg-accent"
               />
               <div>
-                <h3 className="font-orbitron font-bold text-lg sm:text-xl">Ztech Electronics Ltd</h3>
+                <h3 className="font-ubuntu font-bold text-lg sm:text-xl">Ztech Electronics Ltd</h3>
                 <p className="text-gray-300 text-xs sm:text-sm">Tech Electronics Limited</p>
               </div>
             </div>
@@ -29,7 +37,7 @@ const Footer = () => {
 
           {/* Quick Links */}
           <div>
-            <h4 className="font-orbitron font-bold text-base sm:text-lg mb-2 sm:mb-4">Quick Links</h4>
+            <h4 className="font-ubuntu font-bold text-base sm:text-lg mb-2 sm:mb-4">Quick Links</h4>
             <ul className="space-y-1 sm:space-y-2">
               <li>
                 <button 
@@ -65,6 +73,14 @@ const Footer = () => {
               </li>
               <li>
                 <Link
+                  to="/more-pricing"
+                  className="text-gray-300 hover:text-accent transition-colors duration-200 text-xs sm:text-base"
+                >
+                  More Pricing
+                </Link>
+              </li>
+              <li>
+                <Link
                   to="/terms"
                   className="text-gray-300 hover:text-accent transition-colors duration-200 text-xs sm:text-base"
                 >
@@ -84,7 +100,7 @@ const Footer = () => {
 
           {/* Services Links */}
           <div>
-            <h4 className="font-orbitron font-bold text-base sm:text-lg mb-2 sm:mb-4">Services</h4>
+            <h4 className="font-ubuntu font-bold text-base sm:text-lg mb-2 sm:mb-4">Services</h4>
             <ul className="space-y-1 sm:space-y-2">
               <li><Link to="/services#phone-tablet-repair" className="text-gray-300 hover:text-accent transition-colors duration-200 text-xs sm:text-base">Phone & Tablet Repair</Link></li>
               <li><Link to="/services#laptop-computer-repair" className="text-gray-300 hover:text-accent transition-colors duration-200 text-xs sm:text-base">Laptop & Computer Repair</Link></li>
@@ -101,7 +117,7 @@ const Footer = () => {
 
           {/* Contact Info */}
           <div className="space-y-2 sm:col-span-2 md:col-span-1 flex flex-col items-start justify-start">
-            <h4 className="font-orbitron font-bold text-base sm:text-lg mb-2 sm:mb-4">Contact</h4>
+            <h4 className="font-ubuntu font-bold text-base sm:text-lg mb-2 sm:mb-4">Contact</h4>
             <div className="flex items-center gap-2 text-xs sm:text-base">
               <Mail className="w-4 h-4 sm:w-5 sm:h-5" />
               <span className="break-all">info@ztechelectronicslimited.co.ke</span>
@@ -118,7 +134,7 @@ const Footer = () => {
 
           {/* Socials */}
           <div className="space-y-2">
-            <h4 className="font-orbitron font-bold text-base sm:text-lg mb-2 sm:mb-4">Follow Us</h4>
+            <h4 className="font-ubuntu font-bold text-base sm:text-lg mb-2 sm:mb-4">Follow Us</h4>
             <div className="flex gap-3">
               <a href="#" className="hover:text-accent" aria-label="Facebook"><Facebook className="w-5 h-5 sm:w-6 sm:h-6" /></a>
               <a href="#" className="hover:text-accent" aria-label="Twitter"><Twitter className="w-5 h-5 sm:w-6 sm:h-6" /></a>

@@ -44,7 +44,7 @@ export default function Chat({ userId, email }: { userId: string; email?: string
     // Format messages for UI: user (+ main), admin replies
     const allMsgs: Message[] = [
       { ...mainMsg, isAdmin: false },
-      ...(replies || []).map((r: any) => ({
+      ...(replies || []).map((r: { id: string; created_at: string; content: string }) => ({
         id: r.id,
         created_at: r.created_at,
         content: r.content,
@@ -61,7 +61,7 @@ export default function Chat({ userId, email }: { userId: string; email?: string
 
   useEffect(() => {
     fetchData();
-    // eslint-disable-next-line
+     
   }, [fetchData, userId]);
 
   useEffect(() => {

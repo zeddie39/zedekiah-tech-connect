@@ -4,6 +4,8 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
+import Gallery from "./pages/Gallery";
+import MorePricingPage from "./pages/MorePricingPage";
 import NotFound from "./pages/NotFound";
 import AdminLayout from "./pages/Admin";
 import AdminChat from "./pages/admin/Chat";
@@ -13,6 +15,7 @@ import AdminTeam from "./pages/admin/Team";
 import AdminHealth from "./pages/admin/Health";
 import AdminReports from "./pages/admin/Reports";
 import AdminWorkflow from "./pages/admin/Workflow";
+import GalleryManagerPage from "./pages/admin/GalleryManager";
 import AuthPage from "./pages/Auth";
 import Dashboard from "./pages/Dashboard";
 import AdminUsers from "./pages/admin/Users";
@@ -72,12 +75,15 @@ const App = () => (
               <Route path="workflow" element={<AdminWorkflow />} />
               <Route path="users" element={<AdminUsers />} />
               <Route path="ProductsApproval" element={<ProductsApproval />} />
+              <Route path="gallery-manager" element={<GalleryManagerPage />} />
             </Route>
             <Route path="/ConfirmedCelebration" element={<ConfirmedCelebration />} />
             <Route path="/terms" element={<Terms />} />
             <Route path="/privacy" element={<Privacy />} />
             <Route path="/why-choose-us" element={<WhyChooseUs />} />
             <Route path="/faq" element={<FAQPage />} />
+            <Route path="/more-pricing" element={<MorePricingPage />} />
+            <Route path="/gallery" element={<Gallery />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>

@@ -17,6 +17,8 @@ function Index() {
       <Hero />
       <About />
       <Services />
+      {/* Pricing section prominently on the main page */}
+      <HomePricingSection />
       <Testimonials />
       <Team />
       <Blog />
@@ -27,4 +29,5 @@ function Index() {
     </div>
   );
 }
+import HomePricingSection from "@/components/HomePricingSection";
 export default Index;

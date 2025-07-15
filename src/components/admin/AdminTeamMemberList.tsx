@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Users, User } from "lucide-react";
 import { Loader2 } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
+import type { Json } from "@/integrations/supabase/types";
 
 type TeamMember = {
   id: string;
@@ -13,7 +14,7 @@ type TeamMember = {
   bio?: string | null;
   avatar_url?: string | null;
   expertise?: string[] | null;
-  socials?: any;
+  socials?: Json | null;
   email?: string | null;
   user_roles?: Array<{ role: string }>;
 };
@@ -49,8 +50,8 @@ export default function AdminTeamMemberList() {
     // Try to get each member's roles from user_roles & their email (if a matching profile exists)
     const memberIds = (members ?? []).map((m) => m.id);
 
-    let rolesMap: Record<string, Array<{ role: string }>> = {};
-    let emailMap: Record<string, string> = {};
+    const rolesMap: Record<string, Array<{ role: string }>> = {};
+    const emailMap: Record<string, string> = {};
 
     if (memberIds.length > 0) {
       const { data: userRoles } = await supabase
@@ -59,7 +60,7 @@ export default function AdminTeamMemberList() {
         .in("user_id", memberIds);
 
       if (userRoles)
-        userRoles.forEach((r: any) => {
+        userRoles.forEach((r: { user_id: string; role: string }) => {
           if (!rolesMap[r.user_id]) rolesMap[r.user_id] = [];
           rolesMap[r.user_id].push({ role: r.role });
         });
@@ -70,13 +71,13 @@ export default function AdminTeamMemberList() {
         .in("id", memberIds);
 
       if (profiles)
-        profiles.forEach((p: any) => {
+        profiles.forEach((p: { id: string; email: string }) => {
           emailMap[p.id] = p.email;
         });
     }
 
     setTeam(
-      (members ?? []).map((m: any) => ({
+      (members ?? []).map((m) => ({
         ...m,
         user_roles: rolesMap[m.id] || [],
         email: emailMap[m.id] || null,

@@ -7,13 +7,13 @@ import AdminEditRoleDialog from "./AdminEditRoleDialog";
 import { toast } from "@/hooks/use-toast";
 
 // Helper for CSV export
-function exportToCSV(users: any[]) {
+function exportToCSV(users: UserProfile[]) {
   const headers = ["id", "email", "full_name", "roles"];
   const rows = users.map(u => [
     u.id,
     u.email ?? "",
     u.full_name ?? "",
-    (u.user_roles?.map((r: any) => r.role).join("; ")) ?? ""
+    (u.user_roles?.map((r: { role: string }) => r.role).join("; ")) ?? ""
   ]);
   const csvContent = [
     headers.join(","),
@@ -67,7 +67,7 @@ export default function AdminUserList() {
     }
 
     const ids = profiles.map((u: UserProfile) => u.id);
-    let userRolesMap: Record<string, { role: string }[]> = {};
+    const userRolesMap: Record<string, { role: string }[]> = {};
     if (ids.length > 0) {
       const { data: roles } = await supabase
         .from("user_roles")
@@ -97,7 +97,7 @@ export default function AdminUserList() {
     });
 
     setUsers(
-      profiles.map((p: any) => ({
+      profiles.map((p) => ({
         ...p,
         user_roles: userRolesMap[p.id] ?? [],
       }))

@@ -4,8 +4,15 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
+type Profile = {
+  id: string;
+  full_name: string | null;
+  avatar_url: string | null;
+  email: string | null;
+};
+
 export default function ProfileSection({ userId }: { userId: string }) {
-  const [profile, setProfile] = useState<any>(null);
+  const [profile, setProfile] = useState<Profile | null>(null);
   const [fullName, setFullName] = useState("");
   const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
   const [file, setFile] = useState<File | null>(null);
@@ -41,7 +48,7 @@ export default function ProfileSection({ userId }: { userId: string }) {
     setLoading(false);
     if (!error && data && data.length > 0) {
       setProfile(data[0]);
-      setFullName(data[0].full_name);
+      setFullName(data[0].full_name || "");
       setEditing(false);
     } else if (error) {
       setErrorMsg(error.message);
@@ -53,7 +60,7 @@ export default function ProfileSection({ userId }: { userId: string }) {
     if (!file) return;
     setLoading(true);
     const filePath = `${userId}/${file.name}`;
-    let { data, error } = await supabase.storage
+    const { data, error } = await supabase.storage
       .from("avatars")
       .upload(filePath, file, { upsert: true });
     if (!error) {
@@ -62,7 +69,7 @@ export default function ProfileSection({ userId }: { userId: string }) {
       setAvatarUrl(url);
       if (updated && updated.length > 0) {
         setProfile(updated[0]);
-        setFullName(updated[0].full_name);
+        setFullName(updated[0].full_name || "");
       }
       setFile(null);
       if (fileInputRef.current) fileInputRef.current.value = "";

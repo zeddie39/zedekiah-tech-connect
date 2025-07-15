@@ -47,7 +47,7 @@ export default function AdminChatThread({
     const allMsgs: Message[] = mainMsg
       ? [
           { ...mainMsg, isAdmin: false },
-          ...(replies || []).map((r: any) => ({
+          ...(replies || []).map((r: { id: string; created_at: string; content: string }) => ({
             id: r.id,
             created_at: r.created_at,
             content: r.content,
@@ -65,7 +65,7 @@ export default function AdminChatThread({
 
   useEffect(() => {
     fetchData();
-    // eslint-disable-next-line
+     
   }, [fetchData, thread.id]);
 
   useEffect(() => {

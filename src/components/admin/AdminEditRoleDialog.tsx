@@ -36,7 +36,7 @@ export default function AdminEditRoleDialog({
   async function handleSave() {
     setSaving(true);
     // Remove all previous roles for user
-    let { error: delError } = await supabase
+    const { error: delError } = await supabase
       .from("user_roles")
       .delete()
       .eq("user_id", user.id);
@@ -48,7 +48,7 @@ export default function AdminEditRoleDialog({
     }
     // Add new role (if any)
     if (selectedRole) {
-      let { error: insError } = await supabase
+      const { error: insError } = await supabase
         .from("user_roles")
         .insert([{
           user_id: user.id,

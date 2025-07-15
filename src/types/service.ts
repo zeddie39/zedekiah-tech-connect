@@ -7,6 +7,7 @@ export interface Service {
   features: string[];
   image: string;
   more: string;
+  price?: number; // Price in Ksh
 }
 
 export interface Category {

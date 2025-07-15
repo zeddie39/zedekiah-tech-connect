@@ -28,13 +28,44 @@ export const serviceImages = [
 
 export const services: Service[] = [
   {
+    title: 'Web Design & Development',
+    description: 'Custom website design, web app development, and e-commerce solutions.',
+    category: 'software',
+    icon: <Globe className="text-accent" size={40} />,
+    features: ['Website Design', 'Web App Development', 'E-commerce', 'Responsive Design'],
+    image: serviceImages[13],
+    more: 'We build beautiful, fast, and secure websites and web applications for businesses and individuals.',
+    price: 15000
+  },
+  {
+    title: 'Software Development',
+    description: 'Custom software, mobile apps, and automation solutions for your business.',
+    category: 'software',
+    icon: <Cpu className="text-accent" size={40} />,
+    features: ['Custom Software', 'Mobile Apps', 'Automation', 'API Integration'],
+    image: serviceImages[14],
+    more: 'From business automation to mobile apps, we deliver robust software tailored to your needs.',
+    price: 20000
+  },
+  {
+    title: 'Poster & Flyer Design',
+    description: 'Creative design for posters, flyers, banners, and marketing materials.',
+    category: 'software',
+    icon: <Monitor className="text-accent" size={40} />,
+    features: ['Poster Design', 'Flyer Design', 'Banner Design', 'Print & Digital'],
+    image: serviceImages[15],
+    more: 'Get eye-catching designs for your business or event, ready for print or digital use.',
+    price: 1000
+  },
+  {
     title: 'Phone & Tablet Repair',
     description: 'Screen replacement, battery issues, water damage recovery, and software troubleshooting',
     category: 'repair',
     icon: <Smartphone className="text-accent" size={40} />,
     features: ['Screen Replacement', 'Battery Repair', 'Water Damage', 'Software Issues'],
     image: serviceImages[0],
-    more: 'We repair a wide range of smartphones and tablets, handling both hardware and software issues with genuine parts and advanced diagnostics.'
+    more: 'We repair a wide range of smartphones and tablets, handling both hardware and software issues with genuine parts and advanced diagnostics.',
+    price: 1500
   },
   {
     title: 'Laptop & Computer Repair',
@@ -43,7 +74,8 @@ export const services: Service[] = [
     icon: <Laptop className="text-accent" size={40} />,
     features: ['Hardware Diagnostics', 'Component Replacement', 'Virus Removal', 'Performance Tuning'],
     image: serviceImages[1],
-    more: 'From slow PCs to major hardware failures, our technicians restore computers and laptops to optimal performance, ensuring maximum uptime.'
+    more: 'From slow PCs to major hardware failures, our technicians restore computers and laptops to optimal performance, ensuring maximum uptime.',
+    price: 2500
   },
   {
     title: 'CCTV Installation',
@@ -70,7 +102,8 @@ export const services: Service[] = [
     icon: <Disc className="text-accent" size={40} />,
     features: ['OS Installation', 'Software Setup', 'Data Recovery', 'System Optimization'],
     image: serviceImages[4],
-    more: 'Get help with installing applications, recovering lost data, OS upgrades, and making your devices run like new. Fast and secure service.'
+    more: 'Get help with installing applications, recovering lost data, OS upgrades, and making your devices run like new. Fast and secure service.',
+    price: 2000
   },
   {
     title: 'Tech Consultation',

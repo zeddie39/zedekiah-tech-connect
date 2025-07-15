@@ -21,7 +21,7 @@ export default function AdminChatManager() {
 
   useEffect(() => {
     fetchThreads();
-    // eslint-disable-next-line
+     
   }, []);
 
   async function fetchThreads() {

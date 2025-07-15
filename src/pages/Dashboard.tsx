@@ -7,10 +7,11 @@ import Chat from "@/components/dashboard/Chat";
 import { Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Menu } from "lucide-react";
+import type { Session } from "@supabase/supabase-js";
 
 export default function Dashboard() {
   const [loading, setLoading] = useState(true);
-  const [session, setSession] = useState<any>(null);
+  const [session, setSession] = useState<Session | null>(null);
   const navigate = useNavigate();
   const [drawerOpen, setDrawerOpen] = useState(false);
 

@@ -1,33 +1,33 @@
 import { Sparkle } from "lucide-react";
 
 const testimonials = [
-	{
-		quote: "Fantastic service & fast repairs. My laptop feels brand new!",
-		author: "Sarah M.",
-	},
-	{
-		quote: "They set up CCTV for our shop quickly and professionally.",
-		author: "Jacob K.",
-	},
-	{
-		quote:
-			"Expert advice and friendly staff. Solved my networking issues in no time.",
-		author: "Miriam O.",
-	},
-	{
-		quote:
-			"Affordable and top-notch maintenance for our office equipment.",
-		author: "Edward N.",
-	},
-	{
-		quote: "Truly reliable. Our POS system is now efficient and fast!",
-		author: "Susan F.",
-	},
-	{
-		quote:
-			"Quick turnaround and good communication. Highly recommended.",
-		author: "Ahmed B.",
-	},
+	   {
+			   quote: "Fantastic service & fast repairs. My laptop feels brand new!",
+			   author: "Achieng Otieno",
+	   },
+	   {
+			   quote: "They set up CCTV for our shop quickly and professionally.",
+			   author: "Mwangi Kamau",
+	   },
+	   {
+			   quote:
+					   "Expert advice and friendly staff. Solved my networking issues in no time.",
+			   author: "Wanjiru Njeri",
+	   },
+	   {
+			   quote:
+					   "Affordable and top-notch maintenance for our office equipment.",
+			   author: "Mutiso Ndambuki",
+	   },
+	   {
+			   quote: "Truly reliable. Our POS system is now efficient and fast!",
+			   author: "Nyambura Wambui",
+	   },
+	   {
+			   quote:
+					   "Quick turnaround and good communication. Highly recommended.",
+			   author: "Abdi Yusuf",
+	   },
 ];
 
 const Testimonials = () => (

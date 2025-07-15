@@ -1,6 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;500;700&family=Rubik:wght@400;500;700&display=swap');
+
+/* stylelint-disable at-rule-no-unknown */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+/* stylelint-enable at-rule-no-unknown */
 
 /* Definition of the design system. All colors, gradients, fonts, etc should be defined here. */
 
@@ -88,12 +92,16 @@
 
   body {
     @apply bg-background text-foreground font-sans;
-    font-family: 'Inter', 'Poppins', sans-serif;
+    font-family: 'Ubuntu', sans-serif;
   }
 
   h1, h2, h3, h4, h5, h6 {
-    @apply font-heading font-bold;
-    font-family: 'Space Grotesk', sans-serif;
+    @apply font-bold;
+    font-family: 'Ubuntu', sans-serif;
+  }
+
+  .font-ubuntu, .font-heading, .font-orbitron, .font-playfair, .font-sans, .font-serif {
+    font-family: 'Ubuntu', sans-serif !important;
   }
 }
 
@@ -134,5 +142,21 @@
 
   .service-card:hover {
     box-shadow: 0 25px 50px -12px rgba(22, 14, 46, 0.25);
+  }
+
+  .admin-sidebar {
+    @apply min-h-screen w-72 bg-white/80 backdrop-blur-lg shadow-xl rounded-r-2xl border-r border-accent/20 flex flex-col p-6 gap-3;
+  }
+  .admin-sidebar-title {
+    @apply text-2xl font-bold text-primary mb-6 tracking-wide;
+  }
+  .admin-sidebar-title span {
+    @apply text-lg font-semibold text-accent;
+  }
+  .sidebar-link {
+    @apply flex items-center gap-3 px-4 py-2 rounded-lg font-medium text-gray-800 transition-all duration-200 bg-white/70 hover:bg-accent hover:text-white shadow-sm border border-accent/10 hover:border-accent;
+  }
+  .sidebar-link.active {
+    @apply bg-accent text-white border-accent;
   }
 }

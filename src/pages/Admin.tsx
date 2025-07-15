@@ -6,6 +6,7 @@ import { Card } from "@/components/ui/card";
 import { Loader2 } from "lucide-react";
 import DashboardWidget from "@/components/admin/DashboardWidget";
 import AdminUsers from "./admin/Users";
+import GalleryManagerPage from "./admin/GalleryManager";
 import AdminHamburger from "@/components/admin/AdminHamburger";
 import AdminNavbar from "@/components/admin/AdminNavbar";
 import AdminSidebar from "@/components/admin/AdminSidebar";
@@ -106,18 +107,34 @@ export default function AdminLayout() {
   return (
     <SidebarProvider>
       <AdminNavbar userEmail={userEmail} role={role} />
-      <div className="pt-24 sm:pt-28" />
-      <div className="min-h-screen flex flex-col md:flex-row w-full bg-gradient-to-br from-accent/10 via-muted/30 to-background">
+      <div className="min-h-screen flex flex-col md:flex-row w-full bg-gradient-to-br from-accent/10 via-muted/30 to-background pt-24 sm:pt-28">
         <AdminSidebar />
         <SidebarInset className="flex-1 flex flex-col px-2 sm:px-4 md:px-8 py-2 sm:py-4">
           <header className="flex flex-col sm:flex-row items-center justify-between gap-2 p-2 sm:p-4 border-b bg-card/80 shadow sticky top-0 z-10">
-            <SidebarTrigger />
-            <span className="font-medium text-sm sm:text-base text-primary">
-              Welcome, {userEmail || "Admin"}!
-            </span>
+            {/* <SidebarTrigger /> Removed hamburger from admin header */}
+            <div className="flex flex-col items-center sm:items-start gap-0 w-full">
+              <span
+                className="font-ubuntu text-lg sm:text-xl font-bold text-accent tracking-wide flex items-center gap-2 bg-gradient-to-r from-primary/90 via-accent/80 to-primary/80 bg-clip-text text-transparent px-3 py-1 rounded-lg shadow-sm border border-accent/30 animate-fade-in"
+                style={{ letterSpacing: '1px' }}
+              >
+                Welcome, <span className="ml-1 text-primary font-extrabold">{userEmail || "Admin"}</span>!
+              </span>
+              {role && (
+                <span
+                  className="mt-1 ml-2 px-2 py-0.5 rounded-full bg-accent/10 border border-accent/30 text-xs sm:text-sm font-ubuntu font-semibold text-accent drop-shadow-sm tracking-wide shadow"
+                  style={{ letterSpacing: '0.5px' }}
+                >
+                  {ROLE_NAMES[role] || role}
+                </span>
+              )}
+            </div>
             <button
               className="text-xs text-muted-foreground hover:underline mt-2 sm:mt-0"
-              onClick={() => setShowDebug((v) => !v)}
+              onClick={() => {
+                // Debug: log to console to confirm click
+                console.log('Toggling debug info. Current:', showDebug);
+                setShowDebug((v) => !v);
+              }}
               aria-expanded={showDebug}
             >
               {showDebug ? "Hide Debug" : "Show Debug"}

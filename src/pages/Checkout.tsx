@@ -6,8 +6,9 @@ import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/components/ui/use-toast";
 import ShopNavbar from "@/components/ShopNavbar";
-import ZtechPaystackButton from "@/components/PaystackButton";
-import ZtechFlutterwaveButton from "@/components/FlutterwaveButton";
+
+// Paystack and Flutterwave imports removed
+import MpesaButton from "@/components/MpesaButton";
 
 export default function CheckoutPage() {
   const { cart, clearCart } = useCart();
@@ -65,53 +66,7 @@ export default function CheckoutPage() {
     navigate("/orders");
   };
 
-  const handlePaystackSuccess = async (reference) => {
-    const { data: { session } } = await supabase.auth.getSession();
-    if (!session) {
-      toast({ title: "Login Required", description: "Please log in to checkout.", duration: 1800 });
-      navigate("/auth");
-      return;
-    }
-    // Call backend to verify payment and save to Supabase
-    const res = await fetch("http://localhost:5001/verify-paystack", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        reference: reference.reference,
-        email: session.user.email,
-        amount: Math.round(total * 100), // Paystack expects kobo
-      }),
-    });
-    const result = await res.json();
-    if (result.verified && result.saved) {
-      clearCart();
-      toast({ title: "Payment Successful!", description: "Thank you for your order.", duration: 2500 });
-      navigate("/orders");
-    } else {
-      toast({ title: "Payment Failed", description: result.message || "Could not verify payment.", duration: 2500 });
-    }
-  };
-
-  const handleFlutterwaveSuccess = async (response) => {
-    // Optionally verify on backend, then save to Supabase
-    const res = await fetch("http://localhost:5001/verify-flutterwave", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        transaction_id: response.transaction_id,
-        email: userEmail,
-        amount: total,
-      }),
-    });
-    const result = await res.json();
-    if (result.verified && result.saved) {
-      clearCart();
-      toast({ title: "Payment Successful!", description: "Thank you for your order.", duration: 2500 });
-      navigate("/orders");
-    } else {
-      toast({ title: "Payment Failed", description: result.message || "Could not verify payment.", duration: 2500 });
-    }
-  };
+  // Paystack and Flutterwave handlers removed
 
   return (
     <>
@@ -140,23 +95,23 @@ export default function CheckoutPage() {
             <span>Ksh {total.toFixed(2)}</span>
           </div>
         </Card>
-        <div className="flex gap-2">
-          <ZtechPaystackButton
-            email={userEmail || "customer@email.com"}
-            amount={Math.round(total * 100)}
-            onSuccess={handlePaystackSuccess}
-          />
-          <ZtechFlutterwaveButton
-            email={userEmail}
+        <div className="flex flex-col gap-4 md:flex-row md:gap-2 items-center justify-center mt-4">
+          {/* Paystack and Flutterwave payment buttons removed as requested */}
+          <MpesaButton
             amount={total}
             phone={userPhone}
             name={userName}
-            onSuccess={handleFlutterwaveSuccess}
+            onSuccess={() => {
+              clearCart();
+              toast({ title: "Order Placed!", description: "Thank you for your order.", duration: 2500 });
+              navigate("/orders");
+            }}
           />
           <Button variant="secondary" onClick={() => navigate("/cart")}>Back to Cart</Button>
         </div>
         <div className="text-xs text-muted-foreground mt-5 text-center">
-          Payments are simulated here. Stripe integration is coming next!
+          Payments are simulated here. Stripe integration is coming next!<br/>
+          <span className="text-green-600 font-bold">Now accepting M-Pesa via Daraja API!</span>
         </div>
       </div>
     </>

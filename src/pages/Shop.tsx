@@ -11,6 +11,7 @@ import ShopHeroCarousel from "@/components/ShopHeroCarousel";
 import ShopCategories from "@/components/ShopCategories";
 import { Badge } from "@/components/ui/badge";
 import ImagePreviewModal from "@/components/ImagePreviewModal";
+import type { Session } from "@supabase/supabase-js";
 
 type Product = {
   id: string;
@@ -31,7 +32,7 @@ type ProductImage = {
 
 export default function Shop() {
   const [loading, setLoading] = useState(true);
-  const [session, setSession] = useState<any>(null);
+  const [session, setSession] = useState<Session | null>(null);
   const [products, setProducts] = useState<Product[]>([]);
   const [images, setImages] = useState<Record<string, string>>({});
   const [categoryFilter, setCategoryFilter] = useState<string | null>(null);

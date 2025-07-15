@@ -9,8 +9,9 @@ const Team = () => {
   return (
     <section id="team" className="py-10 sm:py-16 md:py-20 bg-gray-50">
       <div className="container mx-auto px-2 sm:px-4 md:px-6 relative">
+        {/* Back to Home link removed as requested */}
         <div className="text-center mb-8 sm:mb-12 md:mb-16">
-          <h2 className="text-2xl sm:text-4xl md:text-5xl font-orbitron font-bold text-primary mb-4 sm:mb-6 font-playfair">
+          <h2 className="text-2xl sm:text-4xl md:text-5xl font-ubuntu font-bold text-primary mb-4 sm:mb-6">
             Meet Our Team
           </h2>
           <p className="text-base sm:text-xl text-gray-600 max-w-3xl mx-auto">
@@ -38,21 +39,21 @@ const Team = () => {
                   title="CEO LinkedIn"
                   style={{ border: "3px solid white" }}
                 >
-                  <Linkedin size={22} className="sm:size-30 text-white" />
+                  <Linkedin className="w-5 h-5 sm:w-7 sm:h-7 text-white" />
                 </a>
               </div>
               {/* Floating tech elements around the profile */}
               <div className="absolute -top-3 -right-3 sm:-top-4 sm:-right-4 w-8 h-8 sm:w-12 sm:h-12 bg-accent rounded-full flex items-center justify-center text-white text-lg sm:text-xl animate-float">
-                <Phone size={20} className="sm:size-32" />
+                <Phone className="w-5 h-5 sm:w-8 sm:h-8" />
               </div>
               <div className="absolute -bottom-3 -left-3 sm:-bottom-4 sm:-left-4 w-7 h-7 sm:w-10 sm:h-10 bg-primary rounded-full flex items-center justify-center text-white text-base sm:text-lg animate-float" style={{ animationDelay: '1s' }}>
-                <Mail size={16} className="sm:size-24" />
+                <Mail className="w-4 h-4 sm:w-6 sm:h-6" />
               </div>
             </div>
             {/* CEO Information */}
             <div className="flex-1 text-center md:text-left">
-              <h3 className="text-xl sm:text-3xl font-orbitron font-bold text-primary mb-2">
-                Vincent Ombati
+              <h3 className="text-xl sm:text-3xl font-ubuntu font-bold text-primary mb-2">
+                Vincent Zedekiah.
               </h3>
               <p className="text-base sm:text-xl text-accent mb-2 sm:mb-4 font-semibold">
                 Founder & Chief Executive Officer
@@ -138,19 +139,19 @@ const Team = () => {
               
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
                 <div className="bg-white p-4 rounded-lg shadow-md">
-                  <h4 className="font-orbitron font-bold text-primary mb-1">10+ Years</h4>
+                  <h4 className="font-ubuntu font-bold text-primary mb-1">10+ Years</h4>
                   <p className="text-gray-600 text-sm">Industry Experience</p>
                 </div>
                 <div className="bg-white p-4 rounded-lg shadow-md">
-                  <h4 className="font-orbitron font-bold text-primary mb-1">1000+</h4>
+                  <h4 className="font-ubuntu font-bold text-primary mb-1">1000+</h4>
                   <p className="text-gray-600 text-sm">Devices Repaired</p>
                 </div>
                 <div className="bg-white p-4 rounded-lg shadow-md">
-                  <h4 className="font-orbitron font-bold text-primary mb-1">Certified</h4>
+                  <h4 className="font-ubuntu font-bold text-primary mb-1">Certified</h4>
                   <p className="text-gray-600 text-sm">Electronics Technician</p>
                 </div>
                 <div className="bg-white p-4 rounded-lg shadow-md">
-                  <h4 className="font-orbitron font-bold text-primary mb-1">24/7</h4>
+                  <h4 className="font-ubuntu font-bold text-primary mb-1">24/7</h4>
                   <p className="text-gray-600 text-sm">Support Available</p>
                 </div>
               </div>
@@ -243,5 +244,5 @@ const Team = () => {
     </section>
   );
 };
-
+  
 export default Team;

@@ -5,7 +5,7 @@ import { supabase } from "@/integrations/supabase/client";
 type MessageEvent = {
   type: "admin_reply" | "user_message";
   threadId: string;
-  data: any;
+  data: { content: string };
 };
 
 /**
@@ -36,7 +36,7 @@ export function useRealtimeChat(
     return () => {
       supabase.removeChannel(channel);
     };
-    // eslint-disable-next-line
+     
   }, [threadId, onNewMessage]);
 }
 
@@ -51,4 +51,3 @@ export function sendChatEvent(event: MessageEvent) {
     payload: event,
   });
 }
-

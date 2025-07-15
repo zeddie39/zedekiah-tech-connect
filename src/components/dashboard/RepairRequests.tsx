@@ -4,8 +4,17 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
+type RepairRequest = {
+  id: string;
+  created_at: string;
+  device_type: string;
+  problem_description: string;
+  status: string;
+  user_id: string;
+};
+
 export default function RepairRequests({ userId }: { userId: string }) {
-  const [requests, setRequests] = useState<any[]>([]);
+  const [requests, setRequests] = useState<RepairRequest[]>([]);
   const [deviceType, setDeviceType] = useState("");
   const [problem, setProblem] = useState("");
   const [submitting, setSubmitting] = useState(false);

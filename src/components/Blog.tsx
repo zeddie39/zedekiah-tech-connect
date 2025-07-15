@@ -2,6 +2,17 @@ import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { Button } from './ui/button';
 import { BookOpen, Camera, Laptop, Plug, Disc, Smartphone } from 'lucide-react';
+import {
+	AlertDialog,
+	AlertDialogAction,
+	AlertDialogCancel,
+	AlertDialogContent,
+	AlertDialogDescription,
+	AlertDialogFooter,
+	AlertDialogHeader,
+	AlertDialogTitle,
+} from './ui/alert-dialog';
+
 
 const blogPosts = [
 	{
@@ -11,6 +22,12 @@ const blogPosts = [
 		category: "Maintenance",
 		readTime: "5 min read",
 		image: 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=600&q=80',
+		fullArticle: `
+      To keep your phone running smoothly, regularly clear your cache and close unused apps. 
+      Avoid exposing your device to extreme temperatures, as this can damage the battery. 
+      Use a protective case and screen protector to prevent physical damage. 
+      Finally, be mindful of the apps you install and only download from trusted sources to avoid malware.
+    `,
 	},
 	{
 		title: "Home Security: Why CCTV Systems Are Worth the Investment",
@@ -19,6 +36,12 @@ const blogPosts = [
 		category: "Security",
 		readTime: "7 min read",
 		image: 'https://images.unsplash.com/photo-1531297484001-80022131f5a1?auto=format&fit=crop&w=600&q=80',
+		fullArticle: `
+      CCTV systems provide a significant deterrent to potential intruders. 
+      Modern systems offer remote monitoring, allowing you to check on your property from anywhere. 
+      High-quality footage can be crucial for identifying suspects and providing evidence. 
+      Professional installation ensures optimal camera placement and system reliability.
+    `,
 	},
 	{
 		title: "Signs Your Computer Needs Professional Attention",
@@ -27,6 +50,12 @@ const blogPosts = [
 		category: "Computers",
 		readTime: "6 min read",
 		image: 'https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?auto=format&fit=crop&w=600&q=80',
+		fullArticle: `
+      If your computer is running unusually slow, frequently crashing, or making strange noises, it's time to get it checked. 
+      The "blue screen of death" is a clear indicator of a serious hardware or software issue. 
+      Overheating can also cause long-term damage. 
+      Don't ignore these signs, as they can lead to data loss or complete system failure.
+    `,
 	},
 	{
 		title: "Smart Home Wiring: Planning Your Connected Future",
@@ -35,6 +64,12 @@ const blogPosts = [
 		category: "Smart Home",
 		readTime: "8 min read",
 		image: 'https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?auto=format&fit=crop&w=600&q=80',
+		fullArticle: `
+      Proper wiring is the backbone of a reliable smart home. 
+      Consider installing neutral wires in all switch boxes to support a wider range of smart switches. 
+      Use structured cabling (like Cat6) for high-speed data transfer between devices. 
+      A centralized wiring closet can make management and future upgrades much easier.
+    `,
 	},
 	{
 		title: "Data Recovery: What You Need to Know",
@@ -43,6 +78,12 @@ const blogPosts = [
 		category: "Data",
 		readTime: "6 min read",
 		image: 'https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7?auto=format&fit=crop&w=600&q=80',
+		fullArticle: `
+      Data loss can happen due to hardware failure, accidental deletion, or software corruption. 
+      Regular backups are your first line of defense. 
+      If you do lose data, stop using the device immediately to prevent overwriting the lost files. 
+      Professional data recovery services have specialized tools to retrieve data from damaged drives.
+    `,
 	},
 	{
 		title: "Choosing the Right Tech Consultant for Your Business",
@@ -51,6 +92,12 @@ const blogPosts = [
 		category: "Business",
 		readTime: "9 min read",
 		image: 'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&w=600&q=80',
+		fullArticle: `
+      A good tech consultant should understand your business goals, not just your technology. 
+      Look for a consultant with experience in your industry. 
+      Check their references and case studies. 
+      A clear communication style and a proactive approach to problem-solving are also essential.
+    `,
 	}
 ];
 
@@ -65,9 +112,18 @@ const categoryIcon = {
 
 const Blog = () => {
 	const [visiblePosts, setVisiblePosts] = useState(3);
+	const [selectedPost, setSelectedPost] = useState<(typeof blogPosts)[0] | null>(null);
 
 	const loadMorePosts = () => {
 		setVisiblePosts(prev => Math.min(prev + 3, blogPosts.length));
+	};
+
+	const openArticle = (post: (typeof blogPosts)[0]) => {
+		setSelectedPost(post);
+	};
+
+	const closeArticle = () => {
+		setSelectedPost(null);
 	};
 
 	return (
@@ -112,6 +168,7 @@ const Blog = () => {
 								</div>
 								<Button
 									variant="outline"
+									onClick={() => openArticle(post)}
 									className="w-full border-primary text-primary hover:bg-primary hover:text-white transition-all duration-200"
 								>
 									Read Article
@@ -132,6 +189,22 @@ const Blog = () => {
 					</div>
 				)}
 			</div>
+
+			{selectedPost && (
+				<AlertDialog open onOpenChange={closeArticle}>
+					<AlertDialogContent>
+						<AlertDialogHeader>
+							<AlertDialogTitle>{selectedPost.title}</AlertDialogTitle>
+							<AlertDialogDescription>
+								{selectedPost.fullArticle}
+							</AlertDialogDescription>
+						</AlertDialogHeader>
+						<AlertDialogFooter>
+							<AlertDialogCancel onClick={closeArticle}>Close</AlertDialogCancel>
+						</AlertDialogFooter>
+					</AlertDialogContent>
+				</AlertDialog>
+			)}
 		</section>
 	);
 };

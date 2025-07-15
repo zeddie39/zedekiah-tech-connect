@@ -5,9 +5,18 @@ import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
+type Product = {
+  id: string;
+  title: string;
+  description: string | null;
+  price: number;
+  category: string | null;
+  status: string | null;
+};
+
 export default function ProductsApproval() {
   const [loading, setLoading] = useState(true);
-  const [products, setProducts] = useState<any[]>([]);
+  const [products, setProducts] = useState<Product[]>([]);
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
 

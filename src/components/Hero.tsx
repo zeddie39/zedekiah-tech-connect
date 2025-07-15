@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useNavigate } from "react-router-dom";
 import RealtimeClock from "./RealtimeClock";
+import type { Session } from '@supabase/supabase-js';
 
 type Quote = {
   quote_text: string;
@@ -34,7 +35,7 @@ const fallbackQuotes: Quote[] = [
 const Hero = () => {
   const [quote, setQuote] = useState<Quote | null>(null);
   const [loading, setLoading] = useState(true);
-  const [session, setSession] = useState<any>(null);
+  const [session, setSession] = useState<Session | null>(null);
   const navigate = useNavigate();
 
   // Fetch session on mount
@@ -110,10 +111,10 @@ const Hero = () => {
       {/* Main Hero Section */}
       <div className="container mx-auto px-4 sm:px-6 text-center relative z-10">
         <div className="animate-fade-in">
-          <h1 className="text-3xl sm:text-5xl md:text-7xl font-orbitron font-black text-white mb-4 sm:mb-6 leading-tight">
+          <h1 className="text-3xl sm:text-5xl md:text-7xl font-ubuntu font-black text-white mb-4 sm:mb-6 leading-tight">
             Ztech Electronics Limited
           </h1>
-          <h2 className="text-lg sm:text-2xl md:text-3xl font-orbitron text-accent mb-4 sm:mb-6 font-playfair">
+          <h2 className="text-lg sm:text-2xl md:text-3xl font-ubuntu text-accent mb-4 sm:mb-6">
             Where Service is Beyond the Obvious
           </h2>
           {quote && (

@@ -56,7 +56,7 @@ export default function AdminNotificationList() {
     return () => {
       supabase.removeChannel(channel);
     };
-    // eslint-disable-next-line
+     
   }, []);
 
   async function fetchNotifications() {
