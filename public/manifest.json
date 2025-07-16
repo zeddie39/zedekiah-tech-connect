@@ -1,0 +1,20 @@
+{
+  "short_name": "Ztech",
+  "name": "Ztech Electronics Ltd",
+  "icons": [
+    {
+      "src": "/ZTech electrictronics logo.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "/ZTech electrictronics logo.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#160e2e",
+  "background_color": "#160e2e"
+}

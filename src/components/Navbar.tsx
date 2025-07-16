@@ -11,24 +11,16 @@ const Navbar = () => {
   const location = useLocation();
 
   React.useEffect(() => {
-    let ticking = false;
     const handleScroll = () => {
-      if (!ticking) {
-        window.requestAnimationFrame(() => {
-          const currentScroll = window.scrollY;
-          if (currentScroll <= 0) {
-            setShow(true);
-          } else if (currentScroll > lastScroll) {
-            setShow(false); // scrolling down
-          } else {
-            setShow(true); // scrolling up
-          }
-          setLastScroll(currentScroll);
-          ticking = false;
-        });
-        ticking = true;
+      const currentScroll = window.scrollY;
+      if (currentScroll > lastScroll) {
+        setShow(false); // scrolling down
+      } else {
+        setShow(true); // scrolling up
       }
+      setLastScroll(currentScroll <= 0 ? 0 : currentScroll);
     };
+
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, [lastScroll]);

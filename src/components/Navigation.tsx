@@ -42,7 +42,7 @@ const Navigation = () => {
   };
 
   return (
-    <nav className="fixed top-0 left-0 w-full z-50 bg-primary/95 backdrop-blur border-b border-accent/30 shadow-lg">
+    <nav className={`fixed top-0 left-0 w-full z-50 bg-primary/95 backdrop-blur border-b border-accent/30 shadow-lg transition-transform duration-300 ${showNav ? 'translate-y-0' : '-translate-y-full'}`}>
       <div className="container mx-auto flex items-center justify-between px-4 py-2">
         <div className="flex items-center gap-2 sm:gap-3">
           <img src="/ZTech electrictronics logo.png" alt="Ztech Logo" className="w-8 h-8 rounded-full shadow" />
@@ -54,6 +54,7 @@ const Navigation = () => {
           <button onClick={() => scrollToSection('about')} className="hover:text-accent text-white font-medium transition-colors">About</button>
           <button onClick={() => scrollToSection('services')} className="hover:text-accent text-white font-medium transition-colors">Services</button>
           <button onClick={() => scrollToSection('team')} className="hover:text-accent text-white font-medium transition-colors">Team</button>
+          <button onClick={() => scrollToSection('pricing')} className="hover:text-accent text-white font-medium transition-colors">Pricing</button>
           <button onClick={() => scrollToSection('blog')} className="hover:text-accent text-white font-medium transition-colors">Blog</button>
           <button onClick={() => scrollToSection('faq')} className="hover:text-accent text-white font-medium transition-colors">FAQ</button>
           <button onClick={() => scrollToSection('whychooseus')} className="hover:text-accent text-white font-medium transition-colors">Why Choose Us</button>
@@ -72,6 +73,7 @@ const Navigation = () => {
           <button onClick={() => scrollToSection('about')} className="hover:text-accent text-white font-medium w-full text-left">About</button>
           <button onClick={() => scrollToSection('services')} className="hover:text-accent text-white font-medium w-full text-left">Services</button>
           <button onClick={() => scrollToSection('team')} className="hover:text-accent text-white font-medium w-full text-left">Team</button>
+          <button onClick={() => scrollToSection('pricing')} className="hover:text-accent text-white font-medium w-full text-left">Pricing</button>
           <button onClick={() => scrollToSection('blog')} className="hover:text-accent text-white font-medium w-full text-left">Blog</button>
           <button onClick={() => scrollToSection('faq')} className="hover:text-accent text-white font-medium w-full text-left">FAQ</button>
           <button onClick={() => scrollToSection('whychooseus')} className="hover:text-accent text-white font-medium w-full text-left">Why Choose Us</button>
