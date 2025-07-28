@@ -14,17 +14,34 @@ function Index() {
   return (
     <div>
       <Navigation />
-      <Hero />
-      <About />
-      <Services />
-      {/* Pricing section prominently on the main page */}
-      <HomePricingSection />
-      <Testimonials />
-      <Team />
-      <Blog />
-      <FAQ />
-      <WhyChooseUs />
-      <Contact />
+      <div id="home">
+        <Hero />
+      </div>
+      <div id="about">
+        <About />
+      </div>
+      <div id="services">
+        <Services />
+      </div>
+      <div id="pricing">
+        {/* Pricing section prominently on the main page */}
+        <HomePricingSection />
+      </div>
+      <div id="team">
+        <Team />
+      </div>
+      <div id="blog">
+        <Blog />
+      </div>
+      <div id="faq">
+        <FAQ />
+      </div>
+      <div id="whychooseus">
+        <WhyChooseUs />
+      </div>
+      <div id="contact">
+        <Contact />
+      </div>
       <Footer />
     </div>
   );

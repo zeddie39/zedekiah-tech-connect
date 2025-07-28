@@ -55,10 +55,11 @@ const Navigation = () => {
           <button onClick={() => scrollToSection('services')} className="hover:text-accent text-white font-medium transition-colors">Services</button>
           <button onClick={() => scrollToSection('team')} className="hover:text-accent text-white font-medium transition-colors">Team</button>
           <button onClick={() => scrollToSection('pricing')} className="hover:text-accent text-white font-medium transition-colors">Pricing</button>
-          <button onClick={() => scrollToSection('blog')} className="hover:text-accent text-white font-medium transition-colors">Blog</button>
           <button onClick={() => scrollToSection('faq')} className="hover:text-accent text-white font-medium transition-colors">FAQ</button>
           <button onClick={() => scrollToSection('whychooseus')} className="hover:text-accent text-white font-medium transition-colors">Why Choose Us</button>
           <button onClick={() => scrollToSection('contact')} className="hover:text-accent text-white font-medium transition-colors">Contact</button>
+          <a href="/gallery" className="hover:text-accent text-white font-medium transition-colors">Gallery</a>
+          <a href="/blog" className="hover:text-accent text-white font-medium transition-colors">Blog</a>
           <a href="/shop" className="hover:text-accent text-white font-medium transition-colors">Shop</a>
         </div>
         <button className="md:hidden flex items-center bg-accent/10 rounded-full shadow p-2 border border-accent/30" onClick={() => setIsMenuOpen(!isMenuOpen)} aria-label="Open menu">
@@ -74,10 +75,11 @@ const Navigation = () => {
           <button onClick={() => scrollToSection('services')} className="hover:text-accent text-white font-medium w-full text-left">Services</button>
           <button onClick={() => scrollToSection('team')} className="hover:text-accent text-white font-medium w-full text-left">Team</button>
           <button onClick={() => scrollToSection('pricing')} className="hover:text-accent text-white font-medium w-full text-left">Pricing</button>
-          <button onClick={() => scrollToSection('blog')} className="hover:text-accent text-white font-medium w-full text-left">Blog</button>
           <button onClick={() => scrollToSection('faq')} className="hover:text-accent text-white font-medium w-full text-left">FAQ</button>
           <button onClick={() => scrollToSection('whychooseus')} className="hover:text-accent text-white font-medium w-full text-left">Why Choose Us</button>
           <button onClick={() => scrollToSection('contact')} className="hover:text-accent text-white font-medium w-full text-left">Contact</button>
+          <a href="/gallery" className="hover:text-accent text-white font-medium w-full text-left">Gallery</a>
+          <a href="/blog" className="hover:text-accent text-white font-medium w-full text-left">Blog</a>
           <a href="/shop" className="hover:text-accent text-white font-medium w-full text-left">Shop</a>
         </div>
       )}

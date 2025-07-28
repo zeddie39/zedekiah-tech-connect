@@ -67,6 +67,7 @@ const App = () => (
             <Route path="/services" element={<ServicesPage />} />
             <Route path="/team" element={<TeamPage />} />
             <Route path="/contact" element={<ContactPage />} />
+            <Route path="/gallery" element={<Gallery />} />
             <Route path="admin" element={<AdminLayout />}>
               <Route index element={null} />
               <Route path="chat" element={<AdminChat />} />
