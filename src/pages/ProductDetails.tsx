@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+ import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Card } from "@/components/ui/card";
@@ -44,7 +44,6 @@ export default function ProductDetails() {
         return;
       }
       setProduct(prod);
-
       // Fetch images
       const { data: imgs, error: imgErr } = await supabase
         .from("product_images")

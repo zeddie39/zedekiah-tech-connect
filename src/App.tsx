@@ -7,6 +7,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import Gallery from "./pages/Gallery";
 import MorePricingPage from "./pages/MorePricingPage";
+import PricingPage from "./pages/Pricing";
 import NotFound from "./pages/NotFound";
 import AdminLayout from "./pages/Admin";
 import AdminChat from "./pages/admin/Chat";
@@ -87,6 +88,7 @@ const App = () => (
             <Route path="/why-choose-us" element={<WhyChooseUs />} />
             <Route path="/faq" element={<FAQPage />} />
             <Route path="/more-pricing" element={<MorePricingPage />} />
+            <Route path="/pricing" element={<PricingPage />} />
             <Route path="/gallery" element={<Gallery />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />

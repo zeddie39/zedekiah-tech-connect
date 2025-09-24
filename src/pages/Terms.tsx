@@ -25,7 +25,7 @@ const Terms = () => (
         <b>Contact Us</b><br/>
         Ztech Electronics Limited<br/>
         <span className="block">Email: zeedy028@gmail.com</span>
-        <span className="block">Phone: +254 757 756 763</span>
+        <span className="block">Phone: +254 757 756 763 or +254712701563</span>
       </div>
     </div>
   </div>

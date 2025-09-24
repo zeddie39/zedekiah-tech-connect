@@ -22,11 +22,11 @@ const MorePricingPage: React.FC = () => (
       <div className="mt-10 bg-white rounded-lg shadow p-6 border border-accent/10">
         <h2 className="text-2xl font-semibold mb-4 text-accent">Other Services</h2>
         <ul className="list-disc list-inside text-gray-700 space-y-2">
-          <li><b>Web Design & Development:</b> from <span className="text-green-700 font-bold">Ksh 15,000</span></li>
-          <li><b>Software Development:</b> from <span className="text-green-700 font-bold">Ksh 20,000</span></li>
-          <li><b>Poster & Flyer Design:</b> from <span className="text-green-700 font-bold">Ksh 1,000</span></li>
+          <li><b>Web Design & Development:</b> from <span className="text-green-700 font-bold"> from as low as Ksh 15,000</span></li>
+          <li><b>Software Development:</b> from <span className="text-green-700 font-bold"> from as low asKsh 20,000</span></li>
+          <li><b>Poster & Flyer Design:</b> from <span className="text-green-700 font-bold"> from as low as Ksh 1,000</span></li>
           <li><b>Consultation:</b> <span className="text-green-700 font-bold">Ksh 500</span> per session</li>
-          <li><b>Network Installation:</b> from <span className="text-green-700 font-bold">Ksh 8,000</span></li>
+          <li><b>Network Installation:</b> from <span className="text-green-700 font-bold"> from as low as Ksh 15,000</span></li>
         </ul>
         <div className="text-xs text-gray-400 mt-3">Contact us for a custom quote for your project or service.</div>
       </div>

@@ -1,4 +1,4 @@
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { Service } from '@/types/service';
 
 interface ServiceModalProps {
@@ -17,6 +17,9 @@ const ServiceModal = ({ isOpen, onClose, service }: ServiceModalProps) => {
           <DialogTitle className="font-heading">
             {service.title}
           </DialogTitle>
+          <DialogDescription>
+            Detailed information and features for this service.
+          </DialogDescription>
         </DialogHeader>
         <div>
           <img src={service.image} alt={service.title} className="w-full h-40 sm:h-48 object-cover rounded-md mb-4" />

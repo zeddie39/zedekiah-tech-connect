@@ -160,7 +160,7 @@ const Team = () => {
               <div className="flex justify-center md:justify-start space-x-4">
                 {/* Email */}
                 <a 
-                  href="mailto:info@ztechelectronicsltd.com" 
+                  href="mailto:info@ztechelectronics.co.ke" 
                   className="w-12 h-12 bg-primary rounded-full flex items-center justify-center text-white hover:bg-accent transition-all duration-200 hover:scale-110"
                   aria-label="Email"
                   title="Send Email"

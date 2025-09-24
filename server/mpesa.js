@@ -16,9 +16,9 @@ app.use(cors());
 // Set these in your .env file
 const consumerKey = process.env.MPESA_CONSUMER_KEY;
 const consumerSecret = process.env.MPESA_CONSUMER_SECRET;
-const shortcode = process.env.MPESA_SHORTCODE; // e.g. 174379
+const shortcode = process.env.MPESA_SHORTCODE; 
 const passkey = process.env.MPESA_PASSKEY;
-const callbackUrl = process.env.MPESA_CALLBACK_URL || 'https://yourdomain.com/mpesa-callback';
+const callbackUrl = process.env.MPESA_CALLBACK_URL || 'https://ztechelectronics.co.ke/mpesa-callback';
 
 // Get access token
 async function getAccessToken() {
@@ -62,7 +62,7 @@ app.post('/api/mpesa/stkpush', async (req, res) => {
 
 // Callback endpoint for M-Pesa
 app.post('/api/mpesa/callback', async (req, res) => {
-  console.log('M-Pesa Callback:', JSON.stringify(req.body, null, 2));
+  console.log('M-Pesa Callback  npm install:', JSON.stringify(req.body, null, 2));
   // Example: update order in Supabase if payment is successful
   const result = req.body.Body?.stkCallback;
   const metadata = result?.CallbackMetadata?.Item || [];

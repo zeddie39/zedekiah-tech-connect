@@ -73,7 +73,7 @@ const Footer = () => {
               </li>
               <li>
                 <Link
-                  to="/more-pricing"
+                  to="/pricing"
                   className="text-gray-300 hover:text-accent transition-colors duration-200 text-xs sm:text-base"
                 >
                   More Pricing
@@ -120,7 +120,7 @@ const Footer = () => {
             <h4 className="font-ubuntu font-bold text-base sm:text-lg mb-2 sm:mb-4">Contact</h4>
             <div className="flex items-center gap-2 text-xs sm:text-base">
               <Mail className="w-4 h-4 sm:w-5 sm:h-5" />
-              <span className="break-all">info@ztechelectronicslimited.co.ke</span>
+              <span className="break-all">info@ztechelectronics.co.ke</span>
             </div>
             <div className="flex items-center gap-2 text-xs sm:text-base">
               <Phone className="w-4 h-4 sm:w-5 sm:h-5" />

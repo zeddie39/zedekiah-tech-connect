@@ -11,7 +11,7 @@ import ShopHeroCarousel from "@/components/ShopHeroCarousel";
 import ShopCategories from "@/components/ShopCategories";
 import { Badge } from "@/components/ui/badge";
 import ImagePreviewModal from "@/components/ImagePreviewModal";
-import type { Session } from "@supabase/supabase-js";
+import type { Session, User } from "@supabase/supabase-js";
 
 type Product = {
   id: string;
@@ -21,25 +21,126 @@ type Product = {
   status: string | null;
   category: string | null;
   owner_id: string;
+  avgRating?: number;
+  reviewCount?: number;
 };
 
-type ProductImage = {
+type ProductReview = {
   id: string;
   product_id: string;
-  image_url: string;
-  uploaded_at: string;
+  user_id: string;
+  rating: number;
+  comment: string;
+  created_at: string;
 };
 
 export default function Shop() {
+  // State declarations
+  const [wishlist, setWishlist] = useState<string[]>([]);
+  const [sortBy, setSortBy] = useState<'price' | 'rating' | 'title'>('price');
+  const [sortDir, setSortDir] = useState<'asc' | 'desc'>('asc');
   const [loading, setLoading] = useState(true);
   const [session, setSession] = useState<Session | null>(null);
+  const [user, setUser] = useState<User | null>(null);
   const [products, setProducts] = useState<Product[]>([]);
   const [images, setImages] = useState<Record<string, string>>({});
   const [categoryFilter, setCategoryFilter] = useState<string | null>(null);
   const [previewImg, setPreviewImg] = useState<string | null>(null);
   const [previewAlt, setPreviewAlt] = useState<string>("");
+  const [reviews, setReviews] = useState<Record<string, ProductReview[]>>({});
+  const [reviewInputs, setReviewInputs] = useState<Record<string, { rating: number; comment: string }>>({});
+  const [reviewSubmitting, setReviewSubmitting] = useState<Record<string, boolean>>({});
+  // Add navigation and cart hooks
+  // If you use react-router-dom, uncomment the next line:
   const navigate = useNavigate();
   const { addToCart } = useCart();
+
+  // Load wishlist from Supabase or localStorage
+  useEffect(() => {
+    const loadWishlist = async () => {
+      if (user) {
+        // Fetch from Supabase user_profile table (or similar)
+        // @ts-ignore: ignore missing type until types are regenerated
+        const { data, error } = await supabase
+          .from('user_wishlist' as any)
+          .select('product_id')
+          .eq('user_id', user.id);
+        if (!error && data) {
+          const filteredWishlist = Array.isArray(data)
+            ? data.filter((row: any) => row && typeof row.product_id === "string")
+            : [];
+          setWishlist(filteredWishlist.map((row: { product_id: string }) => row.product_id));
+        } else {
+          setWishlist([]);
+        }
+      } else {
+        // Fallback to localStorage
+        const stored = localStorage.getItem('wishlist');
+        setWishlist(stored ? JSON.parse(stored) : []);
+      }
+    };
+    loadWishlist();
+  }, [user]);
+
+  // ...rest of the component code remains unchanged...
+
+  // Toggle wishlist and persist
+  const toggleWishlist = async (productId: string) => {
+    if (user) {
+      let updated: string[];
+      if (wishlist.includes(productId)) {
+        updated = wishlist.filter(id => id !== productId);
+        // @ts-ignore: ignore missing type until types are regenerated
+        await supabase.from('user_wishlist' as any).delete().eq('user_id', user.id).eq('product_id', productId);
+      } else {
+        updated = [...wishlist, productId];
+        // @ts-ignore: ignore missing type until types are regenerated
+        await supabase.from('user_wishlist' as any).insert({ user_id: user.id, product_id: productId });
+      }
+      setWishlist(updated);
+    } else {
+      setWishlist(prev => {
+        const updated = prev.includes(productId)
+          ? prev.filter(id => id !== productId)
+          : [...prev, productId];
+        localStorage.setItem('wishlist', JSON.stringify(updated));
+        return updated;
+      });
+    }
+  };
+
+  // Check login state and fetch products
+  // Fetch user info
+  useEffect(() => {
+    if (session) {
+      supabase.auth.getUser().then(({ data }) => setUser(data?.user || null));
+    }
+  }, [session]);
+
+  // Fetch reviews for all products
+  useEffect(() => {
+    if (products.length === 0) return;
+    const fetchReviews = async () => {
+      const ids = products.map((p) => p.id);
+      // @ts-ignore: ignore missing type until types are regenerated
+      const { data, error } = await supabase
+        .from('product_reviews' as any)
+        .select('*')
+        .in('product_id', ids);
+      if (!error && data) {
+        const grouped: Record<string, ProductReview[]> = {};
+        const filteredReviews = Array.isArray(data)
+          ? data.filter((r: any) => r && typeof r.product_id === "string")
+          : [];
+        filteredReviews.forEach((r: ProductReview) => {
+          if (!grouped[r.product_id]) grouped[r.product_id] = [];
+          grouped[r.product_id].push(r);
+        });
+        setReviews(grouped);
+      }
+    };
+    fetchReviews();
+  }, [products]);
 
   // Check login state and fetch products
   useEffect(() => {
@@ -58,55 +159,20 @@ export default function Shop() {
       setSession(session);
       if (!session) navigate("/auth");
     });
-
-    return () => {
-      mounted = false;
-      subscription?.subscription.unsubscribe();
-    };
+    return () => subscription?.subscription?.unsubscribe();
   }, [navigate]);
 
-  // Fetch all active products and their images
-  useEffect(() => {
-    if (!session) return;
-    setLoading(true);
-    async function fetchProducts() {
-      // Only show approved products
-      const { data: products, error } = await supabase
-        .from("products")
-        .select("*")
-        .eq("status", "approved")
-        .order("created_at", { ascending: false });
-      if (!products || error) {
-        setProducts([]);
-        setImages({});
-        setLoading(false);
-        return;
-      }
-      setProducts(products);
-
-      // Fetch first image for each product
-      const ids = products.map((p: Product) => p.id);
-      if (ids.length > 0) {
-        const { data: imgs } = await supabase
-          .from("product_images")
-          .select("*")
-          .in("product_id", ids);
-        // Map first image for each product
-        const imgMap: Record<string, string> = {};
-        imgs?.forEach((img: ProductImage) => {
-          if (!imgMap[img.product_id]) imgMap[img.product_id] = img.image_url;
-        });
-        setImages(imgMap);
-      }
-      setLoading(false);
-    }
-    fetchProducts();
-  }, [session]);
+  // Sorting/filtering logic (simple demo)
+  const sortedProducts = [...products].sort((a, b) => {
+    if (sortBy === 'price') return sortDir === 'asc' ? a.price - b.price : b.price - a.price;
+    if (sortBy === 'title') return sortDir === 'asc' ? a.title.localeCompare(b.title) : b.title.localeCompare(a.title);
+    if (sortBy === 'rating') return sortDir === 'asc' ? (a.avgRating || 0) - (b.avgRating || 0) : (b.avgRating || 0) - (a.avgRating || 0);
+    return 0;
+  });
 
   // Filtered products by category
   const filteredProducts = categoryFilter
     ? products.filter((product) =>
-        // Case-insensitive match, fallback to '' for missing category.
         (product.category || "").toLowerCase() === categoryFilter.toLowerCase()
       )
     : products;
@@ -123,16 +189,59 @@ export default function Shop() {
     return null;
   }
 
+
   function handleAddToCart(product: Product) {
     addToCart({ ...product });
     toast({ title: 'Added to cart', description: product.title });
+  }
+
+   // Review form handlers
+  function handleReviewInput(productId: string, field: 'rating' | 'comment', value: string | number) {
+    setReviewInputs((prev) => ({
+      ...prev,
+      [productId]: {
+        ...prev[productId],
+        [field]: value,
+      },
+    }));
+  }
+
+  async function handleReviewSubmit(productId: string) {
+    if (!user) return;
+    const input = reviewInputs[productId];
+    if (!input || !input.rating) return;
+    setReviewSubmitting((prev) => ({ ...prev, [productId]: true }));
+    // @ts-ignore: ignore missing type until types are regenerated
+    const { error } = await supabase.from('product_reviews' as any).insert({
+      product_id: productId,
+      user_id: user.id,
+      rating: input.rating,
+      comment: input.comment,
+    });  
+    setReviewSubmitting((prev) => ({ ...prev, [productId]: false }));
+    if (!error) {
+      toast({ title: 'Review submitted!' });
+      setReviewInputs((prev) => ({ ...prev, [productId]: { rating: 5, comment: '' } }));
+      // Refetch reviews
+      // @ts-ignore: ignore missing type until types are regenerated
+      const { data } = await supabase.from('product_reviews' as any).select('*').eq('product_id', productId);
+      const filtered = Array.isArray(data)
+        ? data.filter((r: any) => r && typeof r.product_id === "string")
+        : [];
+      setReviews((prev) => ({
+        ...prev,
+        [productId]: filtered as ProductReview[]
+      }));
+    } else {
+      toast({ title: 'Error submitting review', description: error.message, variant: 'destructive' });
+    }
   }
 
   async function handleLogout() {
     await supabase.auth.signOut();
     navigate("/");
   }
-
+  
   return (
     <>
       <ShopNavbar />
@@ -141,9 +250,25 @@ export default function Shop() {
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-4">
           <ShopCategories selectedCategory={categoryFilter} onSelectCategory={setCategoryFilter} />
           <div className="flex gap-2 w-full sm:w-auto">
-            <Button variant="outline" onClick={() => navigate("/dashboard")} className="w-full sm:w-auto">Go Back to Dashboard</Button>
+            <Button variant="outline" onClick={() => navigate("/dashboard") } className="w-full sm:w-auto">Go Back to Dashboard</Button>
             <Button variant="destructive" onClick={handleLogout} className="w-full sm:w-auto">Logout</Button>
           </div>
+        </div>
+        {/* Filtering/Sorting Controls */}
+        <div className="flex gap-4 mb-4 items-center">
+          <label>Sort by:
+            <select value={sortBy} onChange={e => setSortBy(e.target.value as any)} className="ml-2 border rounded px-2 py-1">
+              <option value="price">Price</option>
+              <option value="rating">Rating</option>
+              <option value="title">Title</option>
+            </select>
+          </label>
+          <label>Direction:
+            <select value={sortDir} onChange={e => setSortDir(e.target.value as any)} className="ml-2 border rounded px-2 py-1">
+              <option value="asc">Asc</option>
+              <option value="desc">Desc</option>
+            </select>
+          </label>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {filteredProducts.map((product) => (
@@ -172,6 +297,66 @@ export default function Shop() {
                 </div>
               </div>
               <Button className="mt-2 w-full" onClick={() => handleAddToCart(product)}>Add to Cart</Button>
+              {/* Wishlist/Favorites */}
+              <Button variant={wishlist.includes(product.id) ? 'default' : 'outline'} onClick={() => toggleWishlist(product.id)} className="w-full mt-2">
+                {wishlist.includes(product.id) ? 'Remove from Wishlist' : 'Add to Wishlist'}
+              </Button>
+              {/* Ratings UI */}
+              <div className="flex items-center gap-1 mt-2">
+                {[1,2,3,4,5].map(i => (
+                  <Star key={i} className={`w-4 h-4 ${i <= (product.avgRating || 0) ? 'text-yellow-400' : 'text-gray-300'}`} fill={i <= (product.avgRating || 0) ? '#facc15' : 'none'} />
+                ))}
+                <span className="text-xs text-gray-500">({product.reviewCount || 0})</span>
+              </div>
+              {/* Reviews Section */}
+              <div className="mt-4">
+                <div className="mb-2">
+                  <span className="font-semibold">Reviews:</span>
+                  <div className="space-y-1 mt-1">
+                    {(reviews[product.id] || []).length === 0 && <div className="text-xs text-muted-foreground">No reviews yet.</div>}
+                    {(reviews[product.id] || []).map((r) => (
+                      <div key={r.id} className="text-xs border-b border-muted py-1 flex flex-col">
+                        <span className="flex items-center gap-1">
+                          {[1,2,3,4,5].map(i => (
+                            <Star key={i} className={`w-3 h-3 ${i <= r.rating ? 'text-yellow-400' : 'text-gray-300'}`} fill={i <= r.rating ? '#facc15' : 'none'} />
+                          ))}
+                          <span className="ml-2 text-muted-foreground">{r.comment}</span>
+                        </span>
+                        <span className="text-[10px] text-muted-foreground">{new Date(r.created_at).toLocaleString()}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                {user && (
+                  <form
+                    onSubmit={e => {
+                      e.preventDefault();
+                      handleReviewSubmit(product.id);
+                    }}
+                    className="flex flex-col gap-2"
+                  >
+                    <label className="block mb-1 font-semibold">Leave a Review:</label>
+                    <div className="flex gap-2 items-center">
+                      <select
+                        className="border rounded px-2 py-1"
+                        value={reviewInputs[product.id]?.rating || 5}
+                        onChange={e => handleReviewInput(product.id, 'rating', Number(e.target.value))}
+                        required
+                      >
+                        {[1,2,3,4,5].map(i => <option key={i} value={i}>{i} Star{i > 1 ? 's' : ''}</option>)}
+                      </select>
+                      <input
+                        type="text"
+                        placeholder="Your comment"
+                        className="border rounded px-2 py-1"
+                        value={reviewInputs[product.id]?.comment || ''}
+                        onChange={e => handleReviewInput(product.id, 'comment', e.target.value)}
+                      />
+                      <Button type="submit" size="sm" disabled={reviewSubmitting[product.id]}>Submit</Button>
+                    </div>
+                  </form>
+                )}
+              </div>
             </Card>
           ))}
         </div>

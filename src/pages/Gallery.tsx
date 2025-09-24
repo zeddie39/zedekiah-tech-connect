@@ -46,8 +46,10 @@ const Gallery: React.FC = () => {
     "Team",
     "Testimonials"
   ];
-  // Filter images by selected type
-  const filteredImages = selectedCategory ? images.filter(img => img.category === selectedCategory) : images;
+  // Filter images by selected type (case-insensitive, fallback to capitalized)
+  const filteredImages = selectedCategory
+    ? images.filter(img => (img.category || '').toLowerCase() === selectedCategory.toLowerCase())
+    : images;
 
   return (
     <section className="py-16 bg-gradient-to-b from-white to-gray-50 min-h-screen">
@@ -82,7 +84,7 @@ const Gallery: React.FC = () => {
                 />
                 <div className="font-semibold text-lg text-accent mb-1">{img.title}</div>
                 <div className="text-gray-600 text-sm mb-1">{img.description}</div>
-                <div className="text-xs text-gray-400 mb-1">{img.category}</div>
+                <div className="text-xs text-gray-400 mb-1">{img.category ? img.category.charAt(0).toUpperCase() + img.category.slice(1).toLowerCase() : ''}</div>
                 <div className="flex gap-2 mt-1">
                   <button className="text-accent hover:underline text-sm" onClick={() => window.open(img.image_url, '_blank')}>View</button>
                   <a className="text-accent hover:underline text-sm" href={img.image_url} download target="_blank" rel="noopener noreferrer">Download</a>
@@ -106,7 +108,7 @@ const Gallery: React.FC = () => {
             >
               &times;
             </button>
-            <TransformWrapper>
+            <TransformWrapper wheel={{ step: 0.5 }} doubleClick={{ step: 1.5 }} zoomAnimation={{ animationTime: 150 }}>
               <TransformComponent>
                 <img
                   src={modalImg.image_url}

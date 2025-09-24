@@ -1,6 +1,6 @@
 
 import { useEffect, useState } from "react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogDescription } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
@@ -71,6 +71,9 @@ export default function AdminEditRoleDialog({
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Edit Role</DialogTitle>
+          <DialogDescription>
+            Assign or update the user role for platform access and permissions.
+          </DialogDescription>
         </DialogHeader>
         <div className="mb-4">
           <div className="text-sm mb-2">User: <span className="font-mono">{user.email}</span></div>
