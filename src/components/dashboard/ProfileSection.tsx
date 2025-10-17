@@ -3,6 +3,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { User as UserIcon, ImageUp, PencilLine, Check, X } from "lucide-react";
 
 type Profile = {
   id: string;
@@ -23,7 +24,7 @@ export default function ProfileSection({ userId }: { userId: string }) {
 
   useEffect(() => {
     (async () => {
-      const { data, error } = await supabase
+      const { data } = await supabase
         .from("profiles")
         .select("*")
         .eq("id", userId)
@@ -59,13 +60,18 @@ export default function ProfileSection({ userId }: { userId: string }) {
     e.preventDefault();
     if (!file) return;
     setLoading(true);
+    setErrorMsg(null);
     const filePath = `${userId}/${file.name}`;
-    const { data, error } = await supabase.storage
+    const { error } = await supabase.storage
       .from("avatars")
       .upload(filePath, file, { upsert: true });
     if (!error) {
       const url = supabase.storage.from("avatars").getPublicUrl(filePath).data.publicUrl;
-      const { data: updated, error: updateError } = await supabase.from("profiles").update({ avatar_url: url }).eq("id", userId).select();
+      const { data: updated } = await supabase
+        .from("profiles")
+        .update({ avatar_url: url })
+        .eq("id", userId)
+        .select();
       setAvatarUrl(url);
       if (updated && updated.length > 0) {
         setProfile(updated[0]);
@@ -77,51 +83,81 @@ export default function ProfileSection({ userId }: { userId: string }) {
     setLoading(false);
   };
 
+  const initial = (fullName || profile?.email || "?").trim().charAt(0).toUpperCase();
+
   return (
-    <Card className="p-4 sm:p-6 md:p-8 mb-4 max-w-full w-full md:w-2/3 lg:w-1/2 mx-auto">
-      <h2 className="font-bold text-lg sm:text-xl md:text-2xl mb-2 font-playfair text-center">Profile</h2>
-      <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-8">
-        {/* Avatar */}
-        <div className="flex flex-col items-center gap-2 w-full sm:w-auto">
-          {avatarUrl ? (
-            <img src={avatarUrl} alt="Avatar" className="w-20 h-20 sm:w-24 sm:h-24 rounded-full object-cover border-2 border-accent" />
-          ) : (
-            <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-gray-200 flex items-center justify-center text-3xl text-gray-400 border-2 border-accent">
-              ?
-            </div>
-          )}
-          <form onSubmit={handleUpload} className="flex flex-col items-center gap-2 w-full">
-            <input
-              type="file"
-              accept="image/*"
-              ref={fileInputRef}
-              onChange={e => setFile(e.target.files?.[0] || null)}
-              className="block w-full text-xs sm:text-sm file:mr-2 file:py-1 file:px-2 file:rounded file:border-0 file:text-xs file:bg-accent file:text-white"
-            />
-            <Button type="submit" size="sm" disabled={loading || !file} className="w-full sm:w-auto">Upload</Button>
-          </form>
+    <Card className="relative overflow-hidden border border-accent/30 rounded-2xl bg-card/90 shadow-md">
+      {/* Header banner */}
+      <div className="h-20 sm:h-24 w-full bg-gradient-to-r from-primary/90 via-accent/80 to-primary/80" />
+
+      <div className="px-4 sm:px-6 md:px-8 pb-6 -mt-10">
+        {/* Avatar and title row */}
+        <div className="flex items-start gap-4">
+          <div className="relative shrink-0">
+            {avatarUrl ? (
+              <img
+                src={avatarUrl}
+                alt="Avatar"
+                className="w-20 h-20 sm:w-24 sm:h-24 rounded-full object-cover ring-2 ring-accent shadow-lg bg-background"
+              />
+            ) : (
+              <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full flex items-center justify-center bg-background ring-2 ring-accent shadow-lg">
+                <UserIcon className="w-10 h-10 text-muted-foreground" />
+              </div>
+            )}
+          </div>
+          <div className="flex-1 pt-2">
+            <h3 className="text-lg sm:text-xl font-extrabold">Your Profile</h3>
+            <p className="text-xs sm:text-sm text-muted-foreground">Manage your personal information and avatar.</p>
+          </div>
         </div>
-        {/* Profile Info */}
-        <div className="flex-1 w-full">
-          <div className="flex flex-col gap-2">
-            <label className="font-semibold text-xs sm:text-sm">Full Name</label>
-            <Input
-              value={fullName}
-              onChange={e => setFullName(e.target.value)}
-              disabled={!editing || loading}
-              className="text-xs sm:text-base"
-            />
-            <div className="flex gap-2 mt-2">
-              {editing ? (
-                <>
-                  <Button size="sm" onClick={updateProfile} disabled={loading}>Save</Button>
-                  <Button size="sm" variant="outline" onClick={() => setEditing(false)} disabled={loading}>Cancel</Button>
-                </>
-              ) : (
-                <Button size="sm" onClick={() => setEditing(true)}>Edit</Button>
-              )}
+
+        {/* Content grid */}
+        <div className="mt-5 grid grid-cols-1 md:grid-cols-[220px,1fr] gap-5">
+          {/* Avatar and upload */}
+          <div className="bg-muted/40 border border-accent/20 rounded-xl p-3">
+            <form onSubmit={handleUpload} className="space-y-2">
+              <label className="text-xs text-muted-foreground">Change avatar</label>
+              <input
+                type="file"
+                accept="image/*"
+                ref={fileInputRef}
+                onChange={e => setFile(e.target.files?.[0] || null)}
+                className="block w-full text-xs sm:text-sm file:mr-2 file:py-1.5 file:px-3 file:rounded-md file:border-0 file:bg-accent file:text-primary file:font-semibold hover:file:bg-accent/90 file:transition"
+              />
+              <p className="text-[11px] text-muted-foreground">JPG, PNG recommended. Square images look best.</p>
+              <Button type="submit" size="sm" disabled={loading || !file} className="w-full">{loading ? "Uploading..." : "Upload"}</Button>
+            </form>
+          </div>
+
+          {/* Profile info */}
+          <div className="bg-muted/40 border border-accent/20 rounded-xl p-3">
+            <div className="space-y-2">
+              <label className="font-semibold text-xs sm:text-sm">Full Name</label>
+              <Input
+                value={fullName}
+                onChange={e => setFullName(e.target.value)}
+                disabled={!editing || loading}
+                placeholder="Enter your full name"
+              />
+              <div className="flex flex-wrap gap-2 mt-2">
+                {editing ? (
+                  <>
+                    <Button size="sm" onClick={updateProfile} disabled={loading} className="inline-flex items-center gap-1">
+                      <Check className="w-4 h-4" /> Save
+                    </Button>
+                    <Button size="sm" variant="outline" onClick={() => setEditing(false)} disabled={loading} className="inline-flex items-center gap-1">
+                      <X className="w-4 h-4" /> Cancel
+                    </Button>
+                  </>
+                ) : (
+                  <Button size="sm" onClick={() => setEditing(true)} className="inline-flex items-center gap-1">
+                    <PencilLine className="w-4 h-4" /> Edit
+                  </Button>
+                )}
+              </div>
+              {errorMsg && <div className="text-red-500 text-xs mt-2">{errorMsg}</div>}
             </div>
-            {errorMsg && <div className="text-red-500 text-xs mt-2">{errorMsg}</div>}
           </div>
         </div>
       </div>

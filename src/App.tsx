@@ -28,9 +28,9 @@ import CheckoutPage from "./pages/Checkout";
 import OrdersPage from "./pages/Orders";
 import { CartProvider } from "@/components/CartContext";
 import ProductDetails from "./pages/ProductDetails";
+import ScrollToTop from "@/components/ui/scroll-to-top";
 import ConfirmedCelebration from "./pages/ConfirmedCelebration";
 import BlogPage from "./pages/Blog";
-import BackToTopButton from "@/components/BackToTopButton";
 import AboutPage from "./pages/About";
 import ServicesPage from "./pages/Services";
 import TeamPage from "./pages/Team";
@@ -93,7 +93,7 @@ const App = () => (
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
-          <BackToTopButton />
+          <ScrollToTop />
           <CookieConsent />
         </BrowserRouter>
       </CartProvider>

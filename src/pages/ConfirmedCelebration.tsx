@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { CheckCheck } from "lucide-react";
 
 // Confetti blast effect using absolute-positioned animated circles from the top
 function ConfettiBlast() {
@@ -59,40 +60,47 @@ export default function ConfirmedCelebration() {
   }, [count, navigate, error]);
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-accent/10 via-primary/10 to-white relative overflow-hidden">
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-[#1e48fc]/10 via-[#ffd700]/10 to-white relative overflow-hidden">
       {/* Confetti blast effect from the top */}
       <ConfettiBlast />
-      <div className="z-10 bg-white/90 rounded-xl shadow-xl p-10 flex flex-col items-center">
+      <div className="z-10 bg-white/95 backdrop-blur rounded-xl shadow-2xl p-12 flex flex-col items-center border-2 border-[#1e48fc]/20">
         {error ? (
           <>
-            <h1 className="text-3xl md:text-4xl font-extrabold text-red-600 mb-4 animate-bounce">Email Confirmation Failed</h1>
+            <div className="w-20 h-20 rounded-full bg-red-100 flex items-center justify-center mb-6">
+              <span className="text-4xl">❌</span>
+            </div>
+            <h1 className="text-3xl md:text-4xl font-extrabold text-red-600 mb-4">Email Confirmation Failed</h1>
             <p className="text-lg text-gray-700 mb-6 text-center max-w-md">{error}</p>
             <a
               href="/auth"
-              className="px-8 py-3 bg-accent text-white font-bold text-lg rounded-lg shadow-lg hover:bg-accent/80 transition-all duration-200 animate-pulse mb-2"
+              className="px-8 py-3 bg-[#1e48fc] text-white font-bold text-lg rounded-lg shadow-lg hover:bg-[#1e48fc]/90 transition-all duration-200 mb-2"
             >
               Go to Login
             </a>
-            <div className="text-gray-500 text-sm mt-2">
+            <div className="text-gray-500 text-sm mt-4">
               If you need a new confirmation email, please try signing up again or contact support.
             </div>
           </>
         ) : (
           <>
-            <h1 className="text-3xl md:text-4xl font-extrabold text-primary mb-4 animate-bounce">🎉 Email Confirmed! 🎉</h1>
-            <p className="text-lg text-gray-700 mb-6 text-center max-w-md">
+            <div className="w-20 h-20 rounded-full bg-[#1e48fc]/10 flex items-center justify-center mb-6 border-4 border-[#1e48fc] animate-bounce">
+              <CheckCheck className="w-10 h-10 text-[#1e48fc]" />
+            </div>
+            <h1 className="text-3xl md:text-4xl font-extrabold text-[#1e48fc] mb-4 text-center">Welcome to Zedekiah Tech Electronics</h1>
+            <p className="text-lg text-gray-700 mb-8 text-center max-w-md">
               Your email has been successfully confirmed.<br/>
-              You can now log in to your account and start exploring our services!
+              Your account is now ready - log in to start exploring our services.
             </p>
             <a
               href="/auth"
-              className="px-8 py-3 bg-accent text-white font-bold text-lg rounded-lg shadow-lg hover:bg-accent/80 transition-all duration-200 animate-pulse mb-2"
+              className="group px-8 py-3 bg-gradient-to-r from-[#1e48fc] to-[#1e48fc]/90 text-white font-bold text-lg rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 mb-2 relative overflow-hidden"
             >
-              Continue to Login
+              <span className="relative z-10">Continue to Login</span>
+              <div className="absolute inset-0 bg-[#ffd700] transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left"></div>
             </a>
-            <div className="text-gray-500 text-sm mt-2">
-              Redirecting in <span className="font-bold text-primary">{count}</span> seconds...<br/>
-              or <a href="/auth" className="underline text-accent font-semibold">click here to sign in</a>
+            <div className="text-gray-500 text-sm mt-4 text-center">
+              Redirecting in <span className="font-bold text-[#1e48fc]">{count}</span> seconds...<br/>
+              or <a href="/auth" className="underline text-[#ffd700] hover:text-[#1e48fc] font-semibold transition-colors">click here to sign in</a>
             </div>
           </>
         )}

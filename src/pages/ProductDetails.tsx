@@ -5,22 +5,13 @@ import { Card } from "@/components/ui/card";
 import { Loader2, ChevronLeft, Star, ImageIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import ShopNavbar from "@/components/ShopNavbar";
+import { formatPhoneForWhatsapp } from "@/lib/utils";
+import { toast } from "@/components/ui/use-toast";
 
-type Product = {
-  id: string;
-  title: string;
-  description: string | null;
-  price: number;
-  status: string | null;
-  category: string | null;
-  owner_id: string;
-};
-type ProductImage = {
-  id: string;
-  product_id: string;
-  image_url: string;
-  uploaded_at: string;
-};
+import type { Database } from "../types/supabase";
+
+type Product = Database['public']['Tables']['products']['Row'];
+type ProductImage = Database['public']['Tables']['product_images']['Row'];
 
 export default function ProductDetails() {
   const { id } = useParams();
@@ -78,6 +69,10 @@ export default function ProductDetails() {
     );
   }
 
+  // Fallback WhatsApp number if product doesn't have one
+  const businessWhatsApp = "+254757756763";
+  const primaryImageUrl = images.length > 0 ? images[0].image_url : undefined;
+
   return (
     <>
       <ShopNavbar />
@@ -123,6 +118,29 @@ export default function ProductDetails() {
             <div className="text-xs text-muted-foreground mt-1">
               Owner ID: {product.owner_id}
             </div>
+            {/** WhatsApp contact button */}
+            <Button
+              variant="outline"
+              className="mt-2 w-full"
+              onClick={() => {
+                // Use per-product WhatsApp number if available, otherwise fall back to business number
+                // @ts-ignore
+                const targetNumber = product.whatsapp_number || businessWhatsApp;
+                const message = `I am interested in this product, can we chat?\n\n${product.title}\nPrice: KSh ${product.price.toFixed(2)}`;
+                const url = formatPhoneForWhatsapp(
+                  targetNumber,
+                  message,
+                  primaryImageUrl
+                );
+                if (!url) {
+                  toast({ title: 'Invalid WhatsApp number', description: 'No valid WhatsApp number was provided.', variant: 'destructive' });
+                  return;
+                }
+                window.open(url, '_blank');
+              }}
+            >
+              Chat on WhatsApp
+            </Button>
           </div>
         </Card>
         <div className="mt-8">
