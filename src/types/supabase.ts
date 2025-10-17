@@ -43,15 +43,58 @@ export interface Database {
           }
         ]
       }
-      product_reviews: {
-        Row: {
-          id: string
-          product_id: string
-          user_id: string
-          rating: number
-          comment: string
-          created_at: string
-        }
+  orders: {
+    Row: {
+      amount: number
+      buyer_id: string
+      created_at: string | null
+      delivery_location: string | null
+      id: string
+      payment_status: string | null
+      product_id: string
+      status: string | null
+      updated_at: string | null
+    }
+    Insert: {
+      amount: number
+      buyer_id: string
+      created_at?: string | null
+      delivery_location?: string | null
+      id?: string
+      payment_status?: string | null
+      product_id: string
+      status?: string | null
+      updated_at?: string | null
+    }
+    Update: {
+      amount?: number
+      buyer_id?: string
+      created_at?: string | null
+      delivery_location?: string | null
+      id?: string
+      payment_status?: string | null
+      product_id?: string
+      status?: string | null
+      updated_at?: string | null
+    }
+    Relationships: [
+      {
+        foreignKeyName: "orders_product_id_fkey"
+        columns: ["product_id"]
+        referencedRelation: "products"
+        referencedColumns: ["id"]
+      }
+    ]
+  }
+  product_reviews: {
+    Row: {
+      id: string
+      product_id: string
+      user_id: string
+      rating: number
+      comment: string
+      created_at: string
+    }
         Insert: {
           id?: string
           product_id: string

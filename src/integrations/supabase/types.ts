@@ -175,6 +175,7 @@ export type Database = {
           amount: number
           buyer_id: string
           created_at: string | null
+          delivery_location: string | null
           id: string
           payment_status: string | null
           product_id: string
@@ -185,6 +186,7 @@ export type Database = {
           amount: number
           buyer_id: string
           created_at?: string | null
+          delivery_location?: string | null
           id?: string
           payment_status?: string | null
           product_id: string
@@ -195,6 +197,7 @@ export type Database = {
           amount?: number
           buyer_id?: string
           created_at?: string | null
+          delivery_location?: string | null
           id?: string
           payment_status?: string | null
           product_id?: string

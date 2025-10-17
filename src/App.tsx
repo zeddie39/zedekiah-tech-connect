@@ -26,6 +26,7 @@ import ShopNew from "./pages/ShopNew";
 import CartPage from "./pages/Cart";
 import CheckoutPage from "./pages/Checkout";
 import OrdersPage from "./pages/Orders";
+import Wishlist from "./pages/Wishlist";
 import { CartProvider } from "@/components/CartContext";
 import ProductDetails from "./pages/ProductDetails";
 import ScrollToTop from "@/components/ui/scroll-to-top";
@@ -63,6 +64,7 @@ const App = () => (
             <Route path="/cart" element={<CartPage />} />
             <Route path="/checkout" element={<CheckoutPage />} />
             <Route path="/orders" element={<OrdersPage />} />
+            <Route path="/wishlist" element={<Wishlist />} />
             <Route path="/blog" element={<BlogPage />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/services" element={<ServicesPage />} />

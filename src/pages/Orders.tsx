@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Card } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "@/components/ui/use-toast";
 import ShopNavbar from "@/components/ShopNavbar";
 
 type Order = {
@@ -12,6 +14,7 @@ type Order = {
   status: string | null;
   payment_status: string | null;
   product_id: string;
+  delivery_location: string | null;
 };
 
 export default function OrdersPage() {
@@ -38,6 +41,28 @@ export default function OrdersPage() {
     fetchOrders();
     return () => { mounted = false; };
   }, [navigate]);
+
+  const handleCompleteOrder = (orderId: string) => {
+    // Navigate to checkout with orderId to complete payment and delivery
+    navigate(`/checkout?orderId=${orderId}`);
+  };
+
+  const handleCancelOrder = async (orderId: string) => {
+    const { error } = await supabase
+      .from('orders')
+      .update({ status: 'cancelled' })
+      .eq('id', orderId);
+
+    if (error) {
+      toast({ title: 'Error', description: 'Failed to cancel order', variant: 'destructive' });
+    } else {
+      toast({ title: 'Order Cancelled', description: 'Your order has been cancelled.' });
+      // Update local state
+      setOrders(orders.map(order =>
+        order.id === orderId ? { ...order, status: 'cancelled' } : order
+      ));
+    }
+  };
 
   if (loading) {
     return (
@@ -76,11 +101,34 @@ export default function OrdersPage() {
                   <li>
                     <span>Product: {order.product_id}</span>
                   </li>
+                  {order.delivery_location && (
+                    <li>
+                      <span>Delivery: {order.delivery_location}</span>
+                    </li>
+                  )}
                 </ul>
                 <div className="flex flex-col sm:flex-row justify-between border-t pt-2 mt-2 gap-1 sm:gap-0">
                   <span className="font-bold text-xs sm:text-base">Total: Ksh {order.amount.toFixed(2)}</span>
                   <span className="text-xs">{order.status} / {order.payment_status}</span>
                 </div>
+                {order.status === 'pending' && (
+                  <div className="flex gap-2 mt-2">
+                    <Button
+                      variant="default"
+                      size="sm"
+                      onClick={() => handleCompleteOrder(order.id)}
+                    >
+                      Complete Order
+                    </Button>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => handleCancelOrder(order.id)}
+                    >
+                      Cancel Order
+                    </Button>
+                  </div>
+                )}
               </Card>
             ))}
           </ul>
