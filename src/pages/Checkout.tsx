@@ -11,10 +11,10 @@ import { toast } from "@/components/ui/use-toast";
 import ShopNavbar from "@/components/ShopNavbar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command";
-import { Check, ChevronsUpDown } from "lucide-react";
-
-// Paystack and Flutterwave imports removed
+import { Check, ChevronsUpDown, ArrowLeft, Phone } from "lucide-react";
 import MpesaButton from "@/components/MpesaButton";
+import PaymentStatusModal from "@/components/PaymentStatusModal";
+import { validateAndFormatPhone } from "@/lib/phoneUtils";
 
 // Kenyan cities and areas for suggestions
 const kenyanLocations = [
@@ -23,11 +23,11 @@ const kenyanLocations = [
   "Karen, Nairobi",
   "Kilimani, Nairobi",
   "Langata, Nairobi",
-  "Koinange Street, Nairobi",
+
   "Luthuli Avenue, Nairobi",
   "Tom Mboya Street, Nairobi",
   "River Road, Nairobi",
-  "Koinange Street, Nairobi",
+
   "Moi Avenue, Nairobi",
   "Mama Ngina Street, Nairobi",
   "Wabera Street, Nairobi",
@@ -49,7 +49,7 @@ const kenyanLocations = [
   "Muranga Town",
   "Nyeri Town",
   "Nyeri - Posta",
-  "Karen, Nairobi",
+
   "Gigiri, Nairobi",
   "Mombasa Road, Nairobi",
   "Outering Road, Nairobi",
@@ -81,6 +81,11 @@ export default function CheckoutPage() {
   const [deliveryLocation, setDeliveryLocation] = useState("");
   const [loading, setLoading] = useState(!!orderId);
   const [open, setOpen] = useState(false);
+  const [mpesaPhone, setMpesaPhone] = useState("");
+  const [phoneError, setPhoneError] = useState("");
+  const [formattedPhone, setFormattedPhone] = useState("");
+  const [showPaymentModal, setShowPaymentModal] = useState(false);
+  const [checkoutRequestId, setCheckoutRequestId] = useState<string | null>(null);
 
   useEffect(() => {
     supabase.auth.getUser().then(({ data }) => {
@@ -188,6 +193,21 @@ export default function CheckoutPage() {
     navigate("/orders");
   };
 
+  const handleMpesaSuccess = (data: { CheckoutRequestID: string }) => {
+    setCheckoutRequestId(data.CheckoutRequestID);
+    setShowPaymentModal(true);
+  };
+
+  const handlePaymentModalSuccess = (receipt: string) => {
+    setShowPaymentModal(false);
+    handlePaymentSuccess();
+  };
+
+  const handlePaymentModalClose = () => {
+    setShowPaymentModal(false);
+    setCheckoutRequestId(null);
+  };
+
   if (loading) {
     return (
       <div className="flex min-h-screen items-center justify-center">
@@ -203,9 +223,9 @@ export default function CheckoutPage() {
         <div className="mb-6">
           <button
             onClick={() => window.history.length > 1 ? window.history.back() : window.location.assign(orderId ? '/orders' : '/')}
-            className="bg-primary text-accent font-semibold rounded px-4 py-2 border border-accent hover:bg-accent hover:text-primary transition-colors duration-200 mb-4"
+            className="bg-primary text-accent font-semibold rounded px-4 py-2 border border-accent hover:bg-accent hover:text-primary transition-colors duration-200 mb-4 flex items-center gap-2"
           >
-             Go Back
+            <ArrowLeft className="w-4 h-4" /> Go Back
           </button>
         </div>
         <h1 className="text-3xl font-bold mb-6">{orderId ? "Complete Order" : "Order Summary"}</h1>
@@ -267,9 +287,8 @@ export default function CheckoutPage() {
                             }}
                           >
                             <Check
-                              className={`mr-2 h-4 w-4 ${
-                                deliveryLocation === location ? "opacity-100" : "opacity-0"
-                              }`}
+                              className={`mr-2 h-4 w-4 ${deliveryLocation === location ? "opacity-100" : "opacity-0"
+                                }`}
                             />
                             {location}
                           </CommandItem>
@@ -281,20 +300,74 @@ export default function CheckoutPage() {
             </Popover>
           </div>
         </Card>
+
+        <Card className="p-6 space-y-4 mb-6">
+          <h2 className="text-xl font-semibold flex items-center gap-2">
+            <Phone className="w-5 h-5 text-green-600" />
+            M-Pesa Payment
+          </h2>
+          <div>
+            <Label htmlFor="mpesaPhone">M-Pesa Phone Number *</Label>
+            <Input
+              id="mpesaPhone"
+              type="tel"
+              placeholder="0712 345 678"
+              value={mpesaPhone}
+              onChange={(e) => {
+                const value = e.target.value;
+                setMpesaPhone(value);
+                if (value.length >= 10) {
+                  const result = validateAndFormatPhone(value);
+                  if (result.isValid) {
+                    setFormattedPhone(result.formatted);
+                    setPhoneError("");
+                  } else {
+                    setFormattedPhone("");
+                    setPhoneError(result.error || "Invalid phone number");
+                  }
+                } else {
+                  setFormattedPhone("");
+                  setPhoneError("");
+                }
+              }}
+              className={`mt-1 ${phoneError ? 'border-red-500' : formattedPhone ? 'border-green-500' : ''}`}
+            />
+            {phoneError && (
+              <p className="text-red-500 text-sm mt-1">{phoneError}</p>
+            )}
+            {formattedPhone && !phoneError && (
+              <p className="text-green-600 text-sm mt-1">✓ Valid Safaricom number</p>
+            )}
+            <p className="text-muted-foreground text-xs mt-1">
+              Enter the Safaricom number that will receive the M-Pesa prompt
+            </p>
+          </div>
+        </Card>
         <div className="flex flex-col gap-4 md:flex-row md:gap-2 items-center justify-center mt-4">
           <MpesaButton
             amount={total}
-            phone={userPhone}
+            phone={formattedPhone || userPhone}
             name={userName}
-            onSuccess={handlePaymentSuccess}
+            onSuccess={handleMpesaSuccess}
+            disabled={!formattedPhone && !userPhone}
           />
           {!orderId && <Button variant="secondary" onClick={() => navigate("/cart")}>Back to Cart</Button>}
           {orderId && <Button variant="secondary" onClick={() => navigate("/orders")}>Cancel</Button>}
         </div>
         <div className="text-xs text-muted-foreground mt-5 text-center">
-          Payments are simulated here. Stripe integration is coming next!<br/>
-          <span className="text-green-600 font-bold">Now accepting M-Pesa via Daraja API!</span>
+          <span className="text-green-600 font-bold">Secure payments via M-Pesa (Safaricom Daraja API)</span>
         </div>
+
+        <PaymentStatusModal
+          isOpen={showPaymentModal}
+          onClose={handlePaymentModalClose}
+          checkoutRequestId={checkoutRequestId}
+          amount={total}
+          onSuccess={handlePaymentModalSuccess}
+          onFailure={(error) => {
+            toast({ title: "Payment Failed", description: error, variant: "destructive" });
+          }}
+        />
       </div>
     </>
   );

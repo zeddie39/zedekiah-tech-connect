@@ -5,7 +5,7 @@ import type { Database } from "../types/supabase";
 type Tables = Database['public']['Tables'];
 type WishlistRow = Tables['user_wishlist']['Row'];
 import { Card } from "@/components/ui/card";
-import { Loader2, Image, Star, Clock } from "lucide-react";
+import { Loader2, Image, Star, Clock, Eye } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useCart } from "@/components/CartContext";
 import { toast } from "@/components/ui/use-toast";
@@ -170,83 +170,93 @@ export default function Wishlist() {
   return (
     <>
       <ShopNavbar />
-      <div className="container mx-auto px-2 sm:px-4 md:px-8 py-4">
-        <div className="flex items-center justify-between mb-6">
-          <h1 className="text-2xl font-bold">My Wishlist</h1>
-          <Button variant="outline" onClick={() => navigate("/shop")}>Back to Shop</Button>
-        </div>
-
-        {products.length === 0 ? (
-          <div className="text-center py-12">
-            <p className="text-muted-foreground text-lg mb-4">Your wishlist is empty.</p>
-            <Button onClick={() => navigate("/shop")}>Browse Products</Button>
+      <div className="min-h-screen bg-gradient-to-br from-background via-muted/30 to-accent/5">
+        <div className="container mx-auto px-4 py-8">
+          <div className="flex items-center justify-between mb-8">
+            <div>
+              <h1 className="text-3xl font-bold tracking-tight">Your Wishlist</h1>
+              <p className="text-muted-foreground mt-1">Save items for later.</p>
+            </div>
+            <Button variant="outline" onClick={() => navigate("/shop")} className="border-accent/50 hover:bg-accent/10">Back to Shop</Button>
           </div>
-        ) : (
-          <div id="wishlist-products" className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-            {products.map((product) => (
-              <Card
-                key={product.id}
-                className="group flex flex-col h-full p-3 rounded-2xl bg-card/90 border border-accent/30 transition-all duration-300 hover:shadow-lg hover:border-accent/60 hover:-translate-y-0.5"
-              >
-                <div className="flex-1 flex flex-col gap-2">
-                  <div className="relative rounded-xl overflow-hidden bg-muted border border-accent/20">
-                    <AspectRatio ratio={4 / 3}>
-                      {images[product.id] ? (
-                        <img
-                          src={images[product.id]}
-                          alt={product.title}
-                          className="object-cover w-full h-full transform transition-transform duration-300 group-hover:scale-[1.03]"
-                        />
-                      ) : (
-                        <div className="w-full h-full flex items-center justify-center">
-                          <Image className="w-10 h-10 text-muted-foreground" />
-                        </div>
-                      )}
-                    </AspectRatio>
-                    {product.status === 'pending' && (
-                      <span className="absolute top-2 left-2 text-[10px] px-2 py-0.5 rounded-full bg-accent/20 text-accent border border-accent/40 backdrop-blur">
-                        Pending Approval
-                      </span>
-                    )}
-                    {images[product.id] && (
-                      <button
-                        onClick={() => { setPreviewImg(images[product.id]); setPreviewAlt(product.title); }}
-                        className="absolute top-2 right-2 text-[11px] px-2 py-1 rounded-full bg-accent text-primary border border-accent/30 shadow-sm hover:shadow"
-                        title="Preview image"
-                      >
-                        Preview
-                      </button>
-                    )}
-                  </div>
 
-                  <div className="flex flex-col gap-1 mt-1">
-                    <div className="flex items-start justify-between gap-2">
-                      <h3 className="font-heading font-semibold text-base sm:text-lg truncate" title={product.title}>{product.title}</h3>
-                      <span className="inline-flex items-center px-2 py-0.5 rounded-full bg-accent text-primary text-sm sm:text-base font-extrabold shadow-sm">
-                        Ksh {product.price.toFixed(2)}
-                      </span>
+          {products.length === 0 ? (
+            <div className="flex flex-col items-center justify-center py-16 text-center border-2 border-dashed border-accent/20 rounded-3xl bg-card/30">
+              <div className="p-4 bg-accent/10 rounded-full mb-4">
+                <Star className="w-8 h-8 text-accent" />
+              </div>
+              <p className="text-lg font-medium">Your wishlist is empty</p>
+              <p className="text-muted-foreground text-sm mb-6 max-w-sm">Browse our collection and find something you love.</p>
+              <Button onClick={() => navigate("/shop")}>Explore Products</Button>
+            </div>
+          ) : (
+            <div id="wishlist-products" className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+              {products.map((product) => (
+                <Card
+                  key={product.id}
+                  className="group flex flex-col h-full bg-card/40 backdrop-blur-sm border border-accent/20 rounded-2xl overflow-hidden hover:shadow-xl hover:border-accent/50 transition-all duration-500"
+                >
+                  <div className="relative aspect-[4/3] overflow-hidden bg-muted">
+                    {images[product.id] ? (
+                      <img
+                        src={images[product.id]}
+                        alt={product.title}
+                        className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-110"
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center">
+                        <Image className="w-10 h-10 text-muted-foreground" />
+                      </div>
+                    )}
+
+                    {/* Overlay */}
+                    <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
+                      <Button size="sm" variant="secondary" className="rounded-full h-9 w-9 p-0" onClick={() => { setPreviewImg(images[product.id]); setPreviewAlt(product.title); }}>
+                        <Eye className="w-4 h-4" />
+                      </Button>
                     </div>
-                    {product.description && (
-                      <div className="text-xs text-muted-foreground line-clamp-2">{product.description}</div>
-                    )}
-                    {product.category && <Badge variant="secondary" className="w-fit text-[11px] border border-accent/30">{product.category}</Badge>}
-                  </div>
-                </div>
 
-                <div className="mt-3 space-y-2">
-                  <Button className="w-full" onClick={() => handleAddToCart(product)}>Add to Cart</Button>
-                  <Button
-                    variant="outline"
-                    onClick={() => toggleWishlist(product.id)}
-                    className="w-full border-accent/50 text-accent hover:bg-accent/10"
-                  >
-                    Remove from Wishlist
-                  </Button>
-                </div>
-              </Card>
-            ))}
-          </div>
-        )}
+                    {product.status === 'pending' && (
+                      <span className="absolute top-2 left-2 text-[10px] px-2 py-1 rounded-md bg-background/80 backdrop-blur font-medium">
+                        Pending
+                      </span>
+                    )}
+                  </div>
+
+                  <div className="p-4 flex flex-col flex-1">
+                    <div className="flex justify-between items-start gap-2 mb-2">
+                      <h3 className="font-bold text-lg line-clamp-1 group-hover:text-primary transition-colors">{product.title}</h3>
+                      <Badge variant="outline" className="border-accent/40 bg-accent/5 text-primary shrink-0">
+                        Ksh {product.price.toLocaleString()}
+                      </Badge>
+                    </div>
+
+                    <p className="text-xs text-muted-foreground line-clamp-2 mb-4 flex-1">
+                      {product.description || "No description available."}
+                    </p>
+
+                    <div className="grid grid-cols-2 gap-2 mt-auto">
+                      <Button
+                        variant="default"
+                        className="w-full bg-primary/90 hover:bg-primary shadow-sm"
+                        onClick={() => handleAddToCart(product)}
+                      >
+                        Add to Cart
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        onClick={() => toggleWishlist(product.id)}
+                        className="w-full text-red-500 hover:text-red-600 hover:bg-red-50"
+                      >
+                        Remove
+                      </Button>
+                    </div>
+                  </div>
+                </Card>
+              ))}
+            </div>
+          )}
+        </div>
       </div>
       <ImagePreviewModal
         open={!!previewImg}

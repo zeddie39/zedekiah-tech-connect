@@ -108,45 +108,45 @@ export default function Chat({ userId, email }: { userId: string; email?: string
   };
 
   return (
-    <Card className="relative overflow-hidden border border-accent/30 rounded-2xl bg-card/90 shadow-md">
+    <Card className="relative overflow-hidden border border-accent/20 rounded-2xl bg-card/40 backdrop-blur-md shadow-lg">
       {/* Header */}
-      <div className="px-4 sm:px-5 py-3 border-b border-accent/20 bg-gradient-to-r from-primary/90 via-accent/80 to-primary/80 text-primary">
-        <div className="flex items-center gap-2 text-accent">
-          <Shield className="w-4 h-4" />
-          <h3 className="font-bold">Support Chat</h3>
+      <div className="px-5 py-4 border-b border-accent/20 bg-gradient-to-r from-primary/10 via-accent/5 to-transparent">
+        <div className="flex items-center gap-2 text-primary font-bold">
+          <Shield className="w-5 h-5 text-accent" />
+          <h3>Support Chat</h3>
         </div>
-        <p className="text-[11px] text-primary/90">Chat with our support team. Replies appear here in real-time.</p>
+        <p className="text-xs text-muted-foreground mt-1">Connect with our support team instantly.</p>
       </div>
 
       {/* Messages area */}
-      <div className="p-3 sm:p-4">
-        <div className="h-64 sm:h-80 overflow-y-auto bg-muted rounded-xl p-3 sm:p-4 border border-accent/20">
+      <div className="p-4 flex flex-col h-[400px]">
+        <div className="flex-1 overflow-y-auto space-y-4 pr-2 custom-scrollbar">
           {messages.length === 0 ? (
-            <div className="text-muted-foreground text-sm flex h-full items-center justify-center text-center">
-              <div>
-                <div className="font-semibold mb-1">No chat started yet</div>
-                <div className="text-xs">Send a message below to begin.</div>
+            <div className="flex flex-col h-full items-center justify-center text-center opacity-60">
+              <div className="bg-accent/10 p-4 rounded-full mb-3">
+                <MessagesSquare className="w-8 h-8 text-accent" />
               </div>
+              <p className="text-sm font-medium">No messages yet</p>
+              <p className="text-xs text-muted-foreground">Start the conversation below!</p>
             </div>
           ) : (
             messages.map((msg) => (
               <div
                 key={msg.id}
-                className={`mb-3 flex ${msg.isAdmin ? "justify-end" : "justify-start"}`}
+                className={`flex gap-3 ${msg.isAdmin ? "flex-row" : "flex-row-reverse"}`}
               >
-                <div className={`max-w-[80%] sm:max-w-[75%] rounded-2xl px-3 py-2 border shadow-sm ${msg.isAdmin ? "bg-accent/10 border-accent/40" : "bg-primary/5 border-accent/20"}`}>
-                  <div className="flex items-center gap-2 mb-0.5">
-                    {msg.isAdmin ? (
-                      <Shield className="w-3.5 h-3.5 text-accent" />
-                    ) : (
-                      <UserIcon className="w-3.5 h-3.5 text-muted-foreground" />
-                    )}
-                    <span className="text-[11px] text-muted-foreground">{msg.isAdmin ? "Support" : email || "You"}</span>
-                  </div>
-                  <div className="text-sm leading-snug whitespace-pre-wrap">{msg.content}</div>
-                  <div className="text-[10px] text-muted-foreground mt-1 text-right">
-                    {new Date(msg.created_at).toLocaleString()}
-                  </div>
+                <div className={`shrink-0 w-8 h-8 rounded-full flex items-center justify-center border ${msg.isAdmin ? "bg-accent/10 border-accent/30" : "bg-primary/10 border-primary/30"}`}>
+                  {msg.isAdmin ? <Shield className="w-4 h-4 text-accent" /> : <UserIcon className="w-4 h-4 text-primary" />}
+                </div>
+
+                <div className={`max-w-[80%] rounded-2xl px-4 py-3 text-sm shadow-sm ${msg.isAdmin
+                    ? "bg-card/80 border border-accent/20 rounded-tl-none"
+                    : "bg-primary text-primary-foreground rounded-tr-none"
+                  }`}>
+                  <p className="leading-relaxed">{msg.content}</p>
+                  <span className={`text-[10px] block mt-1 opacity-70 ${msg.isAdmin ? "text-muted-foreground" : "text-primary-foreground/80"}`}>
+                    {new Date(msg.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                  </span>
                 </div>
               </div>
             ))
@@ -155,16 +155,21 @@ export default function Chat({ userId, email }: { userId: string; email?: string
         </div>
 
         {/* Input area */}
-        <form className="mt-3 flex gap-2" onSubmit={handleSend}>
+        <form className="mt-4 relative" onSubmit={handleSend}>
           <Input
             placeholder="Type your message..."
             value={input}
             onChange={e => setInput(e.target.value)}
             disabled={submitting}
-            className="bg-background"
+            className="bg-background/50 backdrop-blur border-accent/20 pr-12 h-12 rounded-xl focus-visible:ring-accent"
           />
-          <Button type="submit" disabled={submitting || !input.trim()} className="inline-flex items-center gap-1">
-            <Send className="w-4 h-4" /> Send
+          <Button
+            type="submit"
+            size="icon"
+            disabled={submitting || !input.trim()}
+            className="absolute right-1 top-1 h-10 w-10 rounded-lg bg-accent text-primary hover:bg-accent/90 shadow-sm"
+          >
+            <Send className="w-4 h-4" />
           </Button>
         </form>
       </div>

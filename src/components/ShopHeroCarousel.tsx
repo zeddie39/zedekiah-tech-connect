@@ -1,83 +1,76 @@
 import { Button } from "@/components/ui/button";
-import { Cpu, Smartphone, Monitor, Zap, Sparkles } from "lucide-react";
+import { Cpu, Smartphone, Monitor, Zap, Sparkles, ArrowRight } from "lucide-react";
 
 export default function ShopHeroCarousel() {
   return (
-    <div className="relative mb-10 rounded-xl overflow-hidden border border-accent/30">
-      {/* Background video */}
-      <div className="absolute inset-0">
-        <video
-          className="w-full h-full object-cover opacity-60"
-          autoPlay
-          muted
-          loop
-          playsInline
-          aria-label="Electronics background"
-        >
-          {/* Multiple sources as fallbacks */}
-          <source src="https://cdn.coverr.co/videos/coverr-futuristic-circuit-6432/1080p.mp4" type="video/mp4" />
-          <source src="https://cdn.coverr.co/videos/coverr-circuit-board-6136/1080p.mp4" type="video/mp4" />
-        </video>
-        {/* Primary gradient overlay per brand colors */}
-        <div className="absolute inset-0 bg-gradient-to-br from-primary/90 via-primary/80 to-primary/90" />
-      </div>
+    <div className="relative mb-8 rounded-2xl overflow-hidden border border-accent/20 shadow-2xl group">
+      {/* Background Image - Motherboard/Tech Theme */}
+      <div className="absolute inset-0 z-0">
+        <img
+          src="https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=2070&auto=format&fit=crop"
+          alt="Motherboard Circuit"
+          className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
+        />
+        {/* Premium Gradient Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-r from-background/95 via-background/80 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent" />
 
-      {/* Blue-tinted overlays to enhance the video look */}
-      <div className="pointer-events-none absolute inset-0">
-        {/* Subtle radial glow using primary hue */}
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(22,14,46,0.25),transparent_65%)]" />
-        {/* Soft scanlines tinted with accent/primary */}
-        <div className="absolute inset-0 opacity-15 bg-[linear-gradient(120deg,rgba(255,152,0,0.25)_1px,transparent_1px),linear-gradient(60deg,rgba(22,14,46,0.35)_1px,transparent_1px)] bg-[size:32px_32px]" />
+        {/* Decorative Circuit Lines Overlay */}
+        <div className="absolute inset-0 opacity-20 bg-[linear-gradient(rgba(255,255,255,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.05)_1px,transparent_1px)] bg-[size:40px_40px]" />
       </div>
 
       {/* Content */}
-      <div className="relative z-10 px-4 sm:px-6 md:px-10 py-10 md:py-16 text-white">
-        <div className="max-w-4xl">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent/20 border border-accent/40 text-accent font-semibold text-xs mb-3 shadow">
-            <Sparkles className="w-4 h-4" /> Meet your smart electronics buddy
+      <div className="relative z-10 px-6 sm:px-10 py-12 md:py-20 max-w-4xl">
+        <div className="animate-in fade-in slide-in-from-left-4 duration-700">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent/10 border border-accent/30 text-accent font-medium text-xs mb-4 backdrop-blur-md">
+            <Sparkles className="w-3.5 h-3.5" />
+            <span className="tracking-wide uppercase">Next-Gen Electronics</span>
           </div>
-          <h2 className="text-2xl md:text-4xl font-extrabold leading-tight drop-shadow-sm">
-            Welcome to Ztech — Friendly, Reliable, and Ready to Help
-          </h2>
-          <p className="mt-2 md:mt-3 text-primary-foreground/90 text-sm md:text-base max-w-2xl">
-            From phones and laptops to accessories and repairs, we’re here to guide you to the right tech.
-            Explore quality products with trusted support.
+
+          <h1 className="text-3xl md:text-5xl lg:text-6xl font-black tracking-tight text-foreground mb-4 leading-tight">
+            Upgrade Your <br />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">Digital Lifestyle</span>
+          </h1>
+
+          <p className="text-muted-foreground text-sm md:text-lg max-w-xl leading-relaxed mb-8">
+            Experience the best in tech with Ztech. From high-performance motherboards to the latest smart gadgets,
+            we provide quality you can trust and support that cares.
           </p>
-          <div className="mt-5 flex flex-wrap items-center gap-3">
+
+          <div className="flex flex-col sm:flex-row gap-4">
             <Button
-              className="bg-accent text-primary hover:bg-accent/90"
-              onClick={() => document.getElementById('products')?.scrollIntoView({ behavior: 'smooth' })}
+              size="lg"
+              className="bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg shadow-primary/20 transition-all hover:scale-105"
+              onClick={() => document.getElementById('products-grid')?.scrollIntoView({ behavior: 'smooth' })}
             >
-              Shop Now
+              Shop Collection
             </Button>
             <Button
               variant="outline"
-              className="border-accent/60 text-accent hover:bg-accent/10"
-              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+              size="lg"
+              className="border-accent/50 text-foreground hover:bg-accent/10 backdrop-blur-sm"
+              onClick={() => document.getElementById('shop-main')?.scrollIntoView({ behavior: 'smooth' })}
             >
-              Explore Categories
+              Explore Categories <ArrowRight className="ml-2 w-4 h-4" />
             </Button>
-            <div className="text-[11px] md:text-xs text-primary-foreground/80">
-              Curated gadgets <span className="mx-1">•</span> Fast support <span className="mx-1">•</span> Fair prices
-            </div>
           </div>
         </div>
       </div>
 
-      {/* Foreground decorative chips */}
-      <div className="relative z-10 px-4 sm:px-6 md:px-10 pb-6 text-primary-foreground/90">
-        <div className="flex items-center gap-3 flex-wrap opacity-95">
-          <div className="inline-flex items-center gap-2 text-xs sm:text-sm bg-primary/60 border border-accent/30 rounded-full px-3 py-1 shadow-sm">
-            <Cpu className="w-4 h-4 text-accent" /> Smart Chips
+      {/* Bottom Features Strip */}
+      <div className="relative z-10 border-t border-white/5 bg-black/20 backdrop-blur-md px-6 py-4">
+        <div className="flex flex-wrap items-center gap-4 md:gap-8 text-sm font-medium text-muted-foreground">
+          <div className="flex items-center gap-2">
+            <Cpu className="w-4 h-4 text-accent" /> Premium Components
           </div>
-          <div className="inline-flex items-center gap-2 text-xs sm:text-sm bg-primary/60 border border-accent/30 rounded-full px-3 py-1 shadow-sm">
-            <Smartphone className="w-4 h-4 text-accent" /> Phones
+          <div className="flex items-center gap-2">
+            <Smartphone className="w-4 h-4 text-accent" /> Latest Mobiles
           </div>
-          <div className="inline-flex items-center gap-2 text-xs sm:text-sm bg-primary/60 border border-accent/30 rounded-full px-3 py-1 shadow-sm">
-            <Monitor className="w-4 h-4 text-accent" /> Laptops
+          <div className="flex items-center gap-2">
+            <Monitor className="w-4 h-4 text-accent" /> Ultra Displays
           </div>
-          <div className="inline-flex items-center gap-2 text-xs sm:text-sm bg-primary/60 border border-accent/30 rounded-full px-3 py-1 shadow-sm">
-            <Zap className="w-4 h-4 text-accent" /> Accessories
+          <div className="flex items-center gap-2">
+            <Zap className="w-4 h-4 text-accent" /> Fast Delivery
           </div>
         </div>
       </div>

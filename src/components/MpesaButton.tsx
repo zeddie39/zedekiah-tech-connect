@@ -3,43 +3,97 @@ import { Button } from "@/components/ui/button";
 import { toast } from "@/components/ui/use-toast";
 import { FaMoneyBillWave } from "react-icons/fa";
 
-export default function MpesaButton({ amount, phone, name, onSuccess }) {
+interface MpesaButtonProps {
+  amount: number;
+  phone: string;
+  name?: string;
+  onSuccess?: (data: { CheckoutRequestID: string; MerchantRequestID: string }) => void;
+  onError?: (error: string) => void;
+  disabled?: boolean;
+}
+
+interface MpesaResponse {
+  ResponseCode?: string;
+  CheckoutRequestID?: string;
+  MerchantRequestID?: string;
+  CustomerMessage?: string;
+  errorMessage?: string;
+  error?: string;
+}
+
+export default function MpesaButton({
+  amount,
+  phone,
+  name,
+  onSuccess,
+  onError,
+  disabled = false
+}: MpesaButtonProps) {
   const [loading, setLoading] = useState(false);
 
   const handleMpesaPay = async () => {
+    if (!phone) {
+      toast({
+        title: "Phone Required",
+        description: "Please enter your M-Pesa phone number.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (amount <= 0) {
+      toast({
+        title: "Invalid Amount",
+        description: "Payment amount must be greater than 0.",
+        variant: "destructive",
+      });
+      return;
+    }
+
     setLoading(true);
     try {
       const res = await fetch("http://localhost:5002/api/mpesa/stkpush", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          amount,
+          amount: Math.round(amount), // M-Pesa requires whole numbers
           phone,
           accountReference: name || "ZtechShop",
           transactionDesc: "Shop Payment",
         }),
       });
-      const data = await res.json();
+
+      const data: MpesaResponse = await res.json();
+
       if (data.ResponseCode === "0") {
         toast({
           title: "M-Pesa Prompt Sent!",
-          description: "Check your phone to complete the payment.",
-          duration: 4000,
+          description: data.CustomerMessage || "Check your phone to complete the payment.",
+          duration: 5000,
         });
-        if (onSuccess) onSuccess(data);
+        if (onSuccess && data.CheckoutRequestID) {
+          onSuccess({
+            CheckoutRequestID: data.CheckoutRequestID,
+            MerchantRequestID: data.MerchantRequestID || "",
+          });
+        }
       } else {
+        const errorMsg = data.errorMessage || data.error || "Could not initiate payment.";
         toast({
           title: "M-Pesa Error",
-          description: data.errorMessage || data.error || "Could not initiate payment.",
+          description: errorMsg,
           variant: "destructive",
         });
+        if (onError) onError(errorMsg);
       }
     } catch (err) {
+      const errorMsg = err instanceof Error ? err.message : "Network error. Please try again.";
       toast({
         title: "M-Pesa Error",
-        description: err.message,
+        description: errorMsg,
         variant: "destructive",
       });
+      if (onError) onError(errorMsg);
     } finally {
       setLoading(false);
     }
@@ -48,12 +102,13 @@ export default function MpesaButton({ amount, phone, name, onSuccess }) {
   return (
     <Button
       onClick={handleMpesaPay}
-      disabled={loading}
-      className="bg-primary hover:bg-accent text-white font-bold flex items-center gap-2 px-4 py-2 rounded-lg shadow-md border-2 border-accent animate-pulse"
-      style={{ fontFamily: 'Orbitron, monospace', letterSpacing: '1px', boxShadow: '0 2px 8px #ff980055' }}
+      disabled={loading || disabled}
+      className="bg-green-600 hover:bg-green-700 text-white font-bold flex items-center gap-2 px-6 py-3 rounded-lg shadow-lg border-2 border-green-400 transition-all duration-200"
+      style={{ fontFamily: 'Inter, sans-serif', letterSpacing: '0.5px' }}
     >
-      <FaMoneyBillWave size={22} className="text-accent drop-shadow" />
-      {loading ? "Processing..." : "Pay with M-Pesa"}
+      <FaMoneyBillWave size={22} className="text-white" />
+      {loading ? "Processing..." : `Pay Ksh ${amount.toLocaleString()} with M-Pesa`}
     </Button>
   );
 }
+

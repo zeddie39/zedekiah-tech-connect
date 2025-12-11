@@ -10,6 +10,7 @@ import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@
 import { categories as shopCategories } from "@/components/ShopCategories";
 import { toast } from "@/components/ui/use-toast";
 import { ImagePlus, Upload, Loader2 } from "lucide-react";
+import ShopNavbar from "@/components/ShopNavbar";
 
 export default function ShopNew() {
   const navigate = useNavigate();
@@ -118,93 +119,103 @@ export default function ShopNew() {
   }
 
   return (
-    <div className="max-w-2xl mx-auto py-8">
-      <Card className="overflow-hidden border border-accent/30 rounded-2xl bg-card/90 shadow-sm">
-        {/* Header */}
-        <div className="px-4 sm:px-6 py-4 bg-gradient-to-r from-primary/90 via-primary/80 to-primary/90 border-b border-accent/30">
-          <div className="text-primary-foreground/80 text-xs">Submit product for approval</div>
-          <h1 className="text-xl sm:text-2xl font-extrabold text-primary-foreground">Add New Product</h1>
-        </div>
-
-        {/* Form */}
-        <form className="p-4 sm:p-6 space-y-4" onSubmit={handleSubmit}>
-          {/* Title and Price */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-            <div className="md:col-span-2">
-              <Label htmlFor="title" className="text-sm">Title</Label>
-              <Input
-                id="title"
-                value={title}
-                onChange={e => setTitle(e.target.value)}
-                required
-                disabled={loading}
-                placeholder="e.g., Samsung Galaxy S10"
-                className="bg-background"
-              />
-            </div>
-            <div>
-              <Label htmlFor="price" className="text-sm">Price (Ksh)</Label>
-              <Input
-                id="price"
-                value={price}
-                onChange={e => setPrice(e.target.value)}
-                required
-                type="number"
-                min={0}
-                step="0.01"
-                disabled={loading}
-                className="bg-background"
-              />
+    <>
+      <ShopNavbar />
+      <div className="max-w-2xl mx-auto py-8 px-4">
+        <Card className="overflow-hidden border border-accent/20 rounded-2xl bg-card/40 backdrop-blur-md shadow-lg">
+          {/* Header */}
+          <div className="px-6 py-6 bg-gradient-to-r from-primary/95 to-primary/80 border-b border-accent/20 relative overflow-hidden">
+            <div className="absolute inset-0 bg-[url('/grid-pattern.png')] opacity-10"></div>
+            <div className="relative z-10">
+              <div className="text-secondary/80 text-xs font-semibold uppercase tracking-wider mb-1">Seller Zone</div>
+              <h1 className="text-2xl sm:text-3xl font-extrabold text-white">Add New Product</h1>
+              <p className="text-primary-foreground/70 text-sm mt-1">List your tech item for thousands of buyers.</p>
             </div>
           </div>
 
-          {/* Category */}
-          <div>
-            <Label className="text-sm">Category</Label>
-            <Select value={category} onValueChange={(v) => setCategory(v)}>
-              <SelectTrigger className="w-full">
-                <SelectValue placeholder="Select a category" />
-              </SelectTrigger>
-              <SelectContent>
-                {shopCategories.map(cat => (
-                  <SelectItem key={cat.name} value={cat.name}>{cat.name}</SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
+          {/* Form */}
+          <form className="p-6 sm:p-8 space-y-6" onSubmit={handleSubmit}>
+            {/* Title and Price */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+              <div className="md:col-span-2 space-y-2">
+                <Label htmlFor="title" className="text-sm font-medium">Product Title</Label>
+                <Input
+                  id="title"
+                  value={title}
+                  onChange={e => setTitle(e.target.value)}
+                  required
+                  disabled={loading}
+                  placeholder="e.g. MacBook Pro M1 2020"
+                  className="bg-background/50 backdrop-blur border-accent/20 focus-visible:ring-accent"
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="price" className="text-sm font-medium">Price (Ksh)</Label>
+                <Input
+                  id="price"
+                  value={price}
+                  onChange={e => setPrice(e.target.value)}
+                  required
+                  type="number"
+                  min={0}
+                  step="0.01"
+                  disabled={loading}
+                  className="bg-background/50 backdrop-blur border-accent/20 focus-visible:ring-accent"
+                />
+              </div>
+            </div>
 
-          {/* Description */}
-          <div>
-            <Label htmlFor="desc" className="text-sm">Description</Label>
-            <Textarea
-              id="desc"
-              value={description}
-              onChange={e => setDescription(e.target.value)}
-              disabled={loading}
-              rows={4}
-              placeholder="Describe the product, condition, features..."
-              className="bg-background"
-            />
-            <div className="text-[11px] text-muted-foreground mt-1">Provide helpful details to improve visibility and trust.</div>
-          </div>
+            {/* Category */}
+            <div className="space-y-2">
+              <Label className="text-sm font-medium">Category</Label>
+              <Select value={category} onValueChange={(v) => setCategory(v)}>
+                <SelectTrigger className="w-full bg-background/50 backdrop-blur border-accent/20 focus:ring-accent">
+                  <SelectValue placeholder="Select a category" />
+                </SelectTrigger>
+                <SelectContent>
+                  {shopCategories.map(cat => (
+                    <SelectItem key={cat.name} value={cat.name}>{cat.name}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
 
-          {/* Images */}
-          <div>
-            <Label className="text-sm">Images <span className='text-red-500'>*</span></Label>
-            <div className="mt-2">
+            {/* Description */}
+            <div className="space-y-2">
+              <Label htmlFor="desc" className="text-sm font-medium">Description</Label>
+              <Textarea
+                id="desc"
+                value={description}
+                onChange={e => setDescription(e.target.value)}
+                disabled={loading}
+                rows={5}
+                placeholder="Describe the condition, specs, and any defects..."
+                className="bg-background/50 backdrop-blur border-accent/20 focus-visible:ring-accent resize-none"
+              />
+            </div>
+
+            {/* Images */}
+            <div className="space-y-3">
+              <Label className="text-sm font-medium flex justify-between">
+                <span>Product Images <span className='text-red-500'>*</span></span>
+                <span className="text-xs text-muted-foreground font-normal">Max 4 images</span>
+              </Label>
+
               <div
-                className="rounded-xl border border-accent/30 bg-muted/40 p-4 flex items-center justify-center text-sm text-muted-foreground cursor-pointer hover:border-accent/60"
+                className="group relative border-2 border-dashed border-accent/30 rounded-xl bg-muted/30 p-8 text-center hover:bg-accent/5 hover:border-accent/50 transition-colors cursor-pointer"
                 onClick={() => fileInputRef.current?.click()}
-                role="button"
-                tabIndex={0}
-                onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') fileInputRef.current?.click(); }}
-                aria-label="Upload images"
               >
-                <div className="flex items-center gap-2">
-                  <ImagePlus className="w-5 h-5 text-accent" />
-                  <span>Click to select images (multiple allowed)</span>
+                <div className="flex flex-col items-center gap-3">
+                  <div className="p-4 rounded-full bg-background shadow-sm group-hover:scale-110 transition-transform">
+                    <ImagePlus className="w-8 h-8 text-accent" />
+                  </div>
+                  <div>
+                    <p className="text-sm font-medium text-foreground">Click to upload images</p>
+                    <p className="text-xs text-muted-foreground mt-1">SVG, PNG, JPG or GIF (max 800x400px)</p>
+                  </div>
                 </div>
               </div>
+
               <input
                 ref={fileInputRef}
                 id="images"
@@ -216,55 +227,62 @@ export default function ShopNew() {
                 disabled={loading}
                 className="hidden"
               />
-              {images.length === 0 && (
-                <div className="mt-2 text-[11px] text-muted-foreground">You must select at least one image.</div>
-              )}
+
               {previews.length > 0 && (
-                <div className="mt-3 grid grid-cols-3 sm:grid-cols-4 gap-2">
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-4">
                   {previews.map((src, idx) => (
-                    <div key={idx} className="relative rounded-md overflow-hidden border border-accent/20 bg-background">
-                      <img src={src} alt={`Preview ${idx+1}`} className="w-full h-20 object-cover" />
+                    <div key={idx} className="relative aspect-square rounded-lg overflow-hidden border border-accent/20 bg-background shadow-sm hover:ring-2 hover:ring-accent transition-all">
+                      <img src={src} alt={`Preview ${idx + 1}`} className="w-full h-full object-cover" />
+                      <div className="absolute inset-0 bg-black/20 opacity-0 hover:opacity-100 transition-opacity flex items-center justify-center">
+                        <span className="text-white text-xs font-bold drop-shadow-md">Image {idx + 1}</span>
+                      </div>
                     </div>
                   ))}
                 </div>
               )}
             </div>
-          </div>
 
-          {/* WhatsApp */}
-          <div>
-            <Label htmlFor="whatsapp" className="text-sm">WhatsApp Number (optional)</Label>
-            <Input
-              id="whatsapp"
-              placeholder="254712345678 or +254712345678"
-              value={whatsappNumber}
-              onChange={e => setWhatsappNumber(e.target.value)}
-              disabled={loading}
-              className="bg-background"
-            />
-            <div className="text-[11px] text-muted-foreground">Include country code (e.g., 254 for Kenya). We'll format links on the site for you.</div>
-          </div>
-
-          {/* Error */}
-          {error && (
-            <div className="text-red-500 text-sm">{error}</div>
-          )}
-
-          {/* Actions */}
-          <div className="flex flex-wrap gap-2 pt-2">
-            <Button type="submit" disabled={!canSubmit} className="inline-flex items-center gap-2">
-              {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Upload className="w-4 h-4" />} 
-              {loading ? "Posting..." : "Submit for Approval"}
-            </Button>
-            <Button type="button" variant="secondary" onClick={() => navigate("/shop")} disabled={loading}>
-              Cancel
-            </Button>
-            <div className="text-[11px] text-muted-foreground self-center">
-              Submitted products require admin approval before appearing in the shop.
+            {/* WhatsApp */}
+            <div className="space-y-2">
+              <Label htmlFor="whatsapp" className="text-sm font-medium">WhatsApp Number <span className="text-xs text-muted-foreground font-normal">(Optional)</span></Label>
+              <div className="relative">
+                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground text-xs font-bold">WA</span>
+                <Input
+                  id="whatsapp"
+                  placeholder="254712345678"
+                  value={whatsappNumber}
+                  onChange={e => setWhatsappNumber(e.target.value)}
+                  disabled={loading}
+                  className="pl-10 bg-background/50 backdrop-blur border-accent/20 focus-visible:ring-accent"
+                />
+              </div>
+              <p className="text-[10px] text-muted-foreground">Buyers can contact you directly via WhatsApp if provided.</p>
             </div>
-          </div>
-        </form>
-      </Card>
-    </div>
+
+            {/* Error */}
+            {error && (
+              <div className="p-3 rounded-lg bg-red-500/10 border border-red-500/20 text-red-600 text-sm flex items-center gap-2">
+                <div className="w-1.5 h-1.5 rounded-full bg-red-500" />
+                {error}
+              </div>
+            )}
+
+            {/* Actions */}
+            <div className="flex items-center justify-end gap-3 pt-4 border-t border-accent/10">
+              <Button type="button" variant="ghost" onClick={() => navigate("/shop")} disabled={loading}>
+                Cancel
+              </Button>
+              <Button type="submit" disabled={!canSubmit} className="bg-primary text-primary-foreground hover:bg-primary/90 shadow-lg shadow-primary/20 min-w-[140px]">
+                {loading ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : <Upload className="w-4 h-4 mr-2" />}
+                {loading ? "Publishing..." : "Publish Product"}
+              </Button>
+            </div>
+          </form>
+        </Card>
+        <div className="text-center mt-6 text-xs text-muted-foreground">
+          By publishing, you agree to our Terms of Service. All listings are reviewed.
+        </div>
+      </div>
+    </>
   );
 }
