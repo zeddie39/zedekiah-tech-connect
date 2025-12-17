@@ -53,10 +53,23 @@ export default function MpesaButton({
 
     setLoading(true);
     try {
+      // Format phone number to start with 254
+      let formattedPhone = phone.trim().replace(/\s+/g, '');
+      if (formattedPhone.startsWith('0')) {
+        formattedPhone = '254' + formattedPhone.substring(1);
+      } else if (formattedPhone.startsWith('+')) {
+        formattedPhone = formattedPhone.substring(1);
+      } else if (!formattedPhone.startsWith('254')) {
+        // Assume 254 if not 0 or +
+        formattedPhone = '254' + formattedPhone;
+      }
+
+      console.log(`Formatted phone: ${formattedPhone} from ${phone}`);
+
       const { data, error } = await supabase.functions.invoke('mpesa-stk', {
         body: {
           amount: Math.round(amount),
-          phone,
+          phone: formattedPhone,
           accountReference: name || "ZtechShop",
           transactionDesc: "Shop Payment",
         },
