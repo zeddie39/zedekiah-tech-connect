@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { toast } from "@/components/ui/use-toast";
 import { FaMoneyBillWave } from "react-icons/fa";
+import { supabase } from "@/integrations/supabase/client";
 
 interface MpesaButtonProps {
   amount: number;
@@ -52,18 +53,20 @@ export default function MpesaButton({
 
     setLoading(true);
     try {
-      const res = await fetch("http://localhost:5002/api/mpesa/stkpush", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          amount: Math.round(amount), // M-Pesa requires whole numbers
+      const { data, error } = await supabase.functions.invoke('mpesa-stk', {
+        body: {
+          amount: Math.round(amount),
           phone,
           accountReference: name || "ZtechShop",
           transactionDesc: "Shop Payment",
-        }),
+        },
       });
 
-      const data: MpesaResponse = await res.json();
+      if (error) {
+        throw new Error(error.message || "Failed to initiate payment");
+      }
+
+      const responseData: MpesaResponse = data;
 
       if (data.ResponseCode === "0") {
         toast({
