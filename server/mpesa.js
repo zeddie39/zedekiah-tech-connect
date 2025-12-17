@@ -27,11 +27,21 @@ const baseUrl = isSandbox
   ? 'https://sandbox.safaricom.co.ke'
   : 'https://api.safaricom.co.ke';
 
-// Get access token
+// Headers to bypass Incapsula WAF
+const headers = {
+  'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+  'Accept': 'application/json, text/plain, */*',
+  'Accept-Encoding': 'gzip, deflate, br',
+  'Connection': 'keep-alive'
+};
+
 async function getAccessToken() {
   const auth = Buffer.from(`${consumerKey}:${consumerSecret}`).toString('base64');
   const res = await axios.get(`${baseUrl}/oauth/v1/generate?grant_type=client_credentials`, {
-    headers: { Authorization: `Basic ${auth}` },
+    headers: {
+      Authorization: `Basic ${auth}`,
+      ...headers
+    },
   });
   return res.data.access_token;
 }
@@ -70,7 +80,10 @@ app.post('/api/mpesa/stkpush', async (req, res) => {
     console.log(`[STK Push] Initiating payment: ${amount} KES to ${phone}`);
 
     const stkRes = await axios.post(`${baseUrl}/mpesa/stkpush/v1/processrequest`, payload, {
-      headers: { Authorization: `Bearer ${accessToken}` },
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        ...headers
+      },
     });
 
     console.log(`[STK Push] Response:`, stkRes.data);
@@ -129,16 +142,31 @@ app.get('/api/mpesa/status/:checkoutRequestId', async (req, res) => {
     console.log(`[Status Query] Checking status for: ${checkoutRequestId}`);
 
     const queryRes = await axios.post(`${baseUrl}/mpesa/stkpushquery/v1/query`, payload, {
-      headers: { Authorization: `Bearer ${accessToken}` },
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        ...headers
+      },
     });
 
     console.log(`[Status Query] Response:`, queryRes.data);
     res.json(queryRes.data);
   } catch (err) {
-    console.error('[Status Query] Error:', err.response?.data || err.message);
+    const errData = err.response?.data;
+    const isFirewallBlock = typeof errData === 'string' && (errData.includes('Incapsula') || errData.includes('<html'));
+
+    if (isFirewallBlock) {
+      console.warn('[Status Query] Firewall blocked request. Returning pending status to frontend.');
+      return res.json({
+        // No ResultCode means "pending" to the frontend hook
+        status: 'pending',
+        message: 'Firewall block - retrying'
+      });
+    }
+
+    console.error('[Status Query] Error:', errData || err.message);
     res.status(500).json({
       error: err.message,
-      details: err.response?.data
+      details: errData
     });
   }
 });

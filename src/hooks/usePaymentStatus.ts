@@ -22,7 +22,7 @@ interface UsePaymentStatusOptions {
  */
 export function usePaymentStatus({
     checkoutRequestId,
-    pollInterval = 5000, // 5 seconds
+    pollInterval = 6000, // 6 seconds
     maxPollingTime = 120000, // 2 minutes
     onSuccess,
     onFailure,
