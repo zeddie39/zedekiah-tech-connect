@@ -4,7 +4,7 @@ import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useRealtimeChat, sendChatEvent } from "@/hooks/useRealtimeChat";
-import { Send, User as UserIcon, Shield } from "lucide-react";
+import { Send, User as UserIcon, Shield, MessageSquare } from "lucide-react";
 
 // Type for chat messages and admin replies
 type Message = {
@@ -124,7 +124,7 @@ export default function Chat({ userId, email }: { userId: string; email?: string
           {messages.length === 0 ? (
             <div className="flex flex-col h-full items-center justify-center text-center opacity-60">
               <div className="bg-accent/10 p-4 rounded-full mb-3">
-                <MessagesSquare className="w-8 h-8 text-accent" />
+                <MessageSquare className="w-8 h-8 text-accent" />
               </div>
               <p className="text-sm font-medium">No messages yet</p>
               <p className="text-xs text-muted-foreground">Start the conversation below!</p>

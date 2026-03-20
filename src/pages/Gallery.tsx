@@ -26,7 +26,7 @@ const Gallery: React.FC = () => {
 
   useEffect(() => {
     const fetchImages = async () => {
-      // @ts-expect-error
+      
       const { data, error } = await supabase.from("gallery").select("*", { count: "exact" }).order("created_at", { ascending: false });
       if (!error) setImages(data as unknown as GalleryImage[] || []);
       setLoading(false);

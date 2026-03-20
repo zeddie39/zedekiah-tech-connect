@@ -35,7 +35,7 @@ const AdminGalleryManager: React.FC = () => {
       return;
     }
     const imageUrl = supabase.storage.from("gallery").getPublicUrl(fileName).data.publicUrl;
-    // @ts-expect-error
+    
     const { error: dbError } = await supabase.from("gallery").insert([
       { image_url: imageUrl, title, description, category: step }
     ]);
