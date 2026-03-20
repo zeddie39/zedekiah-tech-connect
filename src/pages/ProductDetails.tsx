@@ -8,7 +8,7 @@ import ShopNavbar from "@/components/ShopNavbar";
 import { formatPhoneForWhatsapp } from "@/lib/utils";
 import { toast } from "@/components/ui/use-toast";
 
-import type { Database } from "../types/supabase";
+import type { Database } from "@/integrations/supabase/types";
 
 type Product = Database['public']['Tables']['products']['Row'];
 type ProductImage = Database['public']['Tables']['product_images']['Row'];

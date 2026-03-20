@@ -24,7 +24,7 @@ type Order = {
   payment_status: string | null;
   product_id: string;
   delivery_location: string | null;
-  mpesa_receipt: string | null;
+  mpesa_receipt?: string | null;
 };
 
 type Product = {
