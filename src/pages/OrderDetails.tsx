@@ -92,12 +92,19 @@ export default function OrderDetailsPage() {
             // Fetch product details
             const { data: productData } = await supabase
                 .from("products")
-                .select("id, title, price, image_url")
+                .select("id, title, price")
                 .eq("id", orderData.product_id)
                 .single();
 
             if (productData) {
-                setProduct(productData as Product);
+                // Get first image from product_images
+                const { data: imgData } = await supabase
+                    .from("product_images")
+                    .select("image_url")
+                    .eq("product_id", productData.id)
+                    .limit(1)
+                    .maybeSingle();
+                setProduct({ ...productData, image_url: imgData?.image_url ?? null } as Product);
             }
 
             setLoading(false);
