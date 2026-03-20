@@ -1,5 +1,5 @@
 import { createClient } from '@supabase/supabase-js';
-import type { Database } from '@/types/supabase';
+import type { Database } from '@/integrations/supabase/types';
 
 const SUPABASE_URL = "https://ivrpjginwyoeyyfljzxa.supabase.co";
 const SUPABASE_PUBLISHABLE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Iml2cnBqZ2lud3lvZXl5ZmxqenhhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg4MTM2NTAsImV4cCI6MjA2NDM4OTY1MH0.JMRHWYAB3dJJlvLRPxLcDBzGuSCwHnfe46OaCEw69CM";
