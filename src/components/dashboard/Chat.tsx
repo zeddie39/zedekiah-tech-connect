@@ -4,7 +4,7 @@ import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useRealtimeChat, sendChatEvent } from "@/hooks/useRealtimeChat";
-import { Send, User as UserIcon, Shield } from "lucide-react";
+import { Send, User as UserIcon, Shield, MessageSquare } from "lucide-react";
 
 // Type for chat messages and admin replies
 type Message = {
