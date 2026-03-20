@@ -13,6 +13,18 @@ serve(async (req) => {
     }
 
     try {
+        // Verify callback secret to prevent forged callbacks
+        const url = new URL(req.url)
+        const secret = url.searchParams.get('secret')
+        const expectedSecret = Deno.env.get('MPESA_CALLBACK_SECRET')
+        if (!expectedSecret || secret !== expectedSecret) {
+            console.error('Callback rejected: invalid or missing secret token')
+            return new Response(JSON.stringify({ error: 'Unauthorized' }), {
+                headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+                status: 401,
+            })
+        }
+
         const rawBody = await req.json()
         console.log('Callback received:', JSON.stringify(rawBody))
 
