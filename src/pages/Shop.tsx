@@ -564,6 +564,7 @@ export default function Shop() {
                       )}
                     </div>
                   </Card>
+                  </motion.div>
                 );
               })}
             </div>
