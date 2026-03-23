@@ -1,50 +1,22 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useLocation } from "react-router-dom";
+import type { ReactNode } from "react";
 
-const variants = [
-  {
-    initial: { x: "-100vw", opacity: 0 },
-    animate: { x: 0, opacity: 1 },
-    exit: { x: "100vw", opacity: 0 },
-  },
-  {
-    initial: { x: "100vw", opacity: 0 },
-    animate: { x: 0, opacity: 1 },
-    exit: { x: "-100vw", opacity: 0 },
-  },
-  {
-    initial: { y: "100vh", opacity: 0 },
-    animate: { y: 0, opacity: 1 },
-    exit: { y: "-100vh", opacity: 0 },
-  },
-  {
-    initial: { y: "-100vh", opacity: 0 },
-    animate: { y: 0, opacity: 1 },
-    exit: { y: "100vh", opacity: 0 },
-  },
-  {
-    initial: { scale: 0.8, opacity: 0 },
-    animate: { scale: 1, opacity: 1 },
-    exit: { scale: 0.8, opacity: 0 },
-  },
-];
+interface PageTransitionProps {
+  children: ReactNode;
+}
 
-export default function PageTransition({ children }) {
+export default function PageTransition({ children }: PageTransitionProps) {
   const location = useLocation();
-  // Pick a random variant for each route (for demo, you can use a hash or index for more control)
-  const variantIndex = Math.abs(
-    Array.from(location.pathname).reduce((acc, c) => acc + c.charCodeAt(0), 0)
-  ) % variants.length;
-  const variant = variants[variantIndex];
 
   return (
     <AnimatePresence mode="wait">
       <motion.div
         key={location.pathname}
-        initial={variant.initial}
-        animate={variant.animate}
-        exit={variant.exit}
-        transition={{ duration: 0.6, ease: "easeInOut" }}
+        initial={{ opacity: 0, y: 12 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: -12 }}
+        transition={{ duration: 0.3, ease: "easeInOut" }}
         style={{ minHeight: "100vh" }}
       >
         {children}
