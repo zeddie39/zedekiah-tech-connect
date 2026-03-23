@@ -1,18 +1,42 @@
 
 import { serve } from "https://deno.land/std@0.177.0/http/server.ts"
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2"
 
 const corsHeaders = {
     'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+    'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version',
 }
 
 serve(async (req) => {
-    // Handle CORS preflight requests
     if (req.method === 'OPTIONS') {
         return new Response(null, { headers: corsHeaders })
     }
 
     try {
+        // Verify JWT authentication
+        const authHeader = req.headers.get('Authorization')
+        if (!authHeader?.startsWith('Bearer ')) {
+            return new Response(JSON.stringify({ error: 'Unauthorized' }), {
+                headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+                status: 401,
+            })
+        }
+
+        const supabase = createClient(
+            Deno.env.get('SUPABASE_URL')!,
+            Deno.env.get('SUPABASE_ANON_KEY')!,
+            { global: { headers: { Authorization: authHeader } } }
+        )
+
+        const token = authHeader.replace('Bearer ', '')
+        const { data: claimsData, error: claimsError } = await supabase.auth.getClaims(token)
+        if (claimsError || !claimsData?.claims) {
+            return new Response(JSON.stringify({ error: 'Unauthorized' }), {
+                headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+                status: 401,
+            })
+        }
+
         const { amount, phone, accountReference, transactionDesc } = await req.json()
 
         // Environment variables
@@ -20,8 +44,6 @@ serve(async (req) => {
         const consumerSecret = Deno.env.get('MPESA_CONSUMER_SECRET')!
         const shortcode = Deno.env.get('MPESA_SHORTCODE')!
         const passkey = Deno.env.get('MPESA_PASSKEY')!
-        // Construct callback URL pointing to the sibling function
-        // Or use the one provided in env, default to a placeholder if not set
         const defaultCallback = req.url.replace('mpesa-stk', 'mpesa-callback')
         const callbackUrl = Deno.env.get('MPESA_CALLBACK_URL') || defaultCallback
 
