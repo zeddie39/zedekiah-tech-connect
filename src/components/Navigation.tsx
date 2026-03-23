@@ -8,7 +8,23 @@ const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [showNav, setShowNav] = useState(true);
   const [whyOpen, setWhyOpen] = useState(false);
+  const [isDark, setIsDark] = useState(() => document.documentElement.classList.contains('dark'));
   const lastScrollY = useRef(window.scrollY);
+
+  const toggleDarkMode = () => {
+    const next = !isDark;
+    setIsDark(next);
+    document.documentElement.classList.toggle('dark', next);
+    localStorage.setItem('theme', next ? 'dark' : 'light');
+  };
+
+  useEffect(() => {
+    const saved = localStorage.getItem('theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const shouldBeDark = saved ? saved === 'dark' : prefersDark;
+    setIsDark(shouldBeDark);
+    document.documentElement.classList.toggle('dark', shouldBeDark);
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
