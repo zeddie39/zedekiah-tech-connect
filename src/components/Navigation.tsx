@@ -105,6 +105,13 @@ const Navigation = () => {
           <a href="/gallery" className="hover:text-accent text-white font-medium w-full text-left">Gallery</a>
           <a href="/blog" className="hover:text-accent text-white font-medium w-full text-left">Blog</a>
           <a href="/shop" className="hover:text-accent text-white font-medium w-full text-left">Shop</a>
+          <button
+            onClick={toggleDarkMode}
+            className="flex items-center gap-2 hover:text-accent text-white font-medium w-full text-left"
+          >
+            {isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+            {isDark ? 'Light Mode' : 'Dark Mode'}
+          </button>
         </div>
       )}
     </nav>
