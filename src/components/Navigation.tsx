@@ -2,12 +2,29 @@ import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from './ui/button';
 import WhyChooseUsModal from "./WhyChooseUsModal";
+import { Moon, Sun } from "lucide-react";
 
 const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [showNav, setShowNav] = useState(true);
   const [whyOpen, setWhyOpen] = useState(false);
+  const [isDark, setIsDark] = useState(() => document.documentElement.classList.contains('dark'));
   const lastScrollY = useRef(window.scrollY);
+
+  const toggleDarkMode = () => {
+    const next = !isDark;
+    setIsDark(next);
+    document.documentElement.classList.toggle('dark', next);
+    localStorage.setItem('theme', next ? 'dark' : 'light');
+  };
+
+  useEffect(() => {
+    const saved = localStorage.getItem('theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const shouldBeDark = saved ? saved === 'dark' : prefersDark;
+    setIsDark(shouldBeDark);
+    document.documentElement.classList.toggle('dark', shouldBeDark);
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -61,6 +78,13 @@ const Navigation = () => {
           <a href="/gallery" className="hover:text-accent text-white font-medium transition-colors">Gallery</a>
           <a href="/blog" className="hover:text-accent text-white font-medium transition-colors">Blog</a>
           <a href="/shop" className="hover:text-accent text-white font-medium transition-colors">Shop</a>
+          <button
+            onClick={toggleDarkMode}
+            className="p-2 rounded-full hover:bg-accent/20 text-white transition-colors"
+            aria-label="Toggle dark mode"
+          >
+            {isDark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+          </button>
         </div>
         <button className="md:hidden flex items-center bg-accent/10 rounded-full shadow p-2 border border-accent/30" onClick={() => setIsMenuOpen(!isMenuOpen)} aria-label="Open menu">
           <svg className="w-7 h-7" fill="none" stroke="#fff" strokeWidth="2" viewBox="0 0 24 24">
@@ -81,6 +105,13 @@ const Navigation = () => {
           <a href="/gallery" className="hover:text-accent text-white font-medium w-full text-left">Gallery</a>
           <a href="/blog" className="hover:text-accent text-white font-medium w-full text-left">Blog</a>
           <a href="/shop" className="hover:text-accent text-white font-medium w-full text-left">Shop</a>
+          <button
+            onClick={toggleDarkMode}
+            className="flex items-center gap-2 hover:text-accent text-white font-medium w-full text-left"
+          >
+            {isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+            {isDark ? 'Light Mode' : 'Dark Mode'}
+          </button>
         </div>
       )}
     </nav>
