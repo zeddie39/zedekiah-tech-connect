@@ -56,48 +56,49 @@ const App = () => (
         <BrowserRouter>
           {/* PWA Install Prompt */}
           <PWAInstallPrompt />
-          <Routes>
-            <Route path="/" element={<Index />} />
-            <Route path="/auth" element={<AuthPage />} />
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/shop" element={<Shop />} />
-            <Route path="/shop/new" element={<ShopNew />} />
-            <Route path="/shop/:id" element={<ProductDetails />} />
-            <Route path="/cart" element={<CartPage />} />
-            <Route path="/checkout" element={<CheckoutPage />} />
-            <Route path="/orders" element={<OrdersPage />} />
-            <Route path="/orders/:orderId" element={<OrderDetailsPage />} />
-            <Route path="/wishlist" element={<Wishlist />} />
-            <Route path="/blog" element={<BlogPage />} />
-            <Route path="/about" element={<AboutPage />} />
-            <Route path="/services" element={<ServicesPage />} />
-            <Route path="/team" element={<TeamPage />} />
-            <Route path="/contact" element={<ContactPage />} />
-            <Route path="/gallery" element={<Gallery />} />
-            <Route path="admin" element={<AdminLayout />}>
-              <Route index element={null} />
-              <Route path="chat" element={<AdminChat />} />
-              <Route path="repairs" element={<AdminRepairs />} />
-              <Route path="notifications" element={<AdminNotifications />} />
-              <Route path="team" element={<AdminTeam />} />
-              <Route path="health" element={<AdminHealth />} />
-              <Route path="reports" element={<AdminReports />} />
-              <Route path="workflow" element={<AdminWorkflow />} />
-              <Route path="users" element={<AdminUsers />} />
-              <Route path="ProductsApproval" element={<ProductsApproval />} />
-              <Route path="gallery-manager" element={<GalleryManagerPage />} />
-            </Route>
-            <Route path="/ConfirmedCelebration" element={<ConfirmedCelebration />} />
-            <Route path="/terms" element={<Terms />} />
-            <Route path="/privacy" element={<Privacy />} />
-            <Route path="/why-choose-us" element={<WhyChooseUs />} />
-            <Route path="/faq" element={<FAQPage />} />
-            <Route path="/more-pricing" element={<MorePricingPage />} />
-            <Route path="/pricing" element={<PricingPage />} />
-            <Route path="/gallery" element={<Gallery />} />
-            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-            <Route path="*" element={<NotFound />} />
-          </Routes>
+          <PageTransition>
+            <Routes>
+              <Route path="/" element={<Index />} />
+              <Route path="/auth" element={<AuthPage />} />
+              <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/shop" element={<Shop />} />
+              <Route path="/shop/new" element={<ShopNew />} />
+              <Route path="/shop/:id" element={<ProductDetails />} />
+              <Route path="/cart" element={<CartPage />} />
+              <Route path="/checkout" element={<CheckoutPage />} />
+              <Route path="/orders" element={<OrdersPage />} />
+              <Route path="/orders/:orderId" element={<OrderDetailsPage />} />
+              <Route path="/wishlist" element={<Wishlist />} />
+              <Route path="/blog" element={<BlogPage />} />
+              <Route path="/about" element={<AboutPage />} />
+              <Route path="/services" element={<ServicesPage />} />
+              <Route path="/team" element={<TeamPage />} />
+              <Route path="/contact" element={<ContactPage />} />
+              <Route path="/gallery" element={<Gallery />} />
+              <Route path="admin" element={<AdminLayout />}>
+                <Route index element={null} />
+                <Route path="chat" element={<AdminChat />} />
+                <Route path="repairs" element={<AdminRepairs />} />
+                <Route path="notifications" element={<AdminNotifications />} />
+                <Route path="team" element={<AdminTeam />} />
+                <Route path="health" element={<AdminHealth />} />
+                <Route path="reports" element={<AdminReports />} />
+                <Route path="workflow" element={<AdminWorkflow />} />
+                <Route path="users" element={<AdminUsers />} />
+                <Route path="ProductsApproval" element={<ProductsApproval />} />
+                <Route path="gallery-manager" element={<GalleryManagerPage />} />
+              </Route>
+              <Route path="/ConfirmedCelebration" element={<ConfirmedCelebration />} />
+              <Route path="/terms" element={<Terms />} />
+              <Route path="/privacy" element={<Privacy />} />
+              <Route path="/why-choose-us" element={<WhyChooseUs />} />
+              <Route path="/faq" element={<FAQPage />} />
+              <Route path="/more-pricing" element={<MorePricingPage />} />
+              <Route path="/pricing" element={<PricingPage />} />
+              {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </PageTransition>
           <ScrollToTop />
           <CookieConsent />
         </BrowserRouter>
