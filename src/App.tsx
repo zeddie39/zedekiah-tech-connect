@@ -43,6 +43,7 @@ import Privacy from "./pages/Privacy";
 import WhyChooseUs from "./pages/WhyChooseUs";
 import FAQPage from "./pages/FAQ";
 import CookieConsent from "@/components/CookieConsent";
+import PageTransition from "@/components/PageTransition";
 
 const queryClient = new QueryClient();
 

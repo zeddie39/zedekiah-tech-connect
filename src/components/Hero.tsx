@@ -106,8 +106,17 @@ const Hero = () => {
   }
 
   return (
-    <section id="home" className="hero-pattern min-h-[60vh] flex flex-col items-center justify-center relative pt-24 pb-4 sm:pt-32 sm:pb-12 md:pt-36 md:pb-16 lg:pt-40 lg:pb-20">
-      {/* Removed Ztech Logo from Hero section */}
+    <section id="home" className="relative min-h-[60vh] flex flex-col items-center justify-center pt-24 pb-4 sm:pt-32 sm:pb-12 md:pt-36 md:pb-16 lg:pt-40 lg:pb-20 overflow-hidden">
+      {/* Background Image */}
+      <div className="absolute inset-0 z-0">
+        <img
+          src="https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=2070&auto=format&fit=crop"
+          alt=""
+          className="w-full h-full object-cover"
+          loading="eager"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-background/90 via-background/70 to-background" />
+      </div>
       {/* Main Hero Section */}
       <div className="container mx-auto px-4 sm:px-6 text-center relative z-10">
         <div className="animate-fade-in">
