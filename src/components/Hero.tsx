@@ -115,7 +115,7 @@ const Hero = () => {
           className="w-full h-full object-cover"
           loading="eager"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-background/90 via-background/70 to-background dark:from-background/95 dark:via-background/80 dark:to-background" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black/70 dark:from-background/95 dark:via-background/80 dark:to-background" />
       </div>
       {/* Main Hero Section */}
       <div className="container mx-auto px-4 sm:px-6 text-center relative z-10">
