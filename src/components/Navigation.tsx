@@ -79,6 +79,7 @@ const Navigation = () => {
           <a href="/blog" className="hover:text-accent text-white font-medium transition-colors">Blog</a>
           <a href="/shop" className="hover:text-accent text-white font-medium transition-colors">Shop</a>
           <a href="/auth" className="hover:text-accent text-white font-medium transition-colors">Login</a>
+          <button
             onClick={toggleDarkMode}
             className="p-2 rounded-full hover:bg-accent/20 text-white transition-colors"
             aria-label="Toggle dark mode"
