@@ -23,13 +23,13 @@ const Services = () => {
   };
 
   return (
-    <section id="services" className="py-10 sm:py-16 md:py-20 bg-white relative">
+    <section id="services" className="py-10 sm:py-16 md:py-20 bg-background relative">
       <div className="container mx-auto px-2 sm:px-4 md:px-6">
         <div className="text-center mb-8 sm:mb-12 md:mb-16">
           <h2 className="text-2xl sm:text-4xl md:text-5xl font-orbitron font-bold text-primary mb-4 sm:mb-6">
             Our Services
           </h2>
-          <p className="text-base sm:text-xl text-gray-600 max-w-3xl mx-auto">
+          <p className="text-base sm:text-xl text-muted-foreground max-w-3xl mx-auto">
             Comprehensive technology solutions for all your electronic and digital needs
           </p>
         </div>

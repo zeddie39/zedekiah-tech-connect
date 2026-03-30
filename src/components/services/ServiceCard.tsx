@@ -19,7 +19,7 @@ const ServiceCard = ({ service, onReadMore }: ServiceCardProps) => {
         <div className="flex justify-center mb-4">
           {service.icon}
         </div>
-        <CardTitle className="text-xl font-heading text-primary group-hover:text-accent transition-colors duration-300">
+        <CardTitle className="text-xl font-heading text-foreground group-hover:text-accent transition-colors duration-300">
           {service.title}
         </CardTitle>
       </CardHeader>
