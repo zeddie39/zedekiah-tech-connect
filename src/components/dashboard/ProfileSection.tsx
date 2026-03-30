@@ -159,6 +159,8 @@ export default function ProfileSection({ userId }: { userId: string }) {
                       type="file"
                       accept="image/*"
                       ref={fileInputRef}
+                      title="Upload Profile Photo"
+                      aria-label="Upload Profile Photo"
                       onChange={e => {
                         setFile(e.target.files?.[0] || null);
                         if (e.target.files?.[0]) handleUpload({ preventDefault: () => { } } as any); // Auto upload on select

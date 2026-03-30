@@ -221,6 +221,8 @@ export default function ShopNew() {
                 id="images"
                 type="file"
                 accept="image/*"
+                title="Upload Product Images"
+                aria-label="Upload Product Images"
                 multiple
                 required
                 onChange={e => setImages(e.target.files ? Array.from(e.target.files) : [])}

@@ -79,13 +79,15 @@ export default function ProductDetails() {
       <div className="max-w-3xl mx-auto py-6 sm:py-10 px-2 sm:px-3">
         <div className="mb-6">
           <button
+            title="Go Back"
+            aria-label="Go Back"
             onClick={() => window.history.length > 1 ? window.history.back() : window.location.assign('/')}
             className="bg-primary text-accent font-semibold rounded px-4 py-2 border border-accent hover:bg-accent hover:text-primary transition-colors duration-200 mb-4"
           >
              Go Back
           </button>
         </div>
-        <Button variant="ghost" onClick={() => navigate(-1)} className="mb-3">
+        <Button variant="ghost" onClick={() => navigate(-1)} className="mb-3" title="Back to Shop" aria-label="Back to Shop">
           <ChevronLeft size={18} className="mr-2" /> Back to Shop
         </Button>
         <Card className="p-0 flex flex-col md:flex-row gap-2 sm:gap-3">
@@ -114,7 +116,7 @@ export default function ProductDetails() {
               <div className="text-primary text-lg sm:text-2xl font-bold mb-2">Ksh {product.price.toFixed(2)}</div>
               <div className="text-muted-foreground text-xs sm:text-base">{product.description}</div>
             </div>
-            <Button className="mt-4 w-full" onClick={() => navigate("/cart")}>Add to Cart</Button>
+            <Button className="mt-4 w-full" onClick={() => navigate("/cart")} title="Add to Cart" aria-label="Add to Cart">Add to Cart</Button>
             <div className="text-xs text-muted-foreground mt-1">
               Owner ID: {product.owner_id}
             </div>
@@ -122,6 +124,8 @@ export default function ProductDetails() {
             <Button
               variant="outline"
               className="mt-2 w-full"
+              title="Chat on WhatsApp"
+              aria-label="Chat on WhatsApp"
               onClick={() => {
                 // Use per-product WhatsApp number if available, otherwise fall back to business number
                 // @ts-ignore

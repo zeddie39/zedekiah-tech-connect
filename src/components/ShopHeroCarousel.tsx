@@ -12,8 +12,8 @@ export default function ShopHeroCarousel() {
           className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
         />
         {/* Premium Gradient Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-r from-background/95 via-background/80 to-transparent" />
-        <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/70 to-black/30" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
 
         {/* Decorative Circuit Lines Overlay */}
         <div className="absolute inset-0 opacity-20 bg-[linear-gradient(rgba(255,255,255,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.05)_1px,transparent_1px)] bg-[size:40px_40px]" />
@@ -27,12 +27,12 @@ export default function ShopHeroCarousel() {
             <span className="tracking-wide uppercase">Next-Gen Electronics</span>
           </div>
 
-          <h1 className="text-3xl md:text-5xl lg:text-6xl font-black tracking-tight text-foreground mb-4 leading-tight">
+          <h1 className="text-3xl md:text-5xl lg:text-6xl font-black tracking-tight text-white mb-4 leading-tight text-shadow-heavy">
             Upgrade Your <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">Digital Lifestyle</span>
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 via-orange-500 to-amber-300 drop-shadow-glow">Digital Lifestyle</span>
           </h1>
 
-          <p className="text-muted-foreground text-sm md:text-lg max-w-xl leading-relaxed mb-8">
+          <p className="text-gray-200 text-sm md:text-lg max-w-xl leading-relaxed mb-8 text-shadow-sm">
             Experience the best in tech with Ztech. From high-performance motherboards to the latest smart gadgets,
             we provide quality you can trust and support that cares.
           </p>
@@ -40,7 +40,7 @@ export default function ShopHeroCarousel() {
           <div className="flex flex-col sm:flex-row gap-4">
             <Button
               size="lg"
-              className="bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg shadow-primary/20 transition-all hover:scale-105"
+              className="bg-accent hover:bg-accent/90 text-white shadow-lg shadow-accent/20 transition-all hover:scale-105"
               onClick={() => document.getElementById('products-grid')?.scrollIntoView({ behavior: 'smooth' })}
             >
               Shop Collection
@@ -48,7 +48,7 @@ export default function ShopHeroCarousel() {
             <Button
               variant="outline"
               size="lg"
-              className="border-accent/50 text-foreground hover:bg-accent/10 backdrop-blur-sm"
+              className="bg-transparent border-2 border-white/60 text-white hover:bg-white/10 backdrop-blur-sm"
               onClick={() => document.getElementById('shop-main')?.scrollIntoView({ behavior: 'smooth' })}
             >
               Explore Categories <ArrowRight className="ml-2 w-4 h-4" />
@@ -59,7 +59,7 @@ export default function ShopHeroCarousel() {
 
       {/* Bottom Features Strip */}
       <div className="relative z-10 border-t border-white/5 bg-black/20 backdrop-blur-md px-6 py-4">
-        <div className="flex flex-wrap items-center gap-4 md:gap-8 text-sm font-medium text-muted-foreground">
+        <div className="flex flex-wrap items-center gap-4 md:gap-8 text-sm font-medium text-gray-200">
           <div className="flex items-center gap-2">
             <Cpu className="w-4 h-4 text-accent" /> Premium Components
           </div>
