@@ -149,6 +149,19 @@
     border: 1px solid rgba(255, 255, 255, 0.2);
   }
 
+  .dark .glass-card {
+    background: hsla(230, 20%, 10%, 0.85);
+    border: 1px solid hsla(230, 15%, 22%, 0.6);
+  }
+
+  .dark .service-card {
+    @apply bg-card shadow-lg shadow-black/20;
+  }
+
+  .dark .service-card:hover {
+    box-shadow: 0 25px 50px -12px hsla(36, 100%, 50%, 0.15);
+  }
+
   .service-card {
     @apply bg-white rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2;
   }
