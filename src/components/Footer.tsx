@@ -136,11 +136,11 @@ const Footer = () => {
           <div className="space-y-2">
             <h4 className="font-ubuntu font-bold text-base sm:text-lg mb-2 sm:mb-4">Follow Us</h4>
             <div className="flex gap-3">
-              <a href="#" className="hover:text-accent" aria-label="Facebook"><Facebook className="w-5 h-5 sm:w-6 sm:h-6" /></a>
-              <a href="#" className="hover:text-accent" aria-label="Twitter"><Twitter className="w-5 h-5 sm:w-6 sm:h-6" /></a>
-              <a href="#" className="hover:text-accent" aria-label="Instagram"><Instagram className="w-5 h-5 sm:w-6 sm:h-6" /></a>
-              <a href="#" className="hover:text-accent" aria-label="Linkedin"><Linkedin className="w-5 h-5 sm:w-6 sm:h-6" /></a>
-              <a href="#" className="hover:text-accent" aria-label="Youtube"><Youtube className="w-5 h-5 sm:w-6 sm:h-6" /></a>
+              <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="hover:text-accent" aria-label="Facebook"><Facebook className="w-5 h-5 sm:w-6 sm:h-6" /></a>
+              <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="hover:text-accent" aria-label="Twitter"><Twitter className="w-5 h-5 sm:w-6 sm:h-6" /></a>
+              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="hover:text-accent" aria-label="Instagram"><Instagram className="w-5 h-5 sm:w-6 sm:h-6" /></a>
+              <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="hover:text-accent" aria-label="Linkedin"><Linkedin className="w-5 h-5 sm:w-6 sm:h-6" /></a>
+              <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" className="hover:text-accent" aria-label="Youtube"><Youtube className="w-5 h-5 sm:w-6 sm:h-6" /></a>
             </div>
           </div>
         </div>

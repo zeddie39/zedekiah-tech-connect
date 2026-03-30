@@ -78,6 +78,7 @@ const Navigation = () => {
           <a href="/gallery" className="hover:text-accent text-white font-medium transition-colors">Gallery</a>
           <a href="/blog" className="hover:text-accent text-white font-medium transition-colors">Blog</a>
           <a href="/shop" className="hover:text-accent text-white font-medium transition-colors">Shop</a>
+          <a href="/auth" className="hover:text-accent text-white font-medium transition-colors">Login</a>
           <button
             onClick={toggleDarkMode}
             className="p-2 rounded-full hover:bg-accent/20 text-white transition-colors"
@@ -105,6 +106,7 @@ const Navigation = () => {
           <a href="/gallery" className="hover:text-accent text-white font-medium w-full text-left">Gallery</a>
           <a href="/blog" className="hover:text-accent text-white font-medium w-full text-left">Blog</a>
           <a href="/shop" className="hover:text-accent text-white font-medium w-full text-left">Shop</a>
+          <a href="/auth" className="hover:text-accent text-white font-medium w-full text-left">Login</a>
           <button
             onClick={toggleDarkMode}
             className="flex items-center gap-2 hover:text-accent text-white font-medium w-full text-left"

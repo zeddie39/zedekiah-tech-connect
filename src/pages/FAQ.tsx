@@ -40,7 +40,7 @@ const faqs = [
 		question: "Can I sell my device on your platform?",
 		answer: (
 			<span>
-				Yes! Verified users can list electronics for sale or advertising. You’ll
+				Yes! Verified users can list electronics for sale or advertising. You'll
 				need to:
 				<ul className="list-decimal pl-5 mt-2">
 					<li>Create an account</li>
@@ -72,7 +72,7 @@ const faqs = [
 	},
 	{
 		question: "How long does a typical repair take?",
-		answer: "It depends on the issue. Standard repairs (screen replacement, battery, etc.) can take 1–3 business days. Complex motherboard or software repairs may take longer, but you’ll receive real-time updates.",
+		answer: "It depends on the issue. Standard repairs (screen replacement, battery, etc.) can take 1–3 business days. Complex motherboard or software repairs may take longer, but you'll receive real-time updates.",
 	},
 	{
 		question: "Do you pick up or deliver repaired items?",
@@ -126,12 +126,12 @@ const FAQPage = () => (
 			{faqs.map((faq, idx) => (
 				<div
 					key={idx}
-					className="bg-white rounded-2xl shadow-lg p-6 border border-accent/20"
+					className="bg-card rounded-2xl shadow-lg p-6 border border-border"
 				>
 					<h2 className="text-xl font-semibold text-accent mb-2 font-orbitron">
 						{faq.question}
 					</h2>
-					<div className="text-gray-700 text-base">{faq.answer}</div>
+					<div className="text-muted-foreground text-base">{faq.answer}</div>
 				</div>
 			))}
 		</div>
