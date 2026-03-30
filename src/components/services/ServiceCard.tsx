@@ -24,14 +24,14 @@ const ServiceCard = ({ service, onReadMore }: ServiceCardProps) => {
         </CardTitle>
       </CardHeader>
       <CardContent className="flex flex-col flex-1">
-        <p className="text-gray-600 mb-6 leading-relaxed">
+        <p className="text-muted-foreground mb-6 leading-relaxed">
           {service.description}
         </p>
         <div className="space-y-2 mb-4">
           {service.features.map((feature, featureIndex) => (
             <div key={featureIndex} className="flex items-center space-x-2">
               <div className="w-2 h-2 bg-accent rounded-full"></div>
-              <span className="text-sm text-gray-700">{feature}</span>
+              <span className="text-sm text-muted-foreground">{feature}</span>
             </div>
           ))}
         </div>
