@@ -433,137 +433,152 @@ export default function Shop() {
             </Sheet>
 
             {/* Products Grid */}
-            <div id="products-grid" className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 scroll-mt-24">
+            <div id="products-grid" className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5 scroll-mt-24">
               {filteredProducts.map((product, index) => {
                 const avgRating = getAvgRating(product);
                 return (
                   <motion.div
                     key={product.id}
-                    initial={{ opacity: 0, y: 20 }}
+                    initial={{ opacity: 0, y: 24 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.35, delay: index * 0.05, ease: "easeOut" }}
+                    transition={{ duration: 0.4, delay: index * 0.04, ease: "easeOut" }}
                   >
                   <Card
-                    className={`group border-border/50 bg-card/40 backdrop-blur-sm overflow-hidden transition-all duration-300 hover:shadow-lg hover:border-primary/20 hover:-translate-y-1 ${expanded[product.id] ? 'ring-1 ring-primary/30' : ''}`}
+                    className={`group relative rounded-2xl border-border/40 bg-card overflow-hidden transition-all duration-300 hover:shadow-xl hover:shadow-primary/5 hover:border-primary/20 hover:-translate-y-1 ${expanded[product.id] ? 'ring-2 ring-primary/20' : ''}`}
                   >
-                    <div className="relative">
+                    {/* Image */}
+                    <div className="relative overflow-hidden">
                       <AspectRatio ratio={4 / 3}>
                         {images[product.id] ? (
                           <img
                             src={images[product.id]}
                             alt={product.title}
-                            className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-105"
+                            className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-110"
                           />
                         ) : (
-                          <div className="w-full h-full flex items-center justify-center bg-muted">
-                            <Image className="h-10 w-10 text-muted-foreground/40" />
+                          <div className="w-full h-full flex items-center justify-center bg-muted/50">
+                            <Image className="h-12 w-12 text-muted-foreground/30" />
                           </div>
                         )}
                       </AspectRatio>
 
-                      {/* Overlay Actions */}
-                      <div className="absolute top-2 right-2 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                      {/* Gradient overlay on hover */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+
+                      {/* Quick actions */}
+                      <div className="absolute top-3 right-3 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-2 group-hover:translate-y-0">
                         <Button
                           size="icon"
                           variant="secondary"
-                          className="h-8 w-8 rounded-full shadow-sm"
+                          className="h-9 w-9 rounded-full shadow-lg bg-background/90 backdrop-blur-sm hover:bg-background border-0"
                           onClick={() => { setPreviewImg(images[product.id]); setPreviewAlt(product.title); }}
                         >
                           <Eye className="h-4 w-4" />
                         </Button>
                         <Button
                           size="icon"
-                          variant={wishlist.includes(product.id) ? "default" : "secondary"}
-                          className={`h-8 w-8 rounded-full shadow-sm ${wishlist.includes(product.id) ? 'bg-red-500 hover:bg-red-600 text-white' : ''}`}
+                          variant="secondary"
+                          className={`h-9 w-9 rounded-full shadow-lg backdrop-blur-sm border-0 ${
+                            wishlist.includes(product.id)
+                              ? 'bg-red-500 hover:bg-red-600 text-white'
+                              : 'bg-background/90 hover:bg-background'
+                          }`}
                           onClick={() => toggleWishlist(product.id)}
                         >
                           <Heart className={`h-4 w-4 ${wishlist.includes(product.id) ? "fill-current" : ""}`} />
                         </Button>
                       </div>
 
+                      {/* Category badge */}
+                      {product.category && (
+                        <div className="absolute bottom-3 left-3">
+                          <span className="text-[10px] uppercase tracking-wider font-semibold px-2.5 py-1 rounded-full bg-background/90 backdrop-blur-sm text-foreground border border-border/40 shadow-sm">
+                            {product.category}
+                          </span>
+                        </div>
+                      )}
+
                       {product.status === 'pending' && (
-                        <Badge variant="secondary" className="absolute top-2 left-2 text-[10px] bg-background/80 backdrop-blur">
+                        <Badge variant="secondary" className="absolute top-3 left-3 text-[10px] bg-background/90 backdrop-blur-sm">
                           Pending
                         </Badge>
                       )}
                     </div>
 
+                    {/* Content */}
                     <div className="p-4 space-y-3">
                       <div>
-                        <div className="flex items-start justify-between gap-2 mb-1">
-                          <h3 className="font-semibold text-base leading-tight line-clamp-2" title={product.title}>
-                            {product.title}
-                          </h3>
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <span className="text-lg font-bold text-primary">
+                        <h3 className="font-semibold text-base leading-tight line-clamp-1 text-foreground mb-1.5" title={product.title}>
+                          {product.title}
+                        </h3>
+                        <div className="flex items-center justify-between">
+                          <span className="text-xl font-extrabold text-primary">
                             Ksh {product.price.toLocaleString()}
                           </span>
-                          {product.category && (
-                            <span className="text-[10px] uppercase tracking-wider text-muted-foreground border px-1.5 rounded">
-                              {product.category}
-                            </span>
-                          )}
+                          <div className="flex items-center gap-1 text-xs text-muted-foreground">
+                            <Star className={`h-3.5 w-3.5 ${avgRating > 0 ? 'text-amber-400 fill-amber-400' : 'text-muted-foreground/30'}`} />
+                            <span className="font-medium">{avgRating.toFixed(1)}</span>
+                            <span>({reviews[product.id]?.length || 0})</span>
+                          </div>
                         </div>
-                      </div>
-
-                      <div className="flex items-center text-xs text-muted-foreground gap-1">
-                        <Star className={`h-3.5 w-3.5 ${avgRating > 0 ? 'text-yellow-400 fill-yellow-400' : 'text-muted'}`} />
-                        <span>{avgRating.toFixed(1)}</span>
-                        <span>({reviews[product.id]?.length || 0})</span>
                       </div>
 
                       {/* Expanded / Actions */}
                       {expanded[product.id] ? (
-                        <div className="pt-2 animate-in slide-in-from-top-2">
-                          <div className="text-xs text-muted-foreground mb-3 line-clamp-4">
+                        <div className="pt-2 animate-fade-in">
+                          <div className="text-xs text-muted-foreground mb-3 line-clamp-3 leading-relaxed">
                             {product.description || "No description available."}
                           </div>
                           <div className="space-y-2">
-                            <Button className="w-full" size="sm" onClick={() => {
+                            <Button className="w-full rounded-xl h-10 font-semibold" size="sm" onClick={() => {
                               addToCart({ ...product });
                               toast({ title: 'Added to cart', description: product.title });
                             }}>
                               <ShoppingCart className="mr-2 h-4 w-4" /> Add to Cart
                             </Button>
                             {product.whatsapp_number && (
-                              <Button variant="outline" size="sm" className="w-full" onClick={() => {
+                              <Button variant="outline" size="sm" className="w-full rounded-xl h-10" onClick={() => {
                                 const url = formatPhoneForWhatsapp(product.whatsapp_number, `Hi, I'm interested in ${product.title}`, images[product.id]);
                                 if (url) window.open(url, '_blank');
                                 else toast({ title: 'Invalid WhatsApp', variant: 'destructive' });
                               }}>
-                                <Phone className="mr-2 h-4 w-4" /> WhatsApp
+                                <Phone className="mr-2 h-4 w-4" /> WhatsApp Seller
                               </Button>
                             )}
-                            <Button variant="ghost" size="sm" className="w-full h-auto py-1 text-xs" onClick={() => toggleExpanded(product.id)}>
-                              Close Details
+                            <Button variant="ghost" size="sm" className="w-full h-auto py-1 text-xs text-muted-foreground" onClick={() => toggleExpanded(product.id)}>
+                              Close
                             </Button>
                           </div>
 
-                          {/* Simplified Reviews for Grid View */}
-                          <div className="mt-4 pt-3 border-t">
-                            <h4 className="text-xs font-semibold mb-2">Reviews</h4>
+                          {/* Reviews */}
+                          <div className="mt-4 pt-3 border-t border-border/40">
+                            <h4 className="text-xs font-bold text-muted-foreground uppercase tracking-wider mb-2">Reviews</h4>
                             {reviews[product.id]?.slice(0, 2).map(r => (
-                              <div key={r.id} className="text-[11px] mb-1 text-muted-foreground">
+                              <div key={r.id} className="text-[11px] mb-1.5 text-muted-foreground leading-relaxed">
                                 <span className="font-medium text-foreground">User:</span> {r.comment}
                               </div>
                             ))}
                             {user && (
                               <div className="flex gap-2 mt-2">
                                 <Input
-                                  className="h-7 text-xs"
+                                  className="h-8 text-xs rounded-lg"
                                   placeholder="Write a review..."
                                   value={reviewInputs[product.id]?.comment || ''}
                                   onChange={e => handleReviewInput(product.id, 'comment', e.target.value)}
                                 />
-                                <Button size="sm" className="h-7 px-2" onClick={() => handleReviewSubmit(product.id)}>Post</Button>
+                                <Button size="sm" className="h-8 px-3 rounded-lg text-xs" onClick={() => handleReviewSubmit(product.id)}>Post</Button>
                               </div>
                             )}
                           </div>
                         </div>
                       ) : (
-                        <Button variant="outline" className="w-full" size="sm" onClick={() => toggleExpanded(product.id)}>
-                          View Details
+                        <Button
+                          variant="outline"
+                          className="w-full rounded-xl h-10 font-medium border-border/40 hover:bg-primary/5 hover:text-primary hover:border-primary/30 transition-all"
+                          size="sm"
+                          onClick={() => toggleExpanded(product.id)}
+                        >
+                          View Details <ArrowRight className="ml-2 h-3.5 w-3.5" />
                         </Button>
                       )}
                     </div>
