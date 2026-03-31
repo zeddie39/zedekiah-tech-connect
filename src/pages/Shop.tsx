@@ -386,20 +386,20 @@ export default function Shop() {
           {/* Main Content */}
           <main className="flex-1 min-w-0">
             {/* Toolbar */}
-            <div className="flex flex-col sm:flex-row gap-4 items-center justify-between mb-6">
+            <div className="flex flex-col sm:flex-row gap-3 items-center justify-between mb-6">
               <div className="relative w-full sm:max-w-md">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground h-4 w-4" />
+                <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-muted-foreground h-4 w-4" />
                 <Input
                   placeholder="Search products..."
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
-                  className="pl-9 bg-background/60 backdrop-blur"
+                  className="pl-10 h-11 rounded-xl bg-muted/30 border-border/40 focus:border-primary/40 text-sm"
                 />
               </div>
 
               <div className="flex items-center gap-2 w-full sm:w-auto">
                 <Select value={sortBy} onValueChange={(v: any) => setSortBy(v)}>
-                  <SelectTrigger className="w-full sm:w-[140px] bg-background/60 backdrop-blur">
+                  <SelectTrigger className="w-full sm:w-[150px] h-11 rounded-xl bg-muted/30 border-border/40 text-sm">
                     <SelectValue placeholder="Sort by" />
                   </SelectTrigger>
                   <SelectContent>
@@ -410,9 +410,9 @@ export default function Shop() {
                 </Select>
 
                 <Button
-                  variant="ghost"
+                  variant="outline"
                   size="icon"
-                  className="lg:hidden"
+                  className="lg:hidden h-11 w-11 rounded-xl border-border/40"
                   onClick={() => setFiltersOpen(true)}
                 >
                   <Filter className="h-4 w-4" />
