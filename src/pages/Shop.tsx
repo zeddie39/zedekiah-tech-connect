@@ -369,7 +369,7 @@ export default function Shop() {
   );
 
   return (
-    <div className="min-h-screen w-full bg-gradient-to-br from-background via-muted/30 to-accent/5 font-sans">
+    <div className="min-h-screen w-full bg-background font-sans">
       <ShopNavbar />
       <ShopHeroCarousel />
 
@@ -377,10 +377,10 @@ export default function Shop() {
         <div className="flex flex-col lg:flex-row gap-8">
 
           {/* Sidebar (Desktop) */}
-          <aside className="hidden lg:block w-64 flex-shrink-0 sticky top-24 h-fit">
-            <Card className="p-4 bg-background/60 backdrop-blur border-border/60">
+          <aside className="hidden lg:block w-60 flex-shrink-0 sticky top-24 h-fit">
+            <div className="rounded-2xl bg-card/80 backdrop-blur border border-border/40 p-5 shadow-sm">
               <SidebarFilters />
-            </Card>
+            </div>
           </aside>
 
           {/* Main Content */}
