@@ -297,57 +297,61 @@ export default function Shop() {
   const SidebarFilters = () => (
     <div className="space-y-6">
       <div>
-        <h3 className="text-sm font-semibold mb-3 flex items-center gap-2">
-          <Filter size={16} /> Categories
+        <h3 className="text-xs font-bold uppercase tracking-wider text-muted-foreground mb-3 flex items-center gap-2">
+          <Filter size={14} /> Categories
         </h3>
-        <div className="space-y-1">
-          <Button
-            variant={categoryFilter === null ? "secondary" : "ghost"}
-            size="sm"
-            className="w-full justify-start font-normal"
+        <div className="space-y-0.5">
+          <button
+            className={`w-full text-left px-3 py-2 rounded-xl text-sm transition-all ${
+              categoryFilter === null
+                ? "bg-primary/10 text-primary font-semibold"
+                : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
+            }`}
             onClick={() => setCategoryFilter(null)}
           >
             All Categories
-          </Button>
+          </button>
           {shopCats.map((c) => (
-            <Button
+            <button
               key={c.name}
-              variant={categoryFilter === c.name ? "secondary" : "ghost"}
-              size="sm"
-              className="w-full justify-start font-normal truncate"
+              className={`w-full text-left px-3 py-2 rounded-xl text-sm transition-all ${
+                categoryFilter === c.name
+                  ? "bg-primary/10 text-primary font-semibold"
+                  : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
+              }`}
               onClick={() => setCategoryFilter(prev => prev === c.name ? null : c.name)}
             >
               {c.name}
-            </Button>
+            </button>
           ))}
         </div>
       </div>
-      <Separator />
+      <Separator className="bg-border/40" />
       <div>
-        <h3 className="text-sm font-semibold mb-3">Price Range</h3>
+        <h3 className="text-xs font-bold uppercase tracking-wider text-muted-foreground mb-3">Price Range</h3>
         <div className="flex items-center gap-2">
           <Input
             type="number"
             placeholder="Min"
             value={minPrice}
             onChange={(e) => setMinPrice(e.target.value)}
-            className="h-8 text-xs"
+            className="h-9 text-sm rounded-xl bg-muted/30 border-border/40"
           />
-          <span className="text-muted-foreground">-</span>
+          <span className="text-muted-foreground text-xs">to</span>
           <Input
             type="number"
             placeholder="Max"
             value={maxPrice}
             onChange={(e) => setMaxPrice(e.target.value)}
-            className="h-8 text-xs"
+            className="h-9 text-sm rounded-xl bg-muted/30 border-border/40"
           />
         </div>
       </div>
-      <Separator />
+      <Separator className="bg-border/40" />
       <div>
-        <h3 className="text-sm font-semibold mb-3">Rating</h3>
+        <h3 className="text-xs font-bold uppercase tracking-wider text-muted-foreground mb-3">Rating</h3>
         <Select value={minRating} onValueChange={(v: any) => setMinRating(v === 'any' ? '' : v)}>
-          <SelectTrigger className="w-full h-8 text-xs">
+          <SelectTrigger className="w-full h-9 text-sm rounded-xl bg-muted/30 border-border/40">
             <SelectValue placeholder="Minimum Rating" />
           </SelectTrigger>
           <SelectContent>
@@ -358,8 +362,8 @@ export default function Shop() {
           </SelectContent>
         </Select>
       </div>
-      <Button variant="outline" size="sm" className="w-full" onClick={clearAllFilters}>
-        Reset Filters
+      <Button variant="ghost" size="sm" className="w-full text-xs text-muted-foreground hover:text-primary" onClick={clearAllFilters}>
+        Reset all filters
       </Button>
     </div>
   );
