@@ -1,15 +1,23 @@
 import { useState, useEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
-import { Button } from './ui/button';
-import WhyChooseUsModal from "./WhyChooseUsModal";
-import { Moon, Sun } from "lucide-react";
+import { Link, useNavigate } from 'react-router-dom';
+import { Moon, Sun, User, LogOut, LayoutDashboard, Package } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "./ui/dropdown-menu";
 
 const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [showNav, setShowNav] = useState(true);
-  const [whyOpen, setWhyOpen] = useState(false);
   const [isDark, setIsDark] = useState(() => document.documentElement.classList.contains('dark'));
+  const [user, setUser] = useState<{ email?: string; avatar_url?: string; full_name?: string } | null>(null);
   const lastScrollY = useRef(window.scrollY);
+  const navigate = useNavigate();
 
   const toggleDarkMode = () => {
     const next = !isDark;
@@ -27,11 +35,35 @@ const Navigation = () => {
   }, []);
 
   useEffect(() => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      if (session?.user) {
+        setUser({
+          email: session.user.email,
+          avatar_url: session.user.user_metadata?.avatar_url,
+          full_name: session.user.user_metadata?.full_name,
+        });
+      } else {
+        setUser(null);
+      }
+    });
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (session?.user) {
+        setUser({
+          email: session.user.email,
+          avatar_url: session.user.user_metadata?.avatar_url,
+          full_name: session.user.user_metadata?.full_name,
+        });
+      }
+    });
+    return () => subscription.unsubscribe();
+  }, []);
+
+  useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > lastScrollY.current && window.scrollY > 80) {
-        setShowNav(false); // Hide nav on scroll down
+        setShowNav(false);
       } else {
-        setShowNav(true); // Show nav on scroll up
+        setShowNav(true);
       }
       lastScrollY.current = window.scrollY;
     };
@@ -45,9 +77,7 @@ const Navigation = () => {
     } else {
       document.body.style.overflow = '';
     }
-    return () => {
-      document.body.style.overflow = '';
-    };
+    return () => { document.body.style.overflow = ''; };
   }, [isMenuOpen]);
 
   const scrollToSection = (sectionId: string) => {
@@ -57,6 +87,45 @@ const Navigation = () => {
       setIsMenuOpen(false);
     }
   };
+
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    setUser(null);
+    navigate('/');
+  };
+
+  const initials = user?.full_name
+    ? user.full_name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2)
+    : user?.email?.[0]?.toUpperCase() || 'U';
+
+  const UserDropdown = () => (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <button className="flex items-center gap-2 rounded-full hover:bg-accent/20 transition-colors p-1" aria-label="User menu">
+          <Avatar className="w-8 h-8 border-2 border-accent/40">
+            <AvatarImage src={user?.avatar_url || ''} alt={user?.full_name || 'User'} />
+            <AvatarFallback className="bg-accent/30 text-white text-xs font-bold">{initials}</AvatarFallback>
+          </Avatar>
+        </button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end" className="w-48">
+        <div className="px-2 py-1.5 text-sm font-medium truncate text-foreground">
+          {user?.full_name || user?.email}
+        </div>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem onClick={() => navigate('/dashboard')} className="cursor-pointer">
+          <LayoutDashboard className="mr-2 h-4 w-4" /> Dashboard
+        </DropdownMenuItem>
+        <DropdownMenuItem onClick={() => navigate('/orders')} className="cursor-pointer">
+          <Package className="mr-2 h-4 w-4" /> Orders
+        </DropdownMenuItem>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem onClick={handleLogout} className="cursor-pointer text-destructive focus:text-destructive">
+          <LogOut className="mr-2 h-4 w-4" /> Logout
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
 
   return (
     <nav className={`fixed top-0 left-0 w-full z-50 bg-primary/95 backdrop-blur border-b border-accent/30 shadow-lg transition-transform duration-300 ${showNav ? 'translate-y-0' : '-translate-y-full'}`}>
@@ -78,7 +147,11 @@ const Navigation = () => {
           <a href="/gallery" className="hover:text-accent text-white font-medium transition-colors">Gallery</a>
           <a href="/blog" className="hover:text-accent text-white font-medium transition-colors">Blog</a>
           <a href="/shop" className="hover:text-accent text-white font-medium transition-colors">Shop</a>
-          <a href="/auth" className="hover:text-accent text-white font-medium transition-colors">Login</a>
+          {user ? (
+            <UserDropdown />
+          ) : (
+            <a href="/auth" className="hover:text-accent text-white font-medium transition-colors">Login</a>
+          )}
           <button
             onClick={toggleDarkMode}
             className="p-2 rounded-full hover:bg-accent/20 text-white transition-colors"
@@ -106,7 +179,22 @@ const Navigation = () => {
           <a href="/gallery" className="hover:text-accent text-white font-medium w-full text-left">Gallery</a>
           <a href="/blog" className="hover:text-accent text-white font-medium w-full text-left">Blog</a>
           <a href="/shop" className="hover:text-accent text-white font-medium w-full text-left">Shop</a>
-          <a href="/auth" className="hover:text-accent text-white font-medium w-full text-left">Login</a>
+          {user ? (
+            <>
+              <div className="w-full border-t border-accent/20 my-1" />
+              <button onClick={() => { navigate('/dashboard'); setIsMenuOpen(false); }} className="flex items-center gap-2 hover:text-accent text-white font-medium w-full text-left">
+                <LayoutDashboard className="w-4 h-4" /> Dashboard
+              </button>
+              <button onClick={() => { navigate('/orders'); setIsMenuOpen(false); }} className="flex items-center gap-2 hover:text-accent text-white font-medium w-full text-left">
+                <Package className="w-4 h-4" /> Orders
+              </button>
+              <button onClick={() => { handleLogout(); setIsMenuOpen(false); }} className="flex items-center gap-2 hover:text-red-400 text-white font-medium w-full text-left">
+                <LogOut className="w-4 h-4" /> Logout
+              </button>
+            </>
+          ) : (
+            <a href="/auth" className="hover:text-accent text-white font-medium w-full text-left">Login</a>
+          )}
           <button
             onClick={toggleDarkMode}
             className="flex items-center gap-2 hover:text-accent text-white font-medium w-full text-left"
