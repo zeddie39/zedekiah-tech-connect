@@ -23,7 +23,7 @@ export default function ShopNavbar() {
     if (location.pathname !== to) navigate(to);
   };
 
-  const cartCount = cartItems?.length || 0;
+  const cartCount = cart?.length || 0;
 
   return (
     <nav className="sticky top-0 z-50 w-full bg-background/70 backdrop-blur-xl border-b border-border/40 shadow-sm">
