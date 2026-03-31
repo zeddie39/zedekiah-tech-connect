@@ -1,8 +1,15 @@
 import { useState, useEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
-import { Button } from './ui/button';
-import WhyChooseUsModal from "./WhyChooseUsModal";
-import { Moon, Sun } from "lucide-react";
+import { Link, useNavigate } from 'react-router-dom';
+import { Moon, Sun, User, LogOut, LayoutDashboard, Package } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "./ui/dropdown-menu";
 
 const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
