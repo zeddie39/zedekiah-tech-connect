@@ -6,47 +6,17 @@ import { Smartphone, Laptop, Headphones, Gamepad2, Camera, Puzzle } from "lucide
 type Category = {
   name: string;
   icon: LucideIcon;
-  color: string; // kept for compatibility, but not used in the new unified styling
+  color: string;
   desc: string;
 };
 
 export const categories: Category[] = [
-  {
-    name: "Gadgets",
-    icon: Smartphone,
-    color: "bg-green-100 text-green-700",
-    desc: "Electronics, phones, tablets, wearables.",
-  },
-  {
-    name: "Laptops",
-    icon: Laptop,
-    color: "bg-blue-100 text-blue-700",
-    desc: "Laptops, ultrabooks & notebooks.",
-  },
-  {
-    name: "Audio",
-    icon: Headphones,
-    color: "bg-yellow-100 text-yellow-700",
-    desc: "Earphones, headphones, speakers.",
-  },
-  {
-    name: "Gaming",
-    icon: Gamepad2,
-    color: "bg-purple-100 text-purple-700",
-    desc: "Consoles & gaming accessories.",
-  },
-  {
-    name: "Cameras",
-    icon: Camera,
-    color: "bg-pink-100 text-pink-700",
-    desc: "Cameras & photography equipment.",
-  },
-  {
-    name: "Accessories",
-    icon: Puzzle,
-    color: "bg-orange-100 text-orange-700",
-    desc: "Chargers, cables, cases, more.",
-  },
+  { name: "Gadgets", icon: Smartphone, color: "from-emerald-500/15 to-emerald-500/5 border-emerald-500/20 text-emerald-600 dark:text-emerald-400", desc: "Phones, tablets, wearables" },
+  { name: "Laptops", icon: Laptop, color: "from-blue-500/15 to-blue-500/5 border-blue-500/20 text-blue-600 dark:text-blue-400", desc: "Laptops & ultrabooks" },
+  { name: "Audio", icon: Headphones, color: "from-amber-500/15 to-amber-500/5 border-amber-500/20 text-amber-600 dark:text-amber-400", desc: "Headphones & speakers" },
+  { name: "Gaming", icon: Gamepad2, color: "from-violet-500/15 to-violet-500/5 border-violet-500/20 text-violet-600 dark:text-violet-400", desc: "Consoles & accessories" },
+  { name: "Cameras", icon: Camera, color: "from-rose-500/15 to-rose-500/5 border-rose-500/20 text-rose-600 dark:text-rose-400", desc: "Photography equipment" },
+  { name: "Accessories", icon: Puzzle, color: "from-orange-500/15 to-orange-500/5 border-orange-500/20 text-orange-600 dark:text-orange-400", desc: "Chargers, cables, cases" },
 ];
 
 type ShopCategoriesProps = {
@@ -57,55 +27,51 @@ type ShopCategoriesProps = {
 export default function ShopCategories({ selectedCategory, onSelectCategory }: ShopCategoriesProps) {
   return (
     <div className="mb-8">
-      {/* Header row */}
-      <div className="flex items-center justify-between gap-2 mb-3">
-        <h2 className="text-lg sm:text-xl font-extrabold tracking-tight">Browse Electronics</h2>
-        {selectedCategory ? (
+      <div className="flex items-center justify-between gap-2 mb-4">
+        <h2 className="text-lg sm:text-xl font-extrabold tracking-tight text-foreground">Browse by Category</h2>
+        {selectedCategory && (
           <Button
-            variant="outline"
+            variant="ghost"
             size="sm"
-            className="border-accent/50 hover:bg-accent/10"
+            className="text-xs text-muted-foreground hover:text-primary"
             onClick={() => onSelectCategory?.(null)}
           >
-            Clear
+            Clear filter ×
           </Button>
-        ) : null}
+        )}
       </div>
 
-      {/* Categories grid */}
-      <div className="grid xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3 sm:gap-4">
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
         {categories.map((cat) => {
           const selected = cat.name === selectedCategory;
           const Icon = cat.icon;
+          const colorParts = cat.color.split(' ');
+          const iconColor = colorParts[colorParts.length - 1]; // last class is the text color
+
           return (
-            <Card
+            <button
               key={cat.name}
               onClick={() => onSelectCategory?.(selected ? null : cat.name)}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                  e.preventDefault();
-                  onSelectCategory?.(selected ? null : cat.name);
+              className={`group relative flex flex-col items-center gap-2 p-4 rounded-2xl border transition-all duration-300 text-center
+                ${selected
+                  ? `bg-gradient-to-b ${cat.color} ring-2 ring-primary/30 shadow-lg scale-[1.02]`
+                  : "bg-card/60 border-border/40 hover:border-primary/30 hover:shadow-md hover:bg-muted/40"
                 }
-              }}
-              role="button"
-              tabIndex={0}
-              aria-pressed={selected}
-              className={[
-                "group cursor-pointer transition-all duration-200 p-3 sm:p-4 rounded-xl",
-                "bg-card/80 border border-accent/30 hover:border-accent/60 hover:shadow-lg",
-                selected ? "ring-2 ring-accent shadow-lg bg-accent/10 translate-y-[-2px]" : "",
-              ].join(" ")}
+              `}
             >
-              <div className="flex items-start gap-2">
-                <div className="shrink-0 w-10 h-10 rounded-full bg-accent/15 ring-1 ring-accent/40 flex items-center justify-center">
-                  <Icon size={18} className="text-accent" />
-                </div>
-                <div className="flex-1 min-w-0">
-                  <div className="font-semibold text-sm truncate">{cat.name}</div>
-                  <div className="text-[11px] text-muted-foreground leading-snug line-clamp-2">{cat.desc}</div>
-                </div>
+              <div className={`w-12 h-12 rounded-xl flex items-center justify-center transition-all duration-300
+                ${selected
+                  ? "bg-primary/15 shadow-inner"
+                  : "bg-muted/60 group-hover:bg-primary/10"
+                }
+              `}>
+                <Icon size={22} className={`transition-colors ${selected ? iconColor : "text-muted-foreground group-hover:text-primary"}`} />
               </div>
-            </Card>
+              <div>
+                <div className="font-semibold text-sm text-foreground">{cat.name}</div>
+                <div className="text-[10px] text-muted-foreground leading-snug hidden sm:block">{cat.desc}</div>
+              </div>
+            </button>
           );
         })}
       </div>
