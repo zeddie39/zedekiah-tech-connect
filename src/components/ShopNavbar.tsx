@@ -16,7 +16,7 @@ export default function ShopNavbar() {
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
-  const { cartItems } = useCart();
+  const { cart } = useCart();
 
   const handleNav = (to: string) => {
     setOpen(false);
