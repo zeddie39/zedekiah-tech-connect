@@ -37,6 +37,7 @@ type Product = {
   title: string;
   description: string | null;
   price: number;
+  original_price?: number | null;
   status: string | null;
   category: string | null;
   owner_id: string;
