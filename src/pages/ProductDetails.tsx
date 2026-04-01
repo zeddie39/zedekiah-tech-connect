@@ -111,7 +111,19 @@ export default function ProductDetails() {
                   {product.category}
                 </div>
               )}
-              <div className="text-primary text-lg sm:text-2xl font-bold mb-2">Ksh {product.price.toFixed(2)}</div>
+              <div className="flex items-baseline gap-3 mb-2 flex-wrap">
+                <span className="text-primary text-lg sm:text-2xl font-bold">Ksh {product.price.toFixed(2)}</span>
+                {(product as any).original_price && (product as any).original_price > product.price && (
+                  <>
+                    <span className="text-muted-foreground line-through text-sm sm:text-base">
+                      Ksh {(product as any).original_price.toFixed(2)}
+                    </span>
+                    <span className="text-xs font-bold text-green-600 dark:text-green-400 bg-green-100 dark:bg-green-900/30 px-2 py-0.5 rounded-full">
+                      -{Math.round((((product as any).original_price - product.price) / (product as any).original_price) * 100)}% OFF
+                    </span>
+                  </>
+                )}
+              </div>
               <div className="text-muted-foreground text-xs sm:text-base">{product.description}</div>
             </div>
             <Button className="mt-4 w-full" onClick={() => navigate("/cart")}>Add to Cart</Button>
