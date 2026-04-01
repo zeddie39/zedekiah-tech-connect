@@ -1,273 +1,526 @@
-# ⚡️ ZTech Electronics - Fullstack App
+# ⚡ Zedekiah Tech Connect — ZTech Electronics
 
-Welcome to **ZTech Electronics** — your one-stop platform for all things electronics!  
-From seamless service booking to secure M-Pesa payments, this app is built for speed, reliability, and a delightful user experience.
+<div align="center">
 
----
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Node.js](https://img.shields.io/badge/Node.js-v18+-green)](https://nodejs.org/)
+[![React](https://img.shields.io/badge/React-18+-blue)](https://react.dev)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5+-3178C6)](https://www.typescriptlang.org/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-3+-38B2AC)](https://tailwindcss.com)
 
+**A modern full-stack electronics marketplace platform with M-Pesa payments, service booking, and admin dashboard.**
 
-## ✨ Table of Contents
+[Live Demo](https://ztechelectronics.co.ke) • [Documentation](#-documentation) • [Contributing](#-contributing)
 
-- [Demo](#demo)
-- [Features](#features)
-- [Screenshots](#screenshots)
-- [Tech Stack](#tech-stack)
-- [Project Structure](#project-structure)
-- [Architecture](#architecture)
-- [Getting Started](#getting-started)
-- [Environment Variables](#environment-variables)
-- [M-Pesa Integration](#m-pesa-integration)
-- [Supabase Integration](#supabase-integration)
-- [Customization](#customization)
-```md
-# ⚡️ Zedekiah Tech Connect — ZTech Electronics
-
-This repository contains a full-stack web application for an electronics services marketplace: product/service listings, booking & repair requests, secure M‑Pesa payments, and a Supabase-backed data store. The app is built with modern tooling (React + TypeScript, Vite, Tailwind CSS) and a small Node backend for payment/webhook handling.
-
-This README is a complete reference for contributors and maintainers — setup, architecture, environment variables, integrations, common tasks, and troubleshooting are covered below.
+</div>
 
 ---
 
-## Table of contents
+## 🎯 Overview
 
-- [Quick demo](#quick-demo)
-- [What this project does](#what-this-project-does)
-- [Tech stack](#tech-stack)
-- [Repository layout](#repository-layout)
-- [Local development (quickstart)](#local-development-quickstart)
-- [Environment variables](#environment-variables)
-- [M‑Pesa (Daraja) integration details](#m-pesa-daraja-integration-details)
-- [Supabase integration](#supabase-integration)
-- [Testing and debugging tips](#testing-and-debugging-tips)
-- [Deployment notes](#deployment-notes)
-- [Contributing & code style](#contributing--code-style)
-- [License & credits](#license--credits)
+**ZTech Electronics** is a comprehensive full-stack web application for managing electronics services. Whether it's repairs, installations, or maintenance — this platform connects customers with services, streamlines booking, and handles secure M-Pesa payments seamlessly.
 
----
+### ✨ Key Features
 
-## Quick demo
-
-- Live site (if deployed): https://ztechelectronics.co.ke (may be a demo domain)
-- Screenshots and demo GIFs are kept under `public/screenshots/` — add your own before publishing.
+- 🛍️ **Service Catalog** — Browse and explore electronics services with detailed descriptions
+- 🛒 **Shopping Cart** — Add services, manage cart, review before checkout
+- 💳 **Secure Payments** — M-Pesa STK push integration for safe transactions
+- 📊 **Real-time Status Tracking** — Monitor order and payment status live
+- 🔐 **Authenticated Access** — Supabase auth with role-based access control
+- 📱 **Responsive Design** — Works perfectly on desktop, tablet, and mobile devices
+- ⚙️ **Admin Dashboard** — Manage orders, staff, and view analytics
+- 🔄 **Webhook Integration** — Real-time payment updates from Safaricom
 
 ---
 
-## What this project does
+## 🏗️ Tech Stack
 
-- Showcases services (repairs, installations, maintenance) and allows customers to:
-  - Browse services and view details
-  - Add services to a cart and checkout
-  - Initiate mobile payments via M‑Pesa STK push
-  - Track order/payment status (via Supabase)
-- Provides a small admin/dashboard area for managing orders, staff, and analytics.
+<table>
+<tr>
+<td>
+
+**Frontend**
+- React 18+ with TypeScript
+- Vite (lightning-fast bundler)
+- Tailwind CSS (utility-first styling)
+- shadcn/ui (accessible components)
+- Responsive & modern UI
+
+</td>
+<td>
+
+**Backend**
+- Node.js (minimal server)
+- Express-like handlers
+- Payment processing logic
+- Webhook listeners
+
+</td>
+<td>
+
+**Infrastructure**
+- Supabase (PostgreSQL + Auth)
+- Safaricom Daraja API (M-Pesa)
+- Environment-based configuration
+- RESTful API design
+
+</td>
+</tr>
+</table>
 
 ---
 
-## Tech stack
-
-- Frontend: React + TypeScript, Vite, Tailwind CSS, shadcn/ui components
-- Backend: Minimal Node.js server in `server/` (Express-like handlers, payment logic)
-- Database & Auth: Supabase (Postgres + optional Supabase Auth)
-- Payments: Safaricom Daraja (M‑Pesa STK Push)
-- Tooling: ESLint, Prettier, Husky (if configured), npm/bun for package management
-
----
-
-## Repository layout
-
-Top-level layout (relevant files and folders):
+## 📂 Project Structure
 
 ```
 zedekiah-tech-connect/
-├─ public/                    # Static assets and screenshots
-├─ server/                    # Small backend for payments and webhooks (mpesa.js)
-│  └─ mpesa.js
-├─ src/                       # Frontend application
-│  ├─ components/             # Reusable UI components
-│  ├─ pages/                  # Page-level components (Home, Shop, ProductDetails, etc.)
-│  ├─ data/                   # Static seeds like servicesData.tsx
-│  ├─ hooks/                  # Custom React hooks
-│  └─ integrations/           # Supabase / other integrations
-├─ README.md
-├─ package.json
-├─ vite.config.ts
-└─ tailwind.config.ts
+├── 📁 public/                    # Static assets, screenshots, favicon
+├── 📁 server/                    # Backend services
+│  └── mpesa.js                   # M-Pesa payment processing & webhooks
+├── 📁 src/                       # Frontend application
+│  ├── 📁 components/             # Reusable React components
+│  ├── 📁 pages/                  # Page-level views
+│  ├── 📁 hooks/                  # Custom React hooks
+│  ├── 📁 data/                   # Static data & seeds
+│  ├── 📁 types/                  # TypeScript type definitions
+│  ├── 📁 integrations/           # Supabase & external APIs
+│  └── App.tsx                    # Main app component
+├── 📄 package.json               # Dependencies & scripts
+├── 📄 vite.config.ts             # Vite configuration
+├── 📄 tailwind.config.ts         # Tailwind styling config
+├── 📄 .env.example               # Environment template
+└── 📄 README.md                  # This file
 ```
 
-Important files:
+### 📌 Key Files
 
-- `server/mpesa.js` — contains the M‑Pesa token generation, STK push logic, and callback handlers.
-- `src/pages/ProductDetails.tsx` — current working file (product/service detail page).
-- `src/data/servicesData.tsx` — where services are defined for the frontend.
+| File | Purpose |
+|------|---------|
+| `server/mpesa.js` | M-Pesa STK push, token generation, webhook handlers |
+| `src/pages/ProductDetails.tsx` | Service detail & booking page |
+| `src/data/servicesData.tsx` | Service catalog definitions |
+| `src/integrations/` | Supabase auth & database integration |
 
 ---
 
-## Local development (quickstart)
+## 🚀 Quick Start
 
-Prerequisites:
+### Prerequisites
 
-- Node.js (v18+ recommended)
-- npm (or bun/pnpm if you prefer; `package.json` scripts assume npm)
-- Optional: ngrok for exposing local webhooks during M‑Pesa testing
+- **Node.js** v18 or higher
+- **npm**, **yarn**, or **bun** package manager
+- **Git** for version control
+- (Optional) **ngrok** for local M-Pesa webhook testing
 
-1) Clone
+### Installation Steps
 
-```powershell
+**1. Clone the repository**
+
+```bash
 git clone https://github.com/zeddie39/zedekiah-tech-connect.git
 cd zedekiah-tech-connect
 ```
 
-2) Install
+**2. Install dependencies**
 
-```powershell
+```bash
 npm install
 ```
 
-3) Create `.env` (see next section) and populate required values.
+**3. Configure environment variables**
 
-4) Start the backend (payment/webhook listener)
+Create a `.env` file in the project root:
 
-```powershell
+```env
+# Supabase Configuration
+VITE_SUPABASE_URL=your_supabase_url
+VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
+SUPABASE_SERVICE_ROLE_KEY=your_service_role_key
+
+# M-Pesa (Daraja) Configuration
+MPESA_CONSUMER_KEY=your_consumer_key
+MPESA_CONSUMER_SECRET=your_consumer_secret
+MPESA_SHORTCODE=your_shortcode
+MPESA_PASSKEY=your_passkey
+MPESA_CALLBACK_URL=https://your-domain.com/api/mpesa/callback
+
+# Server Configuration
+PORT=5002
+NODE_ENV=development
+```
+
+**4. Start the backend server**
+
+```bash
 node server/mpesa.js
 ```
 
-5) Start the frontend
+The backend will listen on `http://localhost:5002`
 
-```powershell
+**5. Start the frontend development server** (in a new terminal)
+
+```bash
 npm run dev
 ```
 
-Open http://localhost:5173 in your browser (Vite default).
+Open [http://localhost:5173](http://localhost:5173) in your browser.
 
 ---
 
-## Environment variables
+## ⚙️ Configuration & Integration
 
-Create a `.env` file at the repository root. Do NOT commit this file.
+### 🔐 Environment Variables
 
-Minimum variables used by the project:
+| Variable | Description | Required | Example |
+|----------|-------------|----------|---------|
+| `VITE_SUPABASE_URL` | Your Supabase project URL | ✅ | `https://xxx.supabase.co` |
+| `SUPABASE_SERVICE_ROLE_KEY` | Supabase service key (backend only) | ✅ | `eyJ...` |
+| `MPESA_CONSUMER_KEY` | Daraja API consumer key | ✅ | `xxxxxxxxxxxx` |
+| `MPESA_CONSUMER_SECRET` | Daraja API consumer secret | ✅ | `xxxxxxxxxxxx` |
+| `MPESA_SHORTCODE` | M-Pesa paybill/till number | ✅ | `123456` |
+| `MPESA_PASSKEY` | M-Pesa passkey | ✅ | `xxxxx` |
+| `MPESA_CALLBACK_URL` | Public webhook URL | ✅ | `https://api.example.com/api/mpesa/callback` |
+| `PORT` | Backend server port | ❌ | `5002` |
+
+> ⚠️ **Security Note**: Keep `.env` secret. Never commit sensitive keys. Use `.env.example` as a template.
+
+### 💳 M-Pesa Integration
+
+#### Payment Flow
+
+```
+User selects services → Clicks checkout → Frontend sends request
+    ↓
+Backend generates access token from Safaricom Daraja
+    ↓
+Backend crafts STK Push payload (phone, amount, timestamp, password)
+    ↓
+Safaricom sends STK prompt to customer's phone
+    ↓
+Customer enters M-Pesa PIN and confirms
+    ↓
+Safaricom calls configured MPESA_CALLBACK_URL webhook
+    ↓
+Backend stores transaction in Supabase → Updates order status
+    ↓
+Frontend polls and displays "Payment Confirmed"
+```
+
+#### Testing M-Pesa Locally
+
+Use **ngrok** to expose your local server:
+
+```bash
+gngrok http 5002
+```
+
+Update your `.env`:
 
 ```env
-# Supabase
-SUPABASE_URL=your_supabase_url
-SUPABASE_SERVICE_ROLE_KEY=your_supabase_service_role_key
-
-# M‑Pesa (Daraja)
-MPESA_CONSUMER_KEY=your_consumer_key
-MPESA_CONSUMER_SECRET=your_consumer_secret
-MPESA_SHORTCODE=your_short_code_or_paybill
-MPESA_PASSKEY=your_passkey
-MPESA_CALLBACK_URL=https://your-public-domain/api/mpesa/callback
-
-# Server
-PORT=5002
+MPESA_CALLBACK_URL=https://your-ngrok-url.ngrok.io/api/mpesa/callback
 ```
 
-Notes:
+**Sandbox test numbers:** Use Safaricom's official test credentials from [developer.safaricom.co.ke](https://developer.safaricom.co.ke)
 
-- `MPESA_CALLBACK_URL` must be publicly accessible for Safaricom to call it. For local testing use `ngrok http 5002` and set the public URL.
-- `SUPABASE_SERVICE_ROLE_KEY` is sensitive — keep it secret and use server-side only.
+#### Security Best Practices
 
----
+✅ Store secrets server-side only (never in client-side code)
+✅ Validate & sanitize webhook payloads
+✅ Use HTTPS for all payment-related endpoints
+✅ Implement rate limiting on payment endpoints
+✅ Log all payment transactions for auditing
 
-## M‑Pesa (Daraja) integration details
+### 🗄️ Supabase Setup
 
-- Flow summary:
-  1. Frontend posts payment request to the backend (`/api/mpesa/stkpush`).
-  2. Backend uses `MPESA_CONSUMER_KEY` and `MPESA_CONSUMER_SECRET` to request an access token from Safaricom.
-  3. Backend constructs STK Push payload (including timestamp, passkey, amount, phone number) and calls the Daraja endpoint.
-  4. User receives STK prompt; on completion Safaricom calls the configured `MPESA_CALLBACK_URL`.
-  5. Backend webhook parses callback and stores payment result to Supabase.
+#### Database Schema
 
-- Sandbox/testing:
-  - Use Safaricom developer sandbox credentials and their test numbers.
-  - If testing locally, expose your webhook URL using `ngrok` and update `MPESA_CALLBACK_URL` accordingly.
+Create the following tables in Supabase:
 
-Security tips:
+**`orders` table:**
 
-- Never store consumer secret or passkey in client code.
-- Validate and sanitize any incoming webhook payloads.
-
----
-
-## Supabase integration
-
-- The app expects basic tables for `orders`, `users`, and `payments` (see `server/mpesa.js` for exact field names). If you want a starting schema, create a table `orders` with at least:
-  - id (uuid)
-  - user_id (uuid)
-  - items (jsonb)
-  - total_amount (numeric)
-  - status (text) — e.g. `pending`, `paid`, `failed`
-  - mpesa_receipt (text)
-
-- Use Supabase Auth if you need sign-up/login flows. The frontend includes integration points under `src/integrations/supabase`.
-
----
-
-## Testing and debugging tips
-
-- To inspect network calls from the frontend, use your browser devtools.
-- To debug payment flows locally:
-  - Start the backend on port `5002`.
-  - Run `ngrok http 5002` and update `MPESA_CALLBACK_URL` to the ngrok URL.
-- If STK push fails, check:
-  - Your consumer key/secret
-  - Passkey & shortcode
-  - Correct timestamp and Base64 encoded password generation (see `server/mpesa.js`)
-
----
-
-## Deployment notes
-
-- Backend: any Node host (Heroku, Fly, Railway, Vercel Serverless functions with adjustments). Ensure `MPESA_CALLBACK_URL` is the publicly reachable URL.
-- Frontend: static build via `npm run build` + host on Netlify/Vercel/Cloudflare Pages or any static host.
-
-CI/CD tips:
-
-- Keep secrets in your host environment variables (do not commit `.env`).
-- Run a quick smoke test after deployment to verify STK push and webhook processing.
-
----
-
-## Common commands
-
-- Install dependencies: `npm install`
-- Run dev frontend: `npm run dev`
-- Build frontend for production: `npm run build`
-- Start backend: `node server/mpesa.js`
-
----
-
-## Contributing & code style
-
-- Follow these steps:
-  1. Create an issue for larger changes.
-  2. Create a branch: `git checkout -b feature/your-feature`.
-  3. Push your branch and open a PR.
-
-- Code style:
-  - TypeScript for frontend code. Keep types in `src/types/`.
-  - Prefer small, focused commits and clear commit messages. For docs changes use `docs:` or `chore(docs):` prefixes.
-
----
-
-## License & credits
-
-- MIT — see the `LICENSE` file.
-
-Credits:
-
-- Safaricom Daraja API — https://developer.safaricom.co.ke/
-- Supabase — https://supabase.com/
-- Vite — https://vitejs.dev/
-
----
-
-If you'd like, I can also:
-
-- Add a small CONTRIBUTING.md with PR checklist
-- Create a `schema.sql` or Supabase migration snippet for the `orders` table
-- Add example screenshots to `public/screenshots/`
-
-Thanks for working on this — say the word and I will commit & push the README update for you.
+```sql
+CREATE TABLE orders (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id UUID REFERENCES auth.users(id),
+  items JSONB NOT NULL,
+  total_amount NUMERIC NOT NULL,
+  status TEXT DEFAULT 'pending',
+  mpesa_receipt TEXT,
+  created_at TIMESTAMP DEFAULT now(),
+  updated_at TIMESTAMP DEFAULT now()
+);
 ```
+
+**`users` table:**
+
+```sql
+CREATE TABLE users (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  email TEXT UNIQUE NOT NULL,
+  full_name TEXT,
+  phone TEXT,
+  created_at TIMESTAMP DEFAULT now()
+);
+```
+
+**`payments` table:**
+
+```sql
+CREATE TABLE payments (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  order_id UUID REFERENCES orders(id),
+  amount NUMERIC NOT NULL,
+  status TEXT DEFAULT 'pending',
+  mpesa_receipt TEXT UNIQUE,
+  created_at TIMESTAMP DEFAULT now()
+);
+```
+
+#### Enable Supabase Auth
+
+1. Go to Supabase Dashboard → Authentication
+2. Enable Email/Password or OAuth providers
+3. Copy your `SUPABASE_URL` and `SUPABASE_ANON_KEY`
+4. Frontend integration is ready at `src/integrations/supabase`
+
+---
+
+## 📦 Available Scripts
+
+```bash
+# Development
+npm run dev              # Start frontend dev server (Vite)
+npm run build            # Build frontend for production
+npm run preview          # Preview production build locally
+
+# Backend
+node server/mpesa.js    # Start payment backend server
+
+# Code Quality
+npm run lint             # Run ESLint
+npm run format           # Format code with Prettier
+npm run type-check       # TypeScript type checking
+```
+
+---
+
+## 🧪 Testing & Debugging
+
+### Browser DevTools
+
+1. Open Chrome/Firefox DevTools (F12)
+2. Network tab → Monitor API calls to `/api/mpesa/stkpush`
+3. Console → Check for errors
+
+### Local Payment Testing
+
+```bash
+# Terminal 1: Start backend
+node server/mpesa.js
+
+# Terminal 2: Expose with ngrok
+ngrok http 5002
+
+# Terminal 3: Start frontend
+npm run dev
+```
+
+### Debug Checklist
+
+- ✅ Is `.env` properly configured?
+- ✅ Is Supabase URL and key correct?
+- ✅ Are M-Pesa credentials valid?
+- ✅ Is `MPESA_CALLBACK_URL` publicly reachable?
+- ✅ Check server logs for token generation errors
+- ✅ Verify timestamp & password Base64 encoding in `server/mpesa.js`
+
+---
+
+## 🌐 Deployment
+
+### Frontend Deployment
+
+Build the frontend:
+
+```bash
+npm run build  # Creates dist/ folder
+```
+
+Deploy to your host:
+
+| Platform | Command |
+|----------|---------|
+| **Netlify** | Connect GitHub repo, auto-deploys |
+| **Vercel** | `vercel deploy` |
+| **Cloudflare Pages** | Connect GitHub, auto-deploys |
+| **GitHub Pages** | Configure in repo settings |
+
+### Backend Deployment
+
+Deploy `server/mpesa.js` to any Node.js host:
+
+| Platform | Notes |
+|----------|-------|
+| **Railway** | Simple: `railway up` |
+| **Fly.io** | Global deployment, great uptime |
+| **Heroku** | `git push heroku main` |
+| **Render** | Easy GitHub integration |
+| **AWS Lambda** | Requires Vercel adapter |
+
+**Critical**: Update `MPESA_CALLBACK_URL` to your production URL.
+
+### Environment Variables on Host
+
+Set environment variables in your hosting platform's dashboard:
+
+- Railway: Variables tab
+- Vercel: Settings → Environment Variables
+- Fly: `fly secrets set KEY=VALUE`
+- Heroku: `heroku config:set KEY=VALUE`
+
+### CI/CD Pipeline
+
+Example GitHub Actions workflow:
+
+```yaml
+name: Deploy
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+      - run: npm ci
+      - run: npm run build
+      - run: npm run type-check
+      # Deploy steps...
+```
+
+---
+
+## 🤝 Contributing
+
+We'd love your contributions! Here's how:
+
+### Contribution Steps
+
+1. **Fork** the repository
+2. **Create a feature branch**: `git checkout -b feature/amazing-feature`
+3. **Make your changes** with clear, descriptive commits
+4. **Push** to your branch: `git push origin feature/amazing-feature`
+5. **Open a Pull Request** with a detailed description
+
+### Code Standards
+
+- **Language**: TypeScript (strongly typed)
+- **Frontend**: React functional components with hooks
+- **Styling**: Tailwind CSS utilities
+- **Commits**: Use conventional commits (`feat:`, `fix:`, `docs:`, etc.)
+- **Testing**: Write tests for critical features
+
+### Git Workflow
+
+```bash
+git checkout -b fix/payment-issue
+git add src/
+git commit -m "fix: resolve M-Pesa callback parsing error"
+git push origin fix/payment-issue
+# Open PR on GitHub
+```
+
+### Pull Request Checklist
+
+- [ ] Code follows project style guidelines
+- [ ] TypeScript compilation passes (`npm run type-check`)
+- [ ] Tests pass (if applicable)
+- [ ] Documentation updated
+- [ ] No console errors or warnings
+- [ ] Commit messages are clear and descriptive
+
+---
+
+## 📚 Documentation
+
+- [Safaricom Daraja API Docs](https://developer.safaricom.co.ke/)
+- [Supabase Documentation](https://supabase.com/docs)
+- [React Documentation](https://react.dev)
+- [Tailwind CSS](https://tailwindcss.com/docs)
+- [Vite Guide](https://vitejs.dev/guide/)
+
+---
+
+## 🐛 Troubleshooting
+
+### Issue: STK Push Not Appearing
+
+**Solution:**
+- Verify `MPESA_CONSUMER_KEY` and `MPESA_CONSUMER_SECRET`
+- Check phone number format: should be `254712345678`
+- Ensure amount > 0
+- Check server logs for token generation errors
+
+### Issue: Callback Not Received
+
+**Solution:**
+- Is `MPESA_CALLBACK_URL` publicly accessible?
+- If testing locally, use ngrok: `ngrok http 5002`
+- Check firewall settings
+- Verify URL is HTTPS (production)
+
+### Issue: Supabase Connection Failed
+
+**Solution:**
+- Verify `VITE_SUPABASE_URL` is correct
+- Check API key permissions in Supabase dashboard
+- Ensure database tables exist
+- Check network requests in DevTools
+
+### Issue: Tailwind Styles Not Applying
+
+**Solution:**
+- Restart dev server: `npm run dev`
+- Clear Tailwind cache: `npx tailwindcss -i ./src/styles.css -o ./dist/output.css`
+- Verify `tailwind.config.ts` includes all template paths
+
+---
+
+## 📄 License & Attribution
+
+This project is licensed under the **MIT License** — see [LICENSE](./LICENSE) file for details.
+
+### Credits & Acknowledgments
+
+- 🏦 [Safaricom Daraja](https://developer.safaricom.co.ke/) — M-Pesa API
+- 🗄️ [Supabase](https://supabase.com) — PostgreSQL & Auth
+- ⚡ [Vite](https://vitejs.dev) — Build tool
+- 🎨 [Tailwind CSS](https://tailwindcss.com) — Utility-first CSS
+- 🧩 [shadcn/ui](https://ui.shadcn.com) — Component library
+- ⚛️ [React](https://react.dev) — UI library
+
+---
+
+## 📞 Support & Contact
+
+Have questions or found a bug? 
+
+- 📧 Open an [issue on GitHub](https://github.com/zeddie39/zedekiah-tech-connect/issues)
+- 💬 Start a [discussion](https://github.com/zeddie39/zedekiah-tech-connect/discussions)
+- 🔗 Check out the [project documentation](#-documentation)
+
+---
+
+<div align="center">
+
+**Made with ❤️ by the ZTech Team**
+
+⭐ If this project helped you, please star it!
+
+[![GitHub](https://img.shields.io/badge/GitHub-zeddie39-black?logo=github)](https://github.com/zeddie39)
+
+</div>
