@@ -97,6 +97,31 @@ export function usePaymentStatus({
 
         channelRef.current = channel;
 
+        // Perform initial check in case payment already succeeded
+        const checkInitialStatus = async () => {
+            const { data, error } = await supabase
+                .from('orders')
+                .select('payment_status, mpesa_receipt')
+                .eq('checkout_request_id', checkoutRequestId)
+                .single();
+
+            if (!error && data) {
+                if (data.payment_status === 'paid') {
+                    setStatus("paid");
+                    setMpesaReceipt(data.mpesa_receipt);
+                    if (onSuccess) onSuccess(data.mpesa_receipt);
+                    stopPolling();
+                } else if (data.payment_status === 'failed') {
+                    setStatus("failed");
+                    setError("Payment failed");
+                    if (onFailure) onFailure("Payment failed");
+                    stopPolling();
+                }
+            }
+        };
+
+        checkInitialStatus();
+
         // Set max timeout
         timeoutRef.current = setTimeout(() => {
             stopPolling();

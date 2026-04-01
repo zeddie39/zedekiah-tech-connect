@@ -28,10 +28,11 @@ serve(async (req) => {
             { global: { headers: { Authorization: authHeader } } }
         )
 
-        const token = authHeader.replace('Bearer ', '')
-        const { data: claimsData, error: claimsError } = await supabase.auth.getClaims(token)
-        if (claimsError || !claimsData?.claims) {
-            return new Response(JSON.stringify({ error: 'Unauthorized' }), {
+        // Verify the user is authenticated
+        const { data: { user }, error: userError } = await supabase.auth.getUser()
+        if (userError || !user) {
+            console.error('Auth verification failed:', userError?.message || 'No user found')
+            return new Response(JSON.stringify({ error: 'Unauthorized', details: userError?.message }), {
                 headers: { ...corsHeaders, 'Content-Type': 'application/json' },
                 status: 401,
             })
@@ -44,7 +45,8 @@ serve(async (req) => {
         const consumerSecret = Deno.env.get('MPESA_CONSUMER_SECRET')!
         const shortcode = Deno.env.get('MPESA_SHORTCODE')!
         const passkey = Deno.env.get('MPESA_PASSKEY')!
-        const defaultCallback = req.url.replace('mpesa-stk', 'mpesa-callback')
+        const callbackSecret = Deno.env.get('MPESA_CALLBACK_SECRET') || ''
+        const defaultCallback = req.url.replace('mpesa-stk', `mpesa-callback?secret=${callbackSecret}`)
         const callbackUrl = Deno.env.get('MPESA_CALLBACK_URL') || defaultCallback
 
         const isSandbox = Deno.env.get('MPESA_ENV') !== 'production'

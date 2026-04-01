@@ -150,51 +150,48 @@ export default function CheckoutPage() {
   }, [orderId, cart, navigate]);
 
   const handlePaymentSuccess = async () => {
-    if (orderId) {
-      // Update existing order
-      const { error } = await supabase
-        .from('orders')
-        .update({
-          delivery_location: deliveryLocation || null,
-          status: 'completed',
-          payment_status: 'paid'
-        })
-        .eq('id', orderId);
-
-      if (error) {
-        toast({ title: 'Error', description: 'Failed to update order', variant: 'destructive' });
-        return;
-      }
-      toast({ title: "Order Completed!", description: "Your order has been paid and will be delivered.", duration: 2500 });
-    } else {
-      // New order placement
-      const { data: { session } } = await supabase.auth.getSession();
-      if (!session) return;
-
-      const orderRows = currentCart.map(item => ({
-        buyer_id: session.user.id,
-        product_id: item.id,
-        amount: item.price * item.quantity,
-        delivery_location: deliveryLocation || null,
-        status: "completed",
-        payment_status: "paid",
-      }));
-
-      const { error } = await supabase.from("orders").insert(orderRows);
-
-      if (error) {
-        toast({ title: "Order Failed", description: "There was a problem placing your order.", duration: 2000 });
-        return;
-      }
-
-      clearCart();
-      toast({ title: "Order Placed!", description: "Thank you for your order.", duration: 2500 });
-    }
+    // This is called from the PaymentStatusModal when payment is confirmed PAID
+    toast({ title: "Order Completed!", description: "Your order has been paid and will be delivered.", duration: 2500 });
+    clearCart();
     navigate("/orders");
   };
 
-  const handleMpesaSuccess = (data: { CheckoutRequestID: string }) => {
+  const handleMpesaSuccess = async (data: { CheckoutRequestID: string }) => {
     setCheckoutRequestId(data.CheckoutRequestID);
+    
+    // Immediately create 'pending' orders so the callback has a target to update
+    if (!orderId) {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session) {
+        const orderRows = currentCart.map(item => ({
+          buyer_id: session.user.id,
+          product_id: item.id,
+          amount: item.price * item.quantity,
+          delivery_location: deliveryLocation || null,
+          status: "pending",
+          payment_status: "pending",
+          checkout_request_id: data.CheckoutRequestID
+        }));
+
+        const { error } = await supabase.from("orders").insert(orderRows);
+        if (error) {
+          console.error("Failed to create pending orders:", error);
+          toast({ title: "Error", description: "Failed to initialize order record", variant: "destructive" });
+          return;
+        }
+      }
+    } else {
+      // Update existing order with the checkout request id
+      const { error } = await supabase
+        .from('orders')
+        .update({ checkout_request_id: data.CheckoutRequestID })
+        .eq('id', orderId);
+        
+      if (error) {
+        console.error("Failed to update order with checkout ID:", error);
+      }
+    }
+
     setShowPaymentModal(true);
   };
 
