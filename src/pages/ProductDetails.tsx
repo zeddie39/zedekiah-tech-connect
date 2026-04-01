@@ -35,8 +35,7 @@ export default function ProductDetails() {
         return;
       }
       setProduct(prod);
-      // Fetch images
-      const { data: imgs, error: imgErr } = await supabase
+      const { data: imgs } = await supabase
         .from("product_images")
         .select("*")
         .eq("product_id", id);
@@ -69,36 +68,35 @@ export default function ProductDetails() {
     );
   }
 
-  // Fallback WhatsApp number if product doesn't have one
   const businessWhatsApp = "+254757756763";
   const primaryImageUrl = images.length > 0 ? images[0].image_url : undefined;
+  const originalPrice = (product as any).original_price as number | null;
+  const hasDiscount = originalPrice && originalPrice > product.price;
+  const discountPercent = hasDiscount ? Math.round(((originalPrice - product.price) / originalPrice) * 100) : 0;
 
   return (
     <>
       <ShopNavbar />
       <div className="max-w-3xl mx-auto py-6 sm:py-10 px-2 sm:px-3">
-        <div className="mb-6">
-          <button
-            onClick={() => window.history.length > 1 ? window.history.back() : window.location.assign('/')}
-            className="bg-primary text-accent font-semibold rounded px-4 py-2 border border-accent hover:bg-accent hover:text-primary transition-colors duration-200 mb-4"
-          >
-             Go Back
-          </button>
-        </div>
         <Button variant="ghost" onClick={() => navigate(-1)} className="mb-3">
           <ChevronLeft size={18} className="mr-2" /> Back to Shop
         </Button>
         <Card className="p-0 flex flex-col md:flex-row gap-2 sm:gap-3">
-          <div className="md:w-5/12 w-full flex flex-col gap-2 sm:gap-3 items-center justify-center min-h-[220px] sm:min-h-[300px] bg-muted rounded-md p-2 sm:p-3">
+          <div className="md:w-5/12 w-full flex flex-col gap-2 sm:gap-3 items-center justify-center min-h-[220px] sm:min-h-[300px] bg-muted rounded-md p-2 sm:p-3 relative">
+            {hasDiscount && (
+              <div className="absolute top-4 left-4 z-10 bg-destructive text-destructive-foreground text-xs font-bold px-2.5 py-1 rounded-full shadow-lg">
+                -{discountPercent}% OFF
+              </div>
+            )}
             {images.length > 0 ? (
               <img
                 src={images[0].image_url}
                 alt={product.title}
-                className="w-full h-40 sm:h-56 object-cover rounded-lg bg-gray-100"
+                className="w-full h-40 sm:h-56 object-cover rounded-lg bg-muted"
               />
             ) : (
               <div className="flex flex-col items-center justify-center h-40 sm:h-56 w-full bg-muted text-muted-foreground rounded-lg">
-                <ImageIcon size={40} className="sm:size-48" />
+                <ImageIcon size={40} />
                 <span className="mt-1 text-xs">No image available</span>
               </div>
             )}
@@ -113,13 +111,13 @@ export default function ProductDetails() {
               )}
               <div className="flex items-baseline gap-3 mb-2 flex-wrap">
                 <span className="text-primary text-lg sm:text-2xl font-bold">Ksh {product.price.toFixed(2)}</span>
-                {(product as any).original_price && (product as any).original_price > product.price && (
+                {hasDiscount && (
                   <>
                     <span className="text-muted-foreground line-through text-sm sm:text-base">
-                      Ksh {(product as any).original_price.toFixed(2)}
+                      Ksh {originalPrice.toFixed(2)}
                     </span>
-                    <span className="text-xs font-bold text-green-600 dark:text-green-400 bg-green-100 dark:bg-green-900/30 px-2 py-0.5 rounded-full">
-                      -{Math.round((((product as any).original_price - product.price) / (product as any).original_price) * 100)}% OFF
+                    <span className="text-xs font-bold bg-primary/10 text-primary px-2 py-0.5 rounded-full">
+                      Save Ksh {(originalPrice - product.price).toLocaleString()}
                     </span>
                   </>
                 )}
@@ -127,23 +125,13 @@ export default function ProductDetails() {
               <div className="text-muted-foreground text-xs sm:text-base">{product.description}</div>
             </div>
             <Button className="mt-4 w-full" onClick={() => navigate("/cart")}>Add to Cart</Button>
-            <div className="text-xs text-muted-foreground mt-1">
-              Owner ID: {product.owner_id}
-            </div>
-            {/** WhatsApp contact button */}
             <Button
               variant="outline"
               className="mt-2 w-full"
               onClick={() => {
-                // Use per-product WhatsApp number if available, otherwise fall back to business number
-                // @ts-ignore
                 const targetNumber = product.whatsapp_number || businessWhatsApp;
                 const message = `I am interested in this product, can we chat?\n\n${product.title}\nPrice: KSh ${product.price.toFixed(2)}`;
-                const url = formatPhoneForWhatsapp(
-                  targetNumber,
-                  message,
-                  primaryImageUrl
-                );
+                const url = formatPhoneForWhatsapp(targetNumber, message, primaryImageUrl);
                 if (!url) {
                   toast({ title: 'Invalid WhatsApp number', description: 'No valid WhatsApp number was provided.', variant: 'destructive' });
                   return;
@@ -157,7 +145,7 @@ export default function ProductDetails() {
         </Card>
         <div className="mt-8">
           <h2 className="text-xl font-bold mb-2 flex gap-2 items-center">
-            <Star className="text-yellow-400" size={20} /> Product Reviews
+            <Star className="text-amber-400" size={20} /> Product Reviews
           </h2>
           <div className="text-muted-foreground">Reviews coming soon...</div>
         </div>
