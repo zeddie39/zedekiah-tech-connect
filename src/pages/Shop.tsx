@@ -513,9 +513,21 @@ export default function Shop() {
                           {product.title}
                         </h3>
                         <div className="flex items-center justify-between">
-                          <span className="text-xl font-extrabold text-primary">
-                            Ksh {product.price.toLocaleString()}
-                          </span>
+                          <div className="flex items-baseline gap-2">
+                            <span className="text-xl font-extrabold text-primary">
+                              Ksh {product.price.toLocaleString()}
+                            </span>
+                            {product.original_price && product.original_price > product.price && (
+                              <>
+                                <span className="text-sm text-muted-foreground line-through">
+                                  Ksh {product.original_price.toLocaleString()}
+                                </span>
+                                <span className="text-[10px] font-bold text-green-600 dark:text-green-400 bg-green-100 dark:bg-green-900/30 px-1.5 py-0.5 rounded-full">
+                                  -{Math.round(((product.original_price - product.price) / product.original_price) * 100)}%
+                                </span>
+                              </>
+                            )}
+                          </div>
                           <div className="flex items-center gap-1 text-xs text-muted-foreground">
                             <Star className={`h-3.5 w-3.5 ${avgRating > 0 ? 'text-amber-400 fill-amber-400' : 'text-muted-foreground/30'}`} />
                             <span className="font-medium">{avgRating.toFixed(1)}</span>
