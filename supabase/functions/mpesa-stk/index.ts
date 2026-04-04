@@ -63,14 +63,28 @@ serve(async (req) => {
         const tokenResp = await fetch(`${baseUrl}/oauth/v1/generate?grant_type=client_credentials`, {
             method: 'GET',
             headers: {
-                'Authorization': `Basic ${auth}`
+                'Authorization': `Basic ${auth}`,
+                'Content-Type': 'application/json'
             }
         })
-        const tokenData = await tokenResp.json()
-        const accessToken = tokenData.access_token
 
+        const tokenText = await tokenResp.text()
+        console.log(`Token response status: ${tokenResp.status}, body: ${tokenText.substring(0, 200)}`)
+
+        if (!tokenResp.ok) {
+            throw new Error(`M-Pesa auth failed (${tokenResp.status}): ${tokenText.substring(0, 200)}`)
+        }
+
+        let tokenData
+        try {
+            tokenData = JSON.parse(tokenText)
+        } catch {
+            throw new Error(`M-Pesa auth returned invalid JSON: ${tokenText.substring(0, 200)}`)
+        }
+
+        const accessToken = tokenData.access_token
         if (!accessToken) {
-            throw new Error('Failed to generate M-Pesa access token')
+            throw new Error(`No access_token in response: ${tokenText.substring(0, 200)}`)
         }
 
         // 2. Generate Password
