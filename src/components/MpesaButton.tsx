@@ -66,6 +66,19 @@ export default function MpesaButton({
 
       console.log(`Formatted phone: ${formattedPhone} from ${phone}`);
 
+      // Get the current session to include auth token
+      const { data: { session } } = await supabase.auth.getSession();
+      
+      if (!session) {
+        toast({
+          title: "Authentication Required",
+          description: "Please log in to make a payment.",
+          variant: "destructive",
+        });
+        setLoading(false);
+        return;
+      }
+
       const { data, error } = await supabase.functions.invoke('mpesa-stk', {
         body: {
           amount: Math.round(amount),
