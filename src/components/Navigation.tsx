@@ -102,9 +102,9 @@ const Navigation = () => {
           <button onClick={() => scrollToSection('faq')} className="hover:text-accent text-white font-medium w-full text-left">FAQ</button>
           <button onClick={() => scrollToSection('whychooseus')} className="hover:text-accent text-white font-medium w-full text-left">Why Choose Us</button>
           <button onClick={() => scrollToSection('contact')} className="hover:text-accent text-white font-medium w-full text-left">Contact</button>
-          <a href="/gallery" className="hover:text-accent text-white font-medium w-full text-left">Gallery</a>
-          <a href="/blog" className="hover:text-accent text-white font-medium w-full text-left">Blog</a>
-          <a href="/shop" className="hover:text-accent text-white font-medium w-full text-left">Shop</a>
+          <Link to="/gallery" className="hover:text-accent text-white font-medium w-full text-left block">Gallery</Link>
+          <Link to="/blog" className="hover:text-accent text-white font-medium w-full text-left block">Blog</Link>
+          <Link to="/shop" className="hover:text-accent text-white font-medium w-full text-left block">Shop</Link>
           <button
             onClick={toggleDarkMode}
             className="flex items-center gap-2 hover:text-accent text-white font-medium w-full text-left"
