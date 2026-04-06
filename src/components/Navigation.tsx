@@ -75,9 +75,9 @@ const Navigation = () => {
           <button onClick={() => scrollToSection('faq')} className="hover:text-accent text-white font-medium transition-colors">FAQ</button>
           <button onClick={() => scrollToSection('whychooseus')} className="hover:text-accent text-white font-medium transition-colors">Why Choose Us</button>
           <button onClick={() => scrollToSection('contact')} className="hover:text-accent text-white font-medium transition-colors">Contact</button>
-          <a href="/gallery" className="hover:text-accent text-white font-medium transition-colors">Gallery</a>
-          <a href="/blog" className="hover:text-accent text-white font-medium transition-colors">Blog</a>
-          <a href="/shop" className="hover:text-accent text-white font-medium transition-colors">Shop</a>
+          <Link to="/gallery" className="hover:text-accent text-white font-medium transition-colors">Gallery</Link>
+          <Link to="/blog" className="hover:text-accent text-white font-medium transition-colors">Blog</Link>
+          <Link to="/shop" className="hover:text-accent text-white font-medium transition-colors">Shop</Link>
           <button
             onClick={toggleDarkMode}
             className="p-2 rounded-full hover:bg-accent/20 text-white transition-colors"
