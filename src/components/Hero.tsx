@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import RealtimeClock from "./RealtimeClock";
 import type { Session } from '@supabase/supabase-js';
 
@@ -138,12 +138,12 @@ const Hero = () => {
             Expert electronics repair, tech consultations, CCTV installations, and comprehensive
             computer solutions for homes and businesses.
           </p>
-          <a
-            href="/auth?view=signup"
-            className="inline-block mt-4 px-6 sm:px-8 py-2.5 sm:py-3 bg-accent text-white font-bold text-base sm:text-lg rounded-lg shadow-lg hover:bg-accent/80 transition-all duration-200 animate-pulse tracking-wide"
+          <Link
+            to="/auth?view=signup"
+            className="inline-block mt-4 px-6 sm:px-8 py-2.5 sm:py-3 bg-accent text-primary-foreground font-bold text-base sm:text-lg rounded-lg shadow-lg hover:bg-accent/80 hover:scale-105 transition-all duration-200 tracking-wide"
           >
             Get Started
-          </a>
+          </Link>
         </div>
         {/* Floating Tech Icons (unchanged) */}
         <div className="absolute inset-0 pointer-events-none">
