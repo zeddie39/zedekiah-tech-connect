@@ -14,8 +14,9 @@
     scroll-padding-top: 80px;
   }
 
-  * {
-    @apply transition-all duration-200;
+  /* Smooth transitions only on interactive elements, not everything */
+  button, a, input, select, textarea, [role="button"] {
+    @apply transition-colors duration-200;
   }
 
   :focus-visible {
