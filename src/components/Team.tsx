@@ -124,7 +124,7 @@ const Team = () => {
                     {/* See more about Vincent Button in the modal */}
                     <div className="flex justify-center mt-4 md:col-span-2">
                       <a
-                        href="https://zedekiah.netlify.app/"
+                        href="https://zedekiah-portfolio.vercel.app/"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="px-5 py-2 rounded-lg bg-gradient-to-r from-accent to-primary text-white font-extrabold text-lg shadow-lg hover:scale-105 transition-all animate-pulse border-2 border-accent"
@@ -228,7 +228,7 @@ const Team = () => {
               {/* See more about Vincent Button */}
               <div className="flex justify-center md:justify-start mt-4">
                 <a
-                  href="https://zedekiah.netlify.app/"
+                  href="https://zedekiah-portfolio.vercel.app/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="px-5 py-2 rounded-lg bg-gradient-to-r from-accent to-primary text-white font-extrabold text-lg shadow-lg hover:scale-105 transition-all animate-pulse border-2 border-accent"
