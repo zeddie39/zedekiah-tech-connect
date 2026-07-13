@@ -7,7 +7,7 @@ type Tables = Database['public']['Tables'];
 type WishlistRow = Tables['user_wishlist']['Row'];
 type ProductReviewRow = Tables['product_reviews']['Row'];
 import { Card } from "@/components/ui/card";
-import { Loader2, Image, Star, Clock, Filter, Search, ShoppingCart, Heart, Phone, Eye, ArrowRight, X } from "lucide-react";
+import { Loader2, Image, Star, Clock, Filter, Search, ShoppingCart, Heart, Phone, Eye, ArrowRight, X, SlidersHorizontal, RotateCcw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Slider } from "@/components/ui/slider";
@@ -91,6 +91,8 @@ export default function Shop() {
     setMaxPrice("");
     setMinRating("");
   };
+
+  const activeFilterCount = [categoryFilter, search, minPrice, maxPrice, minRating].filter(Boolean).length;
 
   const toggleExpanded = (id: string) => setExpanded(prev => ({ ...prev, [id]: !prev[id] }));
 
@@ -288,139 +290,200 @@ export default function Shop() {
 
   if (loading || !session) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-background">
-        <Loader2 className="animate-spin text-primary" size={32} />
+      <div className="flex min-h-screen items-center justify-center bg-primary">
+        <div className="flex flex-col items-center gap-4">
+          <div className="relative">
+            <div className="w-12 h-12 rounded-full border-2 border-accent/30 border-t-accent animate-spin" />
+            <div className="absolute inset-0 w-12 h-12 rounded-full border-2 border-transparent border-b-accent/50 animate-spin" style={{ animationDirection: 'reverse', animationDuration: '1.5s' }} />
+          </div>
+          <p className="text-gray-500 text-sm font-medium animate-pulse">Loading store...</p>
+        </div>
       </div>
     );
   }
 
   const SidebarFilters = () => (
-    <div className="space-y-6">
+    <div className="space-y-5">
+      {/* Categories */}
       <div>
-        <h3 className="text-sm font-semibold mb-3 flex items-center gap-2">
-          <Filter size={16} /> Categories
+        <h3 className="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-3 flex items-center gap-2">
+          <Filter size={14} className="text-accent" /> Categories
         </h3>
         <div className="space-y-1">
-          <Button
-            variant={categoryFilter === null ? "secondary" : "ghost"}
-            size="sm"
-            className="w-full justify-start font-normal"
+          <button
+            className={`w-full text-left px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
+              categoryFilter === null
+                ? "bg-accent/10 text-accent border border-accent/20"
+                : "text-gray-400 hover:text-gray-200 hover:bg-white/5 border border-transparent"
+            }`}
             onClick={() => setCategoryFilter(null)}
           >
             All Categories
-          </Button>
-          {shopCats.map((c) => (
-            <Button
-              key={c.name}
-              variant={categoryFilter === c.name ? "secondary" : "ghost"}
-              size="sm"
-              className="w-full justify-start font-normal truncate"
-              onClick={() => setCategoryFilter(prev => prev === c.name ? null : c.name)}
-            >
-              {c.name}
-            </Button>
-          ))}
+          </button>
+          {shopCats.map((c) => {
+            const Icon = c.icon;
+            return (
+              <button
+                key={c.name}
+                className={`w-full text-left px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 flex items-center gap-2.5 ${
+                  categoryFilter === c.name
+                    ? "bg-accent/10 text-accent border border-accent/20"
+                    : "text-gray-400 hover:text-gray-200 hover:bg-white/5 border border-transparent"
+                }`}
+                onClick={() => setCategoryFilter(prev => prev === c.name ? null : c.name)}
+              >
+                <Icon size={14} className={categoryFilter === c.name ? "text-accent" : "text-gray-500"} />
+                {c.name}
+              </button>
+            );
+          })}
         </div>
       </div>
-      <Separator />
+
+      <div className="border-t border-white/[0.06]" />
+
+      {/* Price Range */}
       <div>
-        <h3 className="text-sm font-semibold mb-3">Price Range</h3>
+        <h3 className="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-3">Price Range (Ksh)</h3>
         <div className="flex items-center gap-2">
-          <Input
-            type="number"
-            placeholder="Min"
-            value={minPrice}
-            onChange={(e) => setMinPrice(e.target.value)}
-            className="h-8 text-xs"
-          />
-          <span className="text-muted-foreground">-</span>
-          <Input
-            type="number"
-            placeholder="Max"
-            value={maxPrice}
-            onChange={(e) => setMaxPrice(e.target.value)}
-            className="h-8 text-xs"
-          />
+          <div className="relative flex-1">
+            <span className="absolute left-2.5 top-1/2 -translate-y-1/2 text-[10px] text-gray-500 font-medium">Min</span>
+            <Input
+              type="number"
+              placeholder="0"
+              value={minPrice}
+              onChange={(e) => setMinPrice(e.target.value)}
+              className="h-9 text-xs pl-9 bg-white/[0.03] border-white/[0.08] text-gray-200 placeholder:text-gray-600 focus:border-accent/40 focus:ring-accent/20"
+            />
+          </div>
+          <span className="text-gray-600 text-xs">—</span>
+          <div className="relative flex-1">
+            <span className="absolute left-2.5 top-1/2 -translate-y-1/2 text-[10px] text-gray-500 font-medium">Max</span>
+            <Input
+              type="number"
+              placeholder="∞"
+              value={maxPrice}
+              onChange={(e) => setMaxPrice(e.target.value)}
+              className="h-9 text-xs pl-10 bg-white/[0.03] border-white/[0.08] text-gray-200 placeholder:text-gray-600 focus:border-accent/40 focus:ring-accent/20"
+            />
+          </div>
         </div>
       </div>
-      <Separator />
+
+      <div className="border-t border-white/[0.06]" />
+
+      {/* Rating */}
       <div>
-        <h3 className="text-sm font-semibold mb-3">Rating</h3>
-        <Select value={minRating} onValueChange={(v: any) => setMinRating(v === 'any' ? '' : v)}>
-          <SelectTrigger className="w-full h-8 text-xs">
-            <SelectValue placeholder="Minimum Rating" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="any">Any Rating</SelectItem>
-            {[4, 3, 2, 1].map(i => (
-              <SelectItem key={i} value={String(i)}>{i} Stars & Up</SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
+        <h3 className="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-3">Minimum Rating</h3>
+        <div className="flex gap-1">
+          {[0, 1, 2, 3, 4].map(i => {
+            const val = i === 0 ? '' : String(i);
+            const isActive = minRating === val;
+            return (
+              <button
+                key={i}
+                onClick={() => setMinRating(val)}
+                className={`flex items-center gap-1 px-2.5 py-1.5 rounded-md text-xs font-medium transition-all ${
+                  isActive
+                    ? "bg-accent/15 text-accent border border-accent/25"
+                    : "text-gray-500 hover:text-gray-300 hover:bg-white/5 border border-transparent"
+                }`}
+              >
+                {i === 0 ? (
+                  "Any"
+                ) : (
+                  <>
+                    {i}<Star size={10} className={isActive ? "fill-accent text-accent" : "text-gray-500"} />+
+                  </>
+                )}
+              </button>
+            );
+          })}
+        </div>
       </div>
-      <Button variant="outline" size="sm" className="w-full" onClick={clearAllFilters}>
-        Reset Filters
-      </Button>
+
+      {/* Reset */}
+      <button
+        onClick={clearAllFilters}
+        className="w-full flex items-center justify-center gap-2 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-500 hover:text-red-400 border border-white/[0.06] hover:border-red-500/20 hover:bg-red-500/5 transition-all duration-200"
+      >
+        <RotateCcw size={14} />
+        Reset All Filters
+      </button>
     </div>
   );
 
   return (
-    <div className="min-h-screen w-full bg-gradient-to-br from-background via-muted/30 to-accent/5 font-sans">
+    <div className="min-h-screen w-full bg-primary font-sans text-gray-200">
       <ShopNavbar />
       <ShopHeroCarousel />
 
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 py-8" id="shop-main">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 py-10" id="shop-main">
         <div className="flex flex-col lg:flex-row gap-8">
 
           {/* Sidebar (Desktop) */}
           <aside className="hidden lg:block w-64 flex-shrink-0 sticky top-24 h-fit">
-            <Card className="p-4 bg-background/60 backdrop-blur border-border/60">
+            <div className="shop-glass rounded-2xl p-5 shop-glow">
               <SidebarFilters />
-            </Card>
+            </div>
           </aside>
 
           {/* Main Content */}
           <main className="flex-1 min-w-0">
             {/* Toolbar */}
-            <div className="flex flex-col sm:flex-row gap-4 items-center justify-between mb-6">
+            <div className="flex flex-col sm:flex-row gap-4 items-center justify-between mb-8">
               <div className="relative w-full sm:max-w-md">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground h-4 w-4" />
+                <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-500 h-4 w-4" />
                 <Input
                   placeholder="Search products..."
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
-                  className="pl-9 bg-background/60 backdrop-blur"
+                  className="pl-10 h-11 bg-white/[0.04] border-white/[0.08] text-gray-200 placeholder:text-gray-500 rounded-xl focus:border-accent/40 focus:ring-accent/20"
                 />
+                {search && (
+                  <button
+                    onClick={() => setSearch("")}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-300"
+                  >
+                    <X size={16} />
+                  </button>
+                )}
               </div>
 
               <div className="flex items-center gap-2 w-full sm:w-auto">
                 <Select value={sortBy} onValueChange={(v: any) => setSortBy(v)}>
-                  <SelectTrigger className="w-full sm:w-[140px] bg-background/60 backdrop-blur">
+                  <SelectTrigger className="w-full sm:w-[140px] bg-white/[0.04] border-white/[0.08] text-gray-300 rounded-xl h-11">
                     <SelectValue placeholder="Sort by" />
                   </SelectTrigger>
-                  <SelectContent>
+                  <SelectContent className="bg-[#1a1530] border-white/[0.08]">
                     <SelectItem value="price">Price</SelectItem>
                     <SelectItem value="rating">Rating</SelectItem>
                     <SelectItem value="title">Title</SelectItem>
                   </SelectContent>
                 </Select>
 
+                {/* Mobile filter button */}
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="lg:hidden"
+                  className="lg:hidden relative h-11 w-11 rounded-xl bg-white/[0.04] border border-white/[0.08] text-gray-400 hover:text-accent hover:bg-white/[0.06]"
                   onClick={() => setFiltersOpen(true)}
                 >
-                  <Filter className="h-4 w-4" />
+                  <SlidersHorizontal className="h-4 w-4" />
+                  {activeFilterCount > 0 && (
+                    <span className="absolute -top-1 -right-1 min-w-[16px] h-[16px] flex items-center justify-center rounded-full bg-accent text-[9px] font-bold text-black px-0.5">
+                      {activeFilterCount}
+                    </span>
+                  )}
                 </Button>
               </div>
             </div>
 
             {/* Mobile Filters Sheet */}
             <Sheet open={filtersOpen} onOpenChange={setFiltersOpen}>
-              <SheetContent side="left" className="w-[300px] sm:w-[400px]">
+              <SheetContent side="left" className="w-[300px] sm:w-[360px] bg-[#0d0a1a] border-r border-white/[0.06]">
                 <SheetHeader>
-                  <SheetTitle>Filters</SheetTitle>
+                  <SheetTitle className="text-gray-200">Filters</SheetTitle>
                 </SheetHeader>
                 <div className="mt-6">
                   <SidebarFilters />
@@ -428,158 +491,222 @@ export default function Shop() {
               </SheetContent>
             </Sheet>
 
+            {/* Results count */}
+            <div className="flex items-center justify-between mb-5">
+              <p className="text-sm text-gray-500">
+                {filteredProducts.length} {filteredProducts.length === 1 ? 'product' : 'products'} found
+              </p>
+              {activeFilterCount > 0 && (
+                <button
+                  onClick={clearAllFilters}
+                  className="text-xs text-accent hover:text-accent font-medium flex items-center gap-1"
+                >
+                  <X size={12} /> Clear filters
+                </button>
+              )}
+            </div>
+
             {/* Products Grid */}
-            <div id="products-grid" className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 scroll-mt-24">
+            <div id="products-grid" className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 scroll-mt-24">
               {filteredProducts.map((product, index) => {
                 const avgRating = getAvgRating(product);
+                const isInWishlist = wishlist.includes(product.id);
                 return (
                   <motion.div
                     key={product.id}
-                    initial={{ opacity: 0, y: 20 }}
+                    initial={{ opacity: 0, y: 24 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.35, delay: index * 0.05, ease: "easeOut" }}
+                    transition={{ duration: 0.4, delay: index * 0.05, ease: "easeOut" }}
                   >
-                  <Card
-                    className={`group border-border/50 bg-card/40 backdrop-blur-sm overflow-hidden transition-all duration-300 hover:shadow-lg hover:border-primary/20 hover:-translate-y-1 ${expanded[product.id] ? 'ring-1 ring-primary/30' : ''}`}
+                  <div
+                    className={`group relative rounded-2xl overflow-hidden transition-all duration-300 hover:-translate-y-1 shop-card-shine gradient-border ${
+                      expanded[product.id]
+                        ? 'shop-glass shop-glow ring-1 ring-accent/20'
+                        : 'shop-glass-light hover:shop-glow'
+                    }`}
                   >
-                    <div className="relative">
+                    {/* Image */}
+                    <div className="relative overflow-hidden">
                       <AspectRatio ratio={4 / 3}>
                         {images[product.id] ? (
                           <img
                             src={images[product.id]}
                             alt={product.title}
-                            className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-105"
+                            className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-110"
                           />
                         ) : (
-                          <div className="w-full h-full flex items-center justify-center bg-muted">
-                            <Image className="h-10 w-10 text-muted-foreground/40" />
+                          <div className="w-full h-full flex items-center justify-center bg-white/[0.03]">
+                            <Image className="h-10 w-10 text-gray-700" />
                           </div>
                         )}
                       </AspectRatio>
 
-                      {/* Overlay Actions */}
-                      <div className="absolute top-2 right-2 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                        <Button
-                          size="icon"
-                          variant="secondary"
-                          className="h-8 w-8 rounded-full shadow-sm"
+                      {/* Hover overlay with action buttons */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300" />
+
+                      <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-2 group-hover:translate-y-0">
+                        <button
+                          className="h-9 w-9 rounded-xl bg-white/10 backdrop-blur-md flex items-center justify-center text-white hover:bg-white/20 transition-all border border-white/10"
                           onClick={() => { setPreviewImg(images[product.id]); setPreviewAlt(product.title); }}
                         >
                           <Eye className="h-4 w-4" />
-                        </Button>
-                        <Button
-                          size="icon"
-                          variant={wishlist.includes(product.id) ? "default" : "secondary"}
-                          className={`h-8 w-8 rounded-full shadow-sm ${wishlist.includes(product.id) ? 'bg-red-500 hover:bg-red-600 text-white' : ''}`}
-                          onClick={() => toggleWishlist(product.id)}
-                        >
-                          <Heart className={`h-4 w-4 ${wishlist.includes(product.id) ? "fill-current" : ""}`} />
-                        </Button>
+                        </button>
+                        <div className="flex gap-2">
+                          <button
+                            className={`h-9 w-9 rounded-xl backdrop-blur-md flex items-center justify-center transition-all border ${
+                              isInWishlist
+                                ? 'bg-red-500/80 text-white border-red-400/30 hover:bg-red-500'
+                                : 'bg-white/10 text-white border-white/10 hover:bg-white/20'
+                            }`}
+                            onClick={() => toggleWishlist(product.id)}
+                          >
+                            <Heart className={`h-4 w-4 ${isInWishlist ? "fill-current" : ""}`} />
+                          </button>
+                          <button
+                            className="h-9 w-9 rounded-xl bg-accent/80 backdrop-blur-md flex items-center justify-center text-black hover:bg-accent transition-all border border-accent/30"
+                            onClick={() => {
+                              addToCart({ ...product });
+                              toast({ title: 'Added to cart', description: product.title });
+                            }}
+                          >
+                            <ShoppingCart className="h-4 w-4" />
+                          </button>
+                        </div>
                       </div>
 
-                      {product.status === 'pending' && (
-                        <Badge variant="secondary" className="absolute top-2 left-2 text-[10px] bg-background/80 backdrop-blur">
-                          Pending
-                        </Badge>
+                      {/* Category badge */}
+                      {product.category && (
+                        <span className="absolute top-3 left-3 text-[10px] uppercase tracking-wider font-semibold text-accent bg-black/40 backdrop-blur-md px-2.5 py-1 rounded-lg border border-accent/20">
+                          {product.category}
+                        </span>
                       )}
                     </div>
 
-                    <div className="p-4 space-y-3">
+                    {/* Content */}
+                    <div className="p-4 space-y-2.5">
                       <div>
-                        <div className="flex items-start justify-between gap-2 mb-1">
-                          <h3 className="font-semibold text-base leading-tight line-clamp-2" title={product.title}>
-                            {product.title}
-                          </h3>
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <span className="text-lg font-bold text-primary">
+                        <h3 className="font-semibold text-[15px] text-gray-100 leading-tight line-clamp-2 mb-1.5" title={product.title}>
+                          {product.title}
+                        </h3>
+                        <div className="flex items-center justify-between">
+                          <span className="text-lg font-bold text-accent">
                             Ksh {product.price.toLocaleString()}
                           </span>
-                          {product.category && (
-                            <span className="text-[10px] uppercase tracking-wider text-muted-foreground border px-1.5 rounded">
-                              {product.category}
-                            </span>
-                          )}
+                          <div className="flex items-center gap-1 text-xs text-gray-400">
+                            <Star className={`h-3.5 w-3.5 ${avgRating > 0 ? 'text-accent fill-accent' : 'text-gray-600'}`} />
+                            <span>{avgRating.toFixed(1)}</span>
+                            <span className="text-gray-600">({reviews[product.id]?.length || 0})</span>
+                          </div>
                         </div>
-                      </div>
-
-                      <div className="flex items-center text-xs text-muted-foreground gap-1">
-                        <Star className={`h-3.5 w-3.5 ${avgRating > 0 ? 'text-yellow-400 fill-yellow-400' : 'text-muted'}`} />
-                        <span>{avgRating.toFixed(1)}</span>
-                        <span>({reviews[product.id]?.length || 0})</span>
                       </div>
 
                       {/* Expanded / Actions */}
                       {expanded[product.id] ? (
-                        <div className="pt-2 animate-in slide-in-from-top-2">
-                          <div className="text-xs text-muted-foreground mb-3 line-clamp-4">
+                        <div className="pt-2 space-y-3 animate-in slide-in-from-top-2 duration-300">
+                          <p className="text-xs text-gray-400 leading-relaxed line-clamp-4">
                             {product.description || "No description available."}
-                          </div>
+                          </p>
                           <div className="space-y-2">
-                            <Button className="w-full" size="sm" onClick={() => {
-                              addToCart({ ...product });
-                              toast({ title: 'Added to cart', description: product.title });
-                            }}>
+                            <Button
+                              className="w-full bg-accent hover:bg-accent/90 text-primary font-semibold shadow-lg shadow-accent/15"
+                              size="sm"
+                              onClick={() => {
+                                addToCart({ ...product });
+                                toast({ title: 'Added to cart', description: product.title });
+                              }}
+                            >
                               <ShoppingCart className="mr-2 h-4 w-4" /> Add to Cart
                             </Button>
                             {product.whatsapp_number && (
-                              <Button variant="outline" size="sm" className="w-full" onClick={() => {
-                                const url = formatPhoneForWhatsapp(product.whatsapp_number, `Hi, I'm interested in ${product.title}`, images[product.id]);
-                                if (url) window.open(url, '_blank');
-                                else toast({ title: 'Invalid WhatsApp', variant: 'destructive' });
-                              }}>
-                                <Phone className="mr-2 h-4 w-4" /> WhatsApp
+                              <Button
+                                variant="outline"
+                                size="sm"
+                                className="w-full border-green-500/20 text-green-400 hover:bg-green-500/10 hover:border-green-500/40 bg-transparent"
+                                onClick={() => {
+                                  const url = formatPhoneForWhatsapp(product.whatsapp_number, `Hi, I'm interested in ${product.title}`, images[product.id]);
+                                  if (url) window.open(url, '_blank');
+                                  else toast({ title: 'Invalid WhatsApp', variant: 'destructive' });
+                                }}
+                              >
+                                <Phone className="mr-2 h-4 w-4" /> WhatsApp Seller
                               </Button>
                             )}
-                            <Button variant="ghost" size="sm" className="w-full h-auto py-1 text-xs" onClick={() => toggleExpanded(product.id)}>
-                              Close Details
-                            </Button>
                           </div>
 
-                          {/* Simplified Reviews for Grid View */}
-                          <div className="mt-4 pt-3 border-t">
-                            <h4 className="text-xs font-semibold mb-2">Reviews</h4>
+                          {/* Reviews */}
+                          <div className="pt-3 border-t border-white/[0.06]">
+                            <h4 className="text-xs font-semibold text-gray-300 mb-2">Reviews</h4>
                             {reviews[product.id]?.slice(0, 2).map(r => (
-                              <div key={r.id} className="text-[11px] mb-1 text-muted-foreground">
-                                <span className="font-medium text-foreground">User:</span> {r.comment}
+                              <div key={r.id} className="text-[11px] mb-1.5 text-gray-400 bg-white/[0.03] rounded-lg px-2.5 py-1.5">
+                                <div className="flex gap-0.5 mb-0.5">
+                                  {[1,2,3,4,5].map(s => (
+                                    <Star key={s} size={9} className={s <= r.rating ? "fill-accent text-accent" : "text-gray-600"} />
+                                  ))}
+                                </div>
+                                {r.comment}
                               </div>
                             ))}
                             {user && (
                               <div className="flex gap-2 mt-2">
                                 <Input
-                                  className="h-7 text-xs"
+                                  className="h-8 text-xs bg-white/[0.03] border-white/[0.08] text-gray-200 placeholder:text-gray-600"
                                   placeholder="Write a review..."
                                   value={reviewInputs[product.id]?.comment || ''}
                                   onChange={e => handleReviewInput(product.id, 'comment', e.target.value)}
                                 />
-                                <Button size="sm" className="h-7 px-2" onClick={() => handleReviewSubmit(product.id)}>Post</Button>
+                                <Button
+                                  size="sm"
+                                  className="h-8 px-3 bg-accent/20 text-accent hover:bg-accent/30 border border-accent/20"
+                                  onClick={() => handleReviewSubmit(product.id)}
+                                >
+                                  Post
+                                </Button>
                               </div>
                             )}
                           </div>
+
+                          <button
+                            className="w-full text-center text-xs text-gray-500 hover:text-gray-300 py-1.5 transition-colors"
+                            onClick={() => toggleExpanded(product.id)}
+                          >
+                            Close Details
+                          </button>
                         </div>
                       ) : (
-                        <Button variant="outline" className="w-full" size="sm" onClick={() => toggleExpanded(product.id)}>
-                          View Details
-                        </Button>
+                        <button
+                          className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl text-sm font-medium text-gray-400 hover:text-accent bg-white/[0.03] hover:bg-accent/10 border border-white/[0.06] hover:border-accent/20 transition-all duration-200"
+                          onClick={() => toggleExpanded(product.id)}
+                        >
+                          View Details <ArrowRight size={14} />
+                        </button>
                       )}
                     </div>
-                  </Card>
+                  </div>
                   </motion.div>
                 );
               })}
             </div>
 
+            {/* Empty State */}
             {filteredProducts.length === 0 && (
-              <div className="flex flex-col items-center justify-center py-12 text-center">
-                <div className="h-12 w-12 rounded-full bg-muted flex items-center justify-center mb-4">
-                  <Search className="h-6 w-6 text-muted-foreground" />
+              <div className="flex flex-col items-center justify-center py-20 text-center">
+                <div className="relative mb-6">
+                  <div className="h-20 w-20 rounded-2xl bg-white/[0.04] flex items-center justify-center border border-white/[0.06]">
+                    <Search className="h-8 w-8 text-gray-600" />
+                  </div>
+                  {/* Animated rings */}
+                  <div className="absolute inset-0 -m-3 rounded-2xl border border-accent/10 animate-ping" style={{ animationDuration: '2s' }} />
+                  <div className="absolute inset-0 -m-6 rounded-2xl border border-accent/5 animate-ping" style={{ animationDuration: '3s' }} />
                 </div>
-                <h3 className="text-lg font-semibold">No products found</h3>
-                <p className="text-muted-foreground text-sm max-w-sm mt-2">
-                  Try adjusting your filters or search query to find what you're looking for.
+                <h3 className="text-xl font-semibold text-gray-300 mb-2">No products found</h3>
+                <p className="text-gray-500 text-sm max-w-sm mb-6">
+                  We couldn't find any products matching your filters. Try adjusting your search or clearing filters.
                 </p>
-                <Button variant="link" onClick={clearAllFilters} className="mt-2 text-primary">
-                  Clear all filters
+                <Button
+                  onClick={clearAllFilters}
+                  className="bg-gradient-to-r from-accent to-accent text-black font-semibold hover:from-accent hover:to-accent shadow-lg shadow-accent/20"
+                >
+                  <RotateCcw className="mr-2 h-4 w-4" /> Clear All Filters
                 </Button>
               </div>
             )}
