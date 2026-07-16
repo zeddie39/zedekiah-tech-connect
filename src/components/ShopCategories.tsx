@@ -42,7 +42,7 @@ export const categories: Category[] = [
     desc: "Cameras & photography equipment.",
   },
   {
-    name: "IoT",
+    name: "IoT & Robotics",
     icon: Wifi,
     color: "bg-teal-100 text-teal-700",
     desc: "Smart home, sensors & automation.",
