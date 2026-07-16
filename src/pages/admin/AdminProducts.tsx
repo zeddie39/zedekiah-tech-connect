@@ -102,9 +102,8 @@ export default function AdminProducts() {
         const { data: img } = await supabase
           .from("product_images")
           .select("image_url")
-          .eq("product_id", p.id)
-          .single();
-        return { ...p, image_url: img?.image_url || null };
+          .eq("product_id", p.id);
+        return { ...p, image_url: img && img.length > 0 ? img[0].image_url : null };
       })
     );
     setProducts(withImg);
@@ -210,7 +209,11 @@ export default function AdminProducts() {
           }
           const { data } = supabase.storage.from("product-images").getPublicUrl(filePath);
           if (data?.publicUrl) {
-            await supabase.from("product_images").insert([{ product_id: editingProduct.id, image_url: data.publicUrl }]);
+            const { error: insertImgErr } = await supabase.from("product_images").insert([{ product_id: editingProduct.id, image_url: data.publicUrl }]);
+            if (insertImgErr) {
+              console.error("Failed to insert image record:", insertImgErr);
+              toast({ title: "Image link failed", description: insertImgErr.message, variant: "destructive" });
+            }
           }
         }
       }
@@ -256,7 +259,11 @@ export default function AdminProducts() {
         }
         const { data } = supabase.storage.from("product-images").getPublicUrl(filePath);
         if (data?.publicUrl) {
-          await supabase.from("product_images").insert([{ product_id: product.id, image_url: data.publicUrl }]);
+          const { error: insertImgErr } = await supabase.from("product_images").insert([{ product_id: product.id, image_url: data.publicUrl }]);
+          if (insertImgErr) {
+            console.error("Failed to insert image record:", insertImgErr);
+            toast({ title: "Image linked failed", description: insertImgErr.message, variant: "destructive" });
+          }
         }
       }
 

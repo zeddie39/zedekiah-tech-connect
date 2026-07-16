@@ -19,6 +19,7 @@ export default function ProductDetails() {
   const [loading, setLoading] = useState(true);
   const [product, setProduct] = useState<Product | null>(null);
   const [images, setImages] = useState<ProductImage[]>([]);
+  const [activeImageIndex, setActiveImageIndex] = useState(0);
 
   useEffect(() => {
     if (!id) return;
@@ -91,21 +92,44 @@ export default function ProductDetails() {
           <ChevronLeft size={18} className="mr-2" /> Back to Shop
         </Button>
         <Card className="p-0 flex flex-col md:flex-row gap-2 sm:gap-3">
-          <div className="md:w-5/12 w-full flex flex-col gap-2 sm:gap-3 items-center justify-center min-h-[220px] sm:min-h-[300px] bg-muted rounded-md p-2 sm:p-3">
+          <div className="md:w-5/12 w-full flex flex-col gap-2 sm:gap-3 items-center min-h-[220px] sm:min-h-[300px] bg-muted rounded-md p-3 sm:p-4">
             {images.length > 0 ? (
-              <img
-                src={images[0].image_url}
-                alt={product.title}
-                className="w-full h-40 sm:h-56 object-cover rounded-lg bg-gray-100"
-              />
+              <div className="w-full flex flex-col gap-3">
+                <img
+                  src={images[activeImageIndex]?.image_url || images[0].image_url}
+                  alt={product.title}
+                  className="w-full h-48 sm:h-64 object-cover rounded-xl shadow-sm border border-border"
+                />
+                {images.length > 1 && (
+                  <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-thin scrollbar-thumb-muted-foreground/30">
+                    {images.map((img, idx) => (
+                      <button
+                        key={img.id}
+                        onClick={() => setActiveImageIndex(idx)}
+                        className={`relative flex-shrink-0 w-16 h-16 rounded-lg overflow-hidden border-2 transition-all duration-200 ${
+                          activeImageIndex === idx 
+                            ? 'border-accent shadow-md scale-105' 
+                            : 'border-transparent opacity-70 hover:opacity-100 hover:border-accent/50'
+                        }`}
+                      >
+                        <img 
+                          src={img.image_url} 
+                          alt={`${product.title} thumbnail ${idx + 1}`}
+                          className="w-full h-full object-cover"
+                        />
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
             ) : (
-              <div className="flex flex-col items-center justify-center h-40 sm:h-56 w-full bg-muted text-muted-foreground rounded-lg">
-                <ImageIcon size={40} className="sm:size-48" />
-                <span className="mt-1 text-xs">No image available</span>
+              <div className="flex flex-col items-center justify-center h-48 sm:h-64 w-full bg-background/50 text-muted-foreground rounded-xl border border-dashed border-border">
+                <ImageIcon size={40} className="sm:size-48 opacity-20 mb-2" />
+                <span className="text-sm font-medium">No image available</span>
               </div>
             )}
           </div>
-          <div className="flex-1 p-3 sm:p-5 flex flex-col gap-2">
+          <div className="flex-1 p-4 sm:p-6 flex flex-col gap-3">
             <div className="flex flex-col gap-1">
               <h1 className="text-lg sm:text-2xl font-extrabold">{product.title}</h1>
               {product.category && (

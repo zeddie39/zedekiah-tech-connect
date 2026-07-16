@@ -64,6 +64,8 @@ export default function Shop() {
   const [user, setUser] = useState<User | null>(null);
   const [products, setProducts] = useState<Product[]>([]);
   const [images, setImages] = useState<Record<string, string>>({});
+  const [galleries, setGalleries] = useState<Record<string, string[]>>({});
+  const [activeGalleryImages, setActiveGalleryImages] = useState<Record<string, number>>({});
   const [categoryFilter, setCategoryFilter] = useState<string | null>(null);
   const [previewImg, setPreviewImg] = useState<string | null>(null);
   const [previewAlt, setPreviewAlt] = useState<string>("");
@@ -164,13 +166,20 @@ export default function Shop() {
 
     if (data) {
       setProducts(data);
+      const newImages: Record<string, string> = {};
+      const newGalleries: Record<string, string[]> = {};
+      
       const imagePromises = data.map(async (product) => {
-        const { data: imgData } = await supabase.from("product_images").select("image_url").eq("product_id", product.id).single();
-        if (imgData?.image_url) {
-          setImages(prev => ({ ...prev, [product.id]: imgData.image_url }));
+        const { data: imgData } = await supabase.from("product_images").select("image_url").eq("product_id", product.id);
+        if (imgData && imgData.length > 0) {
+          newImages[product.id] = imgData[0].image_url;
+          newGalleries[product.id] = imgData.map(img => img.image_url);
         }
       });
+      
       await Promise.all(imagePromises);
+      setImages(newImages);
+      setGalleries(newGalleries);
     }
   };
 
@@ -446,7 +455,7 @@ export default function Shop() {
                       <AspectRatio ratio={4 / 3}>
                         {images[product.id] ? (
                           <img
-                            src={images[product.id]}
+                            src={galleries[product.id] ? galleries[product.id][activeGalleryImages[product.id] || 0] : images[product.id]}
                             alt={product.title}
                             className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-105"
                           />
@@ -463,7 +472,7 @@ export default function Shop() {
                           size="icon"
                           variant="secondary"
                           className="h-8 w-8 rounded-full shadow-sm"
-                          onClick={() => { setPreviewImg(images[product.id]); setPreviewAlt(product.title); }}
+                          onClick={() => { setPreviewImg(galleries[product.id] ? galleries[product.id][activeGalleryImages[product.id] || 0] : images[product.id]); setPreviewAlt(product.title); }}
                         >
                           <Eye className="h-4 w-4" />
                         </Button>
@@ -512,6 +521,30 @@ export default function Shop() {
                       {/* Expanded / Actions */}
                       {expanded[product.id] ? (
                         <div className="pt-2 animate-in slide-in-from-top-2">
+                          {galleries[product.id] && galleries[product.id].length > 1 && (
+                            <div className="flex items-center gap-2 overflow-x-auto pb-3 mb-2 scrollbar-thin scrollbar-thumb-muted-foreground/30">
+                              {galleries[product.id].map((imgUrl, idx) => (
+                                <button
+                                  key={idx}
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    setActiveGalleryImages(prev => ({ ...prev, [product.id]: idx }));
+                                  }}
+                                  className={`relative flex-shrink-0 w-12 h-12 rounded-md overflow-hidden border-2 transition-all duration-200 ${
+                                    (activeGalleryImages[product.id] || 0) === idx 
+                                      ? 'border-accent shadow-sm scale-105' 
+                                      : 'border-transparent opacity-70 hover:opacity-100'
+                                  }`}
+                                >
+                                  <img 
+                                    src={imgUrl} 
+                                    alt={`${product.title} thumb ${idx + 1}`}
+                                    className="w-full h-full object-cover"
+                                  />
+                                </button>
+                              ))}
+                            </div>
+                          )}
                           <div className="text-xs text-muted-foreground mb-3 line-clamp-4">
                             {product.description || "No description available."}
                           </div>
