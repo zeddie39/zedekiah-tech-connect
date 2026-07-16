@@ -1,25 +1,15 @@
-import { Outlet, useLocation, useNavigate, NavLink } from "react-router-dom";
-import { SidebarProvider, SidebarInset, SidebarTrigger } from "@/components/ui/sidebar";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
+import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { Card } from "@/components/ui/card";
-import { Loader2 } from "lucide-react";
-import DashboardWidget from "@/components/admin/DashboardWidget";
-import AdminUsers from "./admin/Users";
-import GalleryManagerPage from "./admin/GalleryManager";
-import AdminHamburger from "@/components/admin/AdminHamburger";
+import { Loader2, ShieldAlert } from "lucide-react";
 import AdminNavbar from "@/components/admin/AdminNavbar";
 import AdminSidebar from "@/components/admin/AdminSidebar";
-import AdminDebugInfo from "@/components/admin/AdminDebugInfo";
-import AdminAnalyticsWidget from "@/components/admin/AdminAnalyticsWidget";
 import DashboardHome from "./admin/DashboardHome";
-
-// Lucide icons for dashboard cards and quick links
-import { BarChart2, FileText, Users, Activity } from "lucide-react";
 
 type Role = "super_admin" | "support_admin" | "data_analyst";
 
-export const ROLE_NAMES: Record<Role, string> = {
+export const ROLE_NAMES: Record<string, string> = {
   super_admin: "Super Admin",
   support_admin: "Support Admin",
   data_analyst: "Data Analyst",
@@ -29,10 +19,7 @@ export default function AdminLayout() {
   const [loading, setLoading] = useState(true);
   const [role, setRole] = useState<Role | null>(null);
   const [userEmail, setUserEmail] = useState<string | null>(null);
-  const [userId, setUserId] = useState<string | null>(null);
-  const [statuses, setStatuses] = useState<{ roles: string[] }>({ roles: [] });
   const [denied, setDenied] = useState(false);
-  const [showDebug, setShowDebug] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -41,20 +28,19 @@ export default function AdminLayout() {
 
     async function checkRole() {
       setLoading(true);
-      const { data: { session } } = await supabase.auth.getSession();
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
       if (!session?.user) {
         navigate("/");
         return;
       }
       setUserEmail(session.user.email || null);
-      setUserId(session.user.id || null);
 
       const { data: roles, error } = await supabase
         .from("user_roles")
         .select("role")
         .eq("user_id", session.user.id);
-
-      setStatuses({ roles: roles ? roles.map((r) => r.role) : [] });
 
       if (error || !roles || roles.length === 0) {
         setDenied(true);
@@ -63,7 +49,9 @@ export default function AdminLayout() {
       }
 
       const userRole = roles[0].role as Role;
-      if (["super_admin", "support_admin", "data_analyst"].includes(userRole)) {
+      if (
+        ["super_admin", "support_admin", "data_analyst"].includes(userRole)
+      ) {
         if (mounted) setRole(userRole);
       } else {
         setDenied(true);
@@ -77,80 +65,69 @@ export default function AdminLayout() {
     };
   }, [navigate]);
 
+  /* ── Loading ── */
   if (loading) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center bg-background">
-        <Loader2 className="animate-spin mb-4 text-accent" size={42} />
-        <p className="text-lg text-muted-foreground">Checking admin access...</p>
+      <div
+        className="min-h-screen flex flex-col items-center justify-center bg-gray-50"
+      >
+        <div className="flex flex-col items-center gap-4">
+          <div className="w-12 h-12 rounded-full border-2 border-orange-500/30 border-t-orange-500 animate-spin" />
+          <p className="text-gray-500 text-sm animate-pulse">
+            Verifying admin access...
+          </p>
+        </div>
       </div>
     );
   }
 
+  /* ── Denied ── */
   if (denied || !role) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center bg-background">
-        <Card className="p-8 text-center max-w-xl bg-card/95 border border-accent">
-          <h2 className="text-2xl font-bold mb-2 text-destructive">Access Denied</h2>
-          <p className="text-gray-500">
-            This admin panel is only accessible to authorized staff.
+      <div
+        className="min-h-screen flex flex-col items-center justify-center bg-gray-50"
+      >
+        <div className="max-w-md w-full mx-4 p-8 rounded-2xl text-center border border-red-200 bg-red-50">
+          <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-red-100 flex items-center justify-center">
+            <ShieldAlert className="text-red-500" size={28} />
+          </div>
+          <h2 className="text-xl font-bold text-gray-900 mb-2">Access Denied</h2>
+          <p className="text-gray-600 text-sm leading-relaxed">
+            This admin panel is restricted to authorized staff. If you believe
+            this is a mistake, contact the site administrator.
           </p>
-          <p className="text-gray-500 mt-2">
-            If you believe this is a mistake, contact the site administrator.
-          </p>
-        </Card>
+          <button
+            onClick={() => navigate("/")}
+            className="mt-6 px-6 py-2.5 rounded-lg text-sm font-semibold bg-white border border-gray-200 text-gray-700 hover:text-gray-900 hover:bg-gray-50 transition-all shadow-sm"
+          >
+            Return to Homepage
+          </button>
+        </div>
       </div>
     );
   }
 
-  // --- Dashboard Content ---
+  /* ── Main Layout ── */
   const isAdminDashboard = location.pathname === "/admin";
+
   return (
-    <SidebarProvider>
-      <AdminNavbar userEmail={userEmail} role={role} />
-      <div className="min-h-screen flex flex-col md:flex-row w-full bg-gradient-to-br from-accent/10 via-muted/30 to-background pt-24 sm:pt-28">
-        <AdminSidebar />
-        <SidebarInset className="flex-1 flex flex-col px-2 sm:px-4 md:px-8 py-2 sm:py-4">
-          <header className="flex flex-col sm:flex-row items-center justify-between gap-2 p-2 sm:p-4 border-b bg-card/80 shadow sticky top-0 z-10">
-            {/* <SidebarTrigger /> Removed hamburger from admin header */}
-            <div className="flex flex-col items-center sm:items-start gap-0 w-full">
-              <span
-                className="font-ubuntu text-lg sm:text-xl font-bold text-accent tracking-wide flex items-center gap-2 bg-gradient-to-r from-primary/90 via-accent/80 to-primary/80 bg-clip-text text-transparent px-3 py-1 rounded-lg shadow-sm border border-accent/30 animate-fade-in"
-                style={{ letterSpacing: '1px' }}
-              >
-                Welcome, <span className="ml-1 text-primary font-extrabold">{userEmail || "Admin"}</span>!
-              </span>
-              {role && (
-                <span
-                  className="mt-1 ml-2 px-2 py-0.5 rounded-full bg-accent/10 border border-accent/30 text-xs sm:text-sm font-ubuntu font-semibold text-accent drop-shadow-sm tracking-wide shadow"
-                  style={{ letterSpacing: '0.5px' }}
-                >
-                  {ROLE_NAMES[role] || role}
-                </span>
-              )}
-            </div>
-            <button
-              className="text-xs text-muted-foreground hover:underline mt-2 sm:mt-0"
-              onClick={() => {
-                // Debug: log to console to confirm click
-                console.log('Toggling debug info. Current:', showDebug);
-                setShowDebug((v) => !v);
-              }}
-              aria-expanded={showDebug}
+    <div className="light">
+      <SidebarProvider>
+        <AdminNavbar userEmail={userEmail} role={role} />
+        <div
+          className="min-h-screen flex w-full text-gray-900 bg-gray-50 pt-14"
+        >
+          <AdminSidebar />
+          <SidebarInset className="flex-1 flex flex-col min-w-0 bg-gray-50">
+            <main
+              className="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 text-gray-900"
             >
-              {showDebug ? "Hide Debug" : "Show Debug"}
-            </button>
-          </header>
-          <main className="flex-1 w-full max-w-6xl mx-auto py-2 sm:py-4 relative">
-            {isAdminDashboard && <DashboardHome />}
-            <Outlet />
-            {showDebug && (
-              <div className="absolute left-0 right-0 top-full mt-2 z-50">
-                <AdminDebugInfo userId={userId} userEmail={userEmail} statuses={statuses} roleNames={ROLE_NAMES} />
-              </div>
-            )}
-          </main>
-        </SidebarInset>
-      </div>
-    </SidebarProvider>
+              {isAdminDashboard && <DashboardHome />}
+              <Outlet />
+            </main>
+          </SidebarInset>
+        </div>
+      </SidebarProvider>
+    </div>
   );
 }

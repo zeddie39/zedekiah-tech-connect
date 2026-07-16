@@ -1,13 +1,7 @@
 import { useState } from "react";
 import { useNavigate, useLocation, Link } from "react-router-dom";
-import { Menu, ArrowLeft, ShoppingBag, Heart, ShoppingCart, LayoutDashboard, PlusCircle, X } from "lucide-react";
+import { Menu, ArrowLeft, ShoppingBag, Heart, ShoppingCart, LayoutDashboard, PlusCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useCart } from "@/components/CartContext";
-
-const BG = "#0c0818";
-const CARD_BG = "#150f28";
-const BORDER = "rgba(255,255,255,0.06)";
-const ACCENT = "#ff9800";
 
 const navLinks = [
 	{ label: "Shop", to: "/shop", icon: ShoppingBag },
@@ -21,8 +15,6 @@ export default function ShopNavbar() {
 	const [open, setOpen] = useState(false);
 	const navigate = useNavigate();
 	const location = useLocation();
-	const { cart } = useCart();
-	const cartCount = cart.reduce((sum, item) => sum + item.quantity, 0);
 
 	const handleNav = (to: string) => {
 		setOpen(false);
@@ -30,103 +22,113 @@ export default function ShopNavbar() {
 	};
 
 	return (
-		<nav className="sticky top-0 z-50 w-full backdrop-blur-xl" style={{ background: `${BG}ee`, borderBottom: `1px solid ${BORDER}` }}>
-			<div className="mx-auto max-w-7xl px-4 sm:px-6 h-14 flex items-center justify-between">
+		<nav className="sticky top-0 z-50 w-full border-b bg-background/80 backdrop-blur-md supports-[backdrop-filter]:bg-background/60">
+			<div className="mx-auto max-w-7xl px-4 sm:px-6 h-16 flex items-center justify-between">
 				<div className="flex items-center gap-3">
+					{/* Back button, hidden on shop home */}
 					{location.pathname !== "/shop" && (
-						<button className="mr-1 -ml-2 p-2 rounded-lg text-gray-500 hover:text-[#ff9800] hover:bg-white/[0.03] transition-all"
-							onClick={() => navigate(-1)} aria-label="Go back">
-							<ArrowLeft size={18} />
-						</button>
+						<Button
+							variant="ghost"
+							size="icon"
+							className="mr-1 -ml-2 text-muted-foreground hover:text-primary"
+							onClick={() => navigate(-1)}
+							aria-label="Go back"
+						>
+							<ArrowLeft size={20} />
+						</Button>
 					)}
 
-					<Link to="/shop" className="flex items-center gap-2.5 group">
+					<Link to="/shop" className="flex items-center gap-2 group">
 						<div className="relative">
-							<div className="absolute inset-0 bg-[#ff9800]/15 rounded-full blur-md group-hover:bg-[#ff9800]/25 transition-all" />
-							<img src="/ZTech electrictronics logo.png" alt="Ztech" className="w-9 h-9 rounded-full relative z-10 border border-[#ff9800]/25 group-hover:border-[#ff9800]/50 transition-all" />
+							<div className="absolute inset-0 bg-primary/20 rounded-full blur-sm group-hover:bg-primary/40 transition-all" />
+							<img src="/ZTech electrictronics logo.png" alt="Ztech" className="w-9 h-9 rounded-full relative z-10 border border-primary/20" />
 						</div>
-						<span className="font-bold text-base tracking-tight text-[#ff9800] hidden sm:inline-block">
+						<span className="font-bold text-lg tracking-tight bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent hidden sm:inline-block">
 							ZTech Store
 						</span>
 					</Link>
 				</div>
 
 				{/* Desktop nav */}
-				<div className="hidden md:flex gap-0.5 items-center">
-					{navLinks.map(link => {
+				<div className="hidden md:flex gap-1 items-center">
+					{navLinks.map((link) => {
 						const Icon = link.icon;
 						const isActive = location.pathname === link.to;
 						return (
-							<button key={link.to}
-								className={`relative flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[13px] font-medium transition-all ${
-									isActive ? "text-[#ff9800] bg-[#ff9800]/8" : "text-gray-400 hover:text-gray-200 hover:bg-white/[0.03]"
-								}`}
-								onClick={() => handleNav(link.to)}>
-								<Icon size={15} />
+							<Button
+								key={link.to}
+								variant={isActive ? "secondary" : "ghost"}
+								size="sm"
+								className={`gap-2 ${isActive ? "text-primary" : "text-muted-foreground"}`}
+								onClick={() => handleNav(link.to)}
+							>
+								<Icon size={16} />
 								{link.label}
-								{link.to === "/cart" && cartCount > 0 && (
-									<span className="absolute -top-1 -right-1 min-w-[16px] h-[16px] flex items-center justify-center rounded-full bg-[#ff9800] text-[9px] font-bold text-black px-0.5 shadow shadow-[#ff9800]/30">
-										{cartCount > 99 ? "99+" : cartCount}
-									</span>
-								)}
-							</button>
+							</Button>
 						);
 					})}
-					<div className="h-6 w-px mx-2" style={{ background: BORDER }} />
-					<Button variant="outline" size="sm" className="gap-1.5 text-[13px] bg-transparent text-[#ff9800] hover:bg-[#ff9800]/8"
-						style={{ borderColor: `${ACCENT}30` }}
-						onClick={() => navigate('/dashboard')}>
-						<LayoutDashboard size={14} /> Dashboard
+					<div className="h-6 w-px bg-border mx-2" />
+					<Button
+						variant="outline"
+						size="sm"
+						className="gap-2"
+						onClick={() => navigate('/dashboard')}
+					>
+						<LayoutDashboard size={16} />
+						Dashboard
 					</Button>
 				</div>
 
-				{/* Mobile */}
-				<div className="flex items-center gap-1 md:hidden">
-					<button className="relative p-2 rounded-lg text-gray-400 hover:text-[#ff9800] hover:bg-white/[0.03] transition-all"
-						onClick={() => navigate('/cart')}>
-						<ShoppingCart size={18} />
-						{cartCount > 0 && (
-							<span className="absolute -top-0.5 -right-0.5 min-w-[14px] h-[14px] flex items-center justify-center rounded-full bg-[#ff9800] text-[8px] font-bold text-black px-0.5">
-								{cartCount > 99 ? "99+" : cartCount}
-							</span>
-						)}
-					</button>
-					<button className="p-2 rounded-lg text-gray-400 hover:text-gray-200 hover:bg-white/[0.03] transition-all"
-						onClick={() => setOpen(o => !o)} aria-label="Navigation menu">
-						{open ? <X size={20} /> : <Menu size={20} />}
-					</button>
+				{/* Hamburger (mobile) */}
+				<div className="flex items-center gap-2 md:hidden">
+					<Button
+						variant="ghost"
+						size="icon"
+						onClick={() => navigate('/cart')}
+						className="relative"
+					>
+						<ShoppingCart size={20} />
+						{/* Note: Cart count would go here if available via props/context */}
+					</Button>
+					<Button
+						variant="ghost"
+						size="icon"
+						onClick={() => setOpen((o) => !o)}
+						aria-label="Open navigation menu"
+					>
+						<Menu size={24} />
+					</Button>
 				</div>
 			</div>
 
 			{/* Mobile drawer */}
 			{open && (
-				<div className="md:hidden absolute top-14 left-0 right-0 backdrop-blur-xl shadow-2xl shadow-black/50 z-40"
-					style={{ background: `${BG}f5`, borderBottom: `1px solid ${BORDER}` }}>
-					<div className="p-3 flex flex-col gap-1">
-						{navLinks.map(link => {
+				<div className="md:hidden absolute top-16 left-0 right-0 bg-background border-b shadow-lg animate-in slide-in-from-top-2 z-40">
+					<div className="p-4 flex flex-col gap-2">
+						{navLinks.map((link) => {
 							const Icon = link.icon;
 							const isActive = location.pathname === link.to;
 							return (
-								<button key={link.to}
-									className={`flex items-center gap-3 w-full px-4 py-2.5 rounded-lg text-sm font-medium transition-all ${
-										isActive ? "text-[#ff9800] bg-[#ff9800]/8" : "text-gray-400 hover:text-gray-200 hover:bg-white/[0.03]"
-									}`}
-									onClick={() => handleNav(link.to)}>
-									<Icon size={16} />
+								<Button
+									key={link.to}
+									variant={isActive ? "secondary" : "ghost"}
+									className="justify-start gap-3 w-full"
+									onClick={() => handleNav(link.to)}
+								>
+									<Icon size={18} />
 									{link.label}
-									{link.to === "/cart" && cartCount > 0 && (
-										<span className="ml-auto min-w-[18px] h-[18px] flex items-center justify-center rounded-full bg-[#ff9800] text-[10px] font-bold text-black px-1">
-											{cartCount}
-										</span>
-									)}
-								</button>
+								</Button>
 							);
 						})}
-						<div className="my-1 border-t" style={{ borderColor: BORDER }} />
-						<button className="flex items-center gap-3 w-full px-4 py-2.5 rounded-lg text-sm font-medium text-gray-400 hover:text-[#ff9800] hover:bg-white/[0.03] transition-all"
-							onClick={() => handleNav('/dashboard')}>
-							<LayoutDashboard size={16} /> Dashboard
-						</button>
+						<div className="my-2 border-t" />
+						<Button
+							variant="outline"
+							className="justify-start gap-3 w-full"
+							onClick={() => handleNav('/dashboard')}
+						>
+							<LayoutDashboard size={18} />
+							Back to Dashboard
+						</Button>
 					</div>
 				</div>
 			)}

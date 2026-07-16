@@ -1,7 +1,7 @@
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import type { LucideIcon } from "lucide-react";
-import { Smartphone, Laptop, Headphones, Gamepad2, Camera, Puzzle } from "lucide-react";
+import { Smartphone, Laptop, Headphones, Gamepad2, Camera, Wifi, Puzzle } from "lucide-react";
 
 type Category = {
   name: string;
@@ -40,6 +40,12 @@ export const categories: Category[] = [
     icon: Camera,
     color: "bg-pink-100 text-pink-700",
     desc: "Cameras & photography equipment.",
+  },
+  {
+    name: "IoT",
+    icon: Wifi,
+    color: "bg-teal-100 text-teal-700",
+    desc: "Smart home, sensors & automation.",
   },
   {
     name: "Accessories",

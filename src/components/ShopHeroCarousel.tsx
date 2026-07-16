@@ -1,62 +1,46 @@
 import { Button } from "@/components/ui/button";
-import { Sparkles, ArrowRight } from "lucide-react";
-import { motion } from "framer-motion";
+import { Cpu, Smartphone, Monitor, Zap, Sparkles, ArrowRight } from "lucide-react";
 
 export default function ShopHeroCarousel() {
   return (
-    <div className="relative overflow-hidden" style={{ background: 'linear-gradient(135deg, #160e2e 0%, #1a1040 50%, #160e2e 100%)' }}>
-      {/* Background Image */}
+    <div className="relative mb-8 rounded-2xl overflow-hidden border border-accent/20 shadow-2xl group">
+      {/* Background Image - Motherboard/Tech Theme */}
       <div className="absolute inset-0 z-0">
         <img
-          src="https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=2070&auto=format&fit=crop"
+          src="https://i.pinimg.com/736x/54/30/f6/5430f68f39db5981c738f0deb1ce2838.jpg"
           alt="Motherboard Circuit"
-          className="w-full h-full object-cover opacity-20"
+          className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#160e2e] via-[#160e2e]/80 to-transparent" />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#160e2e] via-transparent to-[#160e2e]/50" />
+        {/* Premium Gradient Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-r from-background/95 via-background/80 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent" />
+
+        {/* Decorative Circuit Lines Overlay */}
+        <div className="absolute inset-0 opacity-20 bg-[linear-gradient(rgba(255,255,255,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.05)_1px,transparent_1px)] bg-[size:40px_40px]" />
       </div>
 
       {/* Content */}
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 py-10 md:py-16 flex flex-col md:flex-row items-center gap-8">
-        <div className="flex-1 max-w-2xl">
-          <motion.div
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#ff9800]/10 border border-[#ff9800]/20 text-[#ff9800] font-semibold text-xs mb-4"
-          >
+      <div className="relative z-10 px-6 sm:px-10 py-12 md:py-20 max-w-4xl">
+        <div className="animate-in fade-in slide-in-from-left-4 duration-700">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent/10 border border-accent/30 text-accent font-medium text-xs mb-4 backdrop-blur-md">
             <Sparkles className="w-3.5 h-3.5" />
-            <span className="tracking-wider uppercase">Next-Gen Electronics</span>
-          </motion.div>
+            <span className="tracking-wide uppercase">Next-Gen Electronics</span>
+          </div>
 
-          <motion.h1
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="text-3xl md:text-5xl font-black tracking-tight text-white mb-4 leading-[1.15]"
-          >
-            Upgrade Your{" "}
-            <span className="text-[#ff9800]">Digital Lifestyle</span>
-          </motion.h1>
+          <h1 className="text-3xl md:text-5xl lg:text-6xl font-black tracking-tight text-foreground mb-4 leading-tight">
+            Upgrade Your <br />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">Digital Lifestyle</span>
+          </h1>
 
-          <motion.p
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-gray-400 text-sm md:text-base max-w-lg leading-relaxed mb-6"
-          >
-            Experience the best in tech with Ztech. From high-performance motherboards to the latest smart gadgets, we provide quality you can trust.
-          </motion.p>
+          <p className="text-muted-foreground text-sm md:text-lg max-w-xl leading-relaxed mb-8">
+            Experience the best in tech with Ztech. From high-performance motherboards to the latest smart gadgets,
+            we provide quality you can trust and support that cares.
+          </p>
 
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            className="flex flex-wrap gap-3"
-          >
+          <div className="flex flex-col sm:flex-row gap-4">
             <Button
               size="lg"
-              className="bg-[#ff9800] hover:bg-[#ff9800]/90 text-[#160e2e] font-bold shadow-lg shadow-[#ff9800]/20 hover:shadow-[#ff9800]/30 transition-all text-sm px-6"
+              className="bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg shadow-primary/20 transition-all hover:scale-105"
               onClick={() => document.getElementById('products-grid')?.scrollIntoView({ behavior: 'smooth' })}
             >
               Shop Collection
@@ -64,12 +48,30 @@ export default function ShopHeroCarousel() {
             <Button
               variant="outline"
               size="lg"
-              className="bg-transparent border border-white/15 text-white hover:bg-white/5 hover:border-white/30 text-sm px-6"
+              className="border-accent/50 text-foreground hover:bg-accent/10 backdrop-blur-sm"
               onClick={() => document.getElementById('shop-main')?.scrollIntoView({ behavior: 'smooth' })}
             >
               Explore Categories <ArrowRight className="ml-2 w-4 h-4" />
             </Button>
-          </motion.div>
+          </div>
+        </div>
+      </div>
+
+      {/* Bottom Features Strip */}
+      <div className="relative z-10 border-t border-white/5 bg-black/20 backdrop-blur-md px-6 py-4">
+        <div className="flex flex-wrap items-center gap-4 md:gap-8 text-sm font-medium text-muted-foreground">
+          <div className="flex items-center gap-2">
+            <Cpu className="w-4 h-4 text-accent" /> Premium Components
+          </div>
+          <div className="flex items-center gap-2">
+            <Smartphone className="w-4 h-4 text-accent" /> Latest Mobiles
+          </div>
+          <div className="flex items-center gap-2">
+            <Monitor className="w-4 h-4 text-accent" /> Ultra Displays
+          </div>
+          <div className="flex items-center gap-2">
+            <Zap className="w-4 h-4 text-accent" /> Fast Delivery
+          </div>
         </div>
       </div>
     </div>

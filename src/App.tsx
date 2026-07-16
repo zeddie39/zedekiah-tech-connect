@@ -38,12 +38,14 @@ import ServicesPage from "./pages/Services";
 import TeamPage from "./pages/Team";
 import ContactPage from "./pages/Contact";
 import ProductsApproval from "./pages/admin/ProductsApproval";
+import AdminProducts from "./pages/admin/AdminProducts";
 import Terms from "./pages/Terms";
 import Privacy from "./pages/Privacy";
 import WhyChooseUs from "./pages/WhyChooseUs";
 import FAQPage from "./pages/FAQ";
 import CookieConsent from "@/components/CookieConsent";
 import PageTransition from "@/components/PageTransition";
+import FloatingWhatsApp from "@/components/FloatingWhatsApp";
 
 const queryClient = new QueryClient();
 
@@ -86,6 +88,7 @@ const App = () => (
                 <Route path="workflow" element={<AdminWorkflow />} />
                 <Route path="users" element={<AdminUsers />} />
                 <Route path="ProductsApproval" element={<ProductsApproval />} />
+                <Route path="products" element={<AdminProducts />} />
                 <Route path="gallery-manager" element={<GalleryManagerPage />} />
               </Route>
               <Route path="/ConfirmedCelebration" element={<ConfirmedCelebration />} />
@@ -100,6 +103,7 @@ const App = () => (
             </Routes>
           </PageTransition>
           <ScrollToTop />
+          <FloatingWhatsApp />
           <CookieConsent />
         </BrowserRouter>
       </CartProvider>
