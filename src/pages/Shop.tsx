@@ -452,7 +452,11 @@ export default function Shop() {
                     className={`group border-border/50 bg-card/40 backdrop-blur-sm overflow-hidden transition-all duration-300 hover:shadow-lg hover:border-primary/20 hover:-translate-y-1 ${expanded[product.id] ? 'ring-1 ring-primary/30' : ''}`}
                   >
                     <div className="relative">
-                      <AspectRatio ratio={4 / 3}>
+                      <AspectRatio 
+                        ratio={4 / 3} 
+                        className="cursor-pointer"
+                        onClick={() => navigate(`/shop/${product.id}`)}
+                      >
                         {images[product.id] ? (
                           <img
                             src={galleries[product.id] ? galleries[product.id][activeGalleryImages[product.id] || 0] : images[product.id]}
@@ -496,7 +500,11 @@ export default function Shop() {
                     <div className="p-4 space-y-3">
                       <div>
                         <div className="flex items-start justify-between gap-2 mb-1">
-                          <h3 className="font-semibold text-base leading-tight line-clamp-2" title={product.title}>
+                          <h3 
+                            className="font-semibold text-base leading-tight line-clamp-2 cursor-pointer hover:text-accent transition-colors" 
+                            title={product.title}
+                            onClick={() => navigate(`/shop/${product.id}`)}
+                          >
                             {product.title}
                           </h3>
                         </div>
