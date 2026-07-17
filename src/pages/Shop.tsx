@@ -452,23 +452,24 @@ export default function Shop() {
                     className={`group border-border/50 bg-card/40 backdrop-blur-sm overflow-hidden transition-all duration-300 hover:shadow-lg hover:border-primary/20 hover:-translate-y-1 ${expanded[product.id] ? 'ring-1 ring-primary/30' : ''}`}
                   >
                     <div className="relative">
-                      <AspectRatio 
-                        ratio={4 / 3} 
+                      <div 
                         className="cursor-pointer"
                         onClick={() => navigate(`/shop/${product.id}`)}
                       >
-                        {images[product.id] ? (
-                          <img
-                            src={galleries[product.id] ? galleries[product.id][activeGalleryImages[product.id] || 0] : images[product.id]}
-                            alt={product.title}
-                            className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-105"
-                          />
-                        ) : (
-                          <div className="w-full h-full flex items-center justify-center bg-muted">
-                            <Image className="h-10 w-10 text-muted-foreground/40" />
-                          </div>
-                        )}
-                      </AspectRatio>
+                        <AspectRatio ratio={4 / 3}>
+                          {images[product.id] ? (
+                            <img
+                              src={galleries[product.id] ? galleries[product.id][activeGalleryImages[product.id] || 0] : images[product.id]}
+                              alt={product.title}
+                              className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-105"
+                            />
+                          ) : (
+                            <div className="w-full h-full flex items-center justify-center bg-muted">
+                              <Image className="h-10 w-10 text-muted-foreground/40" />
+                            </div>
+                          )}
+                        </AspectRatio>
+                      </div>
 
                       {/* Overlay Actions */}
                       <div className="absolute top-2 right-2 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
