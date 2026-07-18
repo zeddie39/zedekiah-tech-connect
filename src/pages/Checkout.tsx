@@ -57,7 +57,19 @@ const kenyanLocations = [
   "Limuru Road, Nairobi",
   "Ngong Road, Nairobi",
   "Kiambu Road, Nairobi",
-  "Waiyaki Way, Nairobi"
+  "Waiyaki Way, Nairobi",
+  // Kisii locations
+  "Kisii Town",
+  "Kisii - Daraja Mbili",
+  "Kisii - Jogoo",
+  "Kisii - Mwembe",
+  "Kisii - Nyanchwa",
+  "Kisii - Gesonso",
+  "Kisii - Kenyenya",
+  "Kisii - Suneka",
+  "Kisii - Ogembo",
+  "Kisii - Keroka",
+  "Kisii - Nyamira",
 ];
 
 type CartItem = {
@@ -235,9 +247,17 @@ export default function CheckoutPage() {
               </li>
             ))}
           </ul>
-          <div className="flex justify-between items-center border-t pt-4 mt-4 font-bold text-xl">
+          <div className="flex justify-between items-center border-t pt-4 mt-4">
+            <span className="text-muted-foreground">Delivery</span>
+            <span className="text-sm font-semibold text-green-600">FREE (Kisii & surroundings)</span>
+          </div>
+          <div className="flex justify-between items-center pt-2 font-bold text-xl">
             <span>Total</span>
             <span>Ksh {total.toFixed(2)}</span>
+          </div>
+          <div className="mt-3 rounded-lg bg-green-50 border border-green-200 p-3 flex items-center gap-3">
+            <span className="text-lg">🚚</span>
+            <p className="text-xs text-green-700"><span className="font-bold">Free Delivery</span> on all orders within Kisii town and its surroundings!</p>
           </div>
         </Card>
 

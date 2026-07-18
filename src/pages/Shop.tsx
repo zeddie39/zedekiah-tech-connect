@@ -380,6 +380,25 @@ export default function Shop() {
           })}
         </div>
 
+        {/* Free Delivery Banner */}
+        <div className="mb-6 rounded-xl bg-gradient-to-r from-primary/10 via-accent/10 to-primary/10 border border-primary/20 p-4 flex items-center gap-4 animate-in fade-in slide-in-from-top-2">
+          <div className="flex-shrink-0 w-10 h-10 rounded-full bg-primary/15 flex items-center justify-center">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-primary">
+              <path d="M10 17h4V5H2v12h3"/>
+              <path d="M20 17h2v-3.34a4 4 0 0 0-1.17-2.83L19 9h-5v8h1"/>
+              <circle cx="7.5" cy="17.5" r="2.5"/>
+              <circle cx="17.5" cy="17.5" r="2.5"/>
+            </svg>
+          </div>
+          <div className="flex-1 min-w-0">
+            <p className="text-sm font-bold text-foreground">🚚 Free Delivery Around Kisii!</p>
+            <p className="text-xs text-muted-foreground">Enjoy free delivery on all orders within Kisii town and its surroundings.</p>
+          </div>
+          <Badge className="flex-shrink-0 bg-primary/15 text-primary border-primary/30 text-[10px] font-bold uppercase tracking-wider">
+            Free
+          </Badge>
+        </div>
+
         <div className="flex flex-col gap-8">
           {/* Main Content */}
           <main className="flex-1 min-w-0">
