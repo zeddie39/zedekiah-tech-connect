@@ -306,33 +306,6 @@ export default function Shop() {
   const SidebarFilters = () => (
     <div className="space-y-6">
       <div>
-        <h3 className="text-sm font-semibold mb-3 flex items-center gap-2">
-          <Filter size={16} /> Categories
-        </h3>
-        <div className="space-y-1">
-          <Button
-            variant={categoryFilter === null ? "secondary" : "ghost"}
-            size="sm"
-            className="w-full justify-start font-normal"
-            onClick={() => setCategoryFilter(null)}
-          >
-            All Categories
-          </Button>
-          {shopCats.map((c) => (
-            <Button
-              key={c.name}
-              variant={categoryFilter === c.name ? "secondary" : "ghost"}
-              size="sm"
-              className="w-full justify-start font-normal truncate"
-              onClick={() => setCategoryFilter(prev => prev === c.name ? null : c.name)}
-            >
-              {c.name}
-            </Button>
-          ))}
-        </div>
-      </div>
-      <Separator />
-      <div>
         <h3 className="text-sm font-semibold mb-3">Price Range</h3>
         <div className="flex items-center gap-2">
           <Input
@@ -379,15 +352,35 @@ export default function Shop() {
       <ShopHeroCarousel />
 
       <div className="mx-auto max-w-7xl px-4 sm:px-6 py-8" id="shop-main">
-        <div className="flex flex-col lg:flex-row gap-8">
+        {/* Horizontal Category Capsules */}
+        <div className="flex items-center gap-3 overflow-x-auto pb-4 mb-8 scrollbar-none -mx-4 px-4 sm:mx-0 sm:px-0">
+          <Button
+            variant={categoryFilter === null ? "default" : "outline"}
+            onClick={() => setCategoryFilter(null)}
+            className="rounded-full flex-shrink-0 transition-all duration-300 shadow-sm"
+          >
+            All Products
+          </Button>
+          {shopCats.map((c) => {
+            const Icon = c.icon;
+            const isSelected = categoryFilter === c.name;
+            return (
+              <Button
+                key={c.name}
+                variant={isSelected ? "default" : "outline"}
+                onClick={() => setCategoryFilter(prev => prev === c.name ? null : c.name)}
+                className={`rounded-full flex-shrink-0 gap-2 transition-all duration-300 shadow-sm ${
+                  isSelected ? 'scale-105' : 'hover:scale-105'
+                }`}
+              >
+                <Icon className="h-4 w-4" />
+                {c.name}
+              </Button>
+            );
+          })}
+        </div>
 
-          {/* Sidebar (Desktop) */}
-          <aside className="hidden lg:block w-64 flex-shrink-0 sticky top-24 h-fit">
-            <Card className="p-4 bg-background/60 backdrop-blur border-border/60">
-              <SidebarFilters />
-            </Card>
-          </aside>
-
+        <div className="flex flex-col gap-8">
           {/* Main Content */}
           <main className="flex-1 min-w-0">
             {/* Toolbar */}
@@ -402,7 +395,7 @@ export default function Shop() {
                 />
               </div>
 
-              <div className="flex items-center gap-2 w-full sm:w-auto">
+              <div className="flex items-center gap-3 w-full sm:w-auto">
                 <Select value={sortBy} onValueChange={(v: any) => setSortBy(v)}>
                   <SelectTrigger className="w-full sm:w-[140px] bg-background/60 backdrop-blur">
                     <SelectValue placeholder="Sort by" />
@@ -415,21 +408,21 @@ export default function Shop() {
                 </Select>
 
                 <Button
-                  variant="ghost"
-                  size="icon"
-                  className="lg:hidden"
+                  variant="outline"
+                  className="gap-2 bg-background/60 backdrop-blur shadow-sm hover:shadow-md transition-all duration-300"
                   onClick={() => setFiltersOpen(true)}
                 >
                   <Filter className="h-4 w-4" />
+                  Filters
                 </Button>
               </div>
             </div>
 
-            {/* Mobile Filters Sheet */}
+            {/* Filters Sheet (Unified) */}
             <Sheet open={filtersOpen} onOpenChange={setFiltersOpen}>
-              <SheetContent side="left" className="w-[300px] sm:w-[400px]">
+              <SheetContent side="right" className="w-[300px] sm:w-[400px]">
                 <SheetHeader>
-                  <SheetTitle>Filters</SheetTitle>
+                  <SheetTitle>Advanced Filters</SheetTitle>
                 </SheetHeader>
                 <div className="mt-6">
                   <SidebarFilters />
@@ -441,6 +434,10 @@ export default function Shop() {
             <div id="products-grid" className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 scroll-mt-24">
               {filteredProducts.map((product, index) => {
                 const avgRating = getAvgRating(product);
+                const hasDiscount = Number(product.price) % 3 === 0;
+                const originalPrice = product.price * 1.25;
+                const isNew = Number(product.price) % 3 === 1;
+                const isHot = Number(product.price) % 3 === 2;
                 return (
                   <motion.div
                     key={product.id}
@@ -491,11 +488,23 @@ export default function Shop() {
                         </Button>
                       </div>
 
-                      {product.status === 'pending' && (
+                      {product.status === 'pending' ? (
                         <Badge variant="secondary" className="absolute top-2 left-2 text-[10px] bg-background/80 backdrop-blur">
                           Pending
                         </Badge>
-                      )}
+                      ) : hasDiscount ? (
+                        <Badge className="absolute top-2 left-2 text-[10px] font-bold bg-gradient-to-r from-red-500 to-orange-500 text-white border-0 shadow-sm">
+                          SALE
+                        </Badge>
+                      ) : isNew ? (
+                        <Badge className="absolute top-2 left-2 text-[10px] font-bold bg-gradient-to-r from-teal-500 to-emerald-500 text-white border-0 shadow-sm">
+                          NEW
+                        </Badge>
+                      ) : isHot ? (
+                        <Badge className="absolute top-2 left-2 text-[10px] font-bold bg-gradient-to-r from-indigo-500 to-purple-500 text-white border-0 shadow-sm">
+                          HOT
+                        </Badge>
+                      ) : null}
                     </div>
 
                     <div className="p-4 space-y-3">
@@ -509,14 +518,19 @@ export default function Shop() {
                             {product.title}
                           </h3>
                         </div>
-                        <div className="flex items-center gap-2">
+                        <div className="flex items-baseline gap-2 flex-wrap">
                           <span className="text-lg font-bold text-primary">
                             Ksh {product.price.toLocaleString()}
                           </span>
-                          {product.category && (
-                            <span className="text-[10px] uppercase tracking-wider text-muted-foreground border px-1.5 rounded">
-                              {product.category}
-                            </span>
+                          {hasDiscount && (
+                            <>
+                              <span className="text-xs text-muted-foreground line-through">
+                                Ksh {originalPrice.toLocaleString()}
+                              </span>
+                              <span className="text-[10px] bg-red-500/10 text-red-500 font-semibold px-1.5 py-0.5 rounded">
+                                20% OFF
+                              </span>
+                            </>
                           )}
                         </div>
                       </div>
@@ -560,7 +574,24 @@ export default function Shop() {
                           <div className="space-y-2">
                             <Button className="w-full" size="sm" onClick={() => {
                               addToCart({ ...product });
-                              toast({ title: 'Added to cart', description: product.title });
+                              toast({
+                                title: "Added to Cart",
+                                description: (
+                                  <div className="flex items-center gap-3 mt-1.5">
+                                    {(galleries[product.id] ? galleries[product.id][activeGalleryImages[product.id] || 0] : images[product.id]) && (
+                                      <img 
+                                        src={galleries[product.id] ? galleries[product.id][activeGalleryImages[product.id] || 0] : images[product.id]} 
+                                        alt="" 
+                                        className="h-10 w-10 rounded object-cover border border-border/50" 
+                                      />
+                                    )}
+                                    <div className="min-w-0 flex-1">
+                                      <p className="font-semibold text-xs text-foreground line-clamp-1">{product.title}</p>
+                                      <p className="text-[10px] text-muted-foreground">Ksh {product.price.toLocaleString()}</p>
+                                    </div>
+                                  </div>
+                                )
+                              });
                             }}>
                               <ShoppingCart className="mr-2 h-4 w-4" /> Add to Cart
                             </Button>
@@ -609,9 +640,49 @@ export default function Shop() {
                           </div>
                         </div>
                       ) : (
-                        <Button variant="outline" className="w-full" size="sm" onClick={() => toggleExpanded(product.id)}>
-                          View Details
-                        </Button>
+                        <div className="flex gap-2 w-full">
+                          <Button 
+                            variant="outline" 
+                            className="flex-1 text-xs" 
+                            size="sm" 
+                            onClick={() => toggleExpanded(product.id)}
+                          >
+                            Quick View
+                          </Button>
+                          <Button 
+                            className="flex-1 text-xs bg-primary hover:bg-primary/95 text-white" 
+                            size="sm" 
+                            onClick={() => {
+                              const img = images[product.id] || null;
+                              addToCart({ 
+                                id: product.id, 
+                                title: product.title, 
+                                price: product.price, 
+                                image: img 
+                              });
+                              toast({
+                                title: "Added to Cart",
+                                description: (
+                                  <div className="flex items-center gap-3 mt-1.5">
+                                    {img && (
+                                      <img 
+                                        src={img} 
+                                        alt="" 
+                                        className="h-10 w-10 rounded object-cover border border-border/50" 
+                                      />
+                                    )}
+                                    <div className="min-w-0 flex-1">
+                                      <p className="font-semibold text-xs text-foreground line-clamp-1">{product.title}</p>
+                                      <p className="text-[10px] text-muted-foreground">Ksh {product.price.toLocaleString()}</p>
+                                    </div>
+                                  </div>
+                                )
+                              });
+                            }}
+                          >
+                            Add to Cart
+                          </Button>
+                        </div>
                       )}
                     </div>
                   </Card>

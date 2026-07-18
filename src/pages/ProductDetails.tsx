@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import ShopNavbar from "@/components/ShopNavbar";
 import { formatPhoneForWhatsapp } from "@/lib/utils";
 import { toast } from "@/components/ui/use-toast";
+import { useCart } from "@/components/CartContext";
 
 import type { Database } from "@/integrations/supabase/types";
 
@@ -16,6 +17,7 @@ type ProductImage = Database['public']['Tables']['product_images']['Row'];
 export default function ProductDetails() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { addToCart } = useCart();
   const [loading, setLoading] = useState(true);
   const [product, setProduct] = useState<Product | null>(null);
   const [images, setImages] = useState<ProductImage[]>([]);
@@ -140,7 +142,39 @@ export default function ProductDetails() {
               <div className="text-primary text-lg sm:text-2xl font-bold mb-2">Ksh {product.price.toFixed(2)}</div>
               <div className="text-muted-foreground text-xs sm:text-base">{product.description}</div>
             </div>
-            <Button className="mt-4 w-full" onClick={() => navigate("/cart")} title="Add to Cart" aria-label="Add to Cart">Add to Cart</Button>
+            <Button 
+              className="mt-4 w-full bg-primary hover:bg-primary/95 text-white" 
+              onClick={() => {
+                addToCart({
+                  id: product.id,
+                  title: product.title,
+                  price: product.price,
+                  image: primaryImageUrl || null
+                });
+                toast({
+                  title: "Added to Cart",
+                  description: (
+                    <div className="flex items-center gap-3 mt-1.5">
+                      {primaryImageUrl && (
+                        <img 
+                          src={primaryImageUrl} 
+                          alt="" 
+                          className="h-10 w-10 rounded object-cover border border-border/50" 
+                        />
+                      )}
+                      <div className="min-w-0 flex-1">
+                        <p className="font-semibold text-xs text-foreground line-clamp-1">{product.title}</p>
+                        <p className="text-[10px] text-muted-foreground">Ksh {product.price.toLocaleString()}</p>
+                      </div>
+                    </div>
+                  )
+                });
+              }} 
+              title="Add to Cart" 
+              aria-label="Add to Cart"
+            >
+              Add to Cart
+            </Button>
             <div className="text-xs text-muted-foreground mt-1">
               Owner ID: {product.owner_id}
             </div>

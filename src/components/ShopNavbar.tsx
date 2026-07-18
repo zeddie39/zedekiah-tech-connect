@@ -2,6 +2,8 @@ import { useState } from "react";
 import { useNavigate, useLocation, Link } from "react-router-dom";
 import { Menu, ArrowLeft, ShoppingBag, Heart, ShoppingCart, LayoutDashboard, PlusCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useCart } from "@/components/CartContext";
+import CartDrawer from "@/components/shop/CartDrawer";
 
 const navLinks = [
 	{ label: "Shop", to: "/shop", icon: ShoppingBag },
@@ -13,6 +15,8 @@ const navLinks = [
 
 export default function ShopNavbar() {
 	const [open, setOpen] = useState(false);
+	const [cartOpen, setCartOpen] = useState(false);
+	const { cartCount } = useCart();
 	const navigate = useNavigate();
 	const location = useLocation();
 
@@ -54,16 +58,28 @@ export default function ShopNavbar() {
 					{navLinks.map((link) => {
 						const Icon = link.icon;
 						const isActive = location.pathname === link.to;
+						const isCart = link.label === "Cart";
 						return (
 							<Button
 								key={link.to}
 								variant={isActive ? "secondary" : "ghost"}
 								size="sm"
-								className={`gap-2 ${isActive ? "text-primary" : "text-muted-foreground"}`}
-								onClick={() => handleNav(link.to)}
+								className={`gap-2 relative ${isActive ? "text-primary" : "text-muted-foreground"}`}
+								onClick={() => {
+									if (isCart) {
+										setCartOpen(true);
+									} else {
+										handleNav(link.to);
+									}
+								}}
 							>
 								<Icon size={16} />
 								{link.label}
+								{isCart && cartCount > 0 && (
+									<span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-[10px] font-semibold text-white animate-scale-in">
+										{cartCount}
+									</span>
+								)}
 							</Button>
 						);
 					})}
@@ -84,11 +100,15 @@ export default function ShopNavbar() {
 					<Button
 						variant="ghost"
 						size="icon"
-						onClick={() => navigate('/cart')}
-						className="relative"
+						onClick={() => setCartOpen(true)}
+						className="relative text-muted-foreground hover:text-primary"
 					>
 						<ShoppingCart size={20} />
-						{/* Note: Cart count would go here if available via props/context */}
+						{cartCount > 0 && (
+							<span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-[10px] font-semibold text-white animate-scale-in">
+								{cartCount}
+							</span>
+						)}
 					</Button>
 					<Button
 						variant="ghost"
@@ -108,12 +128,20 @@ export default function ShopNavbar() {
 						{navLinks.map((link) => {
 							const Icon = link.icon;
 							const isActive = location.pathname === link.to;
+							const isCart = link.label === "Cart";
 							return (
 								<Button
 									key={link.to}
 									variant={isActive ? "secondary" : "ghost"}
 									className="justify-start gap-3 w-full"
-									onClick={() => handleNav(link.to)}
+									onClick={() => {
+										if (isCart) {
+											setOpen(false);
+											setCartOpen(true);
+										} else {
+											handleNav(link.to);
+										}
+									}}
 								>
 									<Icon size={18} />
 									{link.label}
@@ -132,6 +160,8 @@ export default function ShopNavbar() {
 					</div>
 				</div>
 			)}
+
+			<CartDrawer open={cartOpen} onOpenChange={setCartOpen} />
 		</nav>
 	);
 }
