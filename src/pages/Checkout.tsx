@@ -271,45 +271,69 @@ export default function CheckoutPage() {
                   variant="outline"
                   role="combobox"
                   aria-expanded={open}
-                  className="w-full justify-between text-left font-normal"
+                  className="w-full justify-between text-left font-normal h-auto min-h-10 py-2 flex-wrap gap-1"
                 >
-                  {deliveryLocation || "Select delivery location..."}
-                  <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                  <span className="truncate max-w-[90%]">
+                    {deliveryLocation || "Select delivery location..."}
+                  </span>
+                  <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50 flex-shrink-0" />
                 </Button>
               </PopoverTrigger>
-              <PopoverContent className="w-full p-0">
+              <PopoverContent className="w-[350px] p-0" align="start">
                 <Command>
                   <CommandInput
                     placeholder="Search location..."
-                    value={deliveryLocation}
-                    onValueChange={(value) => {
-                      setDeliveryLocation(value);
-                      setOpen(true);
-                    }}
+                    value={searchQuery}
+                    onValueChange={setSearchQuery}
                   />
                   <CommandList>
                     <CommandEmpty>No location found.</CommandEmpty>
                     <CommandGroup>
                       {kenyanLocations
                         .filter((location) =>
-                          location.toLowerCase().includes(deliveryLocation.toLowerCase())
+                          location.toLowerCase().includes(searchQuery.toLowerCase())
                         )
-                        .map((location) => (
-                          <CommandItem
-                            key={location}
-                            value={location}
-                            onSelect={(currentValue) => {
-                              setDeliveryLocation(currentValue === deliveryLocation ? "" : currentValue);
-                              setOpen(false);
-                            }}
-                          >
-                            <Check
-                              className={`mr-2 h-4 w-4 ${deliveryLocation === location ? "opacity-100" : "opacity-0"
-                                }`}
-                            />
-                            {location}
-                          </CommandItem>
-                        ))}
+                        .map((location) => {
+                          const isSelected = deliveryLocation
+                            .split(", ")
+                            .map(s => s.trim().toLowerCase())
+                            .includes(location.toLowerCase());
+
+                          return (
+                            <CommandItem
+                              key={location}
+                              value={location}
+                              onSelect={(currentValue) => {
+                                const matchedLocation = kenyanLocations.find(
+                                  l => l.toLowerCase() === currentValue.toLowerCase()
+                                ) || currentValue;
+
+                                let currentSelections = deliveryLocation
+                                  ? deliveryLocation.split(", ").map(s => s.trim()).filter(Boolean)
+                                  : [];
+
+                                if (isSelected) {
+                                  currentSelections = currentSelections.filter(
+                                    s => s.toLowerCase() !== matchedLocation.toLowerCase()
+                                  );
+                                } else {
+                                  currentSelections.push(matchedLocation);
+                                }
+
+                                setDeliveryLocation(currentSelections.join(", "));
+                                
+                                if (!matchedLocation.toLowerCase().includes("kisii")) {
+                                  setOpen(false);
+                                }
+                              }}
+                            >
+                              <Check
+                                className={`mr-2 h-4 w-4 ${isSelected ? "opacity-100" : "opacity-0"}`}
+                              />
+                              {location}
+                            </CommandItem>
+                          );
+                        })}
                     </CommandGroup>
                   </CommandList>
                 </Command>
