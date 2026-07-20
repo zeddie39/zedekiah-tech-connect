@@ -27,6 +27,7 @@ import CartPage from "./pages/Cart";
 import CheckoutPage from "./pages/Checkout";
 import OrdersPage from "./pages/Orders";
 import OrderDetailsPage from "./pages/OrderDetails";
+import TrackPage from "./pages/Track";
 import Wishlist from "./pages/Wishlist";
 import { CartProvider } from "@/components/CartContext";
 import ProductDetails from "./pages/ProductDetails";
