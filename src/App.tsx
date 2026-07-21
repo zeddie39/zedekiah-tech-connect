@@ -82,6 +82,7 @@ const App = () => (
               <Route path="admin" element={<AdminLayout />}>
                 <Route index element={null} />
                 <Route path="chat" element={<AdminChat />} />
+                <Route path="messages" element={<AdminMessages />} />
                 <Route path="repairs" element={<AdminRepairs />} />
                 <Route path="notifications" element={<AdminNotifications />} />
                 <Route path="team" element={<AdminTeam />} />
