@@ -98,6 +98,7 @@ export default function CheckoutPage() {
   const [formattedPhone, setFormattedPhone] = useState("");
   const [showPaymentModal, setShowPaymentModal] = useState(false);
   const [checkoutRequestId, setCheckoutRequestId] = useState<string | null>(null);
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     supabase.auth.getUser().then(({ data }) => {
