@@ -13,7 +13,8 @@ type ContactMessage = {
   phone: string | null;
   service: string | null;
   message: string;
-  status: string | null;
+  is_read: boolean | null;
+  is_archived: boolean | null;
   created_at: string;
 };
 
@@ -30,7 +31,7 @@ export default function AdminMessages() {
     if (error) {
       toast({ title: "Error loading messages", description: error.message, variant: "destructive" });
     } else {
-      setMessages((data ?? []) as ContactMessage[]);
+      setMessages((data ?? []) as unknown as ContactMessage[]);
     }
     setLoading(false);
   };
@@ -47,7 +48,7 @@ export default function AdminMessages() {
   }, []);
 
   const markRead = async (id: string) => {
-    const { error } = await supabase.from("contact_messages").update({ status: "read" }).eq("id", id);
+    const { error } = await supabase.from("contact_messages").update({ is_read: true }).eq("id", id);
     if (error) toast({ title: "Failed", description: error.message, variant: "destructive" });
   };
 
@@ -80,12 +81,12 @@ export default function AdminMessages() {
 
       <div className="grid gap-3">
         {messages.map((m) => (
-          <Card key={m.id} className={`p-4 ${m.status !== "read" ? "border-accent/40 bg-accent/5" : ""}`}>
+          <Card key={m.id} className={`p-4 ${!m.is_read ? "border-accent/40 bg-accent/5" : ""}`}>
             <div className="flex items-start justify-between gap-4 flex-wrap">
               <div className="flex-1 min-w-[240px]">
                 <div className="flex items-center gap-2 flex-wrap">
                   <span className="font-semibold text-gray-900">{m.name}</span>
-                  {m.status !== "read" && (
+                  {!m.is_read && (
                     <span className="text-[10px] uppercase font-bold bg-accent text-white px-2 py-0.5 rounded">New</span>
                   )}
                   {m.service && (
@@ -106,7 +107,7 @@ export default function AdminMessages() {
                 <p className="mt-3 text-sm text-gray-800 whitespace-pre-wrap">{m.message}</p>
               </div>
               <div className="flex flex-col gap-2">
-                {m.status !== "read" && (
+                {!m.is_read && (
                   <Button size="sm" variant="outline" onClick={() => markRead(m.id)}>
                     Mark read
                   </Button>
