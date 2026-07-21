@@ -11,6 +11,7 @@ import PricingPage from "./pages/Pricing";
 import NotFound from "./pages/NotFound";
 import AdminLayout from "./pages/Admin";
 import AdminChat from "./pages/admin/Chat";
+import AdminMessages from "./pages/admin/Messages";
 import AdminRepairs from "./pages/admin/Repairs";
 import AdminNotifications from "./pages/admin/Notifications";
 import AdminTeam from "./pages/admin/Team";

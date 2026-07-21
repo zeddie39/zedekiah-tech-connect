@@ -39,6 +39,7 @@ const SHOP_ITEMS = [
 
 const OPERATIONS_ITEMS = [
   { label: "Chat", icon: MessagesSquare, path: "/admin/chat" },
+  { label: "Messages", icon: Mail, path: "/admin/messages" },
   { label: "Repairs", icon: Wrench, path: "/admin/repairs" },
   { label: "Notifications", icon: Bell, path: "/admin/notifications" },
 ];
