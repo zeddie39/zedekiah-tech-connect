@@ -12,6 +12,7 @@ import {
 import {
   BarChart2,
   MessagesSquare,
+  Mail,
   Wrench,
   Bell,
   Users,
