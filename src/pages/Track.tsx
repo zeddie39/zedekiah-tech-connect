@@ -16,6 +16,8 @@ import {
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import ShopNavbar from "@/components/ShopNavbar";
+import StatusTimeline from "@/components/StatusTimeline";
+import { ChevronDown, ChevronUp } from "lucide-react";
 import { toast } from "@/components/ui/use-toast";
 
 type Order = {
