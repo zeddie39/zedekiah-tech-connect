@@ -33,7 +33,7 @@ export function usePaymentStatus({
     const [mpesaReceipt, setMpesaReceipt] = useState<string | undefined>();
     const [error, setError] = useState<string | undefined>();
 
-    const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+    const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
     const channelRef = useRef<ReturnType<typeof supabase.channel> | null>(null);
 
     const stopPolling = useCallback(() => {

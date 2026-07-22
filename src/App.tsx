@@ -29,6 +29,7 @@ import CheckoutPage from "./pages/Checkout";
 import OrdersPage from "./pages/Orders";
 import OrderDetailsPage from "./pages/OrderDetails";
 import TrackPage from "./pages/Track";
+import SubmitPage from "./pages/Submit";
 import Wishlist from "./pages/Wishlist";
 import { CartProvider } from "@/components/CartContext";
 import ProductDetails from "./pages/ProductDetails";
@@ -73,6 +74,7 @@ const App = () => (
               <Route path="/orders" element={<OrdersPage />} />
               <Route path="/orders/:orderId" element={<OrderDetailsPage />} />
               <Route path="/track" element={<TrackPage />} />
+              <Route path="/submit" element={<SubmitPage />} />
               <Route path="/wishlist" element={<Wishlist />} />
               <Route path="/blog" element={<BlogPage />} />
               <Route path="/about" element={<AboutPage />} />

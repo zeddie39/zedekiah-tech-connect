@@ -16,6 +16,8 @@ import {
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import ShopNavbar from "@/components/ShopNavbar";
+import StatusTimeline from "@/components/StatusTimeline";
+import { ChevronDown, ChevronUp } from "lucide-react";
 import { toast } from "@/components/ui/use-toast";
 
 type Order = {
@@ -75,6 +77,8 @@ export default function TrackPage() {
   const [loading, setLoading] = useState(true);
   const [live, setLive] = useState(false);
   const [lastUpdate, setLastUpdate] = useState<Date | null>(null);
+  const [expanded, setExpanded] = useState<Record<string, boolean>>({});
+  const toggle = (id: string) => setExpanded((p) => ({ ...p, [id]: !p[id] }));
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -266,11 +270,23 @@ export default function TrackPage() {
                       </div>
                       <div className="flex flex-col items-start md:items-end gap-2">
                         <span className="text-lg font-bold text-primary">Ksh {o.amount.toLocaleString()}</span>
-                        <Button size="sm" variant="outline" onClick={() => navigate(`/orders/${o.id}`)}>
-                          <Eye className="w-3.5 h-3.5 mr-1.5" /> Details
-                        </Button>
+                        <div className="flex gap-2">
+                          <Button size="sm" variant="ghost" onClick={() => toggle(`o-${o.id}`)}>
+                            {expanded[`o-${o.id}`] ? <ChevronUp className="w-3.5 h-3.5 mr-1.5" /> : <ChevronDown className="w-3.5 h-3.5 mr-1.5" />}
+                            History
+                          </Button>
+                          <Button size="sm" variant="outline" onClick={() => navigate(`/orders/${o.id}`)}>
+                            <Eye className="w-3.5 h-3.5 mr-1.5" /> Details
+                          </Button>
+                        </div>
                       </div>
                     </div>
+                    {expanded[`o-${o.id}`] && (
+                      <div className="mt-5 pt-4 border-t border-border/50">
+                        <h4 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-3">Status Timeline</h4>
+                        <StatusTimeline entityType="order" entityId={o.id} />
+                      </div>
+                    )}
                   </Card>
                 ))
               )}
@@ -283,7 +299,7 @@ export default function TrackPage() {
                 <Card className="p-10 text-center border-accent/20 bg-card/40 backdrop-blur-md">
                   <Wrench className="w-8 h-8 mx-auto mb-3 text-muted-foreground" />
                   <p className="text-muted-foreground">No repair inquiries submitted yet.</p>
-                  <Button className="mt-4" onClick={() => navigate("/dashboard")}>Submit a Repair</Button>
+                  <Button className="mt-4" onClick={() => navigate("/submit")}>Submit a Repair</Button>
                 </Card>
               ) : (
                 repairs.map((r) => (
@@ -296,10 +312,22 @@ export default function TrackPage() {
                         <h3 className="font-semibold text-lg">{r.device_type}</h3>
                         <p className="text-sm text-muted-foreground line-clamp-2">{r.problem_description}</p>
                       </div>
-                      <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium border ${statusTone(r.status)}`}>
-                        {statusIcon(r.status)} {r.status.replace("_", " ")}
-                      </span>
+                      <div className="flex flex-col items-start md:items-end gap-2">
+                        <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium border ${statusTone(r.status)}`}>
+                          {statusIcon(r.status)} {r.status.replace("_", " ")}
+                        </span>
+                        <Button size="sm" variant="ghost" onClick={() => toggle(`r-${r.id}`)}>
+                          {expanded[`r-${r.id}`] ? <ChevronUp className="w-3.5 h-3.5 mr-1.5" /> : <ChevronDown className="w-3.5 h-3.5 mr-1.5" />}
+                          History
+                        </Button>
+                      </div>
                     </div>
+                    {expanded[`r-${r.id}`] && (
+                      <div className="mt-5 pt-4 border-t border-border/50">
+                        <h4 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-3">Status Timeline</h4>
+                        <StatusTimeline entityType="repair_request" entityId={r.id} />
+                      </div>
+                    )}
                   </Card>
                 ))
               )}
