@@ -270,11 +270,23 @@ export default function TrackPage() {
                       </div>
                       <div className="flex flex-col items-start md:items-end gap-2">
                         <span className="text-lg font-bold text-primary">Ksh {o.amount.toLocaleString()}</span>
-                        <Button size="sm" variant="outline" onClick={() => navigate(`/orders/${o.id}`)}>
-                          <Eye className="w-3.5 h-3.5 mr-1.5" /> Details
-                        </Button>
+                        <div className="flex gap-2">
+                          <Button size="sm" variant="ghost" onClick={() => toggle(`o-${o.id}`)}>
+                            {expanded[`o-${o.id}`] ? <ChevronUp className="w-3.5 h-3.5 mr-1.5" /> : <ChevronDown className="w-3.5 h-3.5 mr-1.5" />}
+                            History
+                          </Button>
+                          <Button size="sm" variant="outline" onClick={() => navigate(`/orders/${o.id}`)}>
+                            <Eye className="w-3.5 h-3.5 mr-1.5" /> Details
+                          </Button>
+                        </div>
                       </div>
                     </div>
+                    {expanded[`o-${o.id}`] && (
+                      <div className="mt-5 pt-4 border-t border-border/50">
+                        <h4 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-3">Status Timeline</h4>
+                        <StatusTimeline entityType="order" entityId={o.id} />
+                      </div>
+                    )}
                   </Card>
                 ))
               )}
