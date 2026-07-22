@@ -83,6 +83,7 @@ export default function Shop() {
   const [filtersOpen, setFiltersOpen] = useState(false);
   const [leftFiltersOpen, setLeftFiltersOpen] = useState(false);
   const [showFloatingBtn, setShowFloatingBtn] = useState(false);
+  const [profileName, setProfileName] = useState<string>("");
 
   // Track scroll position to show/hide the floating left button
   useEffect(() => {
@@ -96,6 +97,29 @@ export default function Shop() {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  // Fetch profiles table name for personalization
+  useEffect(() => {
+    if (!user) return;
+    const fetchProfile = async () => {
+      const { data } = await supabase
+        .from("profiles")
+        .select("full_name")
+        .eq("id", user.id)
+        .maybeSingle();
+      if (data?.full_name) {
+        setProfileName(data.full_name);
+      }
+    };
+    fetchProfile();
+  }, [user]);
+
+  const getGreeting = () => {
+    const hour = new Date().getHours();
+    if (hour < 12) return "Good Morning";
+    if (hour < 18) return "Good Afternoon";
+    return "Good Evening";
+  };
 
   // Navigation
   const navigate = useNavigate();
@@ -410,6 +434,16 @@ export default function Shop() {
       <ShopHeroCarousel />
 
       <div className="mx-auto max-w-7xl px-4 sm:px-6 py-8" id="shop-main">
+        {/* Welcome Greeting Banner */}
+        {user && (
+          <div className="mb-6 animate-in fade-in slide-in-from-bottom-2 duration-500">
+            <h2 className="text-2xl font-bold tracking-tight text-foreground">
+              {getGreeting()}, <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent capitalize">{profileName || user.email?.split('@')[0] || "Friend"}</span>!
+            </h2>
+            <p className="text-xs text-muted-foreground mt-1">Explore our latest electronics repair services and premium tech products.</p>
+          </div>
+        )}
+
         {/* Horizontal Category Capsules (Visible on all screens) */}
         <div className="flex items-center gap-3 overflow-x-auto pb-4 mb-6 scrollbar-none -mx-4 px-4 sm:mx-0 sm:px-0">
           <Button
