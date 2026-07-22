@@ -77,6 +77,8 @@ export default function TrackPage() {
   const [loading, setLoading] = useState(true);
   const [live, setLive] = useState(false);
   const [lastUpdate, setLastUpdate] = useState<Date | null>(null);
+  const [expanded, setExpanded] = useState<Record<string, boolean>>({});
+  const toggle = (id: string) => setExpanded((p) => ({ ...p, [id]: !p[id] }));
   const navigate = useNavigate();
 
   useEffect(() => {
