@@ -1,9 +1,9 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useCart } from "@/components/CartContext";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetClose } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { ShoppingCart, Trash2, Plus, Minus, ArrowRight, ShoppingBag } from "lucide-react";
+import { ShoppingCart, Trash2, Plus, Minus, ArrowRight, ShoppingBag, Eye, X } from "lucide-react";
 
 type CartDrawerProps = {
   open: boolean;
@@ -58,15 +58,19 @@ export default function CartDrawer({ open, onOpenChange }: CartDrawerProps) {
               </SheetClose>
             </div>
           ) : (
-            <ScrollArea className="h-full px-6 py-4">
-              <div className="space-y-4">
+            <ScrollArea className="h-full">
+              <div className="px-6 py-4 space-y-4">
                 {cart.map((item) => (
                   <div 
                     key={item.id} 
-                    className="flex gap-4 p-3 rounded-xl border border-border/50 bg-card/50 hover:bg-card/80 hover:border-primary/10 transition-all duration-300 group shadow-sm hover:shadow-md"
+                    className="flex gap-3 p-3 rounded-xl border border-border/50 bg-card/50 hover:bg-card/80 hover:border-primary/10 transition-all duration-300 group shadow-sm hover:shadow-md items-center justify-between"
                   >
-                    {/* Thumbnail */}
-                    <div className="relative h-20 w-20 rounded-lg overflow-hidden border border-border/50 bg-muted flex-shrink-0">
+                    {/* 1. Thumbnail - clickable to product page */}
+                    <Link 
+                      to={`/shop/${item.id}`} 
+                      onClick={() => onOpenChange(false)}
+                      className="relative h-16 w-16 rounded-lg overflow-hidden border border-border/50 bg-muted flex-shrink-0 hover:ring-2 hover:ring-primary/30 transition-all"
+                    >
                       {item.image ? (
                         <img 
                           src={item.image} 
@@ -75,24 +79,39 @@ export default function CartDrawer({ open, onOpenChange }: CartDrawerProps) {
                         />
                       ) : (
                         <div className="h-full w-full flex items-center justify-center text-muted-foreground/40 bg-muted">
-                          <ShoppingBag className="h-8 w-8" />
+                          <ShoppingBag className="h-6 w-6" />
                         </div>
                       )}
-                    </div>
+                    </Link>
 
-                    {/* Item Details */}
-                    <div className="flex-1 flex flex-col justify-between min-w-0">
-                      <div className="space-y-1">
-                        <h4 className="font-semibold text-sm leading-tight text-foreground truncate pr-2 group-hover:text-primary transition-colors" title={item.title}>
+                    {/* 2. Item Details (Title, Price, View details link, Quantity) */}
+                    <div className="flex-1 min-w-0">
+                      <div className="space-y-0.5">
+                        {/* Clickable title - links to full product description */}
+                        <Link 
+                          to={`/shop/${item.id}`} 
+                          onClick={() => onOpenChange(false)}
+                          className="font-semibold text-sm leading-tight text-foreground truncate block hover:text-primary transition-colors hover:underline"
+                          title={`View details: ${item.title}`}
+                        >
                           {item.title}
-                        </h4>
+                        </Link>
                         <p className="text-sm font-bold text-primary">
                           Ksh {item.price.toLocaleString()}
                         </p>
+                        {/* View details link */}
+                        <Link
+                          to={`/shop/${item.id}`}
+                          onClick={() => onOpenChange(false)}
+                          className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-primary transition-colors"
+                        >
+                          <Eye size={12} />
+                          View details
+                        </Link>
                       </div>
 
-                      {/* Quantity Selector & Delete */}
-                      <div className="flex items-center justify-between mt-2">
+                      {/* Quantity Selector */}
+                      <div className="flex items-center mt-1.5">
                         <div className="flex items-center border border-border/60 rounded-lg bg-background p-0.5 shadow-sm">
                           <button
                             onClick={() => updateQuantity(item.id, item.quantity - 1)}
@@ -100,9 +119,9 @@ export default function CartDrawer({ open, onOpenChange }: CartDrawerProps) {
                             aria-label="Decrease quantity"
                             disabled={item.quantity <= 1}
                           >
-                            <Minus size={14} />
+                            <Minus size={12} />
                           </button>
-                          <span className="w-8 text-center text-xs font-semibold select-none">
+                          <span className="w-6 text-center text-xs font-semibold select-none">
                             {item.quantity}
                           </span>
                           <button
@@ -110,19 +129,21 @@ export default function CartDrawer({ open, onOpenChange }: CartDrawerProps) {
                             className="p-1 rounded-md text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
                             aria-label="Increase quantity"
                           >
-                            <Plus size={14} />
+                            <Plus size={12} />
                           </button>
                         </div>
-
-                        <button
-                          onClick={() => removeFromCart(item.id)}
-                          className="p-1.5 rounded-lg text-muted-foreground hover:text-red-600 hover:bg-red-50/80 transition-colors"
-                          aria-label="Remove item"
-                        >
-                          <Trash2 size={16} />
-                        </button>
                       </div>
                     </div>
+
+                    {/* 3. Delete Button - circular red trash button on the far right */}
+                    <button
+                      onClick={() => removeFromCart(item.id)}
+                      className="p-2 rounded-full bg-red-50 text-red-500 hover:bg-red-100 hover:text-red-700 border border-red-100 transition-colors flex-shrink-0"
+                      aria-label={`Remove ${item.title} from cart`}
+                      title="Remove from cart"
+                    >
+                      <Trash2 size={16} />
+                    </button>
                   </div>
                 ))}
               </div>

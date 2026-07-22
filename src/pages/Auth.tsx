@@ -5,12 +5,14 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Loader2 } from "lucide-react";
+import AuthMascot from "@/components/AuthMascot";
 
 export default function AuthPage() {
   const [view, setView] = useState<"login" | "signup">("login");
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [focusedField, setFocusedField] = useState<"email" | "password" | "newPassword" | "confirmPassword" | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [signupNotice, setSignupNotice] = useState<string | null>(null);
   const [resetView, setResetView] = useState(false);
@@ -164,6 +166,8 @@ export default function AuthPage() {
                   value={newPassword}
                   autoFocus
                   minLength={6}
+                  onFocus={() => setFocusedField("newPassword")}
+                  onBlur={() => setFocusedField(null)}
                   onChange={e => setNewPassword(e.target.value)}
                   required
                   disabled={loading}
@@ -173,6 +177,8 @@ export default function AuthPage() {
                   type="password"
                   value={confirmPassword}
                   minLength={6}
+                  onFocus={() => setFocusedField("confirmPassword")}
+                  onBlur={() => setFocusedField(null)}
                   onChange={e => setConfirmPassword(e.target.value)}
                   required
                   disabled={loading}
@@ -187,6 +193,11 @@ export default function AuthPage() {
           </>
         ) : resetView ? (
           <>
+            <AuthMascot
+              isEmailFocused={focusedField === "email"}
+              isPasswordFocused={focusedField === "password" || focusedField === "newPassword" || focusedField === "confirmPassword"}
+              emailLength={resetEmail.length}
+            />
             <h1 className="text-2xl font-bold mb-4 text-center text-primary">Reset Your Password</h1>
             <p className="text-gray-600 text-center mb-4 text-sm">
               Enter your email address and we'll send you a link to reset your password.
@@ -200,6 +211,8 @@ export default function AuthPage() {
                 value={resetEmail}
                 autoComplete="username"
                 autoFocus
+                onFocus={() => setFocusedField("email")}
+                onBlur={() => setFocusedField(null)}
                 onChange={e => setResetEmail(e.target.value)}
                 required
                 disabled={loading}
@@ -222,6 +235,11 @@ export default function AuthPage() {
           </>
         ) : (
           <>
+            <AuthMascot
+              isEmailFocused={focusedField === "email"}
+              isPasswordFocused={focusedField === "password" || focusedField === "newPassword" || focusedField === "confirmPassword"}
+              emailLength={email.length}
+            />
             <h1 className="text-2xl font-bold mb-4 text-center">
               {view === "login" ? "Sign In" : "Register"}
             </h1>
@@ -234,6 +252,8 @@ export default function AuthPage() {
                 value={email}
                 autoComplete="username"
                 autoFocus
+                onFocus={() => setFocusedField("email")}
+                onBlur={() => setFocusedField(null)}
                 onChange={e => setEmail(e.target.value)}
                 required
                 disabled={loading}
@@ -243,6 +263,8 @@ export default function AuthPage() {
                 type="password"
                 value={password}
                 autoComplete={view === "signup" ? "new-password" : "current-password"}
+                onFocus={() => setFocusedField("password")}
+                onBlur={() => setFocusedField(null)}
                 onChange={e => setPassword(e.target.value)}
                 required
                 disabled={loading}

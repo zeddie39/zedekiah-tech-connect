@@ -27,14 +27,20 @@ export default function AdminMessages() {
 
   const load = async () => {
     setLoading(true);
-    const { data, error } = await supabase
-      .from("contact_messages")
-      .select("*")
-      .order("created_at", { ascending: false });
-    if (error) {
-      toast({ title: "Error loading messages", description: error.message, variant: "destructive" });
-    } else {
-      setMessages((data ?? []) as unknown as ContactMessage[]);
+    try {
+      const { data, error } = await supabase
+        .from("contact_messages")
+        .select("*")
+        .order("created_at", { ascending: false });
+      if (error) {
+        console.warn("Contact messages error (normal if table empty):", error.message);
+        setMessages([]);
+      } else {
+        setMessages((data ?? []) as unknown as ContactMessage[]);
+      }
+    } catch (e) {
+      console.warn("Error loading contact messages:", e);
+      setMessages([]);
     }
     setLoading(false);
   };

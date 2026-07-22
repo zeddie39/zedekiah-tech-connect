@@ -7,7 +7,7 @@ type Tables = Database['public']['Tables'];
 type WishlistRow = Tables['user_wishlist']['Row'];
 type ProductReviewRow = Tables['product_reviews']['Row'];
 import { Card } from "@/components/ui/card";
-import { Loader2, Image, Star, Clock, Filter, Search, ShoppingCart, Heart, Phone, Eye, ArrowRight, X } from "lucide-react";
+import { Loader2, Image, Star, Clock, Filter, Search, ShoppingCart, Heart, Phone, Eye, ArrowRight, X, SlidersHorizontal, Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Slider } from "@/components/ui/slider";
@@ -81,6 +81,21 @@ export default function Shop() {
   const [maxPrice, setMaxPrice] = useState<string>("");
   const [minRating, setMinRating] = useState<string>("");
   const [filtersOpen, setFiltersOpen] = useState(false);
+  const [leftFiltersOpen, setLeftFiltersOpen] = useState(false);
+  const [showFloatingBtn, setShowFloatingBtn] = useState(false);
+
+  // Track scroll position to show/hide the floating left button
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 300) {
+        setShowFloatingBtn(true);
+      } else {
+        setShowFloatingBtn(false);
+      }
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   // Navigation
   const navigate = useNavigate();
@@ -305,15 +320,54 @@ export default function Shop() {
 
   const SidebarFilters = () => (
     <div className="space-y-6">
+      {/* Categories */}
       <div>
-        <h3 className="text-sm font-semibold mb-3">Price Range</h3>
+        <div className="flex items-center gap-2 text-sm font-semibold text-foreground mb-3">
+          <Filter className="h-4 w-4 text-muted-foreground" />
+          <span>Categories</span>
+        </div>
+        <div className="space-y-1">
+          <button
+            onClick={() => setCategoryFilter(null)}
+            className={`w-full text-left px-3 py-2 rounded-lg text-sm transition-all duration-200 ${
+              categoryFilter === null
+                ? "bg-primary/10 text-primary font-medium"
+                : "text-muted-foreground hover:bg-muted hover:text-foreground"
+            }`}
+          >
+            All Categories
+          </button>
+          {shopCats.map((cat) => {
+            const isSelected = categoryFilter === cat.name;
+            return (
+              <button
+                key={cat.name}
+                onClick={() => setCategoryFilter(cat.name)}
+                className={`w-full text-left px-3 py-2 rounded-lg text-sm transition-all duration-200 ${
+                  isSelected
+                    ? "bg-primary/10 text-primary font-medium"
+                    : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                }`}
+              >
+                {cat.name}
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
+      <Separator />
+
+      {/* Price Range */}
+      <div>
+        <h3 className="text-sm font-semibold text-foreground mb-3">Price Range</h3>
         <div className="flex items-center gap-2">
           <Input
             type="number"
             placeholder="Min"
             value={minPrice}
             onChange={(e) => setMinPrice(e.target.value)}
-            className="h-8 text-xs"
+            className="h-9 text-sm"
           />
           <span className="text-muted-foreground">-</span>
           <Input
@@ -321,15 +375,18 @@ export default function Shop() {
             placeholder="Max"
             value={maxPrice}
             onChange={(e) => setMaxPrice(e.target.value)}
-            className="h-8 text-xs"
+            className="h-9 text-sm"
           />
         </div>
       </div>
+
       <Separator />
+
+      {/* Rating */}
       <div>
-        <h3 className="text-sm font-semibold mb-3">Rating</h3>
+        <h3 className="text-sm font-semibold text-foreground mb-3">Rating</h3>
         <Select value={minRating} onValueChange={(v: any) => setMinRating(v === 'any' ? '' : v)}>
-          <SelectTrigger className="w-full h-8 text-xs">
+          <SelectTrigger className="w-full h-9 text-sm">
             <SelectValue placeholder="Minimum Rating" />
           </SelectTrigger>
           <SelectContent>
@@ -340,7 +397,8 @@ export default function Shop() {
           </SelectContent>
         </Select>
       </div>
-      <Button variant="outline" size="sm" className="w-full" onClick={clearAllFilters}>
+
+      <Button variant="outline" className="w-full mt-2 font-medium" onClick={clearAllFilters}>
         Reset Filters
       </Button>
     </div>
@@ -352,8 +410,8 @@ export default function Shop() {
       <ShopHeroCarousel />
 
       <div className="mx-auto max-w-7xl px-4 sm:px-6 py-8" id="shop-main">
-        {/* Horizontal Category Capsules */}
-        <div className="flex items-center gap-3 overflow-x-auto pb-4 mb-8 scrollbar-none -mx-4 px-4 sm:mx-0 sm:px-0">
+        {/* Horizontal Category Capsules (Visible on all screens) */}
+        <div className="flex items-center gap-3 overflow-x-auto pb-4 mb-6 scrollbar-none -mx-4 px-4 sm:mx-0 sm:px-0">
           <Button
             variant={categoryFilter === null ? "default" : "outline"}
             onClick={() => setCategoryFilter(null)}
@@ -400,8 +458,7 @@ export default function Shop() {
         </div>
 
         <div className="flex flex-col gap-8">
-          {/* Main Content */}
-          <main className="flex-1 min-w-0">
+          <div className="flex-1 min-w-0 w-full">
             {/* Toolbar */}
             <div className="flex flex-col sm:flex-row gap-4 items-center justify-between mb-6">
               <div className="relative w-full sm:max-w-md">
@@ -437,7 +494,19 @@ export default function Shop() {
               </div>
             </div>
 
-            {/* Filters Sheet (Unified) */}
+            {/* Left Filters Sheet (collapsible drawer triggered by floating left button) */}
+            <Sheet open={leftFiltersOpen} onOpenChange={setLeftFiltersOpen}>
+              <SheetContent side="left" className="w-[300px] sm:w-[400px]">
+                <SheetHeader>
+                  <SheetTitle>Filters</SheetTitle>
+                </SheetHeader>
+                <div className="mt-6">
+                  <SidebarFilters />
+                </div>
+              </SheetContent>
+            </Sheet>
+
+            {/* Right Filters Sheet (collapsible drawer triggered by top toolbar button) */}
             <Sheet open={filtersOpen} onOpenChange={setFiltersOpen}>
               <SheetContent side="right" className="w-[300px] sm:w-[400px]">
                 <SheetHeader>
@@ -724,9 +793,29 @@ export default function Shop() {
                 </Button>
               </div>
             )}
-          </main>
+          </div>
         </div>
       </div>
+
+      {/* Floating Left Filter Button (Three lines icon, appears when scrolling down) */}
+      {showFloatingBtn && (
+        <motion.div
+          initial={{ opacity: 0, scale: 0.8, x: -20 }}
+          animate={{ opacity: 1, scale: 1, x: 0 }}
+          exit={{ opacity: 0, scale: 0.8, x: -20 }}
+          transition={{ duration: 0.2 }}
+          className="fixed left-5 bottom-6 z-40"
+        >
+          <Button
+            onClick={() => setLeftFiltersOpen(true)}
+            size="icon"
+            className="h-12 w-12 rounded-full bg-primary text-primary-foreground shadow-lg hover:shadow-xl hover:scale-110 transition-all duration-300 flex items-center justify-center border border-primary-foreground/20"
+            title="Open Filters & Categories"
+          >
+            <SlidersHorizontal className="h-5 w-5" />
+          </Button>
+        </motion.div>
+      )}
 
       <ImagePreviewModal
         open={!!previewImg}

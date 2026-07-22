@@ -79,19 +79,9 @@ export default function ProductDetails() {
   return (
     <>
       <ShopNavbar />
-      <div className="max-w-3xl mx-auto py-6 sm:py-10 px-2 sm:px-3">
-        <div className="mb-6">
-          <button
-            title="Go Back"
-            aria-label="Go Back"
-            onClick={() => window.history.length > 1 ? window.history.back() : window.location.assign('/')}
-            className="bg-primary text-accent font-semibold rounded px-4 py-2 border border-accent hover:bg-accent hover:text-primary transition-colors duration-200 mb-4"
-          >
-             Go Back
-          </button>
-        </div>
-        <Button variant="ghost" onClick={() => navigate(-1)} className="mb-3" title="Back to Shop" aria-label="Back to Shop">
-          <ChevronLeft size={18} className="mr-2" /> Back to Shop
+      <div className="max-w-3xl mx-auto py-6 sm:py-10 px-4 sm:px-6">
+        <Button variant="ghost" onClick={() => navigate(-1)} className="mb-4 gap-2 hover:bg-accent/10" title="Back to Shop" aria-label="Back to Shop">
+          <ChevronLeft size={18} /> Back to Shop
         </Button>
         <Card className="p-0 flex flex-col md:flex-row gap-2 sm:gap-3">
           <div className="md:w-5/12 w-full flex flex-col gap-2 sm:gap-3 items-center min-h-[220px] sm:min-h-[300px] bg-muted rounded-md p-3 sm:p-4">
