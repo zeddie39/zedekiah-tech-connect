@@ -299,7 +299,7 @@ export default function TrackPage() {
                 <Card className="p-10 text-center border-accent/20 bg-card/40 backdrop-blur-md">
                   <Wrench className="w-8 h-8 mx-auto mb-3 text-muted-foreground" />
                   <p className="text-muted-foreground">No repair inquiries submitted yet.</p>
-                  <Button className="mt-4" onClick={() => navigate("/dashboard")}>Submit a Repair</Button>
+                  <Button className="mt-4" onClick={() => navigate("/submit")}>Submit a Repair</Button>
                 </Card>
               ) : (
                 repairs.map((r) => (
