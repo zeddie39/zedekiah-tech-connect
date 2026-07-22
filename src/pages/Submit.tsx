@@ -66,7 +66,7 @@ export default function SubmitPage() {
         title: parsed.data.productTitle,
         description: parsed.data.notes || `Customer request: ${parsed.data.productTitle}`,
         price: parsed.data.amount,
-        seller_id: userId,
+        owner_id: userId,
         status: "pending_admin",
         category: "custom_request",
       })
