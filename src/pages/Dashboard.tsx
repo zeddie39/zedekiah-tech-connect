@@ -15,6 +15,7 @@ import { toast } from "@/components/ui/use-toast";
 export default function Dashboard() {
   const [loading, setLoading] = useState(true);
   const [session, setSession] = useState<Session | null>(null);
+  const [profileName, setProfileName] = useState<string>("");
   const navigate = useNavigate();
   const location = useLocation();
   const [activeTab, setActiveTab] = useState("overview");
@@ -36,6 +37,21 @@ export default function Dashboard() {
     };
   }, [navigate]);
 
+  useEffect(() => {
+    if (!session) return;
+    const fetchProfile = async () => {
+      const { data } = await supabase
+        .from("profiles")
+        .select("full_name")
+        .eq("id", session.user.id)
+        .maybeSingle();
+      if (data?.full_name) {
+        setProfileName(data.full_name);
+      }
+    };
+    fetchProfile();
+  }, [session]);
+
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background">
@@ -47,8 +63,8 @@ export default function Dashboard() {
   if (!session) return null;
 
   const email = session.user.email || "User";
-  // Try to get a display name, fallback to email username or "User"
   const displayName = session.user.user_metadata?.full_name || email.split('@')[0] || "Friend";
+  const finalName = profileName || displayName;
 
   const getGreeting = () => {
     const hour = new Date().getHours();
@@ -82,7 +98,7 @@ export default function Dashboard() {
             <div className="h-6 w-px bg-border hidden md:block" />
             <div className="flex items-center gap-2">
               <span className="text-sm font-medium hidden md:inline-block text-muted-foreground capitalize">
-                {displayName}
+                {finalName}
               </span>
               <Button
                 variant="ghost"
@@ -105,7 +121,7 @@ export default function Dashboard() {
         {/* Welcome Section */}
         <div className="mb-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
           <h1 className="text-3xl md:text-4xl font-bold tracking-tight mb-2">
-            {getGreeting()}, <span className="text-primary bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent capitalize">{displayName}</span>
+            {getGreeting()}, <span className="text-primary bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent capitalize">{finalName}</span>
           </h1>
           <p className="text-muted-foreground">Here's what's happening with your account today.</p>
         </div>
