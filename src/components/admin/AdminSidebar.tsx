@@ -60,9 +60,50 @@ const SECTIONS = [
   { title: "System", items: SYSTEM_ITEMS },
 ];
 
-const AdminSidebar = () => {
+const ROLE_PERMISSIONS: Record<string, string[]> = {
+  super_admin: [
+    "/admin",
+    "/admin/gallery-manager",
+    "/admin/products",
+    "/admin/ProductsApproval",
+    "/admin/chat",
+    "/admin/messages",
+    "/admin/repairs",
+    "/admin/notifications",
+    "/admin/team",
+    "/admin/users",
+    "/admin/health",
+    "/admin/reports",
+    "/admin/workflow",
+  ],
+  support_admin: [
+    "/admin",
+    "/admin/gallery-manager",
+    "/admin/products",
+    "/admin/ProductsApproval",
+    "/admin/chat",
+    "/admin/messages",
+    "/admin/repairs",
+    "/admin/notifications",
+    "/admin/reports",
+  ],
+  data_analyst: [
+    "/admin",
+    "/admin/health",
+    "/admin/reports",
+  ],
+};
+
+const AdminSidebar = ({ role = "super_admin" }: { role?: string }) => {
   const location = useLocation();
   const navigate = useNavigate();
+
+  const allowedPaths = ROLE_PERMISSIONS[role] || ROLE_PERMISSIONS["super_admin"];
+
+  const filteredSections = SECTIONS.map((section) => ({
+    ...section,
+    items: section.items.filter((item) => allowedPaths.includes(item.path)),
+  })).filter((section) => section.items.length > 0);
 
   return (
     <Sidebar>
@@ -93,7 +134,7 @@ const AdminSidebar = () => {
         <div className="mx-4 mb-2 h-px bg-border" />
 
         {/* Grouped nav sections */}
-        {SECTIONS.map((section) => (
+        {filteredSections.map((section) => (
           <SidebarGroup key={section.title} className="px-3 mb-1">
             <SidebarGroupLabel className="px-2 mb-1.5">
               <span className="text-[10px] font-bold uppercase tracking-[0.12em] text-muted-foreground">
