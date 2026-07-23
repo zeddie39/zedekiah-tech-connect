@@ -4,6 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { Loader2, CheckCircle2, XCircle, HardDrive, Database, Cloud } from "lucide-react";
 import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
+import { supabase } from "@/integrations/supabase/client";
 
 type HealthItem = {
   key: string;
@@ -38,8 +39,12 @@ export default function AdminHealthMonitor() {
   const [health, setHealth] = useState<Record<string, HealthItem>>({});
 
   useEffect(() => {
-    // Simulate health checks with timeout (replace with real checks if needed)
-    setHealth(() =>
+    runRealHealthChecks();
+  }, []);
+
+  async function runRealHealthChecks() {
+    // Initial loading state
+    setHealth(
       Object.fromEntries(
         itemsConfig.map((item) => [
           item.key,
@@ -50,15 +55,46 @@ export default function AdminHealthMonitor() {
         ])
       )
     );
-    const timeout = setTimeout(() => {
-      setHealth({
-        api: { ...itemsConfig[0], status: "ok" },
-        db: { ...itemsConfig[1], status: "ok" },
-        storage: { ...itemsConfig[2], status: "down" }, // simulate storage down
-      });
-    }, 1200);
-    return () => clearTimeout(timeout);
-  }, []);
+
+    // 1. API Health Check
+    let apiStatus: "ok" | "down" = "down";
+    try {
+      const { error } = await supabase.auth.getSession();
+      if (!error) apiStatus = "ok";
+    } catch (e) {
+      apiStatus = "down";
+    }
+
+    // 2. Database Health Check
+    let dbStatus: "ok" | "down" = "down";
+    try {
+      const { error } = await supabase.from("products").select("id", { head: true });
+      if (!error) dbStatus = "ok";
+    } catch (e) {
+      dbStatus = "down";
+    }
+
+    // 3. Storage Health Check
+    let storageStatus: "ok" | "down" = "down";
+    try {
+      const { data, error } = await supabase.storage.from("product-images").list("", { limit: 1 });
+      if (!error) {
+        storageStatus = "ok";
+      } else {
+        // Fallback check listBuckets
+        const { error: errBuckets } = await supabase.storage.listBuckets();
+        if (!errBuckets) storageStatus = "ok";
+      }
+    } catch (e) {
+      storageStatus = "down";
+    }
+
+    setHealth({
+      api: { ...itemsConfig[0], status: apiStatus },
+      db: { ...itemsConfig[1], status: dbStatus },
+      storage: { ...itemsConfig[2], status: storageStatus },
+    });
+  }
 
   return (
     <div className="max-w-2xl mx-auto">
