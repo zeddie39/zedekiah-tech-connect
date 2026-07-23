@@ -250,13 +250,13 @@ export default function AdminUserList() {
                   </TableCell>
                   <TableCell>
                     <div className="flex gap-2">
-                      <Button size="icon" variant="secondary" onClick={() => setEditUser(user)}>
+                      <Button size="icon" variant="secondary" onClick={() => setEditUser(user)} title="Edit User Role">
                         <Edit size={18} />
                       </Button>
-                      <Button size="icon" variant="destructive" onClick={() => handleDeactivate(user)}>
+                      <Button size="icon" variant="destructive" onClick={() => handleDeactivate(user)} title="Deactivate User">
                         <UserX size={18} />
                       </Button>
-                      <Button size="icon" variant="outline" onClick={() => handleResetPwd(user)}>
+                      <Button size="icon" variant="outline" onClick={() => handleResetPwd(user)} title="Send Password Reset">
                         <KeyRound size={18} />
                       </Button>
                     </div>
