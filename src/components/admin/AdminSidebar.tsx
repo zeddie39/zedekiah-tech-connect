@@ -98,7 +98,7 @@ const AdminSidebar = ({ role = "super_admin" }: { role?: string }) => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const allowedPaths = ROLE_PERMISSIONS[role] || ROLE_PERMISSIONS["super_admin"];
+  const allowedPaths = (role && ROLE_PERMISSIONS[role]) ? ROLE_PERMISSIONS[role] : [];
 
   const filteredSections = SECTIONS.map((section) => ({
     ...section,

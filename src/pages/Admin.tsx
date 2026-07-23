@@ -159,7 +159,7 @@ export default function AdminLayout() {
     ],
   };
 
-  const allowedPaths = ROLE_PERMISSIONS[role] || ROLE_PERMISSIONS["super_admin"];
+  const allowedPaths = (role && ROLE_PERMISSIONS[role]) ? ROLE_PERMISSIONS[role] : [];
   const isAllowedPath = allowedPaths.includes(location.pathname);
 
   return (

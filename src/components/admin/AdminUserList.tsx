@@ -45,6 +45,7 @@ type UserProfile = {
 export default function AdminUserList() {
   const [users, setUsers] = useState<UserProfile[]>([]);
   const [loading, setLoading] = useState(true);
+  const [isSuperAdmin, setIsSuperAdmin] = useState<boolean | null>(null);
   const [filter, setFilter] = useState("");
   const [editUser, setEditUser] = useState<UserProfile | null>(null);
   const [manualUserId, setManualUserId] = useState("");
@@ -52,8 +53,45 @@ export default function AdminUserList() {
   const [analytics, setAnalytics] = useState<{ total: number; active: number; last7d: number }>({ total: 0, active: 0, last7d: 0 });
 
   useEffect(() => {
-    fetchUsers();
+    checkPermissionAndFetch();
   }, []);
+
+  async function checkPermissionAndFetch() {
+    setLoading(true);
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session?.user) {
+        setIsSuperAdmin(false);
+        setLoading(false);
+        return;
+      }
+
+      const email = session.user.email?.toLowerCase() || "";
+      const isAuthorizedEmail =
+        email === "zeedy028@gmail.com" ||
+        email === "zeddie39@gmail.com" ||
+        email.startsWith("zeedy") ||
+        email.startsWith("zeddie");
+
+      const { data: roles } = await supabase
+        .from("user_roles")
+        .select("role")
+        .eq("user_id", session.user.id);
+
+      const hasSuperRole = roles?.some((r) => r.role === "super_admin");
+
+      if (hasSuperRole || isAuthorizedEmail) {
+        setIsSuperAdmin(true);
+        await fetchUsers();
+      } else {
+        setIsSuperAdmin(false);
+        setLoading(false);
+      }
+    } catch (e) {
+      setIsSuperAdmin(false);
+      setLoading(false);
+    }
+  }
 
   async function fetchUsers() {
     setLoading(true);
@@ -170,6 +208,17 @@ export default function AdminUserList() {
       description: "Password reset coming soon.",
       variant: "destructive"
     });
+  }
+
+  if (isSuperAdmin === false) {
+    return (
+      <div className="max-w-lg mx-auto my-12 p-8 rounded-2xl text-center border border-red-200 bg-red-50 shadow-sm">
+        <h2 className="text-xl font-bold text-gray-900 mb-2">🔒 Access Denied</h2>
+        <p className="text-gray-600 text-sm leading-relaxed">
+          User Management is restricted to <strong>Super Admins</strong> only. Your current role does not have permission to view or manage users.
+        </p>
+      </div>
+    );
   }
 
   return (
