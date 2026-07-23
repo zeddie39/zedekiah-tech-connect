@@ -5,6 +5,8 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Loader2 } from "lucide-react";
+import { FcGoogle } from "react-icons/fc";
+import { FaFacebook, FaLinkedin } from "react-icons/fa";
 import AuthMascot from "@/components/AuthMascot";
 
 export default function AuthPage() {
@@ -95,6 +97,27 @@ export default function AuthPage() {
       else setSignupNotice("Check your email to confirm registration before logging in!");
     }
     setLoading(false);
+  };
+
+  const handleOAuthSignIn = async (provider: "google" | "facebook" | "linkedin_oidc") => {
+    setLoading(true);
+    setError(null);
+    setSignupNotice(null);
+    const params = new URLSearchParams(location.search);
+    const redirectParam = params.get("redirect");
+    const redirectTo = `${window.location.origin}${redirectParam === "shop" ? "/shop" : "/dashboard"}`;
+
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider,
+      options: {
+        redirectTo,
+      },
+    });
+
+    if (error) {
+      setError(error.message);
+      setLoading(false);
+    }
   };
 
   const handleResetPassword = async (e: React.FormEvent) => {
@@ -294,6 +317,54 @@ export default function AuthPage() {
                 {view === "login" ? "Sign In" : "Create Account"}
               </Button>
             </form>
+
+            {/* Divider */}
+            <div className="relative my-4">
+              <div className="absolute inset-0 flex items-center">
+                <span className="w-full border-t border-gray-200 dark:border-gray-700" />
+              </div>
+              <div className="relative flex justify-center text-xs uppercase">
+                <span className="bg-card px-2 text-muted-foreground font-medium">Or continue with</span>
+              </div>
+            </div>
+
+            {/* Social Auth Buttons */}
+            <div className="flex flex-col gap-2">
+              <Button
+                type="button"
+                variant="outline"
+                className="w-full flex items-center justify-center gap-2 hover:bg-slate-50 dark:hover:bg-slate-800 border-gray-300 dark:border-gray-700 transition-colors"
+                onClick={() => handleOAuthSignIn("google")}
+                disabled={loading}
+              >
+                <FcGoogle className="w-5 h-5" />
+                <span className="text-sm font-medium">Google (Gmail)</span>
+              </Button>
+
+              <div className="grid grid-cols-2 gap-2">
+                <Button
+                  type="button"
+                  variant="outline"
+                  className="w-full flex items-center justify-center gap-2 hover:bg-blue-50 dark:hover:bg-slate-800 border-gray-300 dark:border-gray-700 transition-colors"
+                  onClick={() => handleOAuthSignIn("facebook")}
+                  disabled={loading}
+                >
+                  <FaFacebook className="w-4 h-4 text-[#1877F2]" />
+                  <span className="text-xs font-medium">Facebook</span>
+                </Button>
+
+                <Button
+                  type="button"
+                  variant="outline"
+                  className="w-full flex items-center justify-center gap-2 hover:bg-blue-50 dark:hover:bg-slate-800 border-gray-300 dark:border-gray-700 transition-colors"
+                  onClick={() => handleOAuthSignIn("linkedin_oidc")}
+                  disabled={loading}
+                >
+                  <FaLinkedin className="w-4 h-4 text-[#0A66C2]" />
+                  <span className="text-xs font-medium">LinkedIn</span>
+                </Button>
+              </div>
+            </div>
             <div className="mt-4 text-center text-sm">
               {view === "login" ? (
                 <>
