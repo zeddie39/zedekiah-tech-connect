@@ -17,17 +17,21 @@ export function formatPhoneForWhatsapp(input?: string | null, message?: string, 
   // basic sanity: must be at least 9 digits (local) and at most 15 (E.164)
   if (digits.length < 9 || digits.length > 15) return null;
 
-  let url = `https://wa.me/${digits}`;
+  const isMobile = typeof navigator !== "undefined" && /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
   
-  if (message) {
-    const formattedMessage = message.trim();
-    if (productImageUrl) {
-      // Add image link in the message
-      url += `?text=${encodeURIComponent(formattedMessage + "\n\nProduct Image: " + productImageUrl)}`;
-    } else {
-      url += `?text=${encodeURIComponent(formattedMessage)}`;
-    }
+  const baseUrl = isMobile 
+    ? `https://wa.me/${digits}` 
+    : `https://web.whatsapp.com/send?phone=${digits}`;
+
+  let fullMessage = message ? message.trim() : "";
+  if (productImageUrl) {
+    fullMessage += (fullMessage ? "\n\n" : "") + "Product Image: " + productImageUrl;
+  }
+
+  if (fullMessage) {
+    const separator = baseUrl.includes("?") ? "&" : "?";
+    return `${baseUrl}${separator}text=${encodeURIComponent(fullMessage)}`;
   }
   
-  return url;
+  return baseUrl;
 }

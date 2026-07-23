@@ -1,10 +1,12 @@
 import { Mail, Linkedin, Phone } from "lucide-react";
 import { useState } from "react";
+import { formatPhoneForWhatsapp } from "@/lib/utils";
 
 const CEO_LINKEDIN_URL = "https://www.linkedin.com/in/vincent-ombati-8b05b422b/";
 
 const Team = () => {
   const [showReadMore, setShowReadMore] = useState(false);
+  const whatsappUrl = formatPhoneForWhatsapp("254757756763") || "https://wa.me/254757756763";
 
   return (
     <section id="team" className="py-10 sm:py-16 md:py-20 bg-gray-50">
@@ -180,7 +182,7 @@ const Team = () => {
                 </a>
                 {/* WhatsApp (Phone) */}
                 <a 
-                  href="https://wa.me/254757756763"
+                  href={whatsappUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="w-12 h-12 bg-primary rounded-full flex items-center justify-center text-white hover:bg-accent transition-all duration-200 hover:scale-110"
@@ -204,7 +206,7 @@ const Team = () => {
                 <span className="inline-flex items-center gap-2 text-lg text-primary">
                   <Phone size={18} className="inline-block" />
                   <a
-                    href="https://wa.me/254757756763"
+                    href={whatsappUrl}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="underline hover:text-accent"
