@@ -66,14 +66,14 @@ const Navigation = () => {
           <span className="font-orbitron font-bold text-lg sm:text-xl text-white">Ztech</span>
           <span className="text-accent text-xs sm:text-sm font-semibold ml-1">Electronics Ltd</span>
         </div>
-        <div className="hidden md:flex gap-4 sm:gap-6 items-center">
+        <div className="hidden lg:flex gap-3 xl:gap-5 items-center whitespace-nowrap">
           <button onClick={() => scrollToSection('home')} className="hover:text-accent text-white font-medium transition-colors">Home</button>
           <button onClick={() => scrollToSection('about')} className="hover:text-accent text-white font-medium transition-colors">About</button>
           <button onClick={() => scrollToSection('services')} className="hover:text-accent text-white font-medium transition-colors">Services</button>
           <button onClick={() => scrollToSection('team')} className="hover:text-accent text-white font-medium transition-colors">Team</button>
           <button onClick={() => scrollToSection('pricing')} className="hover:text-accent text-white font-medium transition-colors">Pricing</button>
           <button onClick={() => scrollToSection('faq')} className="hover:text-accent text-white font-medium transition-colors">FAQ</button>
-          <button onClick={() => scrollToSection('whychooseus')} className="hover:text-accent text-white font-medium transition-colors">Why Choose Us</button>
+          <button onClick={() => scrollToSection('whychooseus')} className="hover:text-accent text-white font-medium transition-colors">Why Us</button>
           <button onClick={() => scrollToSection('contact')} className="hover:text-accent text-white font-medium transition-colors">Contact</button>
           <Link to="/gallery" className="hover:text-accent text-white font-medium transition-colors">Gallery</Link>
           <Link to="/blog" className="hover:text-accent text-white font-medium transition-colors">Blog</Link>
@@ -86,7 +86,7 @@ const Navigation = () => {
             {isDark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
           </button>
         </div>
-        <button className="md:hidden flex items-center bg-accent/10 rounded-full shadow p-2 border border-accent/30" onClick={() => setIsMenuOpen(!isMenuOpen)} aria-label="Open menu">
+        <button className="lg:hidden flex items-center bg-accent/10 rounded-full shadow p-2 border border-accent/30" onClick={() => setIsMenuOpen(!isMenuOpen)} aria-label="Open menu">
           <svg className="w-7 h-7" fill="none" stroke="#fff" strokeWidth="2" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
           </svg>
