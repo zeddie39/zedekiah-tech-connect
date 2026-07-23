@@ -53,6 +53,7 @@ export default function DashboardHome() {
 
   // ── live stats ──────────────────────────────────────────────────
   const [loading, setLoading] = useState(true);
+  const [userName, setUserName] = useState<string>("");
   const [totalRevenue, setTotalRevenue] = useState(0);
   const [activeProducts, setActiveProducts] = useState(0);
   const [pendingOrders, setPendingOrders] = useState(0);
@@ -62,8 +63,42 @@ export default function DashboardHome() {
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
   useEffect(() => {
+    fetchUserData();
     fetchDashboardData();
   }, []);
+
+  async function fetchUserData() {
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session?.user) {
+        const user = session.user;
+        const { data: profile } = await supabase
+          .from("profiles")
+          .select("full_name")
+          .eq("id", user.id)
+          .maybeSingle();
+
+        if (profile?.full_name?.trim()) {
+          setUserName(profile.full_name.trim());
+          return;
+        }
+
+        const metaName = user.user_metadata?.full_name || user.user_metadata?.name;
+        if (metaName?.trim()) {
+          setUserName(metaName.trim());
+          return;
+        }
+
+        if (user.email) {
+          const emailName = user.email.split("@")[0];
+          const capitalized = emailName.charAt(0).toUpperCase() + emailName.slice(1);
+          setUserName(capitalized);
+        }
+      }
+    } catch (err) {
+      console.error("Error fetching user data:", err);
+    }
+  }
 
   async function fetchDashboardData() {
     setLoading(true);
@@ -183,7 +218,7 @@ export default function DashboardHome() {
       {/* Hero */}
       <div>
         <h1 className="text-2xl sm:text-3xl font-bold text-foreground tracking-tight">
-          {greeting} 👋
+          {greeting}{userName ? `, ${userName}` : ""} 👋
         </h1>
         <p className="text-sm text-muted-foreground mt-1">
           Here's what's happening with your store today.

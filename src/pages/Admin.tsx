@@ -44,17 +44,18 @@ export default function AdminLayout() {
 
       let userRole: Role | null = (roles && roles.length > 0) ? (roles[0].role as Role) : null;
 
-      // Unblock super admin: if no role row exists yet, check if email is admin or auto-assign super_admin
+      // Strict admin email check for auto-bootstrapping super admin
       const email = session.user.email?.toLowerCase() || "";
       const isSuperAdminEmail =
-        !userRole ||
-        email.includes("zeedy") ||
-        email.includes("zeddie") ||
-        email.includes("admin");
+        email === "zeedy028@gmail.com" ||
+        email === "zeddie39@gmail.com" ||
+        email.startsWith("zeedy") ||
+        email.startsWith("zeddie") ||
+        email.startsWith("admin@ztechelectronics");
 
       if (!userRole && isSuperAdminEmail) {
         userRole = "super_admin";
-        // Persist role to user_roles table
+        // Persist role to user_roles table for authorized admin email
         try {
           await supabase.from("user_roles").insert({
             user_id: session.user.id,
