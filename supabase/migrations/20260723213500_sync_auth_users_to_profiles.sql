@@ -1,4 +1,16 @@
--- Sync existing users from auth.users into public.profiles
+-- 1. Enable RLS on public.profiles and allow authenticated users / admins to select profiles
+ALTER TABLE public.profiles ENABLE ROW LEVEL SECURITY;
+
+DROP POLICY IF EXISTS "Public profiles are viewable by everyone" ON public.profiles;
+DROP POLICY IF EXISTS "Users can view all profiles" ON public.profiles;
+DROP POLICY IF EXISTS "Admins can view all profiles" ON public.profiles;
+
+CREATE POLICY "Users can view all profiles"
+  ON public.profiles FOR SELECT
+  TO authenticated, anon
+  USING (true);
+
+-- 2. Sync all existing signed-up users from auth.users into public.profiles
 INSERT INTO public.profiles (id, email, full_name, updated_at)
 SELECT 
   id, 
@@ -10,7 +22,7 @@ ON CONFLICT (id) DO UPDATE SET
   email = EXCLUDED.email,
   full_name = COALESCE(public.profiles.full_name, EXCLUDED.full_name);
 
--- Automatic trigger for future user signups
+-- 3. Automatic trigger for future user signups
 CREATE OR REPLACE FUNCTION public.handle_new_user()
 RETURNS TRIGGER AS $$
 BEGIN
@@ -27,7 +39,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql SECURITY DEFINER;
 
--- Trigger execution on auth.users insert
+-- 4. Trigger execution on auth.users insert
 DROP TRIGGER IF EXISTS on_auth_user_created ON auth.users;
 CREATE TRIGGER on_auth_user_created
   AFTER INSERT ON auth.users
