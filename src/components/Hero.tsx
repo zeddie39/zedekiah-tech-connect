@@ -115,11 +115,10 @@ const Hero = () => {
           className="w-full h-full object-cover"
           loading="eager"
         />
-        {/* Warm welcoming overlay — brand navy + orange glow */}
-        <div className="absolute inset-0 bg-gradient-to-br from-[hsl(230,45%,10%)]/85 via-[hsl(20,60%,20%)]/60 to-[hsl(36,90%,25%)]/70" />
-        <div className="absolute inset-0 bg-gradient-to-t from-background/95 via-background/30 to-transparent" />
-        {/* Orange radial glow */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-accent/20 rounded-full blur-[120px]" />
+        {/* Welcoming overlay — brand navy with a subtle warm glow */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[hsl(230,45%,8%)]/85 via-[hsl(230,40%,10%)]/75 to-[hsl(230,45%,6%)]/95" />
+        {/* Soft orange radial glow */}
+        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-accent/15 rounded-full blur-[130px] pointer-events-none" />
       </div>
       {/* Main Hero Section */}
       <div className="container mx-auto px-4 sm:px-6 text-center relative z-10">
@@ -127,9 +126,8 @@ const Hero = () => {
           <span className="inline-block px-4 py-1.5 mb-5 rounded-full bg-accent/15 border border-accent/40 text-accent text-xs sm:text-sm font-semibold tracking-wide backdrop-blur-sm">
             ✦ Trusted Electronics Experts in Kenya
           </span>
-          <h1 className="text-3xl sm:text-5xl md:text-7xl font-ubuntu font-black mb-4 sm:mb-6 leading-tight text-shadow-heavy">
-            <span className="text-white">Ztech Electronics </span>
-            <span className="bg-gradient-to-r from-accent via-amber-400 to-accent bg-clip-text text-transparent">Limited</span>
+          <h1 className="text-3xl sm:text-5xl md:text-7xl font-ubuntu font-black text-white mb-4 sm:mb-6 leading-tight text-shadow-heavy">
+            Ztech Electronics Limited
           </h1>
           <h2 className="text-lg sm:text-2xl md:text-3xl font-ubuntu text-accent mb-4 sm:mb-6 text-shadow-md">
             Where Service is Beyond the Obvious
