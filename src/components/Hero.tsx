@@ -106,7 +106,7 @@ const Hero = () => {
   }
 
   return (
-    <section id="home" className="relative min-h-[60vh] flex flex-col items-center justify-center pt-24 pb-4 sm:pt-32 sm:pb-12 md:pt-36 md:pb-16 lg:pt-40 lg:pb-20 overflow-hidden">
+    <section id="home" className="relative min-h-[70vh] flex flex-col items-center justify-center pt-24 pb-8 sm:pt-32 sm:pb-14 md:pt-36 md:pb-20 lg:pt-40 lg:pb-24 overflow-hidden">
       {/* Background Image */}
       <div className="absolute inset-0 z-0">
         <img
@@ -115,13 +115,21 @@ const Hero = () => {
           className="w-full h-full object-cover"
           loading="eager"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/60 to-black/90" />
+        {/* Warm welcoming overlay — brand navy + orange glow */}
+        <div className="absolute inset-0 bg-gradient-to-br from-[hsl(230,45%,10%)]/85 via-[hsl(20,60%,20%)]/60 to-[hsl(36,90%,25%)]/70" />
+        <div className="absolute inset-0 bg-gradient-to-t from-background/95 via-background/30 to-transparent" />
+        {/* Orange radial glow */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-accent/20 rounded-full blur-[120px]" />
       </div>
       {/* Main Hero Section */}
       <div className="container mx-auto px-4 sm:px-6 text-center relative z-10">
         <div className="animate-fade-in">
-          <h1 className="text-3xl sm:text-5xl md:text-7xl font-ubuntu font-black text-white mb-4 sm:mb-6 leading-tight text-shadow-heavy">
-            Ztech Electronics Limited
+          <span className="inline-block px-4 py-1.5 mb-5 rounded-full bg-accent/15 border border-accent/40 text-accent text-xs sm:text-sm font-semibold tracking-wide backdrop-blur-sm">
+            ✦ Trusted Electronics Experts in Kenya
+          </span>
+          <h1 className="text-3xl sm:text-5xl md:text-7xl font-ubuntu font-black mb-4 sm:mb-6 leading-tight text-shadow-heavy">
+            <span className="text-white">Ztech Electronics </span>
+            <span className="bg-gradient-to-r from-accent via-amber-400 to-accent bg-clip-text text-transparent">Limited</span>
           </h1>
           <h2 className="text-lg sm:text-2xl md:text-3xl font-ubuntu text-accent mb-4 sm:mb-6 text-shadow-md">
             Where Service is Beyond the Obvious
@@ -138,19 +146,33 @@ const Hero = () => {
             Expert electronics repair, tech consultations, CCTV installations, and comprehensive
             computer solutions for homes and businesses.
           </p>
-          <Link
-            to="/auth?view=signup"
-            className="inline-block mt-4 px-6 sm:px-8 py-2.5 sm:py-3 bg-accent text-primary-foreground font-bold text-base sm:text-lg rounded-lg shadow-lg hover:bg-accent/80 hover:scale-105 transition-all duration-200 tracking-wide"
-          >
-            Get Started
-          </Link>
+          <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4">
+            <button
+              onClick={() => handleNav(session ? "/shop" : "/auth?view=signup")}
+              className="px-6 sm:px-8 py-2.5 sm:py-3 bg-accent text-accent-foreground font-bold text-base sm:text-lg rounded-lg shadow-lg shadow-accent/30 hover:bg-accent/90 hover:scale-105 hover:shadow-accent/50 transition-all duration-200 tracking-wide"
+            >
+              {session ? "Shop Now" : "Get Started"}
+            </button>
+            <button
+              onClick={() => handleNav(session ? "/submit" : "/auth?redirect=/submit")}
+              className="px-6 sm:px-8 py-2.5 sm:py-3 bg-white/10 backdrop-blur border border-accent/40 text-white font-bold text-base sm:text-lg rounded-lg hover:bg-accent/20 hover:border-accent hover:scale-105 transition-all duration-200 tracking-wide"
+            >
+              Book a Repair
+            </button>
+            <button
+              onClick={() => handleNav("#services")}
+              className="px-6 sm:px-8 py-2.5 sm:py-3 text-white/90 font-semibold text-base sm:text-lg hover:text-accent transition-colors underline-offset-4 hover:underline"
+            >
+              Explore Services →
+            </button>
+          </div>
         </div>
         {/* Floating Tech Icons (unchanged) */}
         <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute top-1/4 left-1/4 w-6 h-6 sm:w-8 sm:h-8 bg-accent/20 rounded-full animate-float [animation-delay:0s]"></div>
+          <div className="absolute top-1/4 left-1/4 w-6 h-6 sm:w-8 sm:h-8 bg-accent/30 rounded-full animate-float [animation-delay:0s] blur-sm"></div>
           <div className="absolute top-1/3 right-1/4 w-4 h-4 sm:w-6 sm:h-6 bg-white/20 rounded-full animate-float [animation-delay:1s]"></div>
-          <div className="absolute bottom-1/3 left-1/3 w-3 h-3 sm:w-4 sm:h-4 bg-accent/30 rounded-full animate-float [animation-delay:2s]"></div>
-          <div className="absolute bottom-1/4 right-1/3 w-8 h-8 sm:w-10 sm:h-10 bg-white/10 rounded-full animate-float [animation-delay:1.5s]"></div>
+          <div className="absolute bottom-1/3 left-1/3 w-3 h-3 sm:w-4 sm:h-4 bg-accent/40 rounded-full animate-float [animation-delay:2s]"></div>
+          <div className="absolute bottom-1/4 right-1/3 w-8 h-8 sm:w-10 sm:h-10 bg-white/10 rounded-full animate-float [animation-delay:1.5s] blur-sm"></div>
         </div>
       </div>
     </section>
