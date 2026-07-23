@@ -47,6 +47,8 @@ export default function AdminUserList() {
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState("");
   const [editUser, setEditUser] = useState<UserProfile | null>(null);
+  const [manualUserId, setManualUserId] = useState("");
+  const [showManualAdd, setShowManualAdd] = useState(false);
   const [analytics, setAnalytics] = useState<{ total: number; active: number; last7d: number }>({ total: 0, active: 0, last7d: 0 });
 
   useEffect(() => {
@@ -55,54 +57,91 @@ export default function AdminUserList() {
 
   async function fetchUsers() {
     setLoading(true);
-    // Fetch profiles and user_roles
-    const { data: profiles, error: err1 } = await supabase
-      .from("profiles")
-      .select("id, email, full_name, avatar_url");
+    try {
+      // 1. Fetch profiles
+      const { data: profiles } = await supabase
+        .from("profiles")
+        .select("id, email, full_name, avatar_url");
 
-    if (err1 || !profiles) {
-      setLoading(false);
-      toast({ title: "Fetch failed", description: err1?.message, variant: "destructive" });
-      return;
-    }
-
-    const ids = profiles.map((u: UserProfile) => u.id);
-    const userRolesMap: Record<string, { role: string }[]> = {};
-    if (ids.length > 0) {
+      // 2. Fetch all user_roles
       const { data: roles } = await supabase
         .from("user_roles")
-        .select("user_id, role")
-        .in("user_id", ids);
-      if (roles) {
-        for (const ur of roles) {
-          if (!userRolesMap[ur.user_id]) userRolesMap[ur.user_id] = [];
-          userRolesMap[ur.user_id].push({ role: ur.role });
+        .select("user_id, role");
+
+      // 3. Fetch user emails from orders (if available)
+      const { data: orders } = await supabase
+        .from("orders")
+        .select("user_id, customer_email, customer_name");
+
+      const userMap: Record<string, UserProfile> = {};
+
+      if (profiles) {
+        for (const p of profiles) {
+          userMap[p.id] = {
+            id: p.id,
+            email: p.email,
+            full_name: p.full_name,
+            avatar_url: p.avatar_url,
+            user_roles: [],
+          };
         }
       }
+
+      if (orders) {
+        for (const o of orders) {
+          if (o.user_id) {
+            if (!userMap[o.user_id]) {
+              userMap[o.user_id] = {
+                id: o.user_id,
+                email: o.customer_email || null,
+                full_name: o.customer_name || null,
+                avatar_url: null,
+                user_roles: [],
+              };
+            } else {
+              if (!userMap[o.user_id].email && o.customer_email) {
+                userMap[o.user_id].email = o.customer_email;
+              }
+              if (!userMap[o.user_id].full_name && o.customer_name) {
+                userMap[o.user_id].full_name = o.customer_name;
+              }
+            }
+          }
+        }
+      }
+
+      if (roles) {
+        for (const ur of roles) {
+          if (!userMap[ur.user_id]) {
+            userMap[ur.user_id] = {
+              id: ur.user_id,
+              email: null,
+              full_name: null,
+              avatar_url: null,
+              user_roles: [],
+            };
+          }
+          userMap[ur.user_id].user_roles = userMap[ur.user_id].user_roles || [];
+          if (!userMap[ur.user_id].user_roles!.some((r) => r.role === ur.role)) {
+            userMap[ur.user_id].user_roles!.push({ role: ur.role });
+          }
+        }
+      }
+
+      const mergedUsers = Object.values(userMap);
+
+      setAnalytics({
+        total: mergedUsers.length,
+        active: mergedUsers.filter((u) => u.user_roles && u.user_roles.length > 0).length,
+        last7d: mergedUsers.length,
+      });
+
+      setUsers(mergedUsers);
+    } catch (err: any) {
+      toast({ title: "Fetch failed", description: err?.message, variant: "destructive" });
+    } finally {
+      setLoading(false);
     }
-    // Simulate "active users" as those who updated in last 14d (best-effort)
-    const { data: active } = await supabase
-      .from("profiles")
-      .select("id, updated_at")
-      .gte("updated_at", new Date(Date.now() - 14 * 24 * 3600 * 1000).toISOString());
-    const { data: last7d } = await supabase
-      .from("profiles")
-      .select("id, updated_at")
-      .gte("updated_at", new Date(Date.now() - 7 * 24 * 3600 * 1000).toISOString());
-
-    setAnalytics({
-      total: profiles.length,
-      active: active?.length ?? 0,
-      last7d: last7d?.length ?? 0,
-    });
-
-    setUsers(
-      profiles.map((p) => ({
-        ...p,
-        user_roles: userRolesMap[p.id] ?? [],
-      }))
-    );
-    setLoading(false);
   }
 
   // Filtered users

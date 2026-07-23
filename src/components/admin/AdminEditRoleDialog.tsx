@@ -76,7 +76,7 @@ export default function AdminEditRoleDialog({
           </DialogDescription>
         </DialogHeader>
         <div className="mb-4">
-          <div className="text-sm mb-2">User: <span className="font-mono">{user.email}</span></div>
+          <div className="text-sm mb-2">User: <span className="font-mono">{user.email || (user as any).full_name || user.id}</span></div>
           <select
             className="w-full p-2 border rounded"
             value={selectedRole}
