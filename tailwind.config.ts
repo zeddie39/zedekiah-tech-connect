@@ -83,9 +83,19 @@ export default {
 				ring: 'hsl(var(--ring))',
 				background: 'hsl(var(--background))',
 				foreground: 'hsl(var(--foreground))',
+				brand: {
+					navy: 'hsl(var(--brand-navy))',
+					'navy-deep': 'hsl(var(--brand-navy-deep))',
+					'navy-soft': 'hsl(var(--brand-navy-soft))',
+					orange: 'hsl(var(--brand-orange))',
+					'orange-soft': 'hsl(var(--brand-orange-soft))',
+					glow: 'hsl(var(--brand-glow))',
+					'on-navy': 'hsl(var(--brand-on-navy))',
+					'on-orange': 'hsl(var(--brand-on-orange))',
+				},
 				primary: {
-					DEFAULT: '#160e2e',
-					foreground: '#ffffff'
+					DEFAULT: 'hsl(var(--primary))',
+					foreground: 'hsl(var(--primary-foreground))'
 				},
 				secondary: {
 					DEFAULT: 'hsl(var(--secondary))',
@@ -100,8 +110,8 @@ export default {
 					foreground: 'hsl(var(--muted-foreground))'
 				},
 				accent: {
-					DEFAULT: '#ff9800',
-					foreground: '#ffffff'
+					DEFAULT: 'hsl(var(--accent))',
+					foreground: 'hsl(var(--accent-foreground))'
 				},
 				popover: {
 					DEFAULT: 'hsl(var(--popover))',
@@ -122,6 +132,13 @@ export default {
 					ring: 'hsl(var(--sidebar-ring))'
 				}
 			},
+			backgroundImage: {
+				'gradient-hero': 'var(--gradient-hero)',
+			},
+			boxShadow: {
+				'brand': 'var(--shadow-brand)',
+			},
+
 			borderRadius: {
 				lg: 'var(--radius)',
 				md: 'calc(var(--radius) - 2px)',
