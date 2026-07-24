@@ -32,8 +32,9 @@ export default function AdminReports() {
 
       // 3. Fetch total repairs
       const { count: repairsCount } = await supabase
-        .from("repairs")
+        .from("repair_requests")
         .select("*", { count: "exact", head: true });
+
 
       // 4. Fetch total messages
       const { count: messagesCount } = await supabase
