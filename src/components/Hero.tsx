@@ -115,10 +115,11 @@ const Hero = () => {
           className="w-full h-full object-cover"
           loading="eager"
         />
-        {/* Welcoming overlay — brand navy with a subtle warm glow */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[hsl(230,45%,8%)]/85 via-[hsl(230,40%,10%)]/75 to-[hsl(230,45%,6%)]/95" />
-        {/* Soft orange radial glow */}
-        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-accent/15 rounded-full blur-[130px] pointer-events-none" />
+        {/* Welcoming overlay — shared brand gradient (navy → deep navy) */}
+        <div className="absolute inset-0 bg-gradient-hero" />
+        {/* Soft brand-orange radial glow */}
+        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-brand-glow/15 rounded-full blur-[130px] pointer-events-none" />
+
       </div>
       {/* Main Hero Section */}
       <div className="container mx-auto px-4 sm:px-6 text-center relative z-10">
