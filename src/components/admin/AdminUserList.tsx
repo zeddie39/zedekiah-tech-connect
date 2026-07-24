@@ -106,10 +106,10 @@ export default function AdminUserList() {
         .from("user_roles")
         .select("user_id, role");
 
-      // 3. Fetch user emails from orders (if available)
+      // 3. Fetch buyer ids from orders (schema has buyer_id only)
       const { data: orders } = await supabase
         .from("orders")
-        .select("user_id, customer_email, customer_name");
+        .select("buyer_id");
 
       const userMap: Record<string, UserProfile> = {};
 
@@ -127,26 +127,18 @@ export default function AdminUserList() {
 
       if (orders) {
         for (const o of orders) {
-          if (o.user_id) {
-            if (!userMap[o.user_id]) {
-              userMap[o.user_id] = {
-                id: o.user_id,
-                email: o.customer_email || null,
-                full_name: o.customer_name || null,
-                avatar_url: null,
-                user_roles: [],
-              };
-            } else {
-              if (!userMap[o.user_id].email && o.customer_email) {
-                userMap[o.user_id].email = o.customer_email;
-              }
-              if (!userMap[o.user_id].full_name && o.customer_name) {
-                userMap[o.user_id].full_name = o.customer_name;
-              }
-            }
+          if (o.buyer_id && !userMap[o.buyer_id]) {
+            userMap[o.buyer_id] = {
+              id: o.buyer_id,
+              email: null,
+              full_name: null,
+              avatar_url: null,
+              user_roles: [],
+            };
           }
         }
       }
+
 
       if (roles) {
         for (const ur of roles) {
