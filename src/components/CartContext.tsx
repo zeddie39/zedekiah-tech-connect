@@ -9,6 +9,7 @@ type CartItem = {
   price: number;
   image?: string | null;
   quantity: number;
+  isAvailable?: boolean;
 };
 
 type CartContextType = {
