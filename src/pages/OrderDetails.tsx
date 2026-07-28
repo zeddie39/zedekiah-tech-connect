@@ -13,7 +13,8 @@ import {
     XCircle,
     CreditCard,
     Receipt,
-    Truck
+    Truck,
+    FileText
 } from "lucide-react";
 import ShopNavbar from "@/components/ShopNavbar";
 import { toast } from "@/components/ui/use-toast";
@@ -154,6 +155,13 @@ export default function OrderDetailsPage() {
                     >
                         <ArrowLeft className="w-4 h-4" /> Back to Orders
                     </button>
+                    <Button
+                        variant="outline"
+                        className="ml-3"
+                        onClick={() => navigate(`/orders/${order?.id}/invoice`)}
+                    >
+                        <FileText className="w-4 h-4 mr-2" /> View Invoice
+                    </Button>
                 </div>
 
                 <h1 className="text-2xl sm:text-3xl font-bold mb-6">Order Details</h1>

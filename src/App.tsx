@@ -28,6 +28,7 @@ import CartPage from "./pages/Cart";
 import CheckoutPage from "./pages/Checkout";
 import OrdersPage from "./pages/Orders";
 import OrderDetailsPage from "./pages/OrderDetails";
+import InvoicePage from "./pages/Invoice";
 import TrackPage from "./pages/Track";
 import SubmitPage from "./pages/Submit";
 import Wishlist from "./pages/Wishlist";
@@ -76,6 +77,7 @@ const App = () => (
               <Route path="/checkout" element={<CheckoutPage />} />
               <Route path="/orders" element={<OrdersPage />} />
               <Route path="/orders/:orderId" element={<OrderDetailsPage />} />
+              <Route path="/orders/:orderId/invoice" element={<InvoicePage />} />
               <Route path="/track" element={<TrackPage />} />
               <Route path="/submit" element={<SubmitPage />} />
               <Route path="/saved-items" element={<SavedItems />} />
