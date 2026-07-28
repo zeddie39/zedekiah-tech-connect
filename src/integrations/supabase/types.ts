@@ -604,6 +604,42 @@ export type Database = {
         }
         Relationships: []
       }
+      user_cart: {
+        Row: {
+          created_at: string
+          id: string
+          image: string | null
+          price: number
+          product_id: string
+          quantity: number
+          title: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          image?: string | null
+          price: number
+          product_id: string
+          quantity?: number
+          title: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          image?: string | null
+          price?: number
+          product_id?: string
+          quantity?: number
+          title?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           assigned_at: string

@@ -8,6 +8,7 @@ import ShopNavbar from "@/components/ShopNavbar";
 import { formatPhoneForWhatsapp } from "@/lib/utils";
 import { toast } from "@/components/ui/use-toast";
 import { useCart } from "@/components/CartContext";
+import RecommendedProducts from "@/components/RecommendedProducts";
 
 import type { Database } from "@/integrations/supabase/types";
 
@@ -204,10 +205,7 @@ export default function ProductDetails() {
           </h2>
           <div className="text-muted-foreground">Reviews coming soon...</div>
         </div>
-        <div className="mt-8">
-          <h2 className="text-xl font-bold mb-2">Related Products</h2>
-          <div className="text-muted-foreground">Related products will be shown here in a future update.</div>
-        </div>
+        <RecommendedProducts currentId={product.id} category={product.category} />
       </div>
     </>
   );
