@@ -1,14 +1,16 @@
 
 import React, { createContext, useContext, useState, useEffect, ReactNode } from "react";
+import { supabase } from "@/integrations/supabase/client";
 
 const CART_STORAGE_KEY = "ztech_cart";
 
-type CartItem = {
+export type CartItem = {
   id: string;
   title: string;
   price: number;
   image?: string | null;
   quantity: number;
+  isAvailable?: boolean;
 };
 
 type CartContextType = {
@@ -58,11 +60,36 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
   const [cart, setCart] = useState<CartItem[]>([]);
   const [isLoaded, setIsLoaded] = useState(false);
 
-  // Load cart from localStorage on mount
+  // Load cart from localStorage on mount and check availability
   useEffect(() => {
+    const checkAvailability = async (items: CartItem[]) => {
+      if (items.length === 0) {
+        setCart([]);
+        setIsLoaded(true);
+        return;
+      }
+      
+      const ids = items.map(i => i.id);
+      const { data, error } = await supabase
+        .from("products")
+        .select("id, status")
+        .in("id", ids);
+        
+      if (error) {
+        console.error("Failed to check product availability", error);
+        setCart(items); // fallback to stored
+      } else {
+        const availableIds = new Set(data?.filter(p => p.status === 'approved').map(p => p.id) || []);
+        setCart(items.map(item => ({
+          ...item,
+          isAvailable: availableIds.has(item.id)
+        })));
+      }
+      setIsLoaded(true);
+    };
+
     const storedCart = loadCartFromStorage();
-    setCart(storedCart);
-    setIsLoaded(true);
+    checkAvailability(storedCart);
   }, []);
 
   // Save cart to localStorage whenever it changes
@@ -76,11 +103,11 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
   const cartCount = cart.reduce((sum, item) => sum + item.quantity, 0);
   const cartTotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
-  function addToCart(item: Omit<CartItem, "quantity">) {
+  function addToCart(item: Omit<CartItem, "quantity" | "isAvailable">) {
     setCart(prev =>
       prev.some(i => i.id === item.id)
         ? prev.map(i => i.id === item.id ? { ...i, quantity: i.quantity + 1 } : i)
-        : [...prev, { ...item, quantity: 1 }]
+        : [...prev, { ...item, quantity: 1, isAvailable: true }]
     );
   }
 

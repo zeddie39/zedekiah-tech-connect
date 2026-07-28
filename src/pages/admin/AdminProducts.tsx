@@ -71,6 +71,7 @@ export default function AdminProducts() {
   const [price, setPrice] = useState("");
   const [category, setCategory] = useState<string | undefined>(undefined);
   const [whatsappNumber, setWhatsappNumber] = useState("");
+  const [status, setStatus] = useState("approved");
   const [imageFiles, setImageFiles] = useState<File[]>([]);
   const [imagePreviews, setImagePreviews] = useState<string[]>([]);
   const [existingImageUrl, setExistingImageUrl] = useState<string | null>(null);
@@ -144,6 +145,7 @@ export default function AdminProducts() {
     setPrice("");
     setCategory(undefined);
     setWhatsappNumber("");
+    setStatus("approved");
     setImageFiles([]);
     setExistingImageUrl(null);
     setModalOpen(true);
@@ -157,6 +159,7 @@ export default function AdminProducts() {
     setPrice(String(product.price));
     setCategory(product.category || undefined);
     setWhatsappNumber(product.whatsapp_number || "");
+    setStatus(product.status || "approved");
     setImageFiles([]);
     setExistingImageUrl(product.image_url || null);
     setModalOpen(true);
@@ -183,6 +186,7 @@ export default function AdminProducts() {
           description: description.trim() || null,
           price: Number(price),
           category: category || null,
+          status: status,
           whatsapp_number: whatsappNumber || null,
         })
         .eq("id", editingProduct.id);
@@ -235,7 +239,7 @@ export default function AdminProducts() {
           description: description.trim() || null,
           price: Number(price),
           category: category || null,
-          status: "approved", // Admin products are auto-approved
+          status: status, // Admin products are auto-approved unless manually set
           whatsapp_number: whatsappNumber || null,
         }])
         .select()
@@ -309,6 +313,7 @@ export default function AdminProducts() {
       approved: "bg-emerald-500/15 text-emerald-400 border-emerald-500/25",
       pending: "bg-amber-500/15 text-amber-400 border-amber-500/25",
       rejected: "bg-red-500/15 text-red-400 border-red-500/25",
+      out_of_stock: "bg-orange-500/15 text-orange-400 border-orange-500/25",
       unknown: "bg-gray-500/15 text-gray-400 border-gray-500/25",
     };
     return (
@@ -373,6 +378,7 @@ export default function AdminProducts() {
             <SelectItem value="approved">Approved</SelectItem>
             <SelectItem value="pending">Pending</SelectItem>
             <SelectItem value="rejected">Rejected</SelectItem>
+            <SelectItem value="out_of_stock">Out of Stock</SelectItem>
           </SelectContent>
         </Select>
       </div>
@@ -384,6 +390,7 @@ export default function AdminProducts() {
           { label: "Approved", count: products.filter((p) => p.status === "approved").length, color: "text-emerald-400" },
           { label: "Pending", count: products.filter((p) => p.status === "pending").length, color: "text-amber-400" },
           { label: "Rejected", count: products.filter((p) => p.status === "rejected").length, color: "text-red-400" },
+          { label: "Out of Stock", count: products.filter((p) => p.status === "out_of_stock").length, color: "text-orange-400" },
         ].map((stat) => (
           <Card key={stat.label} className="p-3 bg-card/80 border-accent/15">
             <p className="text-xs text-muted-foreground">{stat.label}</p>
@@ -506,19 +513,35 @@ export default function AdminProducts() {
               </div>
             </div>
 
-            {/* Category */}
-            <div className="space-y-2">
-              <Label className="text-sm font-medium">Category <span className="text-red-500">*</span></Label>
-              <Select value={category} onValueChange={(v) => setCategory(v)}>
-                <SelectTrigger className="w-full bg-background/50 border-accent/20 focus:ring-accent">
-                  <SelectValue placeholder="Select a category" />
-                </SelectTrigger>
-                <SelectContent>
-                  {shopCategories.map((cat) => (
-                    <SelectItem key={cat.name} value={cat.name}>{cat.name}</SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+            {/* Category and Status */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label className="text-sm font-medium">Category <span className="text-red-500">*</span></Label>
+                <Select value={category} onValueChange={(v) => setCategory(v)}>
+                  <SelectTrigger className="w-full bg-background/50 border-accent/20 focus:ring-accent">
+                    <SelectValue placeholder="Select a category" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {shopCategories.map((cat) => (
+                      <SelectItem key={cat.name} value={cat.name}>{cat.name}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="space-y-2">
+                <Label className="text-sm font-medium">Status <span className="text-red-500">*</span></Label>
+                <Select value={status} onValueChange={(v) => setStatus(v)}>
+                  <SelectTrigger className="w-full bg-background/50 border-accent/20 focus:ring-accent">
+                    <SelectValue placeholder="Select status" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="approved">Approved</SelectItem>
+                    <SelectItem value="pending">Pending</SelectItem>
+                    <SelectItem value="rejected">Rejected</SelectItem>
+                    <SelectItem value="out_of_stock">Out of Stock</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
             </div>
 
             {/* Description */}

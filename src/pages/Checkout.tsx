@@ -13,6 +13,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command";
 import { Check, ChevronsUpDown, ArrowLeft, Phone } from "lucide-react";
 import MpesaButton from "@/components/MpesaButton";
+import StripeButton from "@/components/StripeButton";
 import PaymentStatusModal from "@/components/PaymentStatusModal";
 import { validateAndFormatPhone } from "@/lib/phoneUtils";
 
@@ -124,27 +125,26 @@ export default function CheckoutPage() {
           return;
         }
 
-        // Fetch product details
-        const { data: productData, error: productError } = await supabase
-          .from('products')
-          .select('title, price')
-          .eq('id', orderData.product_id)
-          .single();
+        // Fetch order items and their product details
+        const { data: orderItems, error: itemsError } = await supabase
+          .from('order_items')
+          .select('*, products(title, price)')
+          .eq('order_id', orderId);
 
-        if (productError || !productData) {
-          toast({ title: 'Error', description: 'Product not found', variant: 'destructive' });
+        if (itemsError || !orderItems || orderItems.length === 0) {
+          toast({ title: 'Error', description: 'Order items not found', variant: 'destructive' });
           navigate('/orders');
           return;
         }
 
-        const cartItem: CartItem = {
-          id: orderData.product_id,
-          title: productData.title,
-          price: productData.price,
-          quantity: 1, // Assuming quantity 1 for now
-        };
+        const loadedCart: CartItem[] = orderItems.map((item: any) => ({
+          id: item.product_id,
+          title: item.products.title,
+          price: item.price_at_time,
+          quantity: item.quantity,
+        }));
 
-        setCurrentCart([cartItem]);
+        setCurrentCart(loadedCart);
         setTotal(orderData.amount);
         if (orderData.delivery_location) {
           setDeliveryLocation(orderData.delivery_location);
@@ -172,25 +172,38 @@ export default function CheckoutPage() {
   const handleMpesaSuccess = async (data: { CheckoutRequestID: string }) => {
     setCheckoutRequestId(data.CheckoutRequestID);
     
-    // Immediately create 'pending' orders so the callback has a target to update
+    // Immediately create 'pending' order so the callback has a target to update
     if (!orderId) {
       const { data: { session } } = await supabase.auth.getSession();
       if (session) {
-        const orderRows = currentCart.map(item => ({
+        // 1. Create the unified order record
+        const { data: newOrder, error: orderError } = await supabase.from("orders").insert({
           buyer_id: session.user.id,
-          product_id: item.id,
-          amount: item.price * item.quantity,
+          amount: currentCart.reduce((sum, item) => sum + (item.price * item.quantity), 0),
           delivery_location: deliveryLocation || null,
           status: "pending",
           payment_status: "pending",
           checkout_request_id: data.CheckoutRequestID
-        }));
+        }).select().single();
 
-        const { error } = await supabase.from("orders").insert(orderRows);
-        if (error) {
-          console.error("Failed to create pending orders:", error);
+        if (orderError || !newOrder) {
+          console.error("Failed to create pending order:", orderError);
           toast({ title: "Error", description: "Failed to initialize order record", variant: "destructive" });
           return;
+        }
+
+        // 2. Insert the order items
+        const orderItems = currentCart.map(item => ({
+          order_id: newOrder.id,
+          product_id: item.id,
+          quantity: item.quantity,
+          price_at_time: item.price
+        }));
+
+        const { error: itemsError } = await supabase.from("order_items").insert(orderItems);
+        if (itemsError) {
+          console.error("Failed to create order items:", itemsError);
+          toast({ title: "Error", description: "Failed to initialize order items", variant: "destructive" });
         }
       }
     } else {
@@ -392,6 +405,12 @@ export default function CheckoutPage() {
             name={userName}
             onSuccess={handleMpesaSuccess}
             disabled={!formattedPhone && !userPhone}
+          />
+          <StripeButton
+            amount={total}
+            cart={currentCart}
+            deliveryLocation={deliveryLocation}
+            orderId={orderId}
           />
           {!orderId && <Button variant="secondary" onClick={() => navigate("/cart")}>Back to Cart</Button>}
           {orderId && <Button variant="secondary" onClick={() => navigate("/orders")}>Cancel</Button>}

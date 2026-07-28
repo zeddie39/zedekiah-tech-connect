@@ -24,17 +24,19 @@ type Order = {
     amount: number;
     status: string | null;
     payment_status: string | null;
-    product_id: string;
+    product_id?: string | null; // deprecated
     delivery_location: string | null;
     mpesa_receipt?: string | null;
     checkout_request_id?: string | null;
-};
-
-type Product = {
-    id: string;
-    title: string;
-    price: number;
-    image_url: string | null;
+    order_items?: {
+        quantity: number;
+        price_at_time: number;
+        products: {
+            id: string;
+            title: string;
+            product_images: { image_url: string }[];
+        };
+    }[];
 };
 
 const statusConfig: Record<string, { color: string; icon: React.ReactNode; label: string }> = {
@@ -58,7 +60,6 @@ export default function OrderDetailsPage() {
     const { orderId } = useParams<{ orderId: string }>();
     const navigate = useNavigate();
     const [order, setOrder] = useState<Order | null>(null);
-    const [product, setProduct] = useState<Product | null>(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -74,10 +75,21 @@ export default function OrderDetailsPage() {
                 return;
             }
 
-            // Fetch order
+            // Fetch order and items
             const { data: orderData, error: orderError } = await supabase
                 .from("orders")
-                .select("*")
+                .select(`
+                    *,
+                    order_items (
+                        quantity,
+                        price_at_time,
+                        products (
+                            id,
+                            title,
+                            product_images ( image_url )
+                        )
+                    )
+                `)
                 .eq("id", orderId)
                 .single();
 
@@ -87,25 +99,7 @@ export default function OrderDetailsPage() {
                 return;
             }
 
-            setOrder(orderData as Order);
-
-            // Fetch product details
-            const { data: productData } = await supabase
-                .from("products")
-                .select("id, title, price")
-                .eq("id", orderData.product_id)
-                .single();
-
-            if (productData) {
-                // Get first image from product_images
-                const { data: imgData } = await supabase
-                    .from("product_images")
-                    .select("image_url")
-                    .eq("product_id", productData.id)
-                    .limit(1)
-                    .maybeSingle();
-                setProduct({ ...productData, image_url: imgData?.image_url ?? null } as Product);
-            }
+            setOrder(orderData as unknown as Order);
 
             setLoading(false);
         };
@@ -196,27 +190,48 @@ export default function OrderDetailsPage() {
                     </Card>
                 </div>
 
-                {/* Product Details */}
+                {/* Order Items */}
                 <Card className="p-4 sm:p-6 mb-4">
                     <h2 className="text-lg font-semibold mb-4 flex items-center gap-2">
-                        <Package className="w-5 h-5" /> Product
+                        <Package className="w-5 h-5" /> Items ({order.order_items?.length || 0})
                     </h2>
-                    <div className="flex items-center gap-4">
-                        {product?.image_url ? (
-                            <img
-                                src={product.image_url}
-                                alt={product.title}
-                                className="w-20 h-20 object-cover rounded-lg bg-muted"
-                            />
-                        ) : (
-                            <div className="w-20 h-20 bg-muted rounded-lg flex items-center justify-center">
-                                <Package className="w-8 h-8 text-muted-foreground" />
-                            </div>
-                        )}
-                        <div>
-                            <p className="font-semibold text-lg">{product?.title || "Product"}</p>
-                            <p className="text-primary font-bold">Ksh {order.amount.toLocaleString()}</p>
-                        </div>
+                    
+                    <div className="space-y-4">
+                        {order.order_items?.map((item, idx) => {
+                            const imgUrl = item.products.product_images?.[0]?.image_url;
+                            return (
+                                <div key={idx} className="flex items-center gap-4 pb-4 border-b last:border-0 last:pb-0">
+                                    {imgUrl ? (
+                                        <img
+                                            src={imgUrl}
+                                            alt={item.products.title}
+                                            className="w-20 h-20 object-cover rounded-lg bg-muted"
+                                        />
+                                    ) : (
+                                        <div className="w-20 h-20 bg-muted rounded-lg flex items-center justify-center">
+                                            <Package className="w-8 h-8 text-muted-foreground" />
+                                        </div>
+                                    )}
+                                    <div className="flex-1">
+                                        <p className="font-semibold text-lg">{item.products.title}</p>
+                                        <p className="text-muted-foreground">Qty: {item.quantity}</p>
+                                    </div>
+                                    <div className="text-right">
+                                        <p className="text-primary font-bold">Ksh {item.price_at_time.toLocaleString()}</p>
+                                        {item.quantity > 1 && (
+                                            <p className="text-sm text-muted-foreground">
+                                                Total: Ksh {(item.price_at_time * item.quantity).toLocaleString()}
+                                            </p>
+                                        )}
+                                    </div>
+                                </div>
+                            );
+                        })}
+                    </div>
+
+                    <div className="mt-4 pt-4 border-t flex justify-between items-center">
+                        <span className="font-semibold">Order Total</span>
+                        <span className="text-xl font-bold text-primary">Ksh {order.amount.toLocaleString()}</span>
                     </div>
                 </Card>
 

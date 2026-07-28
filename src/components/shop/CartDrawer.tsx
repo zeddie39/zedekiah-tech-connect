@@ -3,7 +3,19 @@ import { useCart } from "@/components/CartContext";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetClose } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { ShoppingCart, Trash2, Plus, Minus, ArrowRight, ShoppingBag, Eye, X } from "lucide-react";
+import { ShoppingCart, Trash2, Plus, Minus, ArrowRight, ShoppingBag, Eye, X, Heart } from "lucide-react";
+import { useSavedItems } from "@/components/SavedItemsContext";
+import { useState } from "react";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 
 type CartDrawerProps = {
   open: boolean;
@@ -12,7 +24,31 @@ type CartDrawerProps = {
 
 export default function CartDrawer({ open, onOpenChange }: CartDrawerProps) {
   const { cart, removeFromCart, updateQuantity, cartTotal, cartCount } = useCart();
+  const { addToSavedItems } = useSavedItems();
   const navigate = useNavigate();
+  const [itemToRemove, setItemToRemove] = useState<any | null>(null);
+
+  const handleSaveForLater = () => {
+    if (itemToRemove) {
+      addToSavedItems({
+        id: itemToRemove.id,
+        title: itemToRemove.title,
+        price: itemToRemove.price,
+        image: itemToRemove.image
+      });
+      removeFromCart(itemToRemove.id);
+      setItemToRemove(null);
+    }
+  };
+
+  const handleConfirmRemove = () => {
+    if (itemToRemove) {
+      removeFromCart(itemToRemove.id);
+      setItemToRemove(null);
+    }
+  };
+
+  const hasUnavailableItems = cart.some(item => item.isAvailable === false);
 
   const handleCheckout = () => {
     onOpenChange(false);
@@ -91,14 +127,20 @@ export default function CartDrawer({ open, onOpenChange }: CartDrawerProps) {
                         <Link 
                           to={`/shop/${item.id}`} 
                           onClick={() => onOpenChange(false)}
-                          className="font-semibold text-sm leading-tight text-foreground truncate block hover:text-primary transition-colors hover:underline"
+                          className={`font-semibold text-sm leading-tight text-foreground truncate block hover:text-primary transition-colors hover:underline ${item.isAvailable === false ? 'opacity-50' : ''}`}
                           title={`View details: ${item.title}`}
                         >
                           {item.title}
                         </Link>
-                        <p className="text-sm font-bold text-primary">
-                          Ksh {item.price.toLocaleString()}
-                        </p>
+                        {item.isAvailable === false ? (
+                          <span className="text-xs font-bold text-destructive bg-destructive/10 px-1.5 py-0.5 rounded">
+                            Out of Stock
+                          </span>
+                        ) : (
+                          <p className="text-sm font-bold text-primary">
+                            Ksh {item.price.toLocaleString()}
+                          </p>
+                        )}
                         {/* View details link */}
                         <Link
                           to={`/shop/${item.id}`}
@@ -115,9 +157,9 @@ export default function CartDrawer({ open, onOpenChange }: CartDrawerProps) {
                         <div className="flex items-center border border-border/60 rounded-lg bg-background p-0.5 shadow-sm">
                           <button
                             onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                            className="p-1 rounded-md text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
+                            className="p-1 rounded-md text-muted-foreground hover:text-foreground hover:bg-muted transition-colors disabled:opacity-50"
                             aria-label="Decrease quantity"
-                            disabled={item.quantity <= 1}
+                            disabled={item.quantity <= 1 || item.isAvailable === false}
                           >
                             <Minus size={12} />
                           </button>
@@ -126,8 +168,9 @@ export default function CartDrawer({ open, onOpenChange }: CartDrawerProps) {
                           </span>
                           <button
                             onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                            className="p-1 rounded-md text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
+                            className="p-1 rounded-md text-muted-foreground hover:text-foreground hover:bg-muted transition-colors disabled:opacity-50"
                             aria-label="Increase quantity"
+                            disabled={item.isAvailable === false}
                           >
                             <Plus size={12} />
                           </button>
@@ -137,7 +180,7 @@ export default function CartDrawer({ open, onOpenChange }: CartDrawerProps) {
 
                     {/* 3. Delete Button - circular red trash button on the far right */}
                     <button
-                      onClick={() => removeFromCart(item.id)}
+                      onClick={() => setItemToRemove(item)}
                       className="p-2 rounded-full bg-red-50 text-red-500 hover:bg-red-100 hover:text-red-700 border border-red-100 transition-colors flex-shrink-0"
                       aria-label={`Remove ${item.title} from cart`}
                       title="Remove from cart"
@@ -171,15 +214,36 @@ export default function CartDrawer({ open, onOpenChange }: CartDrawerProps) {
               </Button>
               <Button 
                 onClick={handleCheckout}
+                disabled={hasUnavailableItems}
                 className="w-full bg-primary hover:bg-primary/90 text-white flex items-center justify-center gap-2 group shadow-lg shadow-primary/10"
               >
-                Checkout 
-                <ArrowRight size={16} className="group-hover:translate-x-0.5 transition-transform" />
+                {hasUnavailableItems ? "Remove unavailable items" : "Checkout"}
+                {!hasUnavailableItems && <ArrowRight size={16} className="group-hover:translate-x-0.5 transition-transform" />}
               </Button>
             </div>
           </div>
         )}
       </SheetContent>
+
+      <AlertDialog open={!!itemToRemove} onOpenChange={(open) => !open && setItemToRemove(null)}>
+        <AlertDialogContent className="bg-card">
+          <AlertDialogHeader>
+            <AlertDialogTitle>Remove from cart</AlertDialogTitle>
+            <AlertDialogDescription>
+              Would you like to save <strong>{itemToRemove?.title}</strong> for later instead of removing it completely?
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter className="flex-col sm:flex-row gap-2">
+            <AlertDialogCancel onClick={() => setItemToRemove(null)}>Cancel</AlertDialogCancel>
+            <Button variant="destructive" onClick={handleConfirmRemove} className="gap-2">
+              <Trash2 size={16} /> Remove Completely
+            </Button>
+            <Button variant="default" onClick={handleSaveForLater} className="gap-2 bg-primary">
+              <Heart size={16} /> Save for Later
+            </Button>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </Sheet>
   );
 }

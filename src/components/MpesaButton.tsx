@@ -89,7 +89,14 @@ export default function MpesaButton({
       });
 
       if (error) {
-        throw new Error(error.message || "Failed to initiate payment");
+        console.error("M-Pesa invoke error:", error);
+        let errMsg = error.message || "Failed to initiate payment";
+        
+        // Supabase might hide the actual error in the context or it might be returned in data if not caught properly
+        if (error.context && error.context.error) {
+          errMsg = error.context.error;
+        }
+        throw new Error(errMsg);
       }
 
       const responseData: MpesaResponse = data;

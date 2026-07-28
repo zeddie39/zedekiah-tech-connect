@@ -12,7 +12,7 @@ import {
   Eye,
   CreditCard
 } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { toast } from "@/components/ui/use-toast";
 import ShopNavbar from "@/components/ShopNavbar";
 
@@ -22,15 +22,15 @@ type Order = {
   amount: number;
   status: string | null;
   payment_status: string | null;
-  product_id: string;
+  product_id?: string | null; // deprecated
   delivery_location: string | null;
   mpesa_receipt?: string | null;
+  order_items?: {
+    quantity: number;
+    products: { title: string };
+  }[];
 };
 
-type Product = {
-  id: string;
-  title: string;
-};
 
 type StatusConfig = {
   color: string;
@@ -55,9 +55,27 @@ const paymentConfig: Record<string, StatusConfig> = {
 
 export default function OrdersPage() {
   const [orders, setOrders] = useState<Order[]>([]);
-  const [products, setProducts] = useState<Record<string, Product>>({});
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  useEffect(() => {
+    if (searchParams.get("status") === "success") {
+      toast({
+        title: "Payment Successful",
+        description: "Your order has been paid and confirmed.",
+      });
+      // Remove query params
+      setSearchParams(new URLSearchParams());
+    } else if (searchParams.get("status") === "cancelled") {
+      toast({
+        title: "Payment Cancelled",
+        description: "You cancelled the payment process.",
+        variant: "destructive"
+      });
+      setSearchParams(new URLSearchParams());
+    }
+  }, [searchParams, setSearchParams]);
 
   useEffect(() => {
     let mounted = true;
@@ -69,25 +87,19 @@ export default function OrdersPage() {
       }
       const { data } = await supabase
         .from("orders")
-        .select("*")
+        .select(`
+          *,
+          order_items (
+            quantity,
+            products (
+              title
+            )
+          )
+        `)
         .order("created_at", { ascending: false });
 
       if (mounted && data) {
-        setOrders(data as Order[]);
-
-        const productIds = [...new Set(data.map(o => o.product_id))];
-        if (productIds.length > 0) {
-          const { data: productsData } = await supabase
-            .from("products")
-            .select("id, title")
-            .in("id", productIds);
-
-          if (productsData) {
-            const productMap: Record<string, Product> = {};
-            productsData.forEach(p => { productMap[p.id] = p; });
-            setProducts(productMap);
-          }
-        }
+        setOrders(data as unknown as Order[]);
       }
       setLoading(false);
     };
@@ -200,7 +212,11 @@ export default function OrdersPage() {
                         </span>
                       </div>
                       <h3 className="font-bold text-lg text-foreground">
-                        {products[order.product_id]?.title || "Unknown Product"}
+                        {order.order_items && order.order_items.length > 0
+                          ? order.order_items.length === 1 
+                            ? order.order_items[0].products.title
+                            : `${order.order_items.length} Items Order`
+                          : "Unknown Product"}
                       </h3>
                       <div className="flex flex-wrap gap-2 pt-1">
                         {getStatusBadge(order.status)}

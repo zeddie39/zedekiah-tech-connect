@@ -32,6 +32,8 @@ import TrackPage from "./pages/Track";
 import SubmitPage from "./pages/Submit";
 import Wishlist from "./pages/Wishlist";
 import { CartProvider } from "@/components/CartContext";
+import { SavedItemsProvider } from "@/components/SavedItemsContext";
+import SavedItems from "./pages/SavedItems";
 import ProductDetails from "./pages/ProductDetails";
 import ScrollToTop from "@/components/ui/scroll-to-top";
 import ConfirmedCelebration from "./pages/ConfirmedCelebration";
@@ -57,7 +59,8 @@ const App = () => (
     <TooltipProvider>
       <Toaster />
       <Sonner />
-      <CartProvider>
+      <SavedItemsProvider>
+        <CartProvider>
         <BrowserRouter>
           {/* PWA Install Prompt */}
           <PWAInstallPrompt />
@@ -75,6 +78,7 @@ const App = () => (
               <Route path="/orders/:orderId" element={<OrderDetailsPage />} />
               <Route path="/track" element={<TrackPage />} />
               <Route path="/submit" element={<SubmitPage />} />
+              <Route path="/saved-items" element={<SavedItems />} />
               <Route path="/wishlist" element={<Wishlist />} />
               <Route path="/blog" element={<BlogPage />} />
               <Route path="/about" element={<AboutPage />} />
@@ -112,7 +116,8 @@ const App = () => (
           <FloatingWhatsApp />
           <CookieConsent />
         </BrowserRouter>
-      </CartProvider>
+        </CartProvider>
+      </SavedItemsProvider>
     </TooltipProvider>
   </QueryClientProvider>
 );

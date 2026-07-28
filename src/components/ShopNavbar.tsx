@@ -7,6 +7,7 @@ import CartDrawer from "@/components/shop/CartDrawer";
 
 const navLinks = [
 	{ label: "Shop", to: "/shop", icon: ShoppingBag },
+	{ label: "Saved Items", to: "/saved-items", icon: Heart },
 	{ label: "Wishlist", to: "/wishlist", icon: Heart },
 	{ label: "Cart", to: "/cart", icon: ShoppingCart },
 	{ label: "Orders", to: "/orders", icon: ShoppingBag },

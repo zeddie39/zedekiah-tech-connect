@@ -4,12 +4,48 @@ import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { useNavigate } from "react-router-dom";
 import ShopNavbar from "@/components/ShopNavbar";
-import { ShoppingBag, ArrowRight, LogOut } from "lucide-react";
+import { ShoppingBag, ArrowRight, Trash2, Heart } from "lucide-react";
+import { useSavedItems } from "@/components/SavedItemsContext";
+import { useState } from "react";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 
 export default function CartPage() {
   const { cart, removeFromCart, updateQuantity } = useCart();
+  const { addToSavedItems } = useSavedItems();
   const navigate = useNavigate();
+  const [itemToRemove, setItemToRemove] = useState<any | null>(null);
+
   const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  const hasUnavailableItems = cart.some(item => item.isAvailable === false);
+
+  const handleSaveForLater = () => {
+    if (itemToRemove) {
+      addToSavedItems({
+        id: itemToRemove.id,
+        title: itemToRemove.title,
+        price: itemToRemove.price,
+        image: itemToRemove.image
+      });
+      removeFromCart(itemToRemove.id);
+      setItemToRemove(null);
+    }
+  };
+
+  const handleConfirmRemove = () => {
+    if (itemToRemove) {
+      removeFromCart(itemToRemove.id);
+      setItemToRemove(null);
+    }
+  };
 
   return (
     <>
@@ -50,8 +86,14 @@ export default function CartPage() {
                         </div>
 
                         <div className="flex-1 text-center sm:text-left w-full">
-                          <h3 className="font-semibold text-lg">{item.title}</h3>
-                          <p className="text-primary font-bold">Ksh {item.price.toLocaleString()}</p>
+                          <h3 className={`font-semibold text-lg ${item.isAvailable === false ? 'opacity-50' : ''}`}>{item.title}</h3>
+                          {item.isAvailable === false ? (
+                            <span className="inline-block mt-1 text-xs font-bold text-destructive bg-destructive/10 px-2 py-1 rounded">
+                              Out of Stock
+                            </span>
+                          ) : (
+                            <p className="text-primary font-bold">Ksh {item.price.toLocaleString()}</p>
+                          )}
                         </div>
 
                         <div className="flex items-center gap-4 w-full sm:w-auto justify-between sm:justify-end">
@@ -60,8 +102,9 @@ export default function CartPage() {
                               type="button"
                               variant="ghost"
                               size="icon"
-                              className="h-8 w-8 hover:bg-muted"
+                              className="h-8 w-8 hover:bg-muted disabled:opacity-50"
                               onClick={() => updateQuantity(item.id, Math.max(1, item.quantity - 1))}
+                              disabled={item.quantity <= 1 || item.isAvailable === false}
                             >
                               -
                             </Button>
@@ -70,8 +113,9 @@ export default function CartPage() {
                               type="button"
                               variant="ghost"
                               size="icon"
-                              className="h-8 w-8 hover:bg-muted"
+                              className="h-8 w-8 hover:bg-muted disabled:opacity-50"
                               onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                              disabled={item.isAvailable === false}
                             >
                               +
                             </Button>
@@ -81,9 +125,9 @@ export default function CartPage() {
                             size="icon"
                             type="button"
                             className="text-red-500 hover:text-red-600 hover:bg-red-50"
-                            onClick={() => removeFromCart(item.id)}
+                            onClick={() => setItemToRemove(item)}
                           >
-                            <LogOut className="w-5 h-5" />
+                            <Trash2 className="w-5 h-5" />
                           </Button>
                         </div>
                       </div>
@@ -99,8 +143,8 @@ export default function CartPage() {
                       <Button variant="outline" type="button" onClick={() => navigate("/shop")} className="flex-1 sm:flex-none">
                         Continue Shopping
                       </Button>
-                      <Button type="submit" className="flex-1 sm:flex-none bg-primary hover:bg-primary/90 shadow-lg shadow-primary/20">
-                        Proceed to Checkout
+                      <Button type="submit" disabled={hasUnavailableItems} className="flex-1 sm:flex-none bg-primary hover:bg-primary/90 shadow-lg shadow-primary/20">
+                        {hasUnavailableItems ? "Remove unavailable items" : "Proceed to Checkout"}
                       </Button>
                     </div>
                   </div>
@@ -110,6 +154,26 @@ export default function CartPage() {
           </Card>
         </div>
       </div>
+
+      <AlertDialog open={!!itemToRemove} onOpenChange={(open) => !open && setItemToRemove(null)}>
+        <AlertDialogContent className="bg-card">
+          <AlertDialogHeader>
+            <AlertDialogTitle>Remove from cart</AlertDialogTitle>
+            <AlertDialogDescription>
+              Would you like to save <strong>{itemToRemove?.title}</strong> for later instead of removing it completely?
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter className="flex-col sm:flex-row gap-2">
+            <AlertDialogCancel onClick={() => setItemToRemove(null)}>Cancel</AlertDialogCancel>
+            <Button variant="destructive" onClick={handleConfirmRemove} className="gap-2">
+              <Trash2 size={16} /> Remove Completely
+            </Button>
+            <Button variant="default" onClick={handleSaveForLater} className="gap-2 bg-primary">
+              <Heart size={16} /> Save for Later
+            </Button>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </>
   );
 }

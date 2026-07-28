@@ -51,9 +51,11 @@ export interface Database {
       delivery_location: string | null
       id: string
       payment_status: string | null
-      product_id: string
+      product_id: string | null
       status: string | null
       updated_at: string | null
+      checkout_request_id?: string | null
+      stripe_session_id?: string | null
     }
     Insert: {
       amount: number
@@ -62,9 +64,11 @@ export interface Database {
       delivery_location?: string | null
       id?: string
       payment_status?: string | null
-      product_id: string
+      product_id?: string | null
       status?: string | null
       updated_at?: string | null
+      checkout_request_id?: string | null
+      stripe_session_id?: string | null
     }
     Update: {
       amount?: number
@@ -73,13 +77,55 @@ export interface Database {
       delivery_location?: string | null
       id?: string
       payment_status?: string | null
-      product_id?: string
+      product_id?: string | null
       status?: string | null
       updated_at?: string | null
+      checkout_request_id?: string | null
+      stripe_session_id?: string | null
     }
     Relationships: [
       {
         foreignKeyName: "orders_product_id_fkey"
+        columns: ["product_id"]
+        referencedRelation: "products"
+        referencedColumns: ["id"]
+      }
+    ]
+  }
+  order_items: {
+    Row: {
+      id: string
+      order_id: string
+      product_id: string
+      quantity: number
+      price_at_time: number
+      created_at: string
+    }
+    Insert: {
+      id?: string
+      order_id: string
+      product_id: string
+      quantity?: number
+      price_at_time: number
+      created_at?: string
+    }
+    Update: {
+      id?: string
+      order_id?: string
+      product_id?: string
+      quantity?: number
+      price_at_time?: number
+      created_at?: string
+    }
+    Relationships: [
+      {
+        foreignKeyName: "order_items_order_id_fkey"
+        columns: ["order_id"]
+        referencedRelation: "orders"
+        referencedColumns: ["id"]
+      },
+      {
+        foreignKeyName: "order_items_product_id_fkey"
         columns: ["product_id"]
         referencedRelation: "products"
         referencedColumns: ["id"]
