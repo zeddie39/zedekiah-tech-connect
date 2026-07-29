@@ -1,0 +1,72 @@
+name: DB Security Scan
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  security-definer-audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install psql
+        run: sudo apt-get update && sudo apt-get install -y postgresql-client
+
+      - name: Fail on mutable search_path in SECURITY DEFINER functions
+        env:
+          PGURL: ${{ secrets.SUPABASE_DB_URL }}
+        run: |
+          set -euo pipefail
+          OUT=$(psql "$PGURL" -Atc "
+            SELECT n.nspname||'.'||p.proname||'('||pg_get_function_identity_arguments(p.oid)||')'
+            FROM pg_proc p
+            JOIN pg_namespace n ON n.oid = p.pronamespace
+            WHERE n.nspname = 'public'
+              AND p.prosecdef = true
+              AND NOT EXISTS (
+                SELECT 1 FROM unnest(coalesce(p.proconfig, '{}')) c
+                WHERE c LIKE 'search_path=%'
+              );
+          ")
+          if [ -n "$OUT" ]; then
+            echo "::error::SECURITY DEFINER functions without a fixed search_path:"
+            echo "$OUT"
+            exit 1
+          fi
+          echo "OK: no mutable search_path in SECURITY DEFINER functions."
+
+      - name: Fail on anon/authenticated EXECUTE on SECURITY DEFINER functions
+        env:
+          PGURL: ${{ secrets.SUPABASE_DB_URL }}
+          # Space-separated allowlist of function names that MUST stay executable
+          # (e.g. helpers invoked from RLS policies).
+          ALLOWLIST: "has_role"
+        run: |
+          set -euo pipefail
+          ALLOW_SQL=$(printf "'%s'," $ALLOWLIST | sed 's/,$//')
+          OUT=$(psql "$PGURL" -Atc "
+            WITH sd AS (
+              SELECT p.oid,
+                     n.nspname||'.'||p.proname AS fn,
+                     p.proname AS name,
+                     pg_get_function_identity_arguments(p.oid) AS args
+              FROM pg_proc p
+              JOIN pg_namespace n ON n.oid = p.pronamespace
+              WHERE n.nspname = 'public' AND p.prosecdef = true
+            )
+            SELECT sd.fn||'('||sd.args||') -> '||r.rolname
+            FROM sd
+            CROSS JOIN LATERAL (VALUES ('anon'), ('authenticated'), ('public')) AS r(rolname)
+            WHERE has_function_privilege(r.rolname, sd.oid, 'EXECUTE')
+              AND sd.name NOT IN ($ALLOW_SQL);
+          ")
+          if [ -n "$OUT" ]; then
+            echo "::error::SECURITY DEFINER functions executable by anon/authenticated/public:"
+            echo "$OUT"
+            echo "Revoke EXECUTE or add to the ALLOWLIST env if intentional."
+            exit 1
+          fi
+          echo "OK: no unexpected EXECUTE grants on SECURITY DEFINER functions."
