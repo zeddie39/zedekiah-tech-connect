@@ -1,89 +1,137 @@
-import React from 'react';
-
-type PriceItem = {
-  job: string;
-  details: string;
-  price: string;
-  time?: string;
-  category: 'laptop' | 'phone' | 'cctv';
-};
-
-const ITEMS: PriceItem[] = [
-  { job: 'Consultation', details: 'Any laptop consultation, troubleshooting and prescriptions.', price: 'Ksh. 1000-2000', time: '20min - 2 hours', category: 'laptop' },
-  { job: 'Screen Repair', details: 'Supply and replace broken screen, any laptop screen.', price: 'Ksh. 3,500-16,000', time: '30min - 2 hours', category: 'laptop' },
-  { job: 'Power Socket', details: 'Supply and replace power socket for standard laptop.', price: 'Ksh. 1,500-3,500', time: '1-2 hours', category: 'laptop' },
-  { job: 'Repair Liquid Damage/Drink Spillage', details: 'Dry out various parts, assuming none need replacing. (If replacements are needed, the price will be higher.)', price: 'Ksh. 2,500-8,000', time: '24hrs+', category: 'laptop' },
-  { job: 'Replace Hard Drive', details: 'Supply and replace 500GB hard drive.', price: 'Ksh. 2,500', category: 'laptop' },
-  { job: 'Reinstall software', details: '', price: 'Ksh. 500-1000', category: 'laptop' },
-  { job: 'Transfer data', details: 'Transfer data from old hard drive to new.', price: 'Ksh. 500-1500', category: 'laptop' },
-  { job: 'Casing Replacement', details: 'Partial or full casing replacement.', price: 'Ksh. 1,500-7,000', category: 'laptop' },
-  { job: 'Motherboard Replacement', details: 'Full motherboard replacement.', price: 'Ksh. 4,500-20,000', category: 'laptop' },
-  // Phone samples
-  { job: 'Phone Screen Repair', details: 'Replace broken phone screen.', price: 'Ksh. 800-6,000', category: 'phone' },
-  { job: 'Phone Battery Replacement', details: 'Replace phone battery.', price: 'Ksh. 500-2,000', category: 'phone' },
-  { job: 'Phone Water Damage', details: 'Dry and clean phone internals.', price: 'Ksh. 800-5,000', category: 'phone' },
-  // CCTV samples
-  { job: 'CCTV Installation', details: 'Install HD CCTV camera and DVR.', price: 'Ksh. 3,000-12,000', category: 'cctv' },
-  { job: 'CCTV Maintenance', details: 'Troubleshoot camera/DVR issues.', price: 'Ksh. 1,000-4,000', category: 'cctv' },
-];
-
-function shuffle<T>(arr: T[]) {
-  const a = arr.slice();
-  for (let i = a.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [a[i], a[j]] = [a[j], a[i]];
-  }
-  return a;
-}
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { pricingData } from '@/data/pricingData';
+import { ShieldAlert, Info, ArrowLeft } from 'lucide-react';
+import PageTransition from '@/components/PageTransition';
+import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
 
 const PricingPage: React.FC = () => {
-  const params = new URLSearchParams(window.location.search);
-  const initialCategory = (params.get('category') as 'laptop' | 'phone' | 'cctv' | null) ?? null;
-  const [category, setCategory] = React.useState<typeof initialCategory>(initialCategory);
-  const items = React.useMemo(() => shuffle(ITEMS), []);
-  const filtered = category ? items.filter((i) => i.category === category) : items;
+  const [activeCategory, setActiveCategory] = useState<string>('all');
+
+  const filteredData = activeCategory === 'all' 
+    ? pricingData 
+    : pricingData.filter(cat => cat.id === activeCategory);
 
   return (
-    <div className="max-w-6xl mx-auto py-12 px-4">
-      <h1 className="text-4xl font-bold mb-8 text-center text-accent">Our Service Pricing</h1>
+    <PageTransition>
+      <div className="min-h-screen bg-gray-50 flex flex-col">
+        <Navbar />
+        <main className="flex-grow pt-24 pb-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full">
+          {/* Back button */}
+          <div className="mb-6">
+            <Link to="/" className="inline-flex items-center gap-2 text-accent hover:text-accent/80 font-medium transition-colors">
+              <ArrowLeft size={20} />
+              Back to Home
+            </Link>
+          </div>
 
-      <div className="flex items-center justify-center gap-3 mb-6">
-        {(['all', 'laptop', 'phone', 'cctv'] as const).map((c) => (
-          <button
-            key={c}
-            onClick={() => {
-              setCategory(c === 'all' ? null : c);
-              const url = new URL(window.location.href);
-              if (c === 'all') url.searchParams.delete('category'); else url.searchParams.set('category', c);
-              window.history.replaceState({}, '', url.toString());
-            }}
-            className={`px-4 py-2 rounded-md ${category === (c === 'all' ? null : c) ? 'bg-accent text-white' : 'bg-white border'}`}>
-            {c === 'all' ? 'All' : c.charAt(0).toUpperCase() + c.slice(1)}
-          </button>
-        ))}
-      </div>
-
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {filtered.map((it) => (
-          <div key={it.job + it.category} className="bg-white rounded-lg shadow p-6 border border-accent/10">
-            <div className="flex items-center justify-between mb-3">
-              <h3 className="text-lg font-semibold">{it.job}</h3>
-              <div className="text-sm text-green-700 font-bold">{it.price}</div>
-            </div>
-            {it.details && <p className="text-sm text-gray-700 mb-3">{it.details}</p>}
-            <div className="flex items-center justify-between">
-              {it.time ? <div className="text-xs text-gray-500">Time: {it.time}</div> : <div />}
-              <div className="text-xs uppercase text-muted-foreground">{it.category}</div>
+          {/* Header section */}
+          <div className="text-center mb-12">
+            <h1 className="text-4xl md:text-5xl font-bold text-accent mb-4">ZTECH ELECTRONICS LTD.</h1>
+            <h2 className="text-2xl font-semibold text-gray-700 mb-6">SERVICE PRICE GUIDE (2026)</h2>
+            
+            <div className="max-w-3xl mx-auto bg-blue-50 border-l-4 border-blue-500 p-4 rounded text-left flex items-start gap-3 shadow-sm">
+              <Info className="text-blue-500 shrink-0 mt-1" size={24} />
+              <p className="text-blue-900 font-medium text-sm md:text-base">
+                All prices are starting prices and may vary depending on project scope, equipment, and complexity. 
+                Replacement parts, hardware, software licenses, and transport are quoted separately where applicable.
+              </p>
             </div>
           </div>
-        ))}
-      </div>
 
-      <div className="mt-6 text-xs text-gray-500">
-        <b>NB:</b> The prices quoted above are based on experience, not time.<br />
-        Storage fees will be charged for any unpicked laptop after two weeks from the repair date.
+          {/* Category Filter */}
+          <div className="flex flex-wrap justify-center gap-2 mb-10">
+            <button
+              onClick={() => setActiveCategory('all')}
+              className={`px-4 py-2 rounded-full text-sm font-semibold transition-colors duration-200 ${
+                activeCategory === 'all' 
+                  ? 'bg-accent text-white shadow-md' 
+                  : 'bg-white text-gray-700 border border-gray-200 hover:bg-gray-100'
+              }`}
+            >
+              All Services
+            </button>
+            {pricingData.map((cat) => (
+              <button
+                key={cat.id}
+                onClick={() => setActiveCategory(cat.id)}
+                className={`px-4 py-2 rounded-full text-sm font-semibold flex items-center gap-2 transition-colors duration-200 ${
+                  activeCategory === cat.id 
+                    ? 'bg-accent text-white shadow-md' 
+                    : 'bg-white text-gray-700 border border-gray-200 hover:bg-gray-100'
+                }`}
+              >
+                <cat.icon size={16} />
+                {cat.title}
+              </button>
+            ))}
+          </div>
+
+          {/* Pricing Tables */}
+          <div className="space-y-12">
+            {filteredData.map((category) => (
+              <div key={category.id} className="bg-white rounded-xl shadow-md overflow-hidden border border-gray-100">
+                <div className="bg-accent/10 px-6 py-4 border-b border-accent/20 flex items-center gap-3">
+                  <div className="p-2 bg-white rounded-lg text-accent shadow-sm">
+                    <category.icon size={24} />
+                  </div>
+                  <h3 className="text-2xl font-bold text-gray-800">{category.title}</h3>
+                </div>
+                
+                {category.note && (
+                  <div className="px-6 py-3 bg-gray-50 text-sm text-gray-600 italic border-b border-gray-100">
+                    * {category.note}
+                  </div>
+                )}
+                
+                <div className="overflow-x-auto">
+                  <table className="w-full text-left border-collapse">
+                    <thead>
+                      <tr className="bg-gray-50/50">
+                        <th className="px-6 py-3 text-sm font-semibold text-gray-600 uppercase tracking-wider border-b border-gray-200">Service</th>
+                        <th className="px-6 py-3 text-sm font-semibold text-gray-600 uppercase tracking-wider border-b border-gray-200 text-right">Starting Price</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-gray-100">
+                      {category.items.map((item, idx) => (
+                        <tr key={idx} className="hover:bg-gray-50 transition-colors">
+                          <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">
+                            {item.service}
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap text-sm text-right">
+                            <span className="font-bold text-green-700">{item.price}</span>
+                            {item.note && <span className="text-gray-500 text-xs ml-2 italic">{item.note}</span>}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Terms and Conditions */}
+          <div className="mt-16 bg-white rounded-xl shadow-md p-6 md:p-8 border border-gray-100">
+            <div className="flex items-center gap-3 mb-6 pb-4 border-b border-gray-100">
+              <ShieldAlert className="text-accent" size={28} />
+              <h3 className="text-2xl font-bold text-gray-800">Terms & Conditions</h3>
+            </div>
+            <ul className="space-y-3 text-gray-600 list-disc pl-5">
+              <li>Prices shown are <strong>starting prices</strong>.</li>
+              <li>Hardware, replacement parts, software licenses, and subscriptions are billed separately unless specifically included.</li>
+              <li>A quotation is provided for projects with custom requirements.</li>
+              <li>A <strong>50% deposit</strong> is required before the commencement of software development, website projects, and major installations.</li>
+              <li>Repairs may require a diagnostic assessment before a final quote is issued.</li>
+              <li>All work is subject to agreed timelines and scope.</li>
+            </ul>
+          </div>
+
+        </main>
+        <Footer />
       </div>
-    </div>
+    </PageTransition>
   );
 };
 
