@@ -77,6 +77,7 @@ const Navigation = () => {
           <button onClick={() => scrollToSection('contact')} className="hover:text-accent text-white font-medium transition-colors">Contact</button>
           <Link to="/gallery" className="hover:text-accent text-white font-medium transition-colors">Gallery</Link>
           <Link to="/blog" className="hover:text-accent text-white font-medium transition-colors">Blog</Link>
+          <Link to="/careers" className="hover:text-accent text-white font-medium transition-colors">Careers</Link>
           <Link to="/shop" className="hover:text-accent text-white font-medium transition-colors">Shop</Link>
           <button
             onClick={toggleDarkMode}
@@ -104,6 +105,7 @@ const Navigation = () => {
           <button onClick={() => scrollToSection('contact')} className="hover:text-accent text-white font-medium w-full text-left">Contact</button>
           <Link to="/gallery" className="hover:text-accent text-white font-medium w-full text-left block">Gallery</Link>
           <Link to="/blog" className="hover:text-accent text-white font-medium w-full text-left block">Blog</Link>
+          <Link to="/careers" className="hover:text-accent text-white font-medium w-full text-left block">Careers & Internships</Link>
           <Link to="/shop" className="hover:text-accent text-white font-medium w-full text-left block">Shop</Link>
           <button
             onClick={toggleDarkMode}

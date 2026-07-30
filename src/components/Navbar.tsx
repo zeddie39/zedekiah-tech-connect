@@ -41,6 +41,7 @@ const Navbar = () => {
         <a href="#services" className="hover:text-orange-400 text-white font-medium transition-colors">Services</a>
         <a href="#team" className="hover:text-orange-400 text-white font-medium transition-colors">Team</a>
         <a href="/gallery" className="hover:text-orange-400 text-white font-medium transition-colors">Gallery</a>
+        <Link to="/careers" className="hover:text-orange-400 text-white font-medium transition-colors">Careers & Internships</Link>
         <a href="#pricing" className="hover:text-orange-400 text-white font-medium transition-colors">Pricing</a>
         <a href="#faq" className="hover:text-orange-400 text-white font-medium transition-colors">FAQ</a>
         <a href="#contact" className="hover:text-orange-400 text-white font-medium transition-colors">Contact</a>
@@ -62,6 +63,7 @@ const Navbar = () => {
             <a href="#services" className="hover:text-orange-400 text-white font-medium w-full" onClick={() => setOpen(false)}>Services</a>
             <a href="#team" className="hover:text-orange-400 text-white font-medium w-full" onClick={() => setOpen(false)}>Team</a>
             <a href="/gallery" className="hover:text-orange-400 text-white font-medium w-full" onClick={() => setOpen(false)}>Gallery</a>
+            <Link to="/careers" className="hover:text-orange-400 text-white font-medium w-full" onClick={() => setOpen(false)}>Careers & Internships</Link>
             <a href="#pricing" className="hover:text-orange-400 text-white font-medium w-full" onClick={() => setOpen(false)}>Pricing</a>
             <a href="#faq" className="hover:text-orange-400 text-white font-medium w-full" onClick={() => setOpen(false)}>FAQ</a>
             <a href="#contact" className="hover:text-orange-400 text-white font-medium w-full" onClick={() => setOpen(false)}>Contact</a>

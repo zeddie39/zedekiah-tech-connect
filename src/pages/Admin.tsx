@@ -135,6 +135,7 @@ export default function AdminLayout() {
       "/admin/messages",
       "/admin/repairs",
       "/admin/notifications",
+      "/admin/internships",
       "/admin/team",
       "/admin/users",
       "/admin/health",
@@ -181,7 +182,7 @@ export default function AdminLayout() {
                   </div>
                   <h2 className="text-xl font-bold text-gray-900 mb-2">Access Restricted</h2>
                   <p className="text-gray-600 text-sm leading-relaxed mb-6">
-                    Your role (<strong className="capitalize">{ROLE_NAMES[role] || role}</strong>) does not have permission to access this page. User & Role Management is restricted to Super Admins.
+                    Your role (<strong className="capitalize">{ROLE_NAMES[role] || role}</strong>) does not have permission to access this page. This section is restricted to specific admin roles.
                   </p>
                   <button
                     onClick={() => navigate("/admin")}

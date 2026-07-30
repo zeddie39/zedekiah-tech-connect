@@ -26,6 +26,7 @@ import {
   LogOut,
   Home,
   Shield,
+  GraduationCap,
 } from "lucide-react";
 
 const OVERVIEW_ITEMS = [
@@ -43,6 +44,7 @@ const OPERATIONS_ITEMS = [
   { label: "Messages", icon: Mail, path: "/admin/messages" },
   { label: "Repairs", icon: Wrench, path: "/admin/repairs" },
   { label: "Notifications", icon: Bell, path: "/admin/notifications" },
+  { label: "Internships & Attachments", icon: GraduationCap, path: "/admin/internships" },
 ];
 
 const SYSTEM_ITEMS = [
@@ -70,6 +72,7 @@ const ROLE_PERMISSIONS: Record<string, string[]> = {
     "/admin/messages",
     "/admin/repairs",
     "/admin/notifications",
+    "/admin/internships",
     "/admin/team",
     "/admin/users",
     "/admin/health",
