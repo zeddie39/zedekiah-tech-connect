@@ -9,10 +9,17 @@ import About from "@/components/About";
 import Blog from "@/components/Blog";
 import FAQ from "@/pages/FAQ";
 import WhyChooseUs from "@/pages/WhyChooseUs";
+import HomePricingSection from "@/components/HomePricingSection";
+import SEO from "@/components/SEO";
 
 function Index() {
   return (
     <div>
+      <SEO
+        title="Professional ICT Solutions in Kenya"
+        description="ZTech Electronics Ltd. offers professional ICT solutions including web development, phone & laptop repair, CCTV installation, networking, smart home automation, and more across Kenya."
+        keywords="ZTech Electronics, ICT solutions Kenya, phone repair Nairobi, laptop repair, CCTV installation Kenya, web development, smart home automation"
+      />
       <Navigation />
       <div id="home">
         <Hero />
@@ -46,5 +53,5 @@ function Index() {
     </div>
   );
 }
-import HomePricingSection from "@/components/HomePricingSection";
+
 export default Index;

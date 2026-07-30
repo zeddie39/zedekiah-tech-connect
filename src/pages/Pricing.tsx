@@ -5,6 +5,7 @@ import { ShieldAlert, Info, ArrowLeft } from 'lucide-react';
 import PageTransition from '@/components/PageTransition';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import SEO from '@/components/SEO';
 
 const PricingPage: React.FC = () => {
   const [activeCategory, setActiveCategory] = useState<string>('all');
@@ -15,6 +16,11 @@ const PricingPage: React.FC = () => {
 
   return (
     <PageTransition>
+      <SEO
+        title="Service Pricing Guide"
+        description="View ZTech Electronics' complete service pricing guide for 2026. Transparent starting prices for web development, phone repair, CCTV installation, networking, and more."
+        keywords="ZTech pricing, service prices Kenya, phone repair cost, CCTV installation price, web development cost Kenya"
+      />
       <div className="min-h-screen bg-gray-50 flex flex-col">
         <Navbar />
         <main className="flex-grow pt-24 pb-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full">

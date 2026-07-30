@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import SEO from "@/components/SEO";
 import { motion } from "framer-motion";
 import { supabase } from "@/integrations/supabase/client";
 import type { Database } from "../types/supabase";
@@ -430,6 +431,11 @@ export default function Shop() {
 
   return (
     <div className="min-h-screen w-full bg-gradient-to-br from-background via-muted/30 to-accent/5 font-sans">
+      <SEO
+        title="Shop - Electronics & Tech Products"
+        description="Browse and buy quality electronics, phones, laptops, accessories, and tech products from ZTech Electronics. Fast delivery across Kenya."
+        keywords="buy electronics Kenya, phones, laptops, tech accessories, ZTech shop"
+      />
       <ShopNavbar />
       <ShopHeroCarousel />
 
