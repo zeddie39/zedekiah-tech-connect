@@ -100,6 +100,27 @@ export default function Careers() {
     setIsApplyModalOpen(true);
   };
 
+  const handleOpenGeneralApply = () => {
+    setActivePosting({
+      id: "general",
+      title: "General Attachment & Internship Application",
+      department: "Engineering & Technical Services",
+      type: "Attachment",
+      location: "Nairobi, Kenya",
+      duration: "3 to 6 Months",
+      description: "General application for industrial attachment, engineering internship, or technical apprenticeship at Ztech Electronics Ltd.",
+      requirements: [],
+      responsibilities: [],
+      slots: 1,
+      deadline: "Open",
+      isOpen: true,
+      postedAt: new Date().toISOString().split("T")[0]
+    });
+    setType("Attachment");
+    setSubmittedRef(null);
+    setIsApplyModalOpen(true);
+  };
+
   const resetForm = () => {
     setFullName("");
     setEmail("");
@@ -252,7 +273,16 @@ export default function Careers() {
               >
                 View Open Opportunities <ArrowRight className="ml-2 w-5 h-5" />
               </Button>
-            ) : null}
+            ) : (
+              <Button
+                onClick={handleOpenGeneralApply}
+                size="lg"
+                className="w-full sm:w-auto bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-bold px-8 py-6 rounded-xl shadow-xl shadow-amber-500/20 text-base transition-all duration-300 hover:scale-[1.02]"
+              >
+                <Send className="w-5 h-5 mr-2" />
+                Submit Application Now
+              </Button>
+            )}
 
             <Button
               onClick={() => {
@@ -385,16 +415,26 @@ export default function Careers() {
               Ztech Electronics Ltd currently has no active attachment or internship openings listed. 
               New slots are opened regularly by our admin team — check back soon or track your submitted application below.
             </p>
-            <Button
-              onClick={() => {
-                const el = document.getElementById("track-section");
-                el?.scrollIntoView({ behavior: "smooth" });
-              }}
-              className="bg-slate-900 hover:bg-slate-800 text-amber-400 hover:text-amber-300 border border-amber-500/50 hover:border-amber-400 font-semibold px-8 py-6 rounded-xl shadow-xl transition-all duration-300 hover:scale-[1.02]"
-            >
-              <Search className="w-5 h-5 mr-2.5 text-amber-400" />
-              Already Applied? Track Your Status Below
-            </Button>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+              <Button
+                onClick={handleOpenGeneralApply}
+                className="w-full sm:w-auto bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-bold px-8 py-6 rounded-xl shadow-xl shadow-amber-500/20 text-base transition-all duration-300 hover:scale-[1.02]"
+              >
+                <Send className="w-5 h-5 mr-2" />
+                Submit General Application
+              </Button>
+
+              <Button
+                onClick={() => {
+                  const el = document.getElementById("track-section");
+                  el?.scrollIntoView({ behavior: "smooth" });
+                }}
+                className="w-full sm:w-auto bg-slate-900 hover:bg-slate-800 text-amber-400 hover:text-amber-300 border border-amber-500/50 hover:border-amber-400 font-semibold px-8 py-6 rounded-xl shadow-xl transition-all duration-300 hover:scale-[1.02]"
+              >
+                <Search className="w-5 h-5 mr-2.5 text-amber-400" />
+                Already Applied? Track Your Status Below
+              </Button>
+            </div>
           </div>
         ) : (
           <>
