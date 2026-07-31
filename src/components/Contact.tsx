@@ -84,35 +84,35 @@ const Contact = () => {
                     <MapPin size={28} />
                   </div>
                   <div>
-                    <h4 className="font-semibold text-primary">Location</h4>
-                    <p className="text-gray-600">Kisii University</p>
+                    <h4 className="font-semibold text-slate-900 dark:text-white">Location</h4>
+                    <p className="text-gray-600 dark:text-slate-300">Kisii University</p>
                   </div>
                 </div>
                 <div className="flex items-center space-x-4">
-                  <div className="w-12 h-12 bg-accent rounded-full flex items-center justify-center text-white text-xl">
+                  <div className="w-12 h-12 bg-accent rounded-full flex items-center justify-center text-slate-950 font-bold text-xl">
                     <Phone size={26} />
                   </div>
                   <div>
-                    <h4 className="font-semibold text-primary">Phone</h4>
-                    <p className="text-gray-600">0757 756 763</p>
+                    <h4 className="font-semibold text-slate-900 dark:text-white">Phone</h4>
+                    <p className="text-gray-600 dark:text-slate-300">0757 756 763</p>
                   </div>
                 </div>
                 <div className="flex items-center space-x-4">
-                  <div className="w-12 h-12 bg-accent rounded-full flex items-center justify-center text-white text-xl">
+                  <div className="w-12 h-12 bg-accent rounded-full flex items-center justify-center text-slate-950 font-bold text-xl">
                     <Mail size={26} />
                   </div>
                   <div>
-                    <h4 className="font-semibold text-primary">Email</h4>
-                    <p className="text-gray-600">zeedy028@gmail.com</p>
+                    <h4 className="font-semibold text-slate-900 dark:text-white">Email</h4>
+                    <p className="text-gray-600 dark:text-slate-300">zeedy028@gmail.com</p>
                   </div>
                 </div>
                 <div className="flex items-center space-x-4">
-                  <div className="w-12 h-12 bg-accent rounded-full flex items-center justify-center text-white text-xl">
+                  <div className="w-12 h-12 bg-accent rounded-full flex items-center justify-center text-slate-950 font-bold text-xl">
                     <Clock size={26} />
                   </div>
                   <div>
-                    <h4 className="font-semibold text-primary">Hours</h4>
-                    <p className="text-gray-600">Mon-Fri 9AM-6PM, Sat 10AM-4PM</p>
+                    <h4 className="font-semibold text-slate-900 dark:text-white">Hours</h4>
+                    <p className="text-gray-600 dark:text-slate-300">Mon-Fri 9AM-6PM, Sat 10AM-4PM</p>
                   </div>
                 </div>
               </div>
@@ -122,9 +122,9 @@ const Contact = () => {
           </div>
 
           {/* Contact Form */}
-          <Card className="glass-card">
+          <Card className="glass-card bg-white dark:bg-slate-900/90 border border-gray-200 dark:border-slate-800">
             <CardHeader>
-              <CardTitle className="text-2xl font-orbitron text-primary">
+              <CardTitle className="text-2xl font-orbitron text-slate-900 dark:text-white">
                 Send us a Message
               </CardTitle>
             </CardHeader>
@@ -132,7 +132,7 @@ const Contact = () => {
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <label htmlFor="name" className="block text-sm font-semibold text-gray-700 mb-2">
+                    <label htmlFor="name" className="block text-sm font-semibold text-gray-700 dark:text-slate-200 mb-2">
                       Full Name *
                     </label>
                     <Input
@@ -142,12 +142,12 @@ const Contact = () => {
                       required
                       value={formData.name}
                       onChange={handleChange}
-                      className="w-full"
+                      className="w-full bg-white dark:bg-slate-950 text-slate-900 dark:text-white border-gray-300 dark:border-slate-700"
                       placeholder="Your name"
                     />
                   </div>
                   <div>
-                    <label htmlFor="email" className="block text-sm font-semibold text-gray-700 mb-2">
+                    <label htmlFor="email" className="block text-sm font-semibold text-gray-700 dark:text-slate-200 mb-2">
                       Email Address *
                     </label>
                     <Input
@@ -157,7 +157,7 @@ const Contact = () => {
                       required
                       value={formData.email}
                       onChange={handleChange}
-                      className="w-full"
+                      className="w-full bg-white dark:bg-slate-950 text-slate-900 dark:text-white border-gray-300 dark:border-slate-700"
                       placeholder="your@email.com"
                     />
                   </div>
@@ -165,7 +165,7 @@ const Contact = () => {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <label htmlFor="phone" className="block text-sm font-semibold text-gray-700 mb-2">
+                    <label htmlFor="phone" className="block text-sm font-semibold text-gray-700 dark:text-slate-200 mb-2">
                       Phone Number
                     </label>
                     <Input
@@ -174,12 +174,12 @@ const Contact = () => {
                       type="tel"
                       value={formData.phone}
                       onChange={handleChange}
-                      className="w-full"
+                      className="w-full bg-white dark:bg-slate-950 text-slate-900 dark:text-white border-gray-300 dark:border-slate-700"
                       placeholder="(555) 123-4567"
                     />
                   </div>
                   <div>
-                    <label htmlFor="service" className="block text-sm font-semibold text-gray-700 mb-2">
+                    <label htmlFor="service" className="block text-sm font-semibold text-gray-700 dark:text-slate-200 mb-2">
                       Service Needed
                     </label>
                     <select
@@ -187,7 +187,7 @@ const Contact = () => {
                       name="service"
                       value={formData.service}
                       onChange={handleChange}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-accent"
+                      className="w-full px-3 py-2 bg-white dark:bg-slate-950 text-slate-900 dark:text-white border border-gray-300 dark:border-slate-700 rounded-md focus:outline-none focus:ring-2 focus:ring-accent"
                     >
                       <option value="">Select a service</option>
                       <option value="phone-repair">Phone/Tablet Repair</option>
@@ -201,7 +201,7 @@ const Contact = () => {
                 </div>
 
                 <div>
-                  <label htmlFor="message" className="block text-sm font-semibold text-gray-700 mb-2">
+                  <label htmlFor="message" className="block text-sm font-semibold text-gray-700 dark:text-slate-200 mb-2">
                     Message *
                   </label>
                   <Textarea
@@ -211,7 +211,7 @@ const Contact = () => {
                     value={formData.message}
                     onChange={handleChange}
                     rows={5}
-                    className="w-full"
+                    className="w-full bg-white dark:bg-slate-950 text-slate-900 dark:text-white border-gray-300 dark:border-slate-700"
                     placeholder="Tell us about your tech needs..."
                   />
                 </div>

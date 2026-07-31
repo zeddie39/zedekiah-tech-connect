@@ -1,10 +1,10 @@
 import React from "react";
 
 const Terms = () => (
-  <div className="max-w-3xl mx-auto py-12 px-6 bg-white rounded-2xl shadow-lg border border-accent/20 mt-8 mb-12">
-    <h1 className="text-3xl font-bold mb-2 text-primary text-center">Ztech Electronics Limited – Terms and Conditions</h1>
+  <div className="max-w-3xl mx-auto py-12 px-6 bg-white dark:bg-slate-900/90 rounded-2xl shadow-lg border border-accent/20 dark:border-slate-800 mt-8 mb-12 transition-colors">
+    <h1 className="text-3xl font-bold mb-2 text-slate-900 dark:text-white text-center">Ztech Electronics Limited – Terms and Conditions</h1>
     <p className="text-xs text-muted-foreground mb-6 text-center">Last Updated: June 18, 2025</p>
-    <div className="space-y-4 text-base text-gray-700">
+    <div className="space-y-4 text-base text-gray-700 dark:text-slate-300">
       <p>Welcome to Ztech Electronics Limited. These Terms and Conditions ("Terms") govern your access to and use of our services, website, platform, and products, including our repair services, e-commerce marketplace, AI assistant tools, and admin panel (collectively, "the Services").</p>
       <p>By using our Services, you agree to be bound by these Terms. If you do not agree, please do not use the Services.</p>
       <ol className="list-decimal pl-6 space-y-2">

@@ -1,10 +1,10 @@
 import React from "react";
 
 const Privacy = () => (
-  <div className="max-w-3xl mx-auto py-12 px-6 bg-white rounded-2xl shadow-lg border border-accent/20 mt-8 mb-12">
-    <h1 className="text-3xl font-bold mb-2 text-primary text-center">Ztech Electronics Limited – Privacy Policy</h1>
+  <div className="max-w-3xl mx-auto py-12 px-6 bg-white dark:bg-slate-900/90 rounded-2xl shadow-lg border border-accent/20 dark:border-slate-800 mt-8 mb-12 transition-colors">
+    <h1 className="text-3xl font-bold mb-2 text-slate-900 dark:text-white text-center">Ztech Electronics Limited – Privacy Policy</h1>
     <p className="text-xs text-muted-foreground mb-6 text-center">Last Updated: June 18, 2025</p>
-    <div className="space-y-4 text-base text-gray-700">
+    <div className="space-y-4 text-base text-gray-700 dark:text-slate-300">
       <p>At Ztech Electronics Limited, we are committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit or use our services.</p>
       <ol className="list-decimal pl-6 space-y-2">
         <li><b>Information We Collect</b>

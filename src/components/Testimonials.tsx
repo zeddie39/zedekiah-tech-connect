@@ -28,8 +28,8 @@ const testimonials = [
 ];
 
 const Testimonials = () => (
-  <section className="py-16 px-4 bg-muted text-center">
-    <h2 className="text-3xl font-bold mb-10 text-primary dark:text-accent animate-fade-in font-playfair">
+  <section className="py-16 px-4 bg-muted dark:bg-slate-950 text-slate-900 dark:text-white text-center transition-colors duration-300">
+    <h2 className="text-3xl font-bold mb-10 text-slate-900 dark:text-white animate-fade-in font-playfair">
       What Our Clients Say
     </h2>
     <div className="max-w-4xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
