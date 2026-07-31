@@ -23,14 +23,50 @@ export default function Dashboard() {
   useEffect(() => {
     let mounted = true;
     supabase.auth.getSession().then(({ data: { session } }) => {
-      if (!session && mounted) navigate("/auth");
-      setSession(session);
-      setLoading(false);
+      if (!session && mounted) {
+        navigate("/auth");
+        return;
+      }
+      if (session) {
+        const isOAuth = session.user.app_metadata?.provider && session.user.app_metadata?.provider !== "email";
+        const isConfirmed = Boolean(session.user.email_confirmed_at);
+        if (!isOAuth && !isConfirmed) {
+          supabase.auth.signOut();
+          toast({
+            title: "Email Verification Required",
+            description: "Please check your inbox and verify your email before accessing the dashboard.",
+            variant: "destructive",
+          });
+          navigate("/auth");
+          return;
+        }
+      }
+      if (mounted) {
+        setSession(session);
+        setLoading(false);
+      }
     });
+
     const { data: subscription } = supabase.auth.onAuthStateChange((_event, session) => {
-      if (!session) navigate("/auth");
+      if (!session) {
+        navigate("/auth");
+        return;
+      }
+      const isOAuth = session.user.app_metadata?.provider && session.user.app_metadata?.provider !== "email";
+      const isConfirmed = Boolean(session.user.email_confirmed_at);
+      if (!isOAuth && !isConfirmed) {
+        supabase.auth.signOut();
+        toast({
+          title: "Email Verification Required",
+          description: "Please check your inbox and verify your email before accessing the dashboard.",
+          variant: "destructive",
+        });
+        navigate("/auth");
+        return;
+      }
       setSession(session);
     });
+
     return () => {
       mounted = false;
       subscription?.subscription.unsubscribe();

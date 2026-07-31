@@ -31,24 +31,41 @@ export default function AuthPage() {
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
       if (session) {
-        const params = new URLSearchParams(location.search);
-        if (params.get("redirect") === "shop") {
-          navigate("/shop");
+        const isOAuth = session.user.app_metadata?.provider && session.user.app_metadata?.provider !== "email";
+        const isConfirmed = Boolean(session.user.email_confirmed_at);
+        if (isOAuth || isConfirmed) {
+          const params = new URLSearchParams(location.search);
+          if (params.get("redirect") === "shop") {
+            navigate("/shop");
+          } else {
+            navigate("/dashboard");
+          }
         } else {
-          navigate("/dashboard");
+          // Force sign out unverified session
+          supabase.auth.signOut();
+          setSignupNotice("Verification required! We sent a confirmation link to your email. Please check your inbox and verify your email before signing in.");
         }
       }
     });
+
     const { data: listener } = supabase.auth.onAuthStateChange((event, session) => {
       if (session) {
-        const params = new URLSearchParams(location.search);
-        if (params.get("redirect") === "shop") {
-          navigate("/shop");
+        const isOAuth = session.user.app_metadata?.provider && session.user.app_metadata?.provider !== "email";
+        const isConfirmed = Boolean(session.user.email_confirmed_at);
+        if (isOAuth || isConfirmed) {
+          const params = new URLSearchParams(location.search);
+          if (params.get("redirect") === "shop") {
+            navigate("/shop");
+          } else {
+            navigate("/dashboard");
+          }
         } else {
-          navigate("/dashboard");
+          supabase.auth.signOut();
+          setSignupNotice("Verification required! We sent a confirmation link to your email. Please check your inbox and verify your email before signing in.");
         }
       }
     });
+
     // If user lands with ?view=signup, show signup form
     if (location.search.includes("view=signup")) {
       setView("signup");
@@ -84,22 +101,47 @@ export default function AuthPage() {
       return;
     }
     if (view === "login") {
-      const { error } = await supabase.auth.signInWithPassword({ email, password });
-      if (error) setError(error.message);
+      const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+      if (error) {
+        setError(error.message);
+      } else if (data.user) {
+        const isOAuth = data.user.app_metadata?.provider && data.user.app_metadata?.provider !== "email";
+        const isConfirmed = Boolean(data.user.email_confirmed_at);
+        if (!isOAuth && !isConfirmed) {
+          await supabase.auth.signOut();
+          setError("Your email address is not verified yet. Please check your inbox for the confirmation email.");
+          setSignupNotice("📩 Check your inbox! Click the confirmation link sent to " + email + " to activate your account.");
+        }
+      }
     } else {
+      if (!acceptedTerms) {
+        setError("You must accept the Terms & Conditions and Privacy Policy to register.");
+        setLoading(false);
+        return;
+      }
       const redirectTo = `${window.location.origin}/ConfirmedCelebration`;
-      const { error } = await supabase.auth.signUp({
+      const { data, error } = await supabase.auth.signUp({
         email,
         password,
         options: { emailRedirectTo: redirectTo },
       });
-      if (error) setError(error.message);
-      else setSignupNotice("Check your email to confirm registration before logging in!");
+      if (error) {
+        setError(error.message);
+      } else if (data.user) {
+        // Sign out auto-session until user verifies their email
+        await supabase.auth.signOut();
+        setSignupNotice(`📩 Account created successfully! We sent a confirmation link to ${email}. Please check your inbox and verify your email before signing in.`);
+        setView("login");
+      }
     }
     setLoading(false);
   };
 
   const handleOAuthSignIn = async (provider: "google" | "facebook" | "linkedin_oidc") => {
+    if (view === "signup" && !acceptedTerms) {
+      setError("Please agree to the Terms & Conditions and Privacy Policy before continuing with social sign-in.");
+      return;
+    }
     setLoading(true);
     setError(null);
     setSignupNotice(null);
