@@ -1,7 +1,10 @@
-// Don't forget to install react-zoom-pan-pinch: npm install react-zoom-pan-pinch
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { ArrowLeft } from "lucide-react";
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 import { supabase } from "@/integrations/supabase/client";
+import Navigation from "@/components/Navigation";
+import SEO from "@/components/SEO";
 
 // Define the type as per the structure in Supabase, even if not in the generated types
 type GalleryImage = {
@@ -52,9 +55,28 @@ const Gallery: React.FC = () => {
     : images;
 
   return (
-    <section className="py-16 bg-gradient-to-b from-white via-gray-50 to-white dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 text-gray-900 dark:text-white min-h-screen transition-colors duration-300">
-      <div className="max-w-5xl mx-auto px-4">
-        <h1 className="text-4xl font-bold text-center text-accent mb-8">Gallery</h1>
+    <div className="min-h-screen bg-gradient-to-b from-white via-gray-50 to-white dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 text-gray-900 dark:text-white transition-colors duration-300">
+      <SEO
+        title="Gallery & Portfolio - Ztech Electronics Ltd"
+        description="Explore our portfolio of electronics repairs, poster designs, CCTV installations, and tech projects at Ztech Electronics Limited."
+      />
+      <Navigation />
+      
+      <section className="pt-32 pb-16">
+        <div className="max-w-5xl mx-auto px-4">
+          <div className="mb-8">
+            <Link
+              to="/"
+              className="inline-flex items-center gap-2 px-5 py-2.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold rounded-xl shadow-lg transition-all duration-300 hover:scale-105"
+            >
+              <ArrowLeft className="w-5 h-5" />
+              Back to Home
+            </Link>
+          </div>
+
+          <h1 className="text-4xl sm:text-5xl font-extrabold text-center text-accent mb-8 font-orbitron">
+            Work & Project Gallery
+          </h1>
         {/* Type Filter */}
         <div className="mb-6 flex flex-wrap gap-2 justify-center">
           <button
@@ -127,7 +149,8 @@ const Gallery: React.FC = () => {
           </div>
         </div>
       )}
-    </section>
+      </section>
+    </div>
   );
 };
 
