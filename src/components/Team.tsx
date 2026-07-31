@@ -97,21 +97,20 @@ const Team = () => {
                     <div className="space-y-4 max-h-[50vh] sm:max-h-96 overflow-y-auto text-sm sm:text-base">
                       <div className="bg-gray-50 dark:bg-slate-950 rounded-xl p-4 shadow-sm border border-gray-200 dark:border-slate-800 text-gray-700 dark:text-slate-300">
                         With over a decade of hands-on experience in electronics repair, software development, and technology consulting, Vincent has always been driven by one core mission: to revive tech and empower people with it.
-                      </div>
-                        <ul className="list-disc ml-6 mt-2">
+                        <ul className="list-disc ml-6 mt-2 space-y-1">
                           <li>AI-powered diagnostics that let users upload photos or describe their gadget issues to receive smart repair recommendations.</li>
                           <li>A fully functional e-commerce system, where users can shop for gadgets, advertise electronics, make orders, and communicate directly with sellers.</li>
                           <li>An intelligent admin dashboard, equipped with analytics, chat management, repair tracking, and decision-making tools for business growth.</li>
                           <li>An upcoming AR assistant that will let users virtually identify parts and repair areas by simply pointing their phone camera at a damaged device.</li>
                         </ul>
                       </div>
-                      <div className="bg-gray-50 rounded-lg p-4 shadow italic text-center">
+                      <div className="bg-gray-50 dark:bg-slate-950 rounded-xl p-4 shadow-sm border border-gray-200 dark:border-slate-800 text-gray-700 dark:text-slate-300 italic text-center font-medium">
                         “If a device can be revived, it still has value—and if people can learn through tech, they can be empowered for life.”
                       </div>
-                      <div className="bg-gray-50 rounded-lg p-4 shadow">
+                      <div className="bg-gray-50 dark:bg-slate-950 rounded-xl p-4 shadow-sm border border-gray-200 dark:border-slate-800 text-gray-700 dark:text-slate-300">
                         Today, Vincent continues to lead Ztech Electronics Limited with vision and heart. He balances the technical side with entrepreneurial agility, constantly exploring ways to automate, scale, and personalize tech support for everyday users and enterprises alike.
                       </div>
-                      <div className="bg-gray-50 rounded-lg p-4 shadow">
+                      <div className="bg-gray-50 dark:bg-slate-950 rounded-xl p-4 shadow-sm border border-gray-200 dark:border-slate-800 text-gray-700 dark:text-slate-300">
                         He is also passionate about youth mentorship, helping upcoming developers and engineers build their own tech paths. Through his platform, he’s laying the foundation for a new era of smart, sustainable, and human-centered electronics innovation—starting from Kenya and expanding globally.
                       </div>
                     </div>

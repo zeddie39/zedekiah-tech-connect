@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { Button } from './ui/button';
 import WhyChooseUsModal from "./WhyChooseUsModal";
 import { Moon, Sun } from "lucide-react";
@@ -10,6 +10,8 @@ const Navigation = () => {
   const [whyOpen, setWhyOpen] = useState(false);
   const [isDark, setIsDark] = useState(() => document.documentElement.classList.contains('dark'));
   const lastScrollY = useRef(window.scrollY);
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const toggleDarkMode = () => {
     const next = !isDark;
@@ -46,6 +48,19 @@ const Navigation = () => {
   }, []);
 
   useEffect(() => {
+    if (location.pathname === '/' && location.state?.scrollTo) {
+      const sectionId = location.state.scrollTo;
+      window.history.replaceState({}, document.title);
+      setTimeout(() => {
+        const element = document.getElementById(sectionId);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }
+      }, 200);
+    }
+  }, [location]);
+
+  useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > lastScrollY.current && window.scrollY > 80) {
         setShowNav(false); // Hide nav on scroll down
@@ -70,21 +85,25 @@ const Navigation = () => {
   }, [isMenuOpen]);
 
   const scrollToSection = (sectionId: string) => {
-    const element = document.getElementById(sectionId);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-      setIsMenuOpen(false);
+    setIsMenuOpen(false);
+    if (location.pathname === '/') {
+      const element = document.getElementById(sectionId);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    } else {
+      navigate('/', { state: { scrollTo: sectionId } });
     }
   };
 
   return (
     <nav className={`fixed top-0 left-0 w-full z-50 bg-primary/95 backdrop-blur border-b border-accent/30 shadow-lg transition-transform duration-300 ${showNav ? 'translate-y-0' : '-translate-y-full'}`}>
       <div className="container mx-auto flex items-center justify-between px-4 py-2">
-        <div className="flex items-center gap-2 sm:gap-3">
+        <Link to="/" onClick={() => setIsMenuOpen(false)} className="flex items-center gap-2 sm:gap-3 cursor-pointer">
           <img src="/ZTech electrictronics logo.png" alt="Ztech Logo" className="w-8 h-8 rounded-full shadow" />
           <span className="font-orbitron font-bold text-lg sm:text-xl text-white">Ztech</span>
           <span className="text-accent text-xs sm:text-sm font-semibold ml-1">Electronics Ltd</span>
-        </div>
+        </Link>
         <div className="hidden lg:flex gap-3 xl:gap-5 items-center whitespace-nowrap">
           <button onClick={() => scrollToSection('home')} className="hover:text-accent text-white font-medium transition-colors">Home</button>
           <button onClick={() => scrollToSection('about')} className="hover:text-accent text-white font-medium transition-colors">About</button>
@@ -122,10 +141,10 @@ const Navigation = () => {
           <button onClick={() => scrollToSection('faq')} className="hover:text-accent text-white font-medium w-full text-left">FAQ</button>
           <button onClick={() => scrollToSection('whychooseus')} className="hover:text-accent text-white font-medium w-full text-left">Why Choose Us</button>
           <button onClick={() => scrollToSection('contact')} className="hover:text-accent text-white font-medium w-full text-left">Contact</button>
-          <Link to="/gallery" className="hover:text-accent text-white font-medium w-full text-left block">Gallery</Link>
-          <Link to="/blog" className="hover:text-accent text-white font-medium w-full text-left block">Blog</Link>
-          <Link to="/careers" className="hover:text-accent text-white font-medium w-full text-left block">Careers & Internships</Link>
-          <Link to="/shop" className="hover:text-accent text-white font-medium w-full text-left block">Shop</Link>
+          <Link to="/gallery" onClick={() => setIsMenuOpen(false)} className="hover:text-accent text-white font-medium w-full text-left block">Gallery</Link>
+          <Link to="/blog" onClick={() => setIsMenuOpen(false)} className="hover:text-accent text-white font-medium w-full text-left block">Blog</Link>
+          <Link to="/careers" onClick={() => setIsMenuOpen(false)} className="hover:text-accent text-white font-medium w-full text-left block">Careers & Internships</Link>
+          <Link to="/shop" onClick={() => setIsMenuOpen(false)} className="hover:text-accent text-white font-medium w-full text-left block">Shop</Link>
           <button
             onClick={toggleDarkMode}
             className="flex items-center gap-2 hover:text-accent text-white font-medium w-full text-left"
