@@ -16,6 +16,20 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <!-- Use Inter as main font, and Space Grotesk for headings -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Space+Grotesk:wght@500;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Theme initialization script to prevent FOUC / theme flash -->
+    <script>
+      (function() {
+        try {
+          var saved = localStorage.getItem('theme');
+          var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+          if (saved === 'dark' || (!saved && prefersDark)) {
+            document.documentElement.classList.add('dark');
+          } else {
+            document.documentElement.classList.remove('dark');
+          }
+        } catch (e) {}
+      })();
+    </script>
   </head>
 
   <body>

@@ -14,16 +14,35 @@ const Navigation = () => {
   const toggleDarkMode = () => {
     const next = !isDark;
     setIsDark(next);
-    document.documentElement.classList.toggle('dark', next);
+    if (next) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
     localStorage.setItem('theme', next ? 'dark' : 'light');
+    window.dispatchEvent(new Event('theme-changed'));
   };
 
   useEffect(() => {
-    const saved = localStorage.getItem('theme');
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    const shouldBeDark = saved ? saved === 'dark' : prefersDark;
-    setIsDark(shouldBeDark);
-    document.documentElement.classList.toggle('dark', shouldBeDark);
+    const applyTheme = () => {
+      const saved = localStorage.getItem('theme');
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const shouldBeDark = saved ? saved === 'dark' : prefersDark;
+      setIsDark(shouldBeDark);
+      if (shouldBeDark) {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+    };
+
+    applyTheme();
+    window.addEventListener('theme-changed', applyTheme);
+    window.addEventListener('storage', applyTheme);
+    return () => {
+      window.removeEventListener('theme-changed', applyTheme);
+      window.removeEventListener('storage', applyTheme);
+    };
   }, []);
 
   useEffect(() => {
