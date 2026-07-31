@@ -228,9 +228,9 @@ export default function Careers() {
                 el?.scrollIntoView({ behavior: "smooth" });
               }}
               size="lg"
-              variant="outline"
-              className="border-slate-700 hover:bg-slate-800 text-slate-200 font-semibold px-8 py-6 rounded-xl text-base"
+              className="bg-slate-900 hover:bg-slate-800 text-amber-400 hover:text-amber-300 border border-amber-500/50 hover:border-amber-400 font-semibold px-8 py-6 rounded-xl text-base shadow-lg transition-all"
             >
+              <Search className="w-5 h-5 mr-2 text-amber-400" />
               Track Existing Application
             </Button>
           )}
@@ -315,9 +315,9 @@ export default function Careers() {
                 const el = document.getElementById("track-section");
                 el?.scrollIntoView({ behavior: "smooth" });
               }}
-              variant="outline"
-              className="border-slate-700 text-slate-300 hover:bg-slate-800"
+              className="bg-slate-900 hover:bg-slate-800 text-amber-400 hover:text-amber-300 border border-amber-500/50 hover:border-amber-400 font-semibold px-6 py-3 rounded-xl shadow-lg transition-all"
             >
+              <Search className="w-4 h-4 mr-2 text-amber-400" />
               Already Applied? Track Your Status Below
             </Button>
           </div>
@@ -680,9 +680,8 @@ export default function Careers() {
                 <div className="flex justify-end gap-3 pt-4 border-t border-slate-800">
                   <Button
                     type="button"
-                    variant="outline"
                     onClick={() => setIsApplyModalOpen(false)}
-                    className="border-slate-700 text-slate-300"
+                    className="bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700"
                   >
                     Cancel
                   </Button>
