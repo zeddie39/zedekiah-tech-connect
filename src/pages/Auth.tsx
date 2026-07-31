@@ -130,8 +130,9 @@ export default function AuthPage() {
       } else if (data.user) {
         // Sign out auto-session until user verifies their email
         await supabase.auth.signOut();
-        setSignupNotice(`📩 Account created successfully! We sent a confirmation link to ${email}. Please check your inbox and verify your email before signing in.`);
-        setView("login");
+        // Redirect to the dedicated verify-email page
+        navigate("/verify-email", { state: { email } });
+        return;
       }
     }
     setLoading(false);

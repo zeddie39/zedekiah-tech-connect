@@ -37,6 +37,7 @@ const Wishlist = lazy(() => import("./pages/Wishlist"));
 const SavedItems = lazy(() => import("./pages/SavedItems"));
 const ProductDetails = lazy(() => import("./pages/ProductDetails"));
 const ConfirmedCelebration = lazy(() => import("./pages/ConfirmedCelebration"));
+const VerifyEmail = lazy(() => import("./pages/VerifyEmail"));
 const BlogPage = lazy(() => import("./pages/Blog"));
 const AboutPage = lazy(() => import("./pages/About"));
 const ServicesPage = lazy(() => import("./pages/Services"));
@@ -74,10 +75,10 @@ const queryClient = new QueryClient();
 
 /** Simple loading spinner shown while a lazy chunk is being fetched */
 const PageLoader = () => (
-  <div className="min-h-screen flex items-center justify-center bg-gray-50">
+  <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-slate-950 transition-colors">
     <div className="flex flex-col items-center gap-4">
       <div className="w-12 h-12 border-4 border-accent/30 border-t-accent rounded-full animate-spin" />
-      <p className="text-gray-500 font-medium animate-pulse">Loading…</p>
+      <p className="text-gray-500 dark:text-slate-400 font-medium animate-pulse">Loading…</p>
     </div>
   </div>
 );
@@ -136,6 +137,7 @@ const App = () => (
                     <Route path="gallery-manager" element={<GalleryManagerPage />} />
                   </Route>
                   <Route path="/ConfirmedCelebration" element={<ConfirmedCelebration />} />
+                  <Route path="/verify-email" element={<VerifyEmail />} />
                   <Route path="/terms" element={<Terms />} />
                   <Route path="/privacy" element={<Privacy />} />
                   <Route path="/why-choose-us" element={<WhyChooseUs />} />

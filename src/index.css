@@ -1,9 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;500;700&family=Rubik:wght@400;500;700&display=swap');
 
 /* stylelint-disable at-rule-no-unknown */
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@tailwind base; /* csslint allow: at-rule-no-unknown */
+@tailwind components; /* csslint allow: at-rule-no-unknown */
+@tailwind utilities; /* csslint allow: at-rule-no-unknown */
 /* stylelint-enable at-rule-no-unknown */
 
 /* Definition of the design system. All colors, gradients, fonts, etc should be defined here. */
@@ -166,6 +166,7 @@
 
   .glass-card {
     background: rgba(255, 255, 255, 0.95);
+    -webkit-backdrop-filter: blur(10px);
     backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.2);
   }
@@ -226,12 +227,14 @@
 
   .shop-glass {
     background: rgba(20, 16, 36, 0.65);
+    -webkit-backdrop-filter: blur(16px) saturate(1.4);
     backdrop-filter: blur(16px) saturate(1.4);
     border: 1px solid rgba(255, 152, 0, 0.12);
   }
 
   .shop-glass-light {
     background: rgba(30, 24, 52, 0.50);
+    -webkit-backdrop-filter: blur(12px) saturate(1.2);
     backdrop-filter: blur(12px) saturate(1.2);
     border: 1px solid rgba(255, 255, 255, 0.06);
   }
