@@ -5,7 +5,7 @@ const About = () => {
     <section id="about" className="py-20 bg-secondary dark:bg-background relative">
       <div className="container mx-auto px-6">
         <div className="max-w-4xl mx-auto text-center mb-12">
-          <h2 className="text-4xl md:text-5xl font-orbitron font-bold text-primary dark:text-primary-foreground mb-4 font-playfair">
+          <h2 className="text-4xl md:text-5xl font-orbitron font-bold text-slate-900 dark:text-white mb-4 font-playfair">
             About Ztech Electronics Limited
           </h2>
           <p className="text-xl text-accent font-semibold mb-2">"Reviving Technology. Empowering People."</p>

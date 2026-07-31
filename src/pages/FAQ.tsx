@@ -6,7 +6,7 @@ const faqs = [
 		answer: (
 			<span>
 				We specialize in:
-				<ul className="list-disc pl-5 mt-2">
+				<ul className="list-disc pl-5 mt-2 space-y-1">
 					<li>Electronics repair (phones, laptops, TVs, etc.)</li>
 					<li>Smart diagnostics using AI & AR (coming soon)</li>
 					<li>Tech consultation and IT infrastructure planning</li>
@@ -23,7 +23,7 @@ const faqs = [
 		answer: (
 			<span>
 				You can request a repair directly on our platform by:
-				<ul className="list-decimal pl-5 mt-2">
+				<ul className="list-decimal pl-5 mt-2 space-y-1">
 					<li>Logging into your account</li>
 					<li>Describing your issue or uploading a photo of your gadget</li>
 					<li>Submitting the request to receive a diagnosis or quote</li>
@@ -40,9 +40,8 @@ const faqs = [
 		question: "Can I sell my device on your platform?",
 		answer: (
 			<span>
-				Yes! Verified users can list electronics for sale or advertising. You’ll
-				need to:
-				<ul className="list-decimal pl-5 mt-2">
+				Yes! Verified users can list electronics for sale or advertising. You’ll need to:
+				<ul className="list-decimal pl-5 mt-2 space-y-1">
 					<li>Create an account</li>
 					<li>Upload clear photos and device details</li>
 					<li>Set your price and availability</li>
@@ -60,13 +59,11 @@ const faqs = [
 		answer: (
 			<span>
 				Our AI assistant allows users to:
-				<ul className="list-disc pl-5 mt-2">
+				<ul className="list-disc pl-5 mt-2 space-y-1">
 					<li>Upload images of faulty gadgets</li>
 					<li>Describe problems in chat</li>
 				</ul>
-				It then analyzes the input and provides smart recommendations or repair
-				paths. This tool is constantly improving and does not replace professional
-				evaluation.
+				It then analyzes the input and provides smart recommendations or repair paths. This tool is constantly improving and does not replace professional evaluation.
 			</span>
 		),
 	},
@@ -83,13 +80,13 @@ const faqs = [
 		answer: (
 			<span>
 				You can reach us via:
-				<ul className="list-disc pl-5 mt-2">
+				<ul className="list-disc pl-5 mt-2 space-y-1">
 					<li>Live chat on the platform</li>
 					<li>
 						Email:{" "}
 						<a
 							href="mailto:zeedy028@gmail.com"
-							className="underline text-primary"
+							className="underline text-amber-500 hover:text-amber-400 font-semibold"
 						>
 							zeedy028@gmail.com
 						</a>
@@ -98,7 +95,7 @@ const faqs = [
 						Phone:{" "}
 						<a
 							href="tel:+254757756763"
-							className="underline text-primary"
+							className="underline text-amber-500 hover:text-amber-400 font-semibold"
 						>
 							+254 757 756 763
 						</a>
@@ -118,20 +115,20 @@ const faqs = [
 ];
 
 const FAQPage = () => (
-	<div className="container mx-auto px-4 py-12 min-h-screen" id="faq">
-		<h1 className="text-4xl font-bold text-center text-primary mb-8 font-orbitron">
+	<div className="container mx-auto px-4 py-16 text-slate-900 dark:text-white" id="faq">
+		<h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-center text-slate-900 dark:text-white mb-10 font-orbitron">
 			Frequently Asked Questions (FAQs)
-		</h1>
+		</h2>
 		<div className="max-w-3xl mx-auto space-y-6">
 			{faqs.map((faq, idx) => (
 				<div
 					key={idx}
-					className="bg-white rounded-2xl shadow-lg p-6 border border-accent/20"
+					className="bg-white dark:bg-slate-900/90 rounded-2xl shadow-lg p-6 border border-gray-200 dark:border-slate-800 transition-all duration-300"
 				>
-					<h2 className="text-xl font-semibold text-accent mb-2 font-orbitron">
+					<h3 className="text-xl font-bold text-amber-500 dark:text-amber-400 mb-3 font-orbitron">
 						{faq.question}
-					</h2>
-					<div className="text-gray-700 text-base">{faq.answer}</div>
+					</h3>
+					<div className="text-gray-600 dark:text-slate-300 text-base leading-relaxed">{faq.answer}</div>
 				</div>
 			))}
 		</div>
