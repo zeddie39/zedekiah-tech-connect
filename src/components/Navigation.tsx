@@ -132,7 +132,7 @@ const Navigation = () => {
         </button>
       </div>
       {isMenuOpen && (
-        <div className="md:hidden bg-primary/95 border-b border-accent/20 shadow-md flex flex-col items-start px-6 py-4 gap-3 animate-fade-in z-40">
+        <div className="lg:hidden bg-primary/95 border-b border-accent/20 shadow-md flex flex-col items-start px-6 py-4 gap-3 animate-fade-in z-40">
           <button onClick={() => scrollToSection('home')} className="hover:text-accent text-white font-medium w-full text-left">Home</button>
           <button onClick={() => scrollToSection('about')} className="hover:text-accent text-white font-medium w-full text-left">About</button>
           <button onClick={() => scrollToSection('services')} className="hover:text-accent text-white font-medium w-full text-left">Services</button>

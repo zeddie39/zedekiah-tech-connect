@@ -35,7 +35,7 @@ const Navbar = () => {
         <span className="text-gray-300 text-xs font-medium ml-10 sm:ml-11">Review.Reimagine.Reconnect</span>
       </div>
       {/* Desktop Links */}
-      <div className="hidden md:flex gap-4 sm:gap-6 items-center">
+      <div className="hidden lg:flex gap-3 xl:gap-5 items-center">
         <a href="#home" className="hover:text-orange-400 text-white font-medium transition-colors">Home</a>
         <a href="#about" className="hover:text-orange-400 text-white font-medium transition-colors">About</a>
         <a href="#services" className="hover:text-orange-400 text-white font-medium transition-colors">Services</a>
@@ -49,15 +49,15 @@ const Navbar = () => {
         <a href="/auth" className="hover:text-orange-400 text-white font-medium transition-colors">Login</a>
       </div>
       {/* Hamburger for mobile */}
-      <button className="md:hidden flex items-center bg-accent/10 rounded-full shadow p-2 border border-accent/30" onClick={() => setOpen(!open)} aria-label="Open menu">
-        <svg className="w-7 h-7" fill="none" stroke="#1e293b" strokeWidth="2" viewBox="0 0 24 24">
+      <button className="lg:hidden flex items-center bg-accent/10 rounded-full shadow p-2 border border-accent/30" onClick={() => setOpen(!open)} aria-label="Open menu">
+        <svg className="w-7 h-7" fill="none" stroke="#fff" strokeWidth="2" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
         </svg>
       </button>
       {/* Mobile Menu */}
       {open && (
         <div className="absolute top-full left-0 w-full" style={{background: 'linear-gradient(90deg, #0f172a 0%, #1e293b 100%)', opacity: 0.97}}>
-          <div className="border-b border-accent/20 shadow-md flex flex-col items-start px-6 py-4 gap-3 md:hidden animate-fade-in z-40">
+          <div className="border-b border-accent/20 shadow-md flex flex-col items-start px-6 py-4 gap-3 lg:hidden animate-fade-in z-40">
             <a href="#home" className="hover:text-orange-400 text-white font-medium w-full" onClick={() => setOpen(false)}>Home</a>
             <a href="#about" className="hover:text-orange-400 text-white font-medium w-full" onClick={() => setOpen(false)}>About</a>
             <a href="#services" className="hover:text-orange-400 text-white font-medium w-full" onClick={() => setOpen(false)}>Services</a>

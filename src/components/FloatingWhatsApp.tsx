@@ -34,29 +34,29 @@ export default function FloatingWhatsApp() {
   };
 
   return (
-    <div className="fixed bottom-24 right-6 z-[60] flex flex-col items-end gap-3">
+    <div className="fixed bottom-6 sm:bottom-8 right-4 sm:right-6 z-[60] flex flex-col items-end gap-3">
       {/* Tooltip */}
       <div 
         className={cn(
-          "bg-white text-gray-900 px-4 py-3 rounded-2xl shadow-xl border border-gray-100 flex items-center gap-3 transition-all duration-500 origin-bottom-right",
+          "bg-white dark:bg-slate-900 text-gray-900 dark:text-white px-4 py-3 rounded-2xl shadow-xl border border-gray-100 dark:border-slate-800 flex items-center gap-3 transition-all duration-500 origin-bottom-right",
           isTooltipVisible ? "scale-100 opacity-100 translate-y-0" : "scale-50 opacity-0 translate-y-4 pointer-events-none"
         )}
       >
         <div className="text-sm font-medium">
           Need help? <br />
-          <span className="text-xs text-gray-500 font-normal">Chat with us! 👋</span>
+          <span className="text-xs text-gray-500 dark:text-slate-400 font-normal">Chat with us! 👋</span>
         </div>
         <button 
           onClick={(e) => {
             e.stopPropagation();
             setIsTooltipVisible(false);
           }}
-          className="p-1 rounded-full hover:bg-gray-100 text-gray-400 hover:text-gray-600 transition-colors"
+          className="p-1 rounded-full hover:bg-gray-100 dark:hover:bg-slate-800 text-gray-400 hover:text-gray-600 dark:hover:text-slate-200 transition-colors"
         >
           <X size={14} />
         </button>
         {/* Chat bubble tail */}
-        <div className="absolute -bottom-2 right-6 w-4 h-4 bg-white border-b border-r border-gray-100 transform rotate-45" />
+        <div className="absolute -bottom-2 right-6 w-4 h-4 bg-white dark:bg-slate-900 border-b border-r border-gray-100 dark:border-slate-800 transform rotate-45" />
       </div>
 
       {/* WhatsApp Button */}

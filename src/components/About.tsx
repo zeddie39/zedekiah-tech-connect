@@ -16,7 +16,7 @@ const About = () => {
 
         <div className="max-w-7xl mx-auto flex flex-wrap gap-8 justify-center">
           {/* What We Do Card */}
-          <div className="bg-card rounded-2xl shadow-lg p-8 border border-border flex-1 min-w-[300px] max-w-sm mb-4 hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+          <div className="bg-card rounded-2xl shadow-lg p-5 sm:p-8 border border-border flex-1 w-full sm:w-auto sm:min-w-[300px] max-w-sm mb-4 hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
             <h3 className="text-2xl font-orbitron font-bold text-primary dark:text-accent mb-2 text-center">What We Do</h3>
             <ul className="list-disc pl-5 space-y-3 text-card-foreground text-base md:text-lg">
               <li><span className="font-semibold text-primary dark:text-accent">Electronics Repair Services:</span> From smartphones and laptops to game consoles and home devices, our expert team handles both hardware and software issues, using modern diagnostic tools and precision repair techniques.</li>
@@ -28,7 +28,7 @@ const About = () => {
           </div>
 
           {/* Admin Dashboard & BI Card */}
-          <div className="bg-card rounded-2xl shadow-lg p-8 border border-border flex-1 min-w-[300px] max-w-sm mb-4 hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+          <div className="bg-card rounded-2xl shadow-lg p-5 sm:p-8 border border-border flex-1 w-full sm:w-auto sm:min-w-[300px] max-w-sm mb-4 hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
             <h3 className="text-2xl font-orbitron font-bold text-accent mb-2 text-center">Admin Dashboard & BI</h3>
             <ul className="list-disc pl-5 space-y-3 text-card-foreground text-base md:text-lg">
               <li>Analytics dashboard for monitoring repairs, sales, and user behavior</li>
@@ -41,7 +41,7 @@ const About = () => {
           </div>
 
           {/* Vision Card */}
-          <div className="bg-card rounded-2xl shadow-lg p-8 border border-border flex-1 min-w-[300px] max-w-sm mb-4 hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+          <div className="bg-card rounded-2xl shadow-lg p-5 sm:p-8 border border-border flex-1 w-full sm:w-auto sm:min-w-[300px] max-w-sm mb-4 hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
             <h3 className="text-2xl font-orbitron font-bold text-primary dark:text-accent mb-2 text-center">Our Vision</h3>
             <p className="text-card-foreground text-base md:text-lg mb-4 text-center">
               To become Africa's leading smart electronics platform—a place where innovation meets everyday tech needs. We believe in democratizing tech, providing intelligent tools that empower users, technicians, and entrepreneurs.
@@ -49,7 +49,7 @@ const About = () => {
           </div>
 
           {/* Mission Card */}
-          <div className="bg-card rounded-2xl shadow-lg p-8 border border-border flex-1 min-w-[300px] max-w-sm mb-4 hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+          <div className="bg-card rounded-2xl shadow-lg p-5 sm:p-8 border border-border flex-1 w-full sm:w-auto sm:min-w-[300px] max-w-sm mb-4 hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
             <h3 className="text-2xl font-orbitron font-bold text-primary dark:text-accent mb-2 text-center">Our Mission</h3>
             <p className="text-card-foreground text-base md:text-lg mb-4 text-center">
               To bridge the gap between people and technology by delivering accessible, innovative, and reliable electronics solutions, empowering communities and driving digital transformation across Africa.
@@ -57,7 +57,7 @@ const About = () => {
           </div>
 
           {/* Core Values Card */}
-          <div className="bg-card rounded-2xl shadow-lg p-8 border border-border flex-1 min-w-[300px] max-w-sm mb-4 hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+          <div className="bg-card rounded-2xl shadow-lg p-5 sm:p-8 border border-border flex-1 w-full sm:w-auto sm:min-w-[300px] max-w-sm mb-4 hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
             <h3 className="text-2xl font-orbitron font-bold text-primary dark:text-accent mb-2 text-center">Core Values</h3>
             <ul className="list-disc pl-5 space-y-3 text-card-foreground text-base md:text-lg text-left">
               <li><span className="font-semibold text-primary dark:text-accent">Integrity:</span> We act with honesty, transparency, and accountability in all we do.</li>
@@ -69,7 +69,7 @@ const About = () => {
           </div>
 
           {/* Why Ztech Card */}
-          <div className="bg-card rounded-2xl shadow-lg p-8 border border-border flex-1 min-w-[300px] max-w-sm mb-4 hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+          <div className="bg-card rounded-2xl shadow-lg p-5 sm:p-8 border border-border flex-1 w-full sm:w-auto sm:min-w-[300px] max-w-sm mb-4 hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
             <h3 className="text-2xl font-orbitron font-bold text-accent mb-2 text-center">Why Ztech?</h3>
             <ul className="list-disc pl-5 space-y-3 text-card-foreground text-base md:text-lg">
               <li><span className="font-semibold text-primary dark:text-accent">Expertise:</span> 10+ years in electronics repair, tech consultancy, and product development.</li>
