@@ -60,13 +60,13 @@ const Contact = () => {
   };
 
   return (
-    <section id="contact" className="py-20 bg-white relative">
+    <section id="contact" className="py-20 bg-white dark:bg-slate-950 text-gray-900 dark:text-white transition-colors duration-300 relative">
       <div className="container mx-auto px-6">
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-orbitron font-bold text-primary mb-6 font-playfair">
+          <h2 className="text-4xl md:text-5xl font-orbitron font-bold text-slate-900 dark:text-white mb-6 font-playfair">
             Get In Touch
           </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+          <p className="text-xl text-gray-600 dark:text-slate-300 max-w-3xl mx-auto">
             Ready to solve your tech challenges? Contact us today for a free consultation
           </p>
         </div>
@@ -75,7 +75,7 @@ const Contact = () => {
           {/* Contact Information */}
           <div className="space-y-8">
             <div>
-              <h3 className="text-2xl font-orbitron font-bold text-primary mb-6">
+              <h3 className="text-2xl font-orbitron font-bold text-slate-900 dark:text-white mb-6">
                 Contact Information
               </h3>
               <div className="space-y-6">

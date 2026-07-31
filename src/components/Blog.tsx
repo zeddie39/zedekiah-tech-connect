@@ -127,13 +127,13 @@ const Blog = () => {
 	};
 
 	return (
-		<section id="blog" className="py-20 bg-white">
+		<section id="blog" className="py-20 bg-white dark:bg-slate-950 text-gray-900 dark:text-white transition-colors duration-300">
 			<div className="container mx-auto px-6">
 				<div className="text-center mb-16">
-					<h2 className="text-4xl md:text-5xl font-orbitron font-bold text-primary mb-6 font-playfair">
+					<h2 className="text-4xl md:text-5xl font-orbitron font-bold text-slate-900 dark:text-white mb-6 font-playfair">
 						Tech Insights & Tips
 					</h2>
-					<p className="text-xl text-gray-600 max-w-3xl mx-auto font-sans">
+					<p className="text-xl text-gray-600 dark:text-slate-300 max-w-3xl mx-auto font-sans">
 						Stay informed with the latest technology trends, maintenance tips, and expert advice
 					</p>
 				</div>

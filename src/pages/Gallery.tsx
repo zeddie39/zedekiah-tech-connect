@@ -52,7 +52,7 @@ const Gallery: React.FC = () => {
     : images;
 
   return (
-    <section className="py-16 bg-gradient-to-b from-white to-gray-50 min-h-screen">
+    <section className="py-16 bg-gradient-to-b from-white via-gray-50 to-white dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 text-gray-900 dark:text-white min-h-screen transition-colors duration-300">
       <div className="max-w-5xl mx-auto px-4">
         <h1 className="text-4xl font-bold text-center text-accent mb-8">Gallery</h1>
         {/* Type Filter */}
