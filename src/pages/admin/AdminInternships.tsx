@@ -73,9 +73,11 @@ export default function AdminInternships() {
     refreshData();
   }, []);
 
-  const refreshData = () => {
-    setApplications(getStoredApplications());
-    setPostings(getStoredPostings());
+  const refreshData = async () => {
+    const apps = await getStoredApplications();
+    const posts = await getStoredPostings();
+    setApplications(apps);
+    setPostings(posts);
   };
 
   // ---- Posting CRUD ----
@@ -93,14 +95,14 @@ export default function AdminInternships() {
     setFormDeadline("");
   };
 
-  const handleCreatePosting = (e: React.FormEvent) => {
+  const handleCreatePosting = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formTitle.trim() || !formDescription.trim() || !formDept.trim() || !formDeadline) {
       toast.error("Please fill in all required fields (Title, Department, Description, Deadline).");
       return;
     }
 
-    addPosting({
+    await addPosting({
       title: formTitle.trim(),
       department: formDept.trim(),
       type: formType,
@@ -117,20 +119,20 @@ export default function AdminInternships() {
     toast.success(`"${formTitle}" has been published and is now visible on the Careers page!`);
     resetPostForm();
     setIsPostFormOpen(false);
-    refreshData();
+    await refreshData();
   };
 
-  const handleToggleOpen = (id: string, currentlyOpen: boolean) => {
-    editPosting(id, { isOpen: !currentlyOpen });
+  const handleToggleOpen = async (id: string, currentlyOpen: boolean) => {
+    await editPosting(id, { isOpen: !currentlyOpen });
     toast.success(currentlyOpen ? "Posting closed — hidden from public page." : "Posting re-opened — now visible to applicants!");
-    refreshData();
+    await refreshData();
   };
 
-  const handleDeletePosting = (id: string, title: string) => {
+  const handleDeletePosting = async (id: string, title: string) => {
     if (!window.confirm(`Delete the posting "${title}"? This cannot be undone.`)) return;
-    deletePosting(id);
+    await deletePosting(id);
     toast.success("Posting deleted.");
-    refreshData();
+    await refreshData();
   };
 
   // ---- Application Management ----
@@ -141,24 +143,24 @@ export default function AdminInternships() {
     setAdminNotes(app.adminNotes || "");
   };
 
-  const handleUpdateStatus = () => {
+  const handleUpdateStatus = async () => {
     if (!selectedApp) return;
-    const updated = updateApplicationStatus(selectedApp.id, editStatus, adminNotes);
+    const updated = await updateApplicationStatus(selectedApp.id, editStatus, adminNotes);
     if (updated) {
       toast.success(`Updated status for ${selectedApp.fullName} to "${editStatus}"`);
       setSelectedApp(updated);
-      refreshData();
+      await refreshData();
     } else {
       toast.error("Failed to update status.");
     }
   };
 
-  const handleDeleteApp = (id: string, name: string) => {
+  const handleDeleteApp = async (id: string, name: string) => {
     if (!window.confirm(`Remove the application from ${name}?`)) return;
-    deleteApplication(id);
+    await deleteApplication(id);
     setSelectedApp(null);
     toast.success("Application removed.");
-    refreshData();
+    await refreshData();
   };
 
   const filteredApps = applications.filter((app) => {

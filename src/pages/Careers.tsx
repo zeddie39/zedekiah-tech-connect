@@ -64,7 +64,27 @@ export default function Careers() {
   const [trackedResult, setTrackedResult] = useState<AttachmentApplication | null | undefined>(undefined);
 
   useEffect(() => {
-    setPostings(getStoredPostings());
+    const fetchPostings = async () => {
+      const data = await getStoredPostings();
+      setPostings(data);
+    };
+    fetchPostings();
+
+    // Listen for local storage changes across tabs
+    const handleStorageChange = (e: StorageEvent) => {
+      if (e.key === "ztech_internship_postings_v2") {
+        fetchPostings();
+      }
+    };
+    
+    // Fallback interval just in case storage events are missed or navigating locally
+    const interval = setInterval(fetchPostings, 5000);
+
+    window.addEventListener("storage", handleStorageChange);
+    return () => {
+      window.removeEventListener("storage", handleStorageChange);
+      clearInterval(interval);
+    };
   }, []);
 
   // Only show open postings to the public
@@ -94,7 +114,7 @@ export default function Careers() {
     setDurationMonths(3);
   };
 
-  const handleFormSubmit = (e: React.FormEvent) => {
+  const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!fullName || !email || !phone || !institution || !fieldOfStudy || !resumeUrl) {
       toast.error("Please fill in all required fields including your resume link!");
@@ -103,7 +123,7 @@ export default function Careers() {
 
     setIsSubmitting(true);
     try {
-      const createdApp = submitApplication({
+      const createdApp = await submitApplication({
         fullName,
         email,
         phone,
@@ -131,11 +151,11 @@ export default function Careers() {
     }
   };
 
-  const handleTrackApplication = (e: React.FormEvent) => {
+  const handleTrackApplication = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!trackingIdInput.trim()) return;
 
-    const allApps = getStoredApplications();
+    const allApps = await getStoredApplications();
     const match = allApps.find(
       (a) => a.referenceId.trim().toLowerCase() === trackingIdInput.trim().toLowerCase()
     );

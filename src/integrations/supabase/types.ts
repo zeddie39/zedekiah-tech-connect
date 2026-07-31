@@ -14,6 +14,126 @@ export type Database = {
   }
   public: {
     Tables: {
+      job_postings: {
+        Row: {
+          id: string
+          title: string
+          department: string
+          type: string
+          location: string | null
+          duration: string | null
+          description: string
+          requirements: string[] | null
+          responsibilities: string[] | null
+          slots: number | null
+          deadline: string
+          is_open: boolean | null
+          posted_at: string | null
+        }
+        Insert: {
+          id?: string
+          title: string
+          department: string
+          type: string
+          location?: string | null
+          duration?: string | null
+          description: string
+          requirements?: string[] | null
+          responsibilities?: string[] | null
+          slots?: number | null
+          deadline: string
+          is_open?: boolean | null
+          posted_at?: string | null
+        }
+        Update: {
+          id?: string
+          title?: string
+          department?: string
+          type?: string
+          location?: string | null
+          duration?: string | null
+          description?: string
+          requirements?: string[] | null
+          responsibilities?: string[] | null
+          slots?: number | null
+          deadline?: string
+          is_open?: boolean | null
+          posted_at?: string | null
+        }
+        Relationships: []
+      }
+      attachment_applications: {
+        Row: {
+          id: string
+          reference_id: string
+          full_name: string
+          email: string
+          phone: string
+          institution: string
+          field_of_study: string
+          qualification_level: string
+          position_id: string
+          position_title: string
+          type: string
+          preferred_start_date: string | null
+          duration_months: number | null
+          resume_url: string
+          recommendation_letter_url: string | null
+          portfolio_url: string | null
+          cover_note: string | null
+          status: string | null
+          admin_notes: string | null
+          applied_at: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          id?: string
+          reference_id: string
+          full_name: string
+          email: string
+          phone: string
+          institution: string
+          field_of_study: string
+          qualification_level: string
+          position_id: string
+          position_title: string
+          type: string
+          preferred_start_date?: string | null
+          duration_months?: number | null
+          resume_url: string
+          recommendation_letter_url?: string | null
+          portfolio_url?: string | null
+          cover_note?: string | null
+          status?: string | null
+          admin_notes?: string | null
+          applied_at?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          id?: string
+          reference_id?: string
+          full_name?: string
+          email?: string
+          phone?: string
+          institution?: string
+          field_of_study?: string
+          qualification_level?: string
+          position_id?: string
+          position_title?: string
+          type?: string
+          preferred_start_date?: string | null
+          duration_months?: number | null
+          resume_url?: string
+          recommendation_letter_url?: string | null
+          portfolio_url?: string | null
+          cover_note?: string | null
+          status?: string | null
+          admin_notes?: string | null
+          applied_at?: string | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
       blog_posts: {
         Row: {
           author: string | null
