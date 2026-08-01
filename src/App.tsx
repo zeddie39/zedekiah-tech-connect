@@ -4,6 +4,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { HelmetProvider } from "react-helmet-async";
+import AuthRedirectGuard from "@/components/AuthRedirectGuard";
 import PWAInstallPrompt from "@/components/PWAInstallPrompt";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
@@ -93,6 +94,7 @@ const App = () => (
           <CartProvider>
           <BrowserRouter>
             {/* PWA Install Prompt */}
+            <AuthRedirectGuard />
             <PWAInstallPrompt />
             <PageTransition>
               <Suspense fallback={<PageLoader />}>
@@ -137,6 +139,9 @@ const App = () => (
                     <Route path="gallery-manager" element={<GalleryManagerPage />} />
                   </Route>
                   <Route path="/ConfirmedCelebration" element={<ConfirmedCelebration />} />
+                  <Route path="/confirmedcelebration" element={<ConfirmedCelebration />} />
+                  <Route path="/confirmed-celebration" element={<ConfirmedCelebration />} />
+                  <Route path="/confirmed" element={<ConfirmedCelebration />} />
                   <Route path="/verify-email" element={<VerifyEmail />} />
                   <Route path="/terms" element={<Terms />} />
                   <Route path="/privacy" element={<Privacy />} />
