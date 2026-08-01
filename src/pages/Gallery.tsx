@@ -55,7 +55,7 @@ const Gallery: React.FC = () => {
     : images;
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-white via-gray-50 to-white dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 text-gray-900 dark:text-white transition-colors duration-300">
+    <div className="min-h-screen bg-gradient-to-b from-white via-gray-50 to-white dark:from-background dark:via-card dark:to-background text-gray-900 dark:text-foreground transition-colors duration-300">
       <SEO
         title="Gallery & Portfolio - Ztech Electronics Ltd"
         description="Explore our portfolio of electronics repairs, poster designs, CCTV installations, and tech projects at Ztech Electronics Limited."
@@ -67,7 +67,7 @@ const Gallery: React.FC = () => {
           <div className="mb-8">
             <Link
               to="/"
-              className="inline-flex items-center gap-2 px-5 py-2.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold rounded-xl shadow-lg transition-all duration-300 hover:scale-105"
+              className="inline-flex items-center gap-2 px-5 py-2.5 bg-amber-500 hover:bg-amber-400 text-brand-on-orange font-bold rounded-xl shadow-lg transition-all duration-300 hover:scale-105"
             >
               <ArrowLeft className="w-5 h-5" />
               Back to Home
@@ -80,13 +80,13 @@ const Gallery: React.FC = () => {
         {/* Type Filter */}
         <div className="mb-6 flex flex-wrap gap-2 justify-center">
           <button
-            className={`px-4 py-1 rounded-full border font-medium ${!selectedCategory ? 'bg-accent text-white' : 'bg-white text-accent border-accent'}`}
+            className={`px-4 py-1 rounded-full border font-medium ${!selectedCategory ? 'bg-accent text-foreground' : 'bg-white text-accent border-accent'}`}
             onClick={() => setSelectedCategory(null)}
           >All</button>
           {types.map(type => (
             <button
               key={type}
-              className={`px-4 py-1 rounded-full border font-medium ${selectedCategory === type ? 'bg-accent text-white' : 'bg-white text-accent border-accent'}`}
+              className={`px-4 py-1 rounded-full border font-medium ${selectedCategory === type ? 'bg-accent text-foreground' : 'bg-white text-accent border-accent'}`}
               onClick={() => setSelectedCategory(type)}
             >{type}</button>
           ))}
@@ -124,7 +124,7 @@ const Gallery: React.FC = () => {
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80" onClick={() => setModalImg(null)}>
           <div className="relative max-w-3xl w-full max-h-[90vh] bg-white rounded shadow-lg p-4 flex flex-col items-center" onClick={e => e.stopPropagation()}>
             <button
-              className="absolute top-2 right-2 text-gray-700 bg-gray-200 rounded-full p-1 hover:bg-accent hover:text-white transition"
+              className="absolute top-2 right-2 text-gray-700 bg-gray-200 rounded-full p-1 hover:bg-accent hover:text-foreground transition"
               onClick={() => setModalImg(null)}
               aria-label="Close"
             >

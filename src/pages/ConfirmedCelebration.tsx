@@ -70,11 +70,11 @@ export default function ConfirmedCelebration() {
   }, [count, navigate, error]);
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-amber-500/10 via-slate-900 to-slate-950 text-slate-100 relative overflow-hidden px-4">
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-amber-500/10 via-card to-background text-foreground relative overflow-hidden px-4">
       {/* Confetti blast effect from the top */}
       <ConfettiBlast />
 
-      <div className="z-10 bg-slate-900/90 backdrop-blur border border-amber-500/30 rounded-3xl shadow-2xl p-8 sm:p-12 flex flex-col items-center text-center max-w-lg w-full">
+      <div className="z-10 bg-card/90 backdrop-blur border border-amber-500/30 rounded-3xl shadow-2xl p-8 sm:p-12 flex flex-col items-center text-center max-w-lg w-full">
         {error ? (
           <>
             <div className="w-20 h-20 rounded-full bg-red-500/20 border-2 border-red-500 flex items-center justify-center mb-6">
@@ -83,37 +83,37 @@ export default function ConfirmedCelebration() {
             <h1 className="text-2xl sm:text-3xl font-extrabold text-red-400 mb-4 font-orbitron">
               Email Confirmation Failed
             </h1>
-            <p className="text-sm sm:text-base text-slate-300 mb-6 max-w-md leading-relaxed">
+            <p className="text-sm sm:text-base text-foreground/80 mb-6 max-w-md leading-relaxed">
               {error}
             </p>
             <Link
               to="/auth"
-              className="w-full py-3.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-base rounded-xl shadow-lg transition-all duration-200"
+              className="w-full py-3.5 bg-amber-500 hover:bg-amber-400 text-brand-on-orange font-bold text-base rounded-xl shadow-lg transition-all duration-200"
             >
               Return to Login
             </Link>
-            <div className="text-slate-400 text-xs mt-4">
+            <div className="text-muted-foreground text-xs mt-4">
               Need help? Please sign up again or contact support.
             </div>
           </>
         ) : (
           <>
             <div className="w-20 h-20 rounded-full bg-amber-500/20 border-4 border-amber-400 flex items-center justify-center mb-6 animate-bounce shadow-xl shadow-amber-500/20">
-              <CheckCheck className="w-10 h-10 text-amber-400" />
+              <CheckCheck className="w-10 h-10 text-amber-600 dark:text-amber-400" />
             </div>
 
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs font-semibold mb-4">
-              <Sparkles className="w-4 h-4 text-amber-400 animate-pulse" />
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-600 dark:text-amber-300 text-xs font-semibold mb-4">
+              <Sparkles className="w-4 h-4 text-amber-600 dark:text-amber-400 animate-pulse" />
               <span>Email Verified Successfully</span>
             </div>
 
-            <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white mb-3 font-orbitron">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-foreground mb-3 font-orbitron">
               Welcome to Ztech Electronics!
             </h1>
 
-            <p className="text-sm sm:text-base text-slate-300 mb-6 leading-relaxed max-w-md">
+            <p className="text-sm sm:text-base text-foreground/80 mb-6 leading-relaxed max-w-md">
               {userEmail ? (
-                <>Your email address <strong className="text-amber-400 font-semibold">{userEmail}</strong> has been verified.</>
+                <>Your email address <strong className="text-amber-600 dark:text-amber-400 font-semibold">{userEmail}</strong> has been verified.</>
               ) : (
                 <>Your account is now fully verified and activated.</>
               )}
@@ -122,13 +122,13 @@ export default function ConfirmedCelebration() {
 
             <Link
               to="/dashboard"
-              className="w-full py-3.5 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-extrabold text-lg rounded-xl shadow-xl shadow-amber-500/20 transition-all duration-300 hover:scale-[1.02] block mb-4"
+              className="w-full py-3.5 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-brand-on-orange font-extrabold text-lg rounded-xl shadow-xl shadow-amber-500/20 transition-all duration-300 hover:scale-[1.02] block mb-4"
             >
               Continue to Dashboard &rarr;
             </Link>
 
-            <div className="text-slate-400 text-xs font-medium">
-              Automatically taking you to your dashboard in <span className="font-bold text-amber-400 text-sm">{count}</span>s...
+            <div className="text-muted-foreground text-xs font-medium">
+              Automatically taking you to your dashboard in <span className="font-bold text-amber-600 dark:text-amber-400 text-sm">{count}</span>s...
             </div>
           </>
         )}
