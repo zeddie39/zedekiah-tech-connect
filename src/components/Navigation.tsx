@@ -104,7 +104,7 @@ const Navigation = () => {
           <span className="font-orbitron font-bold text-lg sm:text-xl text-white">Ztech</span>
           <span className="text-accent text-xs sm:text-sm font-semibold ml-1">Electronics Ltd</span>
         </Link>
-        <div className="hidden lg:flex gap-3 xl:gap-5 items-center whitespace-nowrap">
+        <div className="hidden md:flex gap-1.5 lg:gap-3 xl:gap-5 items-center whitespace-nowrap text-xs lg:text-sm">
           <button onClick={() => scrollToSection('home')} className="hover:text-accent text-white font-medium transition-colors">Home</button>
           <button onClick={() => scrollToSection('about')} className="hover:text-accent text-white font-medium transition-colors">About</button>
           <button onClick={() => scrollToSection('services')} className="hover:text-accent text-white font-medium transition-colors">Services</button>
@@ -119,20 +119,20 @@ const Navigation = () => {
           <Link to="/shop" className="hover:text-accent text-white font-medium transition-colors">Shop</Link>
           <button
             onClick={toggleDarkMode}
-            className="p-2 rounded-full hover:bg-accent/20 text-white transition-colors"
+            className="p-1.5 rounded-full hover:bg-accent/20 text-white transition-colors"
             aria-label="Toggle dark mode"
           >
-            {isDark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+            {isDark ? <Sun className="w-4 h-4 lg:w-5 lg:h-5" /> : <Moon className="w-4 h-4 lg:w-5 lg:h-5" />}
           </button>
         </div>
-        <button className="lg:hidden flex items-center bg-accent/10 rounded-full shadow p-2 border border-accent/30" onClick={() => setIsMenuOpen(!isMenuOpen)} aria-label="Open menu">
+        <button className="md:hidden flex items-center bg-accent/10 rounded-full shadow p-2 border border-accent/30" onClick={() => setIsMenuOpen(!isMenuOpen)} aria-label="Open menu">
           <svg className="w-7 h-7" fill="none" stroke="#fff" strokeWidth="2" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
           </svg>
         </button>
       </div>
       {isMenuOpen && (
-        <div className="lg:hidden bg-primary/95 border-b border-accent/20 shadow-md flex flex-col items-start px-6 py-4 gap-3 animate-fade-in z-40">
+        <div className="md:hidden bg-primary/95 border-b border-accent/20 shadow-md flex flex-col items-start px-6 py-4 gap-3 animate-fade-in z-40">
           <button onClick={() => scrollToSection('home')} className="hover:text-accent text-white font-medium w-full text-left">Home</button>
           <button onClick={() => scrollToSection('about')} className="hover:text-accent text-white font-medium w-full text-left">About</button>
           <button onClick={() => scrollToSection('services')} className="hover:text-accent text-white font-medium w-full text-left">Services</button>

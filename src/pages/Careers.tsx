@@ -231,24 +231,28 @@ export default function Careers() {
       />
       <Navigation />
 
-      {/* Modern Hero Section with Ambient Lighting */}
-      <section className="relative pt-36 pb-24 overflow-hidden bg-gradient-to-b from-card via-background to-background border-b border-border/80">
-        {/* Background Grid Pattern Overlay */}
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#1e293b_1px,transparent_1px),linear-gradient(to_bottom,#1e293b_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] opacity-30 pointer-events-none" />
-        
-        {/* Dual Radial Glow Blobs */}
+      {/* Modern Hero Section with Background Image */}
+      <section className="relative pt-36 pb-24 overflow-hidden border-b border-border/80">
+        {/* Background Image */}
+        <div
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          style={{ backgroundImage: "url('/step-out-ordinary.png')" }}
+        />
+        {/* Dark overlay for readability — light theme: heavier overlay, dark theme: slightly lighter */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/60 to-black/80 dark:from-black/65 dark:via-black/55 dark:to-black/75" />
+        {/* Amber accent glow on top */}
         <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[350px] bg-amber-500/10 blur-[130px] rounded-full pointer-events-none" />
         <div className="absolute top-1/3 left-1/3 w-[450px] h-[280px] bg-purple-600/10 blur-[120px] rounded-full pointer-events-none" />
 
         <div className="container mx-auto px-4 relative z-10 text-center max-w-4xl">
           {/* Top Pill Badge */}
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-card/90 border border-amber-500/30 text-amber-600 dark:text-amber-300 text-xs md:text-sm font-medium shadow-xl shadow-amber-500/5 mb-8 backdrop-blur-md">
-            <Sparkles className="w-4 h-4 text-amber-600 dark:text-amber-400 animate-pulse" />
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 dark:bg-white/10 border border-amber-400/40 text-amber-300 text-xs md:text-sm font-medium shadow-xl shadow-amber-500/5 mb-8 backdrop-blur-md">
+            <Sparkles className="w-4 h-4 text-amber-400 animate-pulse" />
             <span>Ztech Engineering Talent & Student Career Portal</span>
           </div>
 
           {/* Main Title */}
-          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight text-foreground mb-6 leading-[1.15]">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight text-white mb-6 leading-[1.15] drop-shadow-lg">
             Kickstart Your Tech Career at <br className="hidden sm:inline" />
             <span className="bg-clip-text text-transparent bg-gradient-to-r from-amber-400 via-amber-300 to-orange-400 drop-shadow-sm">
               Ztech Electronics Limited
@@ -256,7 +260,7 @@ export default function Careers() {
           </h1>
 
           {/* Subtitle */}
-          <p className="text-base sm:text-lg md:text-xl text-foreground/80 mb-10 max-w-2xl mx-auto leading-relaxed font-normal">
+          <p className="text-base sm:text-lg md:text-xl text-gray-200 mb-10 max-w-2xl mx-auto leading-relaxed font-normal drop-shadow-md">
             Gain real-world practical experience in micro-soldering, PCB diagnostic rigs, software engineering, CCTV networks, and smart hardware under senior industry mentors.
           </p>
 
@@ -290,30 +294,30 @@ export default function Careers() {
                 el?.scrollIntoView({ behavior: "smooth" });
               }}
               size="lg"
-              className="w-full sm:w-auto bg-card/90 hover:bg-muted text-amber-600 dark:text-amber-400 hover:text-amber-600 dark:text-amber-300 border border-amber-500/50 hover:border-amber-400 font-semibold px-8 py-6 rounded-xl text-base shadow-xl backdrop-blur-sm transition-all duration-300 hover:scale-[1.02]"
+              className="w-full sm:w-auto bg-white/10 hover:bg-white/20 text-amber-300 hover:text-amber-200 border border-amber-400/50 hover:border-amber-400 font-semibold px-8 py-6 rounded-xl text-base shadow-xl backdrop-blur-sm transition-all duration-300 hover:scale-[1.02]"
             >
-              <Search className="w-5 h-5 mr-2.5 text-amber-600 dark:text-amber-400" />
+              <Search className="w-5 h-5 mr-2.5 text-amber-400" />
               Track Existing Application
             </Button>
           </div>
 
           {/* Hero Metrics Bar */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 p-4 rounded-2xl bg-card/70 border border-border/80 backdrop-blur-md shadow-2xl">
-            <div className="p-3 text-center border-r border-border/60 last:border-none">
-              <div className="text-2xl md:text-3xl font-extrabold text-amber-600 dark:text-amber-400">100+</div>
-              <div className="text-xs text-muted-foreground mt-1 font-medium">Students Placed</div>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 p-4 rounded-2xl bg-black/40 dark:bg-black/50 border border-white/10 backdrop-blur-md shadow-2xl">
+            <div className="p-3 text-center border-r border-white/10 last:border-none">
+              <div className="text-2xl md:text-3xl font-extrabold text-amber-400">100+</div>
+              <div className="text-xs text-gray-300 mt-1 font-medium">Students Placed</div>
             </div>
-            <div className="p-3 text-center border-r border-border/60 last:border-none">
-              <div className="text-2xl md:text-3xl font-extrabold text-amber-600 dark:text-amber-400">100%</div>
-              <div className="text-xs text-muted-foreground mt-1 font-medium">Practical Workshop</div>
+            <div className="p-3 text-center border-r border-white/10 last:border-none">
+              <div className="text-2xl md:text-3xl font-extrabold text-amber-400">100%</div>
+              <div className="text-xs text-gray-300 mt-1 font-medium">Practical Workshop</div>
             </div>
-            <div className="p-3 text-center border-r border-border/60 last:border-none">
-              <div className="text-2xl md:text-3xl font-extrabold text-amber-600 dark:text-amber-400">1-on-1</div>
-              <div className="text-xs text-muted-foreground mt-1 font-medium">Senior Mentorship</div>
+            <div className="p-3 text-center border-r border-white/10 last:border-none">
+              <div className="text-2xl md:text-3xl font-extrabold text-amber-400">1-on-1</div>
+              <div className="text-xs text-gray-300 mt-1 font-medium">Senior Mentorship</div>
             </div>
             <div className="p-3 text-center">
-              <div className="text-2xl md:text-3xl font-extrabold text-amber-600 dark:text-amber-400">Official</div>
-              <div className="text-xs text-muted-foreground mt-1 font-medium">Logbook Sign-off</div>
+              <div className="text-2xl md:text-3xl font-extrabold text-amber-400">Official</div>
+              <div className="text-xs text-gray-300 mt-1 font-medium">Logbook Sign-off</div>
             </div>
           </div>
         </div>

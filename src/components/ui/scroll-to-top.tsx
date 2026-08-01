@@ -38,7 +38,7 @@ export default function ScrollToTop() {
       aria-label="Scroll to top"
       className={cn(
         // Base styles
-        "fixed bottom-6 right-6 z-50",
+        "fixed bottom-24 sm:bottom-28 right-4 sm:right-6 z-50",
         "p-3 rounded-full",
         "bg-accent text-white",
         "shadow-lg",
