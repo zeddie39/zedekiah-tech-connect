@@ -214,7 +214,7 @@ export default function AuthPage() {
       {/* soft brand glows */}
       <div className="pointer-events-none absolute -top-24 -left-20 h-72 w-72 rounded-full bg-primary/20 blur-3xl" />
       <div className="pointer-events-none absolute -bottom-24 -right-16 h-80 w-80 rounded-full bg-accent/20 blur-3xl" />
-      <Card className="max-w-sm w-full mx-2 px-7 pb-8 pt-28 rounded-[2rem] border-border/60 bg-card/90 backdrop-blur-xl shadow-[0_24px_60px_-12px_hsl(var(--foreground)/0.35)] overflow-visible relative z-10">
+      <Card className="max-w-sm w-full mx-2 px-7 pb-8 pt-20 rounded-[2rem] border-border/60 bg-card/90 backdrop-blur-xl shadow-[0_24px_60px_-12px_hsl(var(--foreground)/0.35)] overflow-visible relative z-10">
 
         {resetToken ? (
           <>

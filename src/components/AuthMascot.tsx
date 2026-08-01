@@ -23,7 +23,7 @@ export default function AuthMascot({
   const tilt = isEmailFocused ? Math.min(Math.max((emailLength - 8) * 0.4, -5), 5) : 0;
 
   return (
-    <div className="relative mx-auto -mt-24 mb-2 h-32 w-full max-w-[240px] select-none pointer-events-none">
+    <div className="relative mx-auto -mt-28 -mb-1 h-32 w-full max-w-[260px] select-none pointer-events-none">
       <AnimatePresence initial={false} mode="wait">
         <motion.img
           key={hidden ? "covering" : "watching"}
@@ -41,7 +41,7 @@ export default function AuthMascot({
           }}
           exit={{ opacity: 0, y: 8, scale: 0.96 }}
           transition={{ type: "spring", stiffness: 220, damping: 22 }}
-          className="absolute bottom-0 left-1/2 w-full -translate-x-1/2 object-contain drop-shadow-[0_18px_28px_hsl(var(--foreground)/0.25)]"
+          className="absolute bottom-0 left-[46%] w-full -translate-x-1/2 object-contain drop-shadow-[0_18px_28px_hsl(var(--foreground)/0.25)]"
         />
       </AnimatePresence>
     </div>
