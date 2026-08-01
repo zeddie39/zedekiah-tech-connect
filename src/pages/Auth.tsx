@@ -210,8 +210,12 @@ export default function AuthPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-muted relative">
-      <Card className="max-w-sm w-full mx-2 p-8">
+    <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-background via-background to-primary/10 relative overflow-hidden">
+      {/* soft brand glows */}
+      <div className="pointer-events-none absolute -top-24 -left-20 h-72 w-72 rounded-full bg-primary/20 blur-3xl" />
+      <div className="pointer-events-none absolute -bottom-24 -right-16 h-80 w-80 rounded-full bg-accent/20 blur-3xl" />
+      <Card className="max-w-sm w-full mx-2 px-7 pb-8 pt-28 rounded-[2rem] border-border/60 bg-card/90 backdrop-blur-xl shadow-[0_24px_60px_-12px_hsl(var(--foreground)/0.35)] overflow-visible relative z-10">
+
         {resetToken ? (
           <>
             <h1 className="text-2xl font-bold mb-4 text-center text-primary">Set a New Password</h1>
