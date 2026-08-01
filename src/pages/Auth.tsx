@@ -230,7 +230,7 @@ export default function AuthPage() {
               </div>
             ) : (
               <form onSubmit={handlePasswordUpdate} className="space-y-3">
-                <Input
+                <Input className="h-11 rounded-xl bg-muted/60 border-border"
                   placeholder="New password (min 6 characters)"
                   type="password"
                   value={newPassword}
@@ -242,7 +242,7 @@ export default function AuthPage() {
                   required
                   disabled={loading}
                 />
-                <Input
+                <Input className="h-11 rounded-xl bg-muted/60 border-border"
                   placeholder="Confirm new password"
                   type="password"
                   value={confirmPassword}
@@ -276,7 +276,7 @@ export default function AuthPage() {
               <div className="mb-3 py-2 px-3 rounded bg-primary/10 text-primary text-center text-sm">{resetNotice}</div>
             )}
             <form onSubmit={handleResetPassword} className="space-y-3">
-              <Input
+              <Input className="h-11 rounded-xl bg-muted/60 border-border"
                 placeholder="Email address"
                 value={resetEmail}
                 autoComplete="username"
@@ -317,7 +317,7 @@ export default function AuthPage() {
               <div className="mb-3 py-2 px-3 rounded bg-accent/15 text-accent-foreground text-center text-sm">{signupNotice}</div>
             )}
             <form onSubmit={handleAuth} className="space-y-3">
-              <Input
+              <Input className="h-11 rounded-xl bg-muted/60 border-border"
                 placeholder="Email"
                 value={email}
                 autoComplete="username"
@@ -328,7 +328,7 @@ export default function AuthPage() {
                 required
                 disabled={loading}
               />
-              <Input
+              <Input className="h-11 rounded-xl bg-muted/60 border-border"
                 placeholder="Password"
                 type="password"
                 value={password}
@@ -368,7 +368,7 @@ export default function AuthPage() {
             {/* Divider */}
             <div className="relative my-4">
               <div className="absolute inset-0 flex items-center">
-                <span className="w-full border-t border-gray-200 dark:border-gray-700" />
+                <span className="w-full border-t border-border" />
               </div>
               <div className="relative flex justify-center text-xs uppercase">
                 <span className="bg-card px-2 text-muted-foreground font-medium">Or continue with</span>
@@ -380,7 +380,7 @@ export default function AuthPage() {
               <Button
                 type="button"
                 variant="outline"
-                className="w-full flex items-center justify-center gap-2 hover:bg-slate-50 dark:hover:bg-slate-800 border-gray-300 dark:border-gray-700 transition-colors"
+                className="w-full flex items-center justify-center gap-2 hover:bg-muted border-border rounded-xl transition-colors"
                 onClick={() => handleOAuthSignIn("google")}
                 disabled={loading}
               >
@@ -392,7 +392,7 @@ export default function AuthPage() {
                 <Button
                   type="button"
                   variant="outline"
-                  className="w-full flex items-center justify-center gap-2 hover:bg-blue-50 dark:hover:bg-slate-800 border-gray-300 dark:border-gray-700 transition-colors"
+                  className="w-full flex items-center justify-center gap-2 hover:bg-muted border-border rounded-xl transition-colors"
                   onClick={() => handleOAuthSignIn("facebook")}
                   disabled={loading}
                 >
@@ -403,7 +403,7 @@ export default function AuthPage() {
                 <Button
                   type="button"
                   variant="outline"
-                  className="w-full flex items-center justify-center gap-2 hover:bg-blue-50 dark:hover:bg-slate-800 border-gray-300 dark:border-gray-700 transition-colors"
+                  className="w-full flex items-center justify-center gap-2 hover:bg-muted border-border rounded-xl transition-colors"
                   onClick={() => handleOAuthSignIn("linkedin_oidc")}
                   disabled={loading}
                 >
