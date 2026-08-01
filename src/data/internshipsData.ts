@@ -1,4 +1,6 @@
 import { supabase } from "@/integrations/supabase/client";
+import type { Database } from "@/integrations/supabase/types";
+
 
 export interface InternshipPosting {
   id: string;
@@ -168,8 +170,9 @@ export async function addPosting(data: Omit<InternshipPosting, "id" | "postedAt"
       slots: data.slots,
       deadline: data.deadline,
       is_open: data.isOpen,
-      posted_at: postedAtStr,
+      created_at: postedAtStr,
     });
+
 
     if (error) {
       console.error("Failed to insert job posting into Supabase:", error.message);
@@ -190,7 +193,7 @@ export async function editPosting(id: string, changes: Partial<InternshipPosting
   }
 
   try {
-    const dbChanges: Record<string, any> = {};
+    const dbChanges: Database["public"]["Tables"]["job_postings"]["Update"] = {};
     if (changes.title !== undefined) dbChanges.title = changes.title;
     if (changes.department !== undefined) dbChanges.department = changes.department;
     if (changes.type !== undefined) dbChanges.type = changes.type;
