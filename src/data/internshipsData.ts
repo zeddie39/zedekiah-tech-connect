@@ -168,8 +168,9 @@ export async function addPosting(data: Omit<InternshipPosting, "id" | "postedAt"
       slots: data.slots,
       deadline: data.deadline,
       is_open: data.isOpen,
-      posted_at: postedAtStr,
+      created_at: postedAtStr,
     });
+
 
     if (error) {
       console.error("Failed to insert job posting into Supabase:", error.message);
