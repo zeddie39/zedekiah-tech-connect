@@ -143,7 +143,7 @@ export async function getStoredPostings(): Promise<InternshipPosting[]> {
 }
 
 export async function addPosting(data: Omit<InternshipPosting, "id" | "postedAt">): Promise<InternshipPosting> {
-  const newId = `post-${Date.now()}`;
+  const newId = crypto.randomUUID();
   const postedAtStr = new Date().toISOString();
 
   const newPosting: InternshipPosting = {
@@ -257,7 +257,7 @@ export async function submitApplication(
   const randNum = Math.floor(1000 + Math.random() * 9000);
   const prefix = data.type === "Attachment" ? "ZTECH-ATT" : data.type === "Internship" ? "ZTECH-INT" : "ZTECH-APR";
   const referenceId = `${prefix}-${randNum}`;
-  const newId = `app-${Date.now()}`;
+  const newId = crypto.randomUUID();
   const nowIso = new Date().toISOString();
 
   const newApp: AttachmentApplication = {
