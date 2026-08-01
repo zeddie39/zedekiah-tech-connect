@@ -212,13 +212,13 @@ export default function AuthPage() {
   return (
     <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-background via-background to-primary/10 relative overflow-hidden">
       {/* soft brand glows */}
-      <div className="pointer-events-none absolute -top-24 -left-20 h-72 w-72 rounded-full bg-primary/20 blur-3xl" />
+      <div className="pointer-events-none absolute -top-24 -left-20 h-72 w-72 rounded-full bg-accent/20 blur-3xl" />
       <div className="pointer-events-none absolute -bottom-24 -right-16 h-80 w-80 rounded-full bg-accent/20 blur-3xl" />
       <Card className="max-w-sm w-full mx-2 px-7 pb-8 pt-20 rounded-[2rem] border-border/60 bg-card/90 backdrop-blur-xl shadow-[0_24px_60px_-12px_hsl(var(--foreground)/0.35)] overflow-visible relative z-10">
 
         {resetToken ? (
           <>
-            <h1 className="text-2xl font-bold mb-4 text-center text-primary">Set a New Password</h1>
+            <h1 className="text-2xl font-bold mb-4 text-center text-foreground">Set a New Password</h1>
             <p className="text-muted-foreground text-center mb-4 text-sm">
               Enter a strong new password for your account and confirm it below.<br/>
               After updating, you can log in immediately.
@@ -268,7 +268,7 @@ export default function AuthPage() {
               isPasswordFocused={focusedField === "password" || focusedField === "newPassword" || focusedField === "confirmPassword"}
               emailLength={resetEmail.length}
             />
-            <h1 className="text-2xl font-bold mb-4 text-center text-primary">Reset Your Password</h1>
+            <h1 className="text-2xl font-bold mb-4 text-center text-foreground">Reset Your Password</h1>
             <p className="text-muted-foreground text-center mb-4 text-sm">
               Enter your email address and we'll send you a link to reset your password.
             </p>
@@ -352,9 +352,9 @@ export default function AuthPage() {
                   />
                   <label htmlFor="accept-terms" className="select-none">
                     I agree to the
-                    <a href="/terms" target="_blank" rel="noopener noreferrer" className="underline text-primary mx-1">Terms & Conditions</a>
+                    <a href="/terms" target="_blank" rel="noopener noreferrer" className="underline text-accent mx-1">Terms & Conditions</a>
                     and
-                    <a href="/privacy" target="_blank" rel="noopener noreferrer" className="underline text-primary mx-1">Privacy Policy</a>.
+                    <a href="/privacy" target="_blank" rel="noopener noreferrer" className="underline text-accent mx-1">Privacy Policy</a>.
                   </label>
                 </div>
               )}
@@ -450,7 +450,7 @@ export default function AuthPage() {
         )}
         <div className="mt-4 text-center">
           <button
-            className="inline-block bg-primary text-primary-foreground font-bold px-6 py-2 rounded-lg shadow hover:bg-primary/90 transition-all text-base"
+            className="inline-block bg-accent text-accent-foreground font-bold px-6 py-2 rounded-lg shadow hover:bg-accent/90 transition-all text-base"
             onClick={() => navigate('/')}
           >
             Go to Home
