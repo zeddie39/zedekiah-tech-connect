@@ -88,7 +88,7 @@ function mapPostingRow(row: any): InternshipPosting {
     slots: row.slots ?? 1,
     deadline: row.deadline,
     isOpen: row.is_open ?? true,
-    postedAt: row.posted_at ? new Date(row.posted_at).toISOString().split("T")[0] : new Date().toISOString().split("T")[0],
+    postedAt: row.created_at ? new Date(row.created_at).toISOString().split("T")[0] : new Date().toISOString().split("T")[0],
   };
 }
 
@@ -126,7 +126,7 @@ export async function getStoredPostings(): Promise<InternshipPosting[]> {
     const { data, error } = await supabase
       .from("job_postings")
       .select("*")
-      .order("posted_at", { ascending: false });
+      .order("created_at", { ascending: false });
 
     if (error || !data) {
       console.warn("Supabase job_postings fetch error/offline, using localStorage:", error?.message);
