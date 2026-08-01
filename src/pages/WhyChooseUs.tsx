@@ -69,7 +69,7 @@ const WhyChooseUs = () => (
 						key={idx}
 						className="bg-white dark:bg-card/90 rounded-2xl shadow-lg p-8 border border-gray-200 dark:border-border flex flex-col items-center text-center hover:shadow-xl transition-all duration-300"
 					>
-						<h3 className="text-2xl font-bold text-amber-500 dark:text-amber-400 mb-3 font-orbitron">
+						<h3 className="text-2xl font-bold text-amber-500 dark:text-amber-600 dark:text-amber-400 mb-3 font-orbitron">
 							{reason.title}
 						</h3>
 						<p className="text-gray-600 dark:text-foreground/80 text-base leading-relaxed">

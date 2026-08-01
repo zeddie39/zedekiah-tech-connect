@@ -86,7 +86,7 @@ const faqs = [
 						Email:{" "}
 						<a
 							href="mailto:zeedy028@gmail.com"
-							className="underline text-amber-500 hover:text-amber-400 font-semibold"
+							className="underline text-amber-500 hover:text-amber-600 dark:text-amber-400 font-semibold"
 						>
 							zeedy028@gmail.com
 						</a>
@@ -95,7 +95,7 @@ const faqs = [
 						Phone:{" "}
 						<a
 							href="tel:+254757756763"
-							className="underline text-amber-500 hover:text-amber-400 font-semibold"
+							className="underline text-amber-500 hover:text-amber-600 dark:text-amber-400 font-semibold"
 						>
 							+254 757 756 763
 						</a>
@@ -125,7 +125,7 @@ const FAQPage = () => (
 					key={idx}
 					className="bg-white dark:bg-card/90 rounded-2xl shadow-lg p-6 border border-gray-200 dark:border-border transition-all duration-300"
 				>
-					<h3 className="text-xl font-bold text-amber-500 dark:text-amber-400 mb-3 font-orbitron">
+					<h3 className="text-xl font-bold text-amber-500 dark:text-amber-600 dark:text-amber-400 mb-3 font-orbitron">
 						{faq.question}
 					</h3>
 					<div className="text-gray-600 dark:text-foreground/80 text-base leading-relaxed">{faq.answer}</div>

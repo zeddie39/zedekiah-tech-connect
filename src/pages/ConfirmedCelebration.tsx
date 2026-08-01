@@ -99,11 +99,11 @@ export default function ConfirmedCelebration() {
         ) : (
           <>
             <div className="w-20 h-20 rounded-full bg-amber-500/20 border-4 border-amber-400 flex items-center justify-center mb-6 animate-bounce shadow-xl shadow-amber-500/20">
-              <CheckCheck className="w-10 h-10 text-amber-400" />
+              <CheckCheck className="w-10 h-10 text-amber-600 dark:text-amber-400" />
             </div>
 
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs font-semibold mb-4">
-              <Sparkles className="w-4 h-4 text-amber-400 animate-pulse" />
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-600 dark:text-amber-300 text-xs font-semibold mb-4">
+              <Sparkles className="w-4 h-4 text-amber-600 dark:text-amber-400 animate-pulse" />
               <span>Email Verified Successfully</span>
             </div>
 
@@ -113,7 +113,7 @@ export default function ConfirmedCelebration() {
 
             <p className="text-sm sm:text-base text-foreground/80 mb-6 leading-relaxed max-w-md">
               {userEmail ? (
-                <>Your email address <strong className="text-amber-400 font-semibold">{userEmail}</strong> has been verified.</>
+                <>Your email address <strong className="text-amber-600 dark:text-amber-400 font-semibold">{userEmail}</strong> has been verified.</>
               ) : (
                 <>Your account is now fully verified and activated.</>
               )}
@@ -128,7 +128,7 @@ export default function ConfirmedCelebration() {
             </Link>
 
             <div className="text-muted-foreground text-xs font-medium">
-              Automatically taking you to your dashboard in <span className="font-bold text-amber-400 text-sm">{count}</span>s...
+              Automatically taking you to your dashboard in <span className="font-bold text-amber-600 dark:text-amber-400 text-sm">{count}</span>s...
             </div>
           </>
         )}

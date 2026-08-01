@@ -194,12 +194,12 @@ export default function Careers() {
 
   const getStatusBadge = (status: AttachmentApplication["status"]) => {
     const colors: Record<string, string> = {
-      "Received": "bg-blue-500/20 text-blue-300 border-blue-500/40",
-      "Under Review": "bg-amber-500/20 text-amber-300 border-amber-500/40",
-      "Shortlisted": "bg-purple-500/20 text-purple-300 border-purple-500/40",
-      "Interview Scheduled": "bg-indigo-500/20 text-indigo-300 border-indigo-500/40",
-      "Offered": "bg-emerald-500/20 text-emerald-300 border-emerald-500/40",
-      "Rejected": "bg-rose-500/20 text-rose-300 border-rose-500/40",
+      "Received": "bg-blue-500/20 text-blue-700 dark:text-blue-300 border-blue-500/40",
+      "Under Review": "bg-amber-500/20 text-amber-600 dark:text-amber-300 border-amber-500/40",
+      "Shortlisted": "bg-purple-500/20 text-purple-700 dark:text-purple-300 border-purple-500/40",
+      "Interview Scheduled": "bg-indigo-500/20 text-indigo-700 dark:text-indigo-300 border-indigo-500/40",
+      "Offered": "bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 border-emerald-500/40",
+      "Rejected": "bg-rose-500/20 text-rose-700 dark:text-rose-300 border-rose-500/40",
     };
     return (
       <Badge className={`${colors[status] || ""} border px-3 py-1 text-xs font-semibold rounded-full`}>
@@ -242,8 +242,8 @@ export default function Careers() {
 
         <div className="container mx-auto px-4 relative z-10 text-center max-w-4xl">
           {/* Top Pill Badge */}
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-card/90 border border-amber-500/30 text-amber-300 text-xs md:text-sm font-medium shadow-xl shadow-amber-500/5 mb-8 backdrop-blur-md">
-            <Sparkles className="w-4 h-4 text-amber-400 animate-pulse" />
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-card/90 border border-amber-500/30 text-amber-600 dark:text-amber-300 text-xs md:text-sm font-medium shadow-xl shadow-amber-500/5 mb-8 backdrop-blur-md">
+            <Sparkles className="w-4 h-4 text-amber-600 dark:text-amber-400 animate-pulse" />
             <span>Ztech Engineering Talent & Student Career Portal</span>
           </div>
 
@@ -290,9 +290,9 @@ export default function Careers() {
                 el?.scrollIntoView({ behavior: "smooth" });
               }}
               size="lg"
-              className="w-full sm:w-auto bg-card/90 hover:bg-muted text-amber-400 hover:text-amber-300 border border-amber-500/50 hover:border-amber-400 font-semibold px-8 py-6 rounded-xl text-base shadow-xl backdrop-blur-sm transition-all duration-300 hover:scale-[1.02]"
+              className="w-full sm:w-auto bg-card/90 hover:bg-muted text-amber-600 dark:text-amber-400 hover:text-amber-600 dark:text-amber-300 border border-amber-500/50 hover:border-amber-400 font-semibold px-8 py-6 rounded-xl text-base shadow-xl backdrop-blur-sm transition-all duration-300 hover:scale-[1.02]"
             >
-              <Search className="w-5 h-5 mr-2.5 text-amber-400" />
+              <Search className="w-5 h-5 mr-2.5 text-amber-600 dark:text-amber-400" />
               Track Existing Application
             </Button>
           </div>
@@ -300,19 +300,19 @@ export default function Careers() {
           {/* Hero Metrics Bar */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 p-4 rounded-2xl bg-card/70 border border-border/80 backdrop-blur-md shadow-2xl">
             <div className="p-3 text-center border-r border-border/60 last:border-none">
-              <div className="text-2xl md:text-3xl font-extrabold text-amber-400">100+</div>
+              <div className="text-2xl md:text-3xl font-extrabold text-amber-600 dark:text-amber-400">100+</div>
               <div className="text-xs text-muted-foreground mt-1 font-medium">Students Placed</div>
             </div>
             <div className="p-3 text-center border-r border-border/60 last:border-none">
-              <div className="text-2xl md:text-3xl font-extrabold text-amber-400">100%</div>
+              <div className="text-2xl md:text-3xl font-extrabold text-amber-600 dark:text-amber-400">100%</div>
               <div className="text-xs text-muted-foreground mt-1 font-medium">Practical Workshop</div>
             </div>
             <div className="p-3 text-center border-r border-border/60 last:border-none">
-              <div className="text-2xl md:text-3xl font-extrabold text-amber-400">1-on-1</div>
+              <div className="text-2xl md:text-3xl font-extrabold text-amber-600 dark:text-amber-400">1-on-1</div>
               <div className="text-xs text-muted-foreground mt-1 font-medium">Senior Mentorship</div>
             </div>
             <div className="p-3 text-center">
-              <div className="text-2xl md:text-3xl font-extrabold text-amber-400">Official</div>
+              <div className="text-2xl md:text-3xl font-extrabold text-amber-600 dark:text-amber-400">Official</div>
               <div className="text-xs text-muted-foreground mt-1 font-medium">Logbook Sign-off</div>
             </div>
           </div>
@@ -323,7 +323,7 @@ export default function Careers() {
       <section className="py-20 bg-background relative border-b border-border/80">
         <div className="container mx-auto px-4">
           <div className="text-center mb-14">
-            <Badge className="bg-amber-500/10 text-amber-400 border border-amber-500/20 px-3 py-1 mb-3 text-xs uppercase tracking-wider font-semibold">
+            <Badge className="bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20 px-3 py-1 mb-3 text-xs uppercase tracking-wider font-semibold">
               Training Tracks
             </Badge>
             <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-3 tracking-tight">Our Hands-On Practical Programs</h2>
@@ -336,7 +336,7 @@ export default function Careers() {
             {/* Card 1 */}
             <div className="bg-card/60 p-8 rounded-3xl border border-border/80 hover:border-amber-500/60 hover:shadow-2xl hover:shadow-amber-500/10 hover:-translate-y-1.5 transition-all duration-300 backdrop-blur-sm group flex flex-col justify-between">
               <div>
-                <div className="w-14 h-14 rounded-2xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400 mb-6 group-hover:scale-110 transition-transform shadow-lg">
+                <div className="w-14 h-14 rounded-2xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-600 dark:text-amber-400 mb-6 group-hover:scale-110 transition-transform shadow-lg">
                   <GraduationCap className="w-7 h-7" />
                 </div>
                 <h3 className="text-2xl font-bold text-foreground mb-3">Industrial Attachment</h3>
@@ -344,7 +344,7 @@ export default function Careers() {
                   3 to 6 months attachment tailored for university & diploma students needing official logbook completion, workshop diagnostics, and engineer guidance.
                 </p>
               </div>
-              <div className="pt-4 border-t border-border/80 flex items-center justify-between text-xs text-amber-400 font-semibold">
+              <div className="pt-4 border-t border-border/80 flex items-center justify-between text-xs text-amber-600 dark:text-amber-400 font-semibold">
                 <span>Official Recommendation Required</span>
                 <CheckCircle2 className="w-4 h-4" />
               </div>
@@ -353,7 +353,7 @@ export default function Careers() {
             {/* Card 2 */}
             <div className="bg-card/60 p-8 rounded-3xl border border-border/80 hover:border-purple-500/60 hover:shadow-2xl hover:shadow-purple-500/10 hover:-translate-y-1.5 transition-all duration-300 backdrop-blur-sm group flex flex-col justify-between">
               <div>
-                <div className="w-14 h-14 rounded-2xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-400 mb-6 group-hover:scale-110 transition-transform shadow-lg">
+                <div className="w-14 h-14 rounded-2xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-600 dark:text-purple-400 mb-6 group-hover:scale-110 transition-transform shadow-lg">
                   <Briefcase className="w-7 h-7" />
                 </div>
                 <h3 className="text-2xl font-bold text-foreground mb-3">Graduate Internship</h3>
@@ -361,7 +361,7 @@ export default function Careers() {
                   6 to 12 months immersive program for recent graduates. Work directly on production codebases, CCTV IP networking, PCB lab diagnostics, and client solutions.
                 </p>
               </div>
-              <div className="pt-4 border-t border-border/80 flex items-center justify-between text-xs text-purple-400 font-semibold">
+              <div className="pt-4 border-t border-border/80 flex items-center justify-between text-xs text-purple-600 dark:text-purple-400 font-semibold">
                 <span>Direct Path to Full-Time Career</span>
                 <CheckCircle2 className="w-4 h-4" />
               </div>
@@ -370,7 +370,7 @@ export default function Careers() {
             {/* Card 3 */}
             <div className="bg-card/60 p-8 rounded-3xl border border-border/80 hover:border-blue-500/60 hover:shadow-2xl hover:shadow-blue-500/10 hover:-translate-y-1.5 transition-all duration-300 backdrop-blur-sm group flex flex-col justify-between">
               <div>
-                <div className="w-14 h-14 rounded-2xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-400 mb-6 group-hover:scale-110 transition-transform shadow-lg">
+                <div className="w-14 h-14 rounded-2xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-600 dark:text-blue-400 mb-6 group-hover:scale-110 transition-transform shadow-lg">
                   <Wrench className="w-7 h-7" />
                 </div>
                 <h3 className="text-2xl font-bold text-foreground mb-3">Technical Apprenticeship</h3>
@@ -378,7 +378,7 @@ export default function Careers() {
                   Intensive practical bootcamps in micro-soldering, smartphone display refurbishing, CCTV IP camera installation, and hardware troubleshooting.
                 </p>
               </div>
-              <div className="pt-4 border-t border-border/80 flex items-center justify-between text-xs text-blue-400 font-semibold">
+              <div className="pt-4 border-t border-border/80 flex items-center justify-between text-xs text-blue-600 dark:text-blue-400 font-semibold">
                 <span>Certificate of Practical Competency</span>
                 <CheckCircle2 className="w-4 h-4" />
               </div>
@@ -391,7 +391,7 @@ export default function Careers() {
       <section id="open-positions" className="py-20 container mx-auto px-4 max-w-7xl">
         <div className="mb-10 text-center md:text-left flex flex-col md:flex-row md:items-end justify-between gap-4">
           <div>
-            <Badge className="bg-amber-500/10 text-amber-400 border border-amber-500/20 px-3 py-1 mb-2 text-xs uppercase tracking-wider font-semibold">
+            <Badge className="bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20 px-3 py-1 mb-2 text-xs uppercase tracking-wider font-semibold">
               Live Openings
             </Badge>
             <h2 className="text-3xl font-extrabold text-foreground tracking-tight">Available Attachment & Job Slots</h2>
@@ -407,7 +407,7 @@ export default function Careers() {
         {!hasOpenPostings ? (
           <div className="relative overflow-hidden text-center py-16 px-6 bg-gradient-to-b from-card/90 via-card/60 to-background rounded-3xl border border-border shadow-2xl backdrop-blur-md">
             <div className="absolute inset-0 bg-radial-gradient from-amber-500/5 via-transparent to-transparent pointer-events-none" />
-            <div className="w-20 h-20 rounded-3xl bg-muted/90 border border-border/80 flex items-center justify-center mx-auto mb-6 shadow-inner text-amber-400">
+            <div className="w-20 h-20 rounded-3xl bg-muted/90 border border-border/80 flex items-center justify-center mx-auto mb-6 shadow-inner text-amber-600 dark:text-amber-400">
               <Inbox className="w-10 h-10" />
             </div>
             <h3 className="text-2xl md:text-3xl font-extrabold text-foreground mb-3">No Open Positions Right Now</h3>
@@ -429,9 +429,9 @@ export default function Careers() {
                   const el = document.getElementById("track-section");
                   el?.scrollIntoView({ behavior: "smooth" });
                 }}
-                className="w-full sm:w-auto bg-card hover:bg-muted text-amber-400 hover:text-amber-300 border border-amber-500/50 hover:border-amber-400 font-semibold px-8 py-6 rounded-xl shadow-xl transition-all duration-300 hover:scale-[1.02]"
+                className="w-full sm:w-auto bg-card hover:bg-muted text-amber-600 dark:text-amber-400 hover:text-amber-600 dark:text-amber-300 border border-amber-500/50 hover:border-amber-400 font-semibold px-8 py-6 rounded-xl shadow-xl transition-all duration-300 hover:scale-[1.02]"
               >
-                <Search className="w-5 h-5 mr-2.5 text-amber-400" />
+                <Search className="w-5 h-5 mr-2.5 text-amber-600 dark:text-amber-400" />
                 Already Applied? Track Your Status Below
               </Button>
             </div>
@@ -491,7 +491,7 @@ export default function Careers() {
                   >
                     <div>
                       <div className="flex items-center justify-between gap-2 mb-4">
-                        <span className="text-xs font-semibold text-amber-400 bg-amber-400/10 px-3 py-1 rounded-full border border-amber-400/20">
+                        <span className="text-xs font-semibold text-amber-600 dark:text-amber-400 bg-amber-400/10 px-3 py-1 rounded-full border border-amber-400/20">
                           {posting.department}
                         </span>
                         <Badge className="bg-muted text-foreground border-border text-xs px-2.5 py-1">
@@ -499,20 +499,20 @@ export default function Careers() {
                         </Badge>
                       </div>
 
-                      <h3 className="text-2xl font-bold text-foreground mb-3 group-hover:text-amber-400 transition-colors">{posting.title}</h3>
+                      <h3 className="text-2xl font-bold text-foreground mb-3 group-hover:text-amber-600 dark:text-amber-400 transition-colors">{posting.title}</h3>
                       <p className="text-foreground/80 text-sm mb-6 line-clamp-3 leading-relaxed">
                         {posting.description}
                       </p>
 
                       <div className="grid grid-cols-3 gap-2 text-xs text-muted-foreground mb-6 border-y border-border/80 py-3.5">
                         <span className="flex items-center gap-1.5">
-                          <MapPin className="w-3.5 h-3.5 text-amber-400 shrink-0" /> <span className="truncate">{posting.location}</span>
+                          <MapPin className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400 shrink-0" /> <span className="truncate">{posting.location}</span>
                         </span>
                         <span className="flex items-center gap-1.5">
-                          <Clock className="w-3.5 h-3.5 text-amber-400 shrink-0" /> <span className="truncate">{posting.duration}</span>
+                          <Clock className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400 shrink-0" /> <span className="truncate">{posting.duration}</span>
                         </span>
                         <span className="flex items-center gap-1.5">
-                          <Users className="w-3.5 h-3.5 text-amber-400 shrink-0" /> <span className="truncate">{posting.slots} Slot{posting.slots !== 1 ? "s" : ""}</span>
+                          <Users className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400 shrink-0" /> <span className="truncate">{posting.slots} Slot{posting.slots !== 1 ? "s" : ""}</span>
                         </span>
                       </div>
 
@@ -527,7 +527,7 @@ export default function Careers() {
                               </li>
                             ))}
                             {posting.requirements.length > 3 && (
-                              <li className="text-xs text-amber-400/80 italic font-medium">+{posting.requirements.length - 3} more requirements...</li>
+                              <li className="text-xs text-amber-600 dark:text-amber-400/80 italic font-medium">+{posting.requirements.length - 3} more requirements...</li>
                             )}
                           </ul>
                         </div>
@@ -555,7 +555,7 @@ export default function Careers() {
       <section className="py-20 bg-card/40 border-t border-border/80">
         <div className="container mx-auto px-4 max-w-7xl">
           <div className="text-center mb-14">
-            <Badge className="bg-amber-500/10 text-amber-400 border border-amber-500/20 px-3 py-1 mb-3 text-xs uppercase tracking-wider font-semibold">
+            <Badge className="bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20 px-3 py-1 mb-3 text-xs uppercase tracking-wider font-semibold">
               Student Advantages
             </Badge>
             <h2 className="text-3xl font-extrabold text-foreground tracking-tight">Why Complete Your Attachment at Ztech?</h2>
@@ -566,7 +566,7 @@ export default function Careers() {
 
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
             <div className="bg-background p-6 rounded-2xl border border-border/80 space-y-3">
-              <div className="w-10 h-10 rounded-xl bg-amber-500/10 flex items-center justify-center text-amber-400">
+              <div className="w-10 h-10 rounded-xl bg-amber-500/10 flex items-center justify-center text-amber-600 dark:text-amber-400">
                 <Cpu className="w-5 h-5" />
               </div>
               <h4 className="font-bold text-foreground text-base">Real Lab Hardware</h4>
@@ -576,7 +576,7 @@ export default function Careers() {
             </div>
 
             <div className="bg-background p-6 rounded-2xl border border-border/80 space-y-3">
-              <div className="w-10 h-10 rounded-xl bg-purple-500/10 flex items-center justify-center text-purple-400">
+              <div className="w-10 h-10 rounded-xl bg-purple-500/10 flex items-center justify-center text-purple-600 dark:text-purple-400">
                 <Award className="w-5 h-5" />
               </div>
               <h4 className="font-bold text-foreground text-base">100% Logbook Approval</h4>
@@ -596,7 +596,7 @@ export default function Careers() {
             </div>
 
             <div className="bg-background p-6 rounded-2xl border border-border/80 space-y-3">
-              <div className="w-10 h-10 rounded-xl bg-blue-500/10 flex items-center justify-center text-blue-400">
+              <div className="w-10 h-10 rounded-xl bg-blue-500/10 flex items-center justify-center text-blue-600 dark:text-blue-400">
                 <Users className="w-5 h-5" />
               </div>
               <h4 className="font-bold text-foreground text-base">Engineer Mentorship</h4>
@@ -613,12 +613,12 @@ export default function Careers() {
         <div className="container mx-auto px-4 max-w-4xl">
           <div className="bg-gradient-to-b from-card/90 to-card/50 border border-border rounded-3xl p-8 md:p-10 shadow-2xl backdrop-blur-md">
             <div className="text-center max-w-xl mx-auto mb-8">
-              <div className="w-14 h-14 rounded-2xl bg-amber-500/10 border border-amber-500/20 text-amber-400 flex items-center justify-center mx-auto mb-4 shadow-md">
+              <div className="w-14 h-14 rounded-2xl bg-amber-500/10 border border-amber-500/20 text-amber-600 dark:text-amber-400 flex items-center justify-center mx-auto mb-4 shadow-md">
                 <ShieldCheck className="w-7 h-7" />
               </div>
               <h2 className="text-3xl font-extrabold text-foreground tracking-tight mb-2">Track Application Status</h2>
               <p className="text-foreground/80 text-sm leading-relaxed">
-                Enter your unique reference tracking code (e.g. <span className="text-amber-400 font-mono font-semibold">ZTECH-ATT-7301</span>) below to get live status updates from Ztech Admin.
+                Enter your unique reference tracking code (e.g. <span className="text-amber-600 dark:text-amber-400 font-mono font-semibold">ZTECH-ATT-7301</span>) below to get live status updates from Ztech Admin.
               </p>
             </div>
 
@@ -652,7 +652,7 @@ export default function Careers() {
                     <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 border-b border-border pb-5">
                       <div>
                         <h4 className="font-bold text-foreground text-xl">{trackedResult.fullName}</h4>
-                        <p className="text-sm text-muted-foreground">{trackedResult.positionTitle} &bull; <span className="text-amber-400 font-medium">{trackedResult.type}</span></p>
+                        <p className="text-sm text-muted-foreground">{trackedResult.positionTitle} &bull; <span className="text-amber-600 dark:text-amber-400 font-medium">{trackedResult.type}</span></p>
                       </div>
                       <div>{getStatusBadge(trackedResult.status)}</div>
                     </div>
@@ -679,7 +679,7 @@ export default function Careers() {
                                   {isCompleted ? <Check className="w-4 h-4" /> : idx + 1}
                                 </div>
                                 <span className={`text-[10px] mt-2 font-medium leading-tight ${
-                                  isCurrent ? "text-amber-400 font-bold" : isCompleted ? "text-foreground/80" : "text-muted-foreground"
+                                  isCurrent ? "text-amber-600 dark:text-amber-400 font-bold" : isCompleted ? "text-foreground/80" : "text-muted-foreground"
                                 }`}>
                                   {step}
                                 </span>
@@ -691,7 +691,7 @@ export default function Careers() {
                     )}
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs bg-card/60 p-4 rounded-xl border border-border/80">
-                      <div><span className="text-muted-foreground">Ref Code:</span> <span className="font-mono text-amber-400 font-semibold">{trackedResult.referenceId}</span></div>
+                      <div><span className="text-muted-foreground">Ref Code:</span> <span className="font-mono text-amber-600 dark:text-amber-400 font-semibold">{trackedResult.referenceId}</span></div>
                       <div><span className="text-muted-foreground">Institution:</span> <span className="text-foreground">{trackedResult.institution} ({trackedResult.fieldOfStudy})</span></div>
                       <div><span className="text-muted-foreground">Applied On:</span> <span className="text-foreground">{new Date(trackedResult.appliedAt).toLocaleDateString()}</span></div>
                       <div><span className="text-muted-foreground">Preferred Start:</span> <span className="text-foreground">{trackedResult.preferredStartDate || "N/A"}</span></div>
@@ -699,7 +699,7 @@ export default function Careers() {
 
                     {trackedResult.adminNotes && (
                       <div className="bg-amber-500/10 p-4 rounded-xl border border-amber-500/20 text-xs text-foreground">
-                        <span className="font-semibold text-amber-400 block mb-1 text-xs uppercase tracking-wider">Note from Ztech Engineering Admin:</span>
+                        <span className="font-semibold text-amber-600 dark:text-amber-400 block mb-1 text-xs uppercase tracking-wider">Note from Ztech Engineering Admin:</span>
                         {trackedResult.adminNotes}
                       </div>
                     )}
@@ -729,9 +729,9 @@ export default function Careers() {
                 </div>
                 <h3 className="text-3xl font-extrabold text-foreground">Application Received!</h3>
                 <p className="text-foreground/80 text-sm max-w-md mx-auto leading-relaxed">
-                  Your application for <span className="font-semibold text-amber-400">{activePosting.title}</span> has been submitted to the Ztech Electronics Engineering Team.
+                  Your application for <span className="font-semibold text-amber-600 dark:text-amber-400">{activePosting.title}</span> has been submitted to the Ztech Electronics Engineering Team.
                 </p>
-                <div className="bg-background px-6 py-4 rounded-2xl border border-border inline-block font-mono text-amber-400 text-xl font-bold shadow-inner">
+                <div className="bg-background px-6 py-4 rounded-2xl border border-border inline-block font-mono text-amber-600 dark:text-amber-400 text-xl font-bold shadow-inner">
                   Ref: {submittedRef}
                 </div>
                 <p className="text-xs text-muted-foreground">Save this reference code to track your application status anytime on this portal.</p>

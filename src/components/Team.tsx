@@ -48,7 +48,7 @@ const Team = () => {
               <div className="absolute -top-3 -right-3 sm:-top-4 sm:-right-4 w-8 h-8 sm:w-12 sm:h-12 bg-amber-500 rounded-full flex items-center justify-center text-brand-on-orange text-lg sm:text-xl animate-float">
                 <Phone className="w-5 h-5 sm:w-8 sm:h-8" />
               </div>
-              <div className="absolute -bottom-3 -left-3 sm:-bottom-4 sm:-left-4 w-7 h-7 sm:w-10 sm:h-10 bg-card border border-border rounded-full flex items-center justify-center text-amber-400 text-base sm:text-lg animate-float" style={{ animationDelay: '1s' }}>
+              <div className="absolute -bottom-3 -left-3 sm:-bottom-4 sm:-left-4 w-7 h-7 sm:w-10 sm:h-10 bg-card border border-border rounded-full flex items-center justify-center text-amber-600 dark:text-amber-400 text-base sm:text-lg animate-float" style={{ animationDelay: '1s' }}>
                 <Mail className="w-4 h-4 sm:w-6 sm:h-6" />
               </div>
             </div>
@@ -57,7 +57,7 @@ const Team = () => {
               <h3 className="text-xl sm:text-3xl font-ubuntu font-bold text-card dark:text-foreground mb-2">
                 Vincent Zedekiah.
               </h3>
-              <p className="text-base sm:text-xl text-amber-500 dark:text-amber-400 mb-2 sm:mb-4 font-semibold">
+              <p className="text-base sm:text-xl text-amber-500 dark:text-amber-600 dark:text-amber-400 mb-2 sm:mb-4 font-semibold">
                 Founder & Chief Executive Officer
               </p>
               <p className="text-gray-700 dark:text-foreground/80 leading-relaxed text-sm sm:text-lg mb-4 sm:mb-6">
@@ -66,7 +66,7 @@ const Team = () => {
                 to everyone. His expertise spans from intricate circuit board repairs to 
                 comprehensive IT infrastructure planning.
                 <button
-                  className="ml-2 text-amber-500 dark:text-amber-400 underline hover:text-amber-400 font-semibold focus:outline-none transition-all duration-300 border-b-2 border-amber-500 border-opacity-0 focus:border-opacity-100 hover:border-opacity-100"
+                  className="ml-2 text-amber-500 dark:text-amber-600 dark:text-amber-400 underline hover:text-amber-600 dark:text-amber-400 font-semibold focus:outline-none transition-all duration-300 border-b-2 border-amber-500 border-opacity-0 focus:border-opacity-100 hover:border-opacity-100"
                   style={{ boxShadow: 'none' }}
                   onClick={() => setShowReadMore(true)}
                 >
@@ -91,7 +91,7 @@ const Team = () => {
                         className="w-32 h-32 sm:w-40 sm:h-40 object-cover rounded-full mb-4 border-4 border-amber-500 shadow-lg object-top"
                       />
                       <h3 className="text-xl sm:text-2xl font-bold text-card dark:text-foreground text-center mb-1">Vincent Ombati</h3>
-                      <p className="text-center text-amber-500 dark:text-amber-400 font-semibold text-sm mb-4">Founder & Chief Executive Officer<br/>Ztech Electronics Limited</p>
+                      <p className="text-center text-amber-500 dark:text-amber-600 dark:text-amber-400 font-semibold text-sm mb-4">Founder & Chief Executive Officer<br/>Ztech Electronics Limited</p>
                     </div>
                     {/* Right: Carded bio */}
                     <div className="space-y-4 max-h-[50vh] sm:max-h-96 overflow-y-auto text-sm sm:text-base">
