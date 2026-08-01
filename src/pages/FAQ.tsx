@@ -115,20 +115,20 @@ const faqs = [
 ];
 
 const FAQPage = () => (
-	<div className="container mx-auto px-4 py-16 text-slate-900 dark:text-white" id="faq">
-		<h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-center text-slate-900 dark:text-white mb-10 font-orbitron">
+	<div className="container mx-auto px-4 py-16 text-card dark:text-foreground" id="faq">
+		<h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-center text-card dark:text-foreground mb-10 font-orbitron">
 			Frequently Asked Questions (FAQs)
 		</h2>
 		<div className="max-w-3xl mx-auto space-y-6">
 			{faqs.map((faq, idx) => (
 				<div
 					key={idx}
-					className="bg-white dark:bg-slate-900/90 rounded-2xl shadow-lg p-6 border border-gray-200 dark:border-slate-800 transition-all duration-300"
+					className="bg-white dark:bg-card/90 rounded-2xl shadow-lg p-6 border border-gray-200 dark:border-border transition-all duration-300"
 				>
 					<h3 className="text-xl font-bold text-amber-500 dark:text-amber-400 mb-3 font-orbitron">
 						{faq.question}
 					</h3>
-					<div className="text-gray-600 dark:text-slate-300 text-base leading-relaxed">{faq.answer}</div>
+					<div className="text-gray-600 dark:text-foreground/80 text-base leading-relaxed">{faq.answer}</div>
 				</div>
 			))}
 		</div>

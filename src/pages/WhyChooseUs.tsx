@@ -54,12 +54,12 @@ const reasons = [
 ];
 
 const WhyChooseUs = () => (
-	<section id="whychooseus" className="py-16 bg-gradient-to-b from-gray-50 via-white to-gray-100 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 text-gray-900 dark:text-white transition-colors duration-300">
+	<section id="whychooseus" className="py-16 bg-gradient-to-b from-gray-50 via-white to-gray-100 dark:from-background dark:via-card dark:to-background text-gray-900 dark:text-foreground transition-colors duration-300">
 		<div className="container mx-auto px-4 py-12">
-			<h2 className="text-3xl sm:text-4xl font-extrabold text-center text-slate-900 dark:text-white mb-6 font-orbitron">
+			<h2 className="text-3xl sm:text-4xl font-extrabold text-center text-card dark:text-foreground mb-6 font-orbitron">
 				Why Choose Ztech Electronics Ltd?
 			</h2>
-			<p className="text-lg text-center text-gray-600 dark:text-slate-300 mb-10 max-w-2xl mx-auto">
+			<p className="text-lg text-center text-gray-600 dark:text-foreground/80 mb-10 max-w-2xl mx-auto">
 				Discover what sets us apart and why so many individuals and businesses trust
 				us for their electronics, IT, and security needs.
 			</p>
@@ -67,12 +67,12 @@ const WhyChooseUs = () => (
 				{reasons.map((reason, idx) => (
 					<div
 						key={idx}
-						className="bg-white dark:bg-slate-900/90 rounded-2xl shadow-lg p-8 border border-gray-200 dark:border-slate-800 flex flex-col items-center text-center hover:shadow-xl transition-all duration-300"
+						className="bg-white dark:bg-card/90 rounded-2xl shadow-lg p-8 border border-gray-200 dark:border-border flex flex-col items-center text-center hover:shadow-xl transition-all duration-300"
 					>
 						<h3 className="text-2xl font-bold text-amber-500 dark:text-amber-400 mb-3 font-orbitron">
 							{reason.title}
 						</h3>
-						<p className="text-gray-600 dark:text-slate-300 text-base leading-relaxed">
+						<p className="text-gray-600 dark:text-foreground/80 text-base leading-relaxed">
 							{reason.description}
 						</p>
 					</div>
@@ -81,7 +81,7 @@ const WhyChooseUs = () => (
 			<div className="mt-12 text-center">
 				<a
 					href="/contact"
-					className="inline-block bg-accent hover:bg-accent/90 text-slate-950 font-bold px-8 py-4 rounded-xl shadow-lg transition-transform hover:scale-105 text-lg"
+					className="inline-block bg-accent hover:bg-accent/90 text-brand-on-orange font-bold px-8 py-4 rounded-xl shadow-lg transition-transform hover:scale-105 text-lg"
 				>
 					Contact Us Today
 				</a>

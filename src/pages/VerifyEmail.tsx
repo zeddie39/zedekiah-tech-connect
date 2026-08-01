@@ -45,27 +45,27 @@ export default function VerifyEmail() {
   if (!email) return null;
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-amber-500/10 via-slate-900 to-slate-950 text-slate-100 px-4">
-      <div className="max-w-md w-full bg-slate-900/90 backdrop-blur border border-amber-500/30 rounded-3xl shadow-2xl p-8 sm:p-10 flex flex-col items-center text-center">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-amber-500/10 via-card to-background text-foreground px-4">
+      <div className="max-w-md w-full bg-card/90 backdrop-blur border border-amber-500/30 rounded-3xl shadow-2xl p-8 sm:p-10 flex flex-col items-center text-center">
         {/* Animated mail icon */}
         <div className="w-20 h-20 rounded-full bg-amber-500/20 border-4 border-amber-400 flex items-center justify-center mb-6 animate-bounce shadow-xl shadow-amber-500/20">
           <Mail className="w-10 h-10 text-amber-400" />
         </div>
 
-        <h1 className="text-2xl sm:text-3xl font-extrabold text-white mb-3 font-orbitron">
+        <h1 className="text-2xl sm:text-3xl font-extrabold text-foreground mb-3 font-orbitron">
           Verify Your Email
         </h1>
 
-        <p className="text-sm sm:text-base text-slate-300 mb-2 leading-relaxed">
+        <p className="text-sm sm:text-base text-foreground/80 mb-2 leading-relaxed">
           We've sent a confirmation link to:
         </p>
         <p className="text-amber-400 font-semibold text-lg mb-6 break-all">
           {email}
         </p>
 
-        <div className="w-full bg-slate-800/60 rounded-xl border border-slate-700/50 p-4 mb-6 text-left">
+        <div className="w-full bg-muted/60 rounded-xl border border-border/50 p-4 mb-6 text-left">
           <h3 className="text-sm font-semibold text-amber-300 mb-2">📋 Next Steps:</h3>
-          <ol className="text-xs sm:text-sm text-slate-300 space-y-2 list-decimal pl-4">
+          <ol className="text-xs sm:text-sm text-foreground/80 space-y-2 list-decimal pl-4">
             <li>Open your email inbox (check spam/promotions too)</li>
             <li>Click the <strong className="text-amber-400">confirmation link</strong> in the email</li>
             <li>You'll be redirected to your dashboard automatically</li>
@@ -104,13 +104,13 @@ export default function VerifyEmail() {
         {/* Back to login */}
         <Link
           to="/auth"
-          className="flex items-center gap-2 text-sm text-slate-400 hover:text-amber-400 transition-colors mt-2"
+          className="flex items-center gap-2 text-sm text-muted-foreground hover:text-amber-400 transition-colors mt-2"
         >
           <ArrowLeft className="w-4 h-4" />
           Back to Sign In
         </Link>
 
-        <p className="text-slate-500 text-xs mt-6">
+        <p className="text-muted-foreground text-xs mt-6">
           Didn't receive an email? Check your spam folder or try resending.
         </p>
       </div>
