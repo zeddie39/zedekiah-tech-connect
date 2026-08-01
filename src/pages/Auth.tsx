@@ -224,7 +224,7 @@ export default function AuthPage() {
               After updating, you can log in immediately.
             </p>
             {resetSuccess ? (
-              <div className="mb-3 py-2 px-3 rounded bg-primary/10 text-primary text-center text-sm">
+              <div className="mb-3 py-2 px-3 rounded bg-accent/15 text-accent text-center text-sm">
                 <span className="font-semibold">Password updated!</span><br/>
                 <a href="/auth" className="underline text-accent font-semibold">Sign in</a> with your new password.
               </div>
@@ -254,7 +254,7 @@ export default function AuthPage() {
                   disabled={loading}
                 />
                 {error && <div className="text-destructive text-sm">{error}</div>}
-                <Button type="submit" className="w-full bg-primary text-primary-foreground font-semibold" disabled={loading}>
+                <Button type="submit" className="w-full bg-accent text-accent-foreground font-semibold" disabled={loading}>
                   {loading ? <Loader2 className="animate-spin mr-2" /> : null}
                   Update Password
                 </Button>
@@ -273,7 +273,7 @@ export default function AuthPage() {
               Enter your email address and we'll send you a link to reset your password.
             </p>
             {resetNotice && (
-              <div className="mb-3 py-2 px-3 rounded bg-primary/10 text-primary text-center text-sm">{resetNotice}</div>
+              <div className="mb-3 py-2 px-3 rounded bg-accent/15 text-accent text-center text-sm">{resetNotice}</div>
             )}
             <form onSubmit={handleResetPassword} className="space-y-3">
               <Input className="h-11 rounded-xl bg-muted/60 border-border"
@@ -288,7 +288,7 @@ export default function AuthPage() {
                 disabled={loading}
               />
               {error && <div className="text-destructive text-sm">{error}</div>}
-              <Button type="submit" className="w-full bg-primary text-primary-foreground font-semibold" disabled={loading}>
+              <Button type="submit" className="w-full bg-accent text-accent-foreground font-semibold" disabled={loading}>
                 {loading ? <Loader2 className="animate-spin mr-2" /> : null}
                 Send Reset Link
               </Button>
@@ -359,7 +359,7 @@ export default function AuthPage() {
                 </div>
               )}
               {error && <div className="text-destructive text-sm">{error}</div>}
-              <Button type="submit" className="w-full" disabled={loading || (view === "signup" && !acceptedTerms)}>
+              <Button type="submit" className="w-full h-11 rounded-xl bg-accent text-accent-foreground font-semibold hover:bg-accent/90" disabled={loading || (view === "signup" && !acceptedTerms)}>
                 {loading ? <Loader2 className="animate-spin mr-2" /> : null}
                 {view === "login" ? "Sign In" : "Create Account"}
               </Button>
@@ -416,7 +416,7 @@ export default function AuthPage() {
               {view === "login" ? (
                 <>
                   New here?{" "}
-                  <button className="underline text-primary font-medium hover:text-primary/80" onClick={() => {
+                  <button className="underline text-accent font-medium hover:text-accent/80" onClick={() => {
                     setView("signup");
                     setError(null);
                     setSignupNotice(null);
@@ -427,7 +427,7 @@ export default function AuthPage() {
               ) : (
                 <>
                   Already have an account?{" "}
-                  <button className="underline text-primary font-medium hover:text-primary/80" onClick={() => {
+                  <button className="underline text-accent font-medium hover:text-accent/80" onClick={() => {
                     setView("login");
                     setError(null);
                     setSignupNotice(null);
@@ -438,7 +438,7 @@ export default function AuthPage() {
               )}
             </div>
             <div className="mt-4 text-center text-sm">
-              <button className="underline text-primary font-medium hover:text-primary/80" onClick={() => {
+              <button className="underline text-accent font-medium hover:text-accent/80" onClick={() => {
                 setResetView(true);
                 setError(null);
                 setSignupNotice(null);
