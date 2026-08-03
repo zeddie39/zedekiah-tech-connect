@@ -29,17 +29,18 @@ export default function AuthPage() {
   const location = useLocation();
 
   useEffect(() => {
+    const celebrateThenGo = () => {
+      const params = new URLSearchParams(location.search);
+      const next = params.get("redirect") === "shop" ? "/shop" : "/dashboard";
+      navigate(`/ConfirmedCelebration?next=${encodeURIComponent(next)}`, { replace: true });
+    };
+
     supabase.auth.getSession().then(({ data: { session } }) => {
       if (session) {
         const isOAuth = session.user.app_metadata?.provider && session.user.app_metadata?.provider !== "email";
         const isConfirmed = Boolean(session.user.email_confirmed_at);
         if (isOAuth || isConfirmed) {
-          const params = new URLSearchParams(location.search);
-          if (params.get("redirect") === "shop") {
-            navigate("/shop");
-          } else {
-            navigate("/dashboard");
-          }
+          celebrateThenGo();
         } else {
           // Force sign out unverified session
           supabase.auth.signOut();
@@ -53,12 +54,7 @@ export default function AuthPage() {
         const isOAuth = session.user.app_metadata?.provider && session.user.app_metadata?.provider !== "email";
         const isConfirmed = Boolean(session.user.email_confirmed_at);
         if (isOAuth || isConfirmed) {
-          const params = new URLSearchParams(location.search);
-          if (params.get("redirect") === "shop") {
-            navigate("/shop");
-          } else {
-            navigate("/dashboard");
-          }
+          celebrateThenGo();
         } else {
           supabase.auth.signOut();
           setSignupNotice("Verification required! We sent a confirmation link to your email. Please check your inbox and verify your email before signing in.");
@@ -72,6 +68,7 @@ export default function AuthPage() {
     }
     return () => listener?.subscription.unsubscribe();
   }, [navigate, location.search]);
+
 
   useEffect(() => {
     // Show notice if redirected from Hero "Shop"
