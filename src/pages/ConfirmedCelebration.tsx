@@ -39,6 +39,9 @@ export default function ConfirmedCelebration() {
   const [error, setError] = useState<string | null>(null);
   const [userEmail, setUserEmail] = useState<string>("");
   const navigate = useNavigate();
+  const nextParam = new URLSearchParams(window.location.search).get("next");
+  const nextPath = nextParam && nextParam.startsWith("/") ? nextParam : "/dashboard";
+
 
   useEffect(() => {
     // Check for error params in the URL hash or query
