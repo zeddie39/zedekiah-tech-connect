@@ -125,7 +125,7 @@ export default function ConfirmedCelebration() {
             </p>
 
             <Link
-              to="/dashboard"
+              to={nextPath}
               className="w-full py-3.5 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-brand-on-orange font-extrabold text-lg rounded-xl shadow-xl shadow-amber-500/20 transition-all duration-300 hover:scale-[1.02] block mb-4"
             >
               Continue to Dashboard &rarr;
