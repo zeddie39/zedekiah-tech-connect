@@ -64,13 +64,14 @@ export default function ConfirmedCelebration() {
 
   useEffect(() => {
     if (!error && count === 0) {
-      navigate("/dashboard");
+      navigate(nextPath, { replace: true });
     }
     if (!error && count > 0) {
       const timer = setTimeout(() => setCount(c => c - 1), 1000);
       return () => clearTimeout(timer);
     }
-  }, [count, navigate, error]);
+  }, [count, navigate, error, nextPath]);
+
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-amber-500/10 via-card to-background text-foreground relative overflow-hidden px-4">
