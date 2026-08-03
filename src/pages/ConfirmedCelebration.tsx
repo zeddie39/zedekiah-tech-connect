@@ -39,6 +39,9 @@ export default function ConfirmedCelebration() {
   const [error, setError] = useState<string | null>(null);
   const [userEmail, setUserEmail] = useState<string>("");
   const navigate = useNavigate();
+  const nextParam = new URLSearchParams(window.location.search).get("next");
+  const nextPath = nextParam && nextParam.startsWith("/") ? nextParam : "/dashboard";
+
 
   useEffect(() => {
     // Check for error params in the URL hash or query
@@ -61,13 +64,14 @@ export default function ConfirmedCelebration() {
 
   useEffect(() => {
     if (!error && count === 0) {
-      navigate("/dashboard");
+      navigate(nextPath, { replace: true });
     }
     if (!error && count > 0) {
       const timer = setTimeout(() => setCount(c => c - 1), 1000);
       return () => clearTimeout(timer);
     }
-  }, [count, navigate, error]);
+  }, [count, navigate, error, nextPath]);
+
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-amber-500/10 via-card to-background text-foreground relative overflow-hidden px-4">
@@ -121,7 +125,7 @@ export default function ConfirmedCelebration() {
             </p>
 
             <Link
-              to="/dashboard"
+              to={nextPath}
               className="w-full py-3.5 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-brand-on-orange font-extrabold text-lg rounded-xl shadow-xl shadow-amber-500/20 transition-all duration-300 hover:scale-[1.02] block mb-4"
             >
               Continue to Dashboard &rarr;

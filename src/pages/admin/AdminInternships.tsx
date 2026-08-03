@@ -102,25 +102,31 @@ export default function AdminInternships() {
       return;
     }
 
-    await addPosting({
-      title: formTitle.trim(),
-      department: formDept.trim(),
-      type: formType,
-      location: formLocation.trim() || "Nairobi, Kenya",
-      duration: formDuration.trim() || "3 Months",
-      description: formDescription.trim(),
-      requirements: formRequirements.split("\n").map(s => s.trim()).filter(Boolean),
-      responsibilities: formResponsibilities.split("\n").map(s => s.trim()).filter(Boolean),
-      slots: formSlots,
-      deadline: formDeadline,
-      isOpen: true,
-    });
+    try {
+      await addPosting({
+        title: formTitle.trim(),
+        department: formDept.trim(),
+        type: formType,
+        location: formLocation.trim() || "Nairobi, Kenya",
+        duration: formDuration.trim() || "3 Months",
+        description: formDescription.trim(),
+        requirements: formRequirements.split("\n").map(s => s.trim()).filter(Boolean),
+        responsibilities: formResponsibilities.split("\n").map(s => s.trim()).filter(Boolean),
+        slots: formSlots,
+        deadline: formDeadline,
+        isOpen: true,
+      });
+    } catch (err: any) {
+      toast.error(`Could not publish posting: ${err?.message || "unknown error"}`);
+      return;
+    }
 
     toast.success(`"${formTitle}" has been published and is now visible on the Careers page!`);
     resetPostForm();
     setIsPostFormOpen(false);
     await refreshData();
   };
+
 
   const handleToggleOpen = async (id: string, currentlyOpen: boolean) => {
     await editPosting(id, { isOpen: !currentlyOpen });

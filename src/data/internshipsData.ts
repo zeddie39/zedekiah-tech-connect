@@ -142,22 +142,29 @@ export async function getStoredPostings(): Promise<InternshipPosting[]> {
   }
 }
 
+function safeUuid(): string {
+  try {
+    if (typeof crypto !== "undefined" && typeof crypto.randomUUID === "function") {
+      return crypto.randomUUID();
+    }
+  } catch {
+    /* fall through */
+  }
+  // RFC4122-ish fallback for webviews without crypto.randomUUID
+  return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, (c) => {
+    const r = (Math.random() * 16) | 0;
+    const v = c === "x" ? r : (r & 0x3) | 0x8;
+    return v.toString(16);
+  });
+}
+
 export async function addPosting(data: Omit<InternshipPosting, "id" | "postedAt">): Promise<InternshipPosting> {
-  const newId = crypto.randomUUID();
+  const newId = safeUuid();
   const postedAtStr = new Date().toISOString();
 
-  const newPosting: InternshipPosting = {
-    ...data,
-    id: newId,
-    postedAt: postedAtStr.split("T")[0],
-  };
-
-  // Update local storage immediately for responsive UI
-  const localCurrent = getLocalPostings();
-  saveLocalPostings([newPosting, ...localCurrent]);
-
-  try {
-    const { error } = await supabase.from("job_postings").insert({
+  const { data: inserted, error } = await supabase
+    .from("job_postings")
+    .insert({
       id: newId,
       title: data.title,
       department: data.department,
@@ -168,21 +175,23 @@ export async function addPosting(data: Omit<InternshipPosting, "id" | "postedAt"
       requirements: data.requirements,
       responsibilities: data.responsibilities,
       slots: data.slots,
-      deadline: data.deadline,
+      deadline: data.deadline || null,
       is_open: data.isOpen,
       created_at: postedAtStr,
-    });
+    })
+    .select()
+    .single();
 
-
-    if (error) {
-      console.error("Failed to insert job posting into Supabase:", error.message);
-    }
-  } catch (err) {
-    console.error("Supabase insert error:", err);
+  if (error || !inserted) {
+    console.error("Failed to insert job posting into Supabase:", error?.message);
+    throw new Error(error?.message || "Could not save the posting to the database.");
   }
 
+  const newPosting = mapPostingRow(inserted);
+  saveLocalPostings([newPosting, ...getLocalPostings().filter((p) => p.id !== newPosting.id)]);
   return newPosting;
 }
+
 
 export async function editPosting(id: string, changes: Partial<InternshipPosting>): Promise<InternshipPosting | null> {
   const localCurrent = getLocalPostings();

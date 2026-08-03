@@ -35,7 +35,7 @@ export const services: Service[] = [
     features: ['Website Design', 'Web App Development', 'E-commerce', 'Responsive Design'],
     image: serviceImages[13],
     more: 'We build beautiful, fast, and secure websites and web applications for businesses and individuals.',
-    price: 15000
+    price: 25000
   },
   {
     title: 'Software Development',
@@ -45,7 +45,7 @@ export const services: Service[] = [
     features: ['Custom Software', 'Mobile Apps', 'Automation', 'API Integration'],
     image: serviceImages[14],
     more: 'From business automation to mobile apps, we deliver robust software tailored to your needs.',
-    price: 20000
+    price: 70000
   },
   {
     title: 'Poster & Flyer Design',
@@ -55,7 +55,7 @@ export const services: Service[] = [
     features: ['Poster Design', 'Flyer Design', 'Banner Design', 'Print & Digital'],
     image: serviceImages[15],
     more: 'Get eye-catching designs for your business or event, ready for print or digital use.',
-    price: 1000
+    price: 1500
   },
   {
     title: 'Phone & Tablet Repair',
@@ -84,7 +84,8 @@ export const services: Service[] = [
     icon: <Camera className="text-accent" size={40} />,
     features: ['Camera Installation', 'Monitoring Setup', 'Remote Access', 'System Maintenance'],
     image: serviceImages[2],
-    more: 'Secure your home or business with smart and scalable CCTV systems. We offer complete installation, monitoring, and remote support services.'
+    more: 'Secure your home or business with smart and scalable CCTV systems. We offer complete installation, monitoring, and remote support services.',
+    price: 25000
   },
   {
     title: 'Home & Office Wiring',
@@ -93,7 +94,8 @@ export const services: Service[] = [
     icon: <Plug className="text-accent" size={40} />,
     features: ['Electrical Wiring', 'Network Cables', 'Smart Home Setup', 'Safety Inspection'],
     image: serviceImages[3],
-    more: 'Our wiring experts deliver safe electrical and network installations for homes and offices, including smart device configuration and internet setup.'
+    more: 'Our wiring experts deliver safe electrical and network installations for homes and offices, including smart device configuration and internet setup.',
+    price: 15000
   },
   {
     title: 'Software Solutions',
@@ -103,7 +105,7 @@ export const services: Service[] = [
     features: ['OS Installation', 'Software Setup', 'Data Recovery', 'System Optimization'],
     image: serviceImages[4],
     more: 'Get help with installing applications, recovering lost data, OS upgrades, and making your devices run like new. Fast and secure service.',
-    price: 2000
+    price: 2500
   },
   {
     title: 'Tech Consultation',
@@ -112,7 +114,8 @@ export const services: Service[] = [
     icon: <BookOpen className="text-accent" size={40} />,
     features: ['Tech Planning', 'System Recommendations', 'IT Strategy', 'Business Solutions'],
     image: serviceImages[5],
-    more: 'Our consultants work closely with you for tailored IT strategies, digital transformation, and reliable tech roadmaps for business growth.'
+    more: 'Our consultants work closely with you for tailored IT strategies, digital transformation, and reliable tech roadmaps for business growth.',
+    price: 5000
   },
   {
     title: 'Gaming Console Repair',
