@@ -48,7 +48,53 @@ type Product = {
   owner_id: string;
   whatsapp_number?: string | null;
   created_at?: string;
+  stock_status?: string | null;
 };
+
+/* ─── Stock helpers ─── */
+export const STOCK_OPTIONS = [
+  { value: "in_stock", label: "In Stock" },
+  { value: "low_stock", label: "Low Stock" },
+  { value: "out_of_stock", label: "Out of Stock" },
+];
+
+const STOCK_STYLES: Record<string, string> = {
+  in_stock: "bg-emerald-500/15 text-emerald-500 border-emerald-500/30",
+  low_stock: "bg-amber-500/15 text-amber-500 border-amber-500/30",
+  out_of_stock: "bg-red-500/15 text-red-500 border-red-500/30",
+};
+
+function stockBadge(value?: string | null) {
+  const v = value || "in_stock";
+  const label = STOCK_OPTIONS.find((o) => o.value === v)?.label || v;
+  return (
+    <span className={`text-[10px] uppercase tracking-wider font-bold px-2 py-0.5 rounded-full border ${STOCK_STYLES[v] || STOCK_STYLES.in_stock}`}>
+      {label}
+    </span>
+  );
+}
+
+/* ─── Bundle contents helpers (stored inside the description) ─── */
+const INCLUDES_MARKER = "Includes:";
+
+export function parseDescription(desc: string | null | undefined) {
+  const text = desc || "";
+  const idx = text.indexOf(INCLUDES_MARKER);
+  if (idx === -1) return { base: text, items: [] as string[] };
+  const base = text.slice(0, idx).trimEnd();
+  const items = text
+    .slice(idx + INCLUDES_MARKER.length)
+    .split("\n")
+    .map((l) => l.replace(/^[-•*]\s*/, "").trim())
+    .filter(Boolean);
+  return { base, items };
+}
+
+export function buildDescription(base: string, items: string[]) {
+  const clean = items.map((i) => i.trim()).filter(Boolean);
+  if (clean.length === 0) return base.trim();
+  return `${base.trim()}\n\n${INCLUDES_MARKER}\n${clean.map((i) => `- ${i}`).join("\n")}`;
+}
 
 type ProductWithImage = Product & { image_url?: string | null };
 
@@ -59,6 +105,7 @@ export default function AdminProducts() {
   const [search, setSearch] = useState("");
   const [categoryFilter, setCategoryFilter] = useState<string>("all");
   const [statusFilter, setStatusFilter] = useState<string>("all");
+  const [stockFilter, setStockFilter] = useState<string>("all");
 
   // Add / Edit modal
   const [modalOpen, setModalOpen] = useState(false);
@@ -72,6 +119,9 @@ export default function AdminProducts() {
   const [category, setCategory] = useState<string | undefined>(undefined);
   const [whatsappNumber, setWhatsappNumber] = useState("");
   const [status, setStatus] = useState("approved");
+  const [stockStatus, setStockStatus] = useState("in_stock");
+  const [bundleItems, setBundleItems] = useState<string[]>([]);
+  const [newBundleItem, setNewBundleItem] = useState("");
   const [imageFiles, setImageFiles] = useState<File[]>([]);
   const [imagePreviews, setImagePreviews] = useState<string[]>([]);
   const [existingImageUrl, setExistingImageUrl] = useState<string | null>(null);
@@ -129,13 +179,14 @@ export default function AdminProducts() {
     return products.filter((p) => {
       if (categoryFilter !== "all" && (p.category || "").toLowerCase() !== categoryFilter.toLowerCase()) return false;
       if (statusFilter !== "all" && (p.status || "") !== statusFilter) return false;
+      if (stockFilter !== "all" && (p.stock_status || "in_stock") !== stockFilter) return false;
       if (search.trim()) {
         const hay = `${p.title} ${p.description || ""}`.toLowerCase();
         if (!hay.includes(search.trim().toLowerCase())) return false;
       }
       return true;
     });
-  }, [products, categoryFilter, statusFilter, search]);
+  }, [products, categoryFilter, statusFilter, stockFilter, search]);
 
   /* ─── Open Add modal ─── */
   function openAddModal() {
@@ -146,6 +197,9 @@ export default function AdminProducts() {
     setCategory(undefined);
     setWhatsappNumber("");
     setStatus("approved");
+    setStockStatus("in_stock");
+    setBundleItems([]);
+    setNewBundleItem("");
     setImageFiles([]);
     setExistingImageUrl(null);
     setModalOpen(true);
@@ -155,11 +209,15 @@ export default function AdminProducts() {
   function openEditModal(product: ProductWithImage) {
     setEditingProduct(product);
     setTitle(product.title);
-    setDescription(product.description || "");
+    const parsed = parseDescription(product.description);
+    setDescription(parsed.base);
+    setBundleItems(parsed.items);
+    setNewBundleItem("");
     setPrice(String(product.price));
     setCategory(product.category || undefined);
     setWhatsappNumber(product.whatsapp_number || "");
     setStatus(product.status || "approved");
+    setStockStatus(product.stock_status || "in_stock");
     setImageFiles([]);
     setExistingImageUrl(product.image_url || null);
     setModalOpen(true);
@@ -183,10 +241,11 @@ export default function AdminProducts() {
         .from("products")
         .update({
           title: title.trim(),
-          description: description.trim() || null,
+          description: buildDescription(description, bundleItems) || null,
           price: Number(price),
           category: category || null,
           status: status,
+          stock_status: stockStatus,
           whatsapp_number: whatsappNumber || null,
         })
         .eq("id", editingProduct.id);
@@ -236,10 +295,11 @@ export default function AdminProducts() {
         .insert([{
           owner_id: session.user.id,
           title: title.trim(),
-          description: description.trim() || null,
+          description: buildDescription(description, bundleItems) || null,
           price: Number(price),
           category: category || null,
           status: status, // Admin products are auto-approved unless manually set
+          stock_status: stockStatus,
           whatsapp_number: whatsappNumber || null,
         }])
         .select()
@@ -304,6 +364,19 @@ export default function AdminProducts() {
     setDeleteLoading(false);
     setDeleteDialogOpen(false);
     setDeletingProduct(null);
+  }
+
+  /* ─── Quick availability update ─── */
+  async function updateStock(id: string, value: string) {
+    const prev = products;
+    setProducts((list) => list.map((p) => (p.id === id ? { ...p, stock_status: value } : p)));
+    const { error } = await supabase.from("products").update({ stock_status: value }).eq("id", id);
+    if (error) {
+      setProducts(prev);
+      toast({ title: "Failed to update availability", description: error.message, variant: "destructive" });
+      return;
+    }
+    toast({ title: `Marked as ${STOCK_OPTIONS.find((o) => o.value === value)?.label}` });
   }
 
   /* ─── Status badge ─── */
@@ -381,6 +454,17 @@ export default function AdminProducts() {
             <SelectItem value="out_of_stock">Out of Stock</SelectItem>
           </SelectContent>
         </Select>
+        <Select value={stockFilter} onValueChange={setStockFilter}>
+          <SelectTrigger className="w-full sm:w-[150px] bg-background/50 border-accent/20">
+            <SelectValue placeholder="Availability" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">All Availability</SelectItem>
+            {STOCK_OPTIONS.map((o) => (
+              <SelectItem key={o.value} value={o.value}>{o.label}</SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
       </div>
 
       {/* Stats */}
@@ -427,7 +511,10 @@ export default function AdminProducts() {
                   </div>
                 )}
                 {/* Status badge overlay */}
-                <div className="absolute top-2 left-2">{statusBadge(product.status)}</div>
+                <div className="absolute top-2 left-2 flex flex-col items-start gap-1">
+                  {statusBadge(product.status)}
+                  {stockBadge(product.stock_status)}
+                </div>
                 {/* Category */}
                 {product.category && (
                   <span className="absolute top-2 right-2 text-[9px] uppercase tracking-wider font-bold text-accent bg-black/60 backdrop-blur px-2 py-0.5 rounded border border-accent/20">
@@ -441,6 +528,33 @@ export default function AdminProducts() {
                 <h3 className="font-semibold text-sm truncate" title={product.title}>{product.title}</h3>
                 <p className="text-xs text-muted-foreground line-clamp-2">{product.description || "No description"}</p>
                 <p className="text-base font-bold text-accent">Ksh {product.price.toLocaleString()}</p>
+
+                {parseDescription(product.description).items.length > 0 && (
+                  <div className="rounded-lg border border-accent/15 bg-accent/5 p-2">
+                    <p className="text-[10px] font-bold uppercase tracking-wider text-accent mb-1">
+                      Bundle · {parseDescription(product.description).items.length} items
+                    </p>
+                    <ul className="text-[11px] text-muted-foreground space-y-0.5 list-disc list-inside">
+                      {parseDescription(product.description).items.slice(0, 3).map((it, i) => (
+                        <li key={i} className="truncate">{it}</li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+
+                <Select
+                  value={product.stock_status || "in_stock"}
+                  onValueChange={(v) => updateStock(product.id, v)}
+                >
+                  <SelectTrigger className="h-8 text-xs bg-background/50 border-accent/20">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {STOCK_OPTIONS.map((o) => (
+                      <SelectItem key={o.value} value={o.value}>{o.label}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
 
                 {/* Actions */}
                 <div className="flex items-center gap-2 pt-2 border-t border-accent/10">
@@ -513,8 +627,8 @@ export default function AdminProducts() {
               </div>
             </div>
 
-            {/* Category and Status */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {/* Category, Status and Availability */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div className="space-y-2">
                 <Label className="text-sm font-medium">Category <span className="text-red-500">*</span></Label>
                 <Select value={category} onValueChange={(v) => setCategory(v)}>
@@ -542,6 +656,19 @@ export default function AdminProducts() {
                   </SelectContent>
                 </Select>
               </div>
+              <div className="space-y-2">
+                <Label className="text-sm font-medium">Availability <span className="text-red-500">*</span></Label>
+                <Select value={stockStatus} onValueChange={(v) => setStockStatus(v)}>
+                  <SelectTrigger className="w-full bg-background/50 border-accent/20 focus:ring-accent">
+                    <SelectValue placeholder="Select availability" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {STOCK_OPTIONS.map((o) => (
+                      <SelectItem key={o.value} value={o.value}>{o.label}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
             </div>
 
             {/* Description */}
@@ -556,6 +683,75 @@ export default function AdminProducts() {
                 placeholder="Describe the product specs, condition, features..."
                 className="bg-background/50 border-accent/20 focus-visible:ring-accent resize-none"
               />
+            </div>
+
+            {/* Bundle contents */}
+            <div className="space-y-3 rounded-xl border border-accent/20 bg-accent/5 p-4">
+              <div>
+                <Label className="text-sm font-medium">Bundle Contents</Label>
+                <p className="text-xs text-muted-foreground mt-0.5">
+                  Add the items included in this bundle (leave empty for a normal single product).
+                </p>
+              </div>
+
+              {bundleItems.length > 0 && (
+                <ul className="space-y-2">
+                  {bundleItems.map((item, idx) => (
+                    <li key={idx} className="flex items-center gap-2">
+                      <Input
+                        value={item}
+                        onChange={(e) =>
+                          setBundleItems((list) => list.map((v, i) => (i === idx ? e.target.value : v)))
+                        }
+                        disabled={formLoading}
+                        className="h-9 bg-background/60 border-accent/20 focus-visible:ring-accent text-sm"
+                      />
+                      <Button
+                        type="button"
+                        size="icon"
+                        variant="outline"
+                        disabled={formLoading}
+                        className="h-9 w-9 shrink-0 border-red-500/20 text-red-400 hover:bg-red-500/10"
+                        onClick={() => setBundleItems((list) => list.filter((_, i) => i !== idx))}
+                        aria-label={`Remove ${item}`}
+                      >
+                        <Trash2 className="w-3.5 h-3.5" />
+                      </Button>
+                    </li>
+                  ))}
+                </ul>
+              )}
+
+              <div className="flex items-center gap-2">
+                <Input
+                  value={newBundleItem}
+                  onChange={(e) => setNewBundleItem(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      e.preventDefault();
+                      if (newBundleItem.trim()) {
+                        setBundleItems((list) => [...list, newBundleItem.trim()]);
+                        setNewBundleItem("");
+                      }
+                    }
+                  }}
+                  placeholder="e.g. 1x Tuya Smart Wi-Fi Camera"
+                  disabled={formLoading}
+                  className="h-9 bg-background/60 border-accent/20 focus-visible:ring-accent text-sm"
+                />
+                <Button
+                  type="button"
+                  variant="outline"
+                  disabled={formLoading || !newBundleItem.trim()}
+                  className="h-9 gap-1.5 shrink-0 border-accent/30 hover:bg-accent/10"
+                  onClick={() => {
+                    setBundleItems((list) => [...list, newBundleItem.trim()]);
+                    setNewBundleItem("");
+                  }}
+                >
+                  <Plus className="w-3.5 h-3.5" /> Add
+                </Button>
+              </div>
             </div>
 
             {/* Images */}
