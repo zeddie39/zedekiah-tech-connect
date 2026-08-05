@@ -44,6 +44,7 @@ type Product = {
   avgRating?: number;
   reviewCount?: number;
   whatsapp_number?: string | null;
+  stock_status?: string | null;
 };
 
 type ProductReview = {
@@ -616,6 +617,18 @@ export default function Shop() {
                         </Button>
                       </div>
 
+                      {(product.stock_status || 'in_stock') !== 'in_stock' && (
+                        <Badge
+                          className={`absolute bottom-2 left-2 text-[10px] font-bold border-0 shadow-sm ${
+                            product.stock_status === 'low_stock'
+                              ? 'bg-amber-500 text-black'
+                              : 'bg-red-500 text-white'
+                          }`}
+                        >
+                          {product.stock_status === 'low_stock' ? 'LOW STOCK' : 'OUT OF STOCK'}
+                        </Badge>
+                      )}
+
                       {product.status === 'pending' ? (
                         <Badge variant="secondary" className="absolute top-2 left-2 text-[10px] bg-background/80 backdrop-blur">
                           Pending
@@ -780,6 +793,7 @@ export default function Shop() {
                           <Button 
                             className="flex-1 text-xs bg-primary hover:bg-primary/95 text-white" 
                             size="sm" 
+                            disabled={product.stock_status === 'out_of_stock'}
                             onClick={() => {
                               const img = images[product.id] || null;
                               addToCart({ 
