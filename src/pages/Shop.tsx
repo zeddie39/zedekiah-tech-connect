@@ -822,7 +822,7 @@ export default function Shop() {
                               });
                             }}
                           >
-                            Add to Cart
+                            {product.stock_status === 'out_of_stock' ? 'Out of Stock' : 'Add to Cart'}
                           </Button>
                         </div>
                       )}
