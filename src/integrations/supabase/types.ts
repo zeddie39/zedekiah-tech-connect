@@ -494,6 +494,7 @@ export type Database = {
           owner_id: string
           price: number
           status: string | null
+          stock_status: string
           title: string
           updated_at: string
           whatsapp_number: string | null
@@ -507,6 +508,7 @@ export type Database = {
           owner_id: string
           price: number
           status?: string | null
+          stock_status?: string
           title: string
           updated_at?: string
           whatsapp_number?: string | null
@@ -520,6 +522,7 @@ export type Database = {
           owner_id?: string
           price?: number
           status?: string | null
+          stock_status?: string
           title?: string
           updated_at?: string
           whatsapp_number?: string | null
