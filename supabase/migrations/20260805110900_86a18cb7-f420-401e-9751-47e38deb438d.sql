@@ -1,0 +1,37 @@
+DELETE FROM public.job_postings WHERE title = 'probe';
+
+WITH seed(title, description, price, original_price, category, img) AS (
+  VALUES
+    ('Samsung Galaxy A16 5G (128GB, 4GB RAM)', 'Official Samsung Galaxy A16 5G with 6.7" Super AMOLED display, 50MP triple camera and 5000mAh battery. Sealed, 1-year warranty.', 24999, 28999, 'Gadgets', 'https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?auto=format&fit=crop&w=900&q=80'),
+    ('Redmi Note 14 (256GB, 8GB RAM)', 'Xiaomi Redmi Note 14 with 108MP camera, 120Hz AMOLED screen and 33W fast charging. Brand new, sealed box.', 27499, 31500, 'Gadgets', 'https://images.unsplash.com/photo-1598327105666-5b89351aff97?auto=format&fit=crop&w=900&q=80'),
+    ('Tecno Spark 30C (128GB, 4GB RAM)', 'Budget-friendly Tecno Spark 30C, 6.67" HD+ 120Hz display, 48MP camera, 5000mAh battery. Sealed with warranty.', 13999, 15999, 'Gadgets', 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=900&q=80'),
+    ('Apple iPhone 13 (128GB) - Refurbished A+', 'Certified refurbished iPhone 13, 90%+ battery health, Face ID, dual 12MP camera. 3-month shop warranty.', 62999, 74999, 'Gadgets', 'https://images.unsplash.com/photo-1632661674596-df8be070a5c5?auto=format&fit=crop&w=900&q=80'),
+    ('Xiaomi Redmi Smart Band 2', 'Fitness tracker with 1.47" display, SpO2 and heart-rate monitoring, 14-day battery life, 5ATM water resistance.', 3499, 4500, 'Gadgets', 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=900&q=80'),
+    ('HP EliteBook 840 G6 (i5, 8GB, 256GB SSD)', 'Ex-UK HP EliteBook 840 G6, Intel Core i5 8th Gen, 8GB RAM, 256GB SSD, 14" FHD. Tested and ready for work.', 34999, 42000, 'Laptops', 'https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&w=900&q=80'),
+    ('Dell Latitude 7490 (i7, 16GB, 512GB SSD)', 'Ex-UK Dell Latitude 7490 business ultrabook, Core i7 8th Gen, 16GB RAM, 512GB SSD, backlit keyboard.', 48999, 58000, 'Laptops', 'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=900&q=80'),
+    ('Lenovo IdeaPad Slim 3 (Ryzen 5, 8GB, 512GB)', 'Brand new Lenovo IdeaPad Slim 3, AMD Ryzen 5, 8GB DDR4, 512GB NVMe SSD, 15.6" FHD, Windows 11.', 62999, 69999, 'Laptops', 'https://images.unsplash.com/photo-1588872657578-7efd1f1555ed?auto=format&fit=crop&w=900&q=80'),
+    ('MacBook Air M1 (8GB, 256GB) - Refurbished', 'Apple MacBook Air M1, 13.3" Retina, 8GB unified memory, 256GB SSD. Excellent condition, 3-month warranty.', 94999, 109999, 'Laptops', 'https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?auto=format&fit=crop&w=900&q=80'),
+    ('JBL Go 4 Portable Bluetooth Speaker', 'Compact JBL Go 4 with JBL Pro Sound, 7 hours playtime, IP67 dust and waterproof rating. Original with warranty.', 5999, 7500, 'Audio', 'https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?auto=format&fit=crop&w=900&q=80'),
+    ('Anker Soundcore Life Q30 Headphones', 'Hybrid active noise cancelling over-ear headphones, 40h playtime, Hi-Res certified sound, foldable design.', 9499, 12000, 'Audio', 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=900&q=80'),
+    ('Oraimo FreePods 4 TWS Earbuds', 'True wireless earbuds with ENC calling, 48h total playtime with case, IPX5 sweatproof. Sealed, 1-year warranty.', 3299, 4200, 'Audio', 'https://images.unsplash.com/photo-1590658268037-6bf12165a8df?auto=format&fit=crop&w=900&q=80'),
+    ('Sony PlayStation 5 Slim Digital Edition', 'PS5 Slim Digital console, 1TB SSD, DualSense wireless controller included. Sealed unit with warranty.', 74999, 84999, 'Gaming', 'https://images.unsplash.com/photo-1606813907291-d86efa9b94db?auto=format&fit=crop&w=900&q=80'),
+    ('DualSense Wireless Controller (PS5)', 'Original Sony DualSense controller with haptic feedback and adaptive triggers. Multiple colours available.', 9999, 11999, 'Gaming', 'https://images.unsplash.com/photo-1592840496694-26d035b52b48?auto=format&fit=crop&w=900&q=80'),
+    ('Redragon K552 Mechanical Gaming Keyboard', 'Tenkeyless mechanical keyboard, red switches, RGB backlight, splash-proof metal frame. Ideal for gaming setups.', 4999, 6500, 'Gaming', 'https://images.unsplash.com/photo-1587829741301-dc798b83add3?auto=format&fit=crop&w=900&q=80'),
+    ('Canon EOS 2000D with 18-55mm Lens', 'Canon EOS 2000D DSLR kit, 24.1MP APS-C sensor, Full HD video, built-in Wi-Fi. Includes bag and 32GB card.', 74999, 85000, 'Cameras', 'https://images.unsplash.com/photo-1502920917128-1aa500764cbd?auto=format&fit=crop&w=900&q=80'),
+    ('Hikvision 4-Channel CCTV Kit (2MP)', 'Complete kit: 4x 2MP bullet cameras, 4-channel DVR, 1TB HDD, cables and power supply. Installation available.', 27999, 33000, 'Cameras', 'https://images.unsplash.com/photo-1557324232-b8917d3c3dcb?auto=format&fit=crop&w=900&q=80'),
+    ('TP-Link Tapo C200 Wi-Fi Security Camera', 'Indoor pan/tilt smart camera, 1080p, night vision, motion detection alerts and two-way audio via the Tapo app.', 4799, 5999, 'IoT & Robotics', 'https://images.unsplash.com/photo-1585771724684-38269d6639fd?auto=format&fit=crop&w=900&q=80'),
+    ('Sonoff Smart Wi-Fi Switch (Alexa/Google)', 'Wi-Fi smart relay switch for lights, pumps and gates. Works with Alexa and Google Home. Installation available.', 1799, 2400, 'IoT & Robotics', 'https://images.unsplash.com/photo-1558002038-1055907df827?auto=format&fit=crop&w=900&q=80'),
+    ('Arduino UNO R3 Starter Kit', 'Complete Arduino UNO R3 learning kit with breadboard, sensors, jumper wires, LEDs and project guide.', 5499, 6800, 'IoT & Robotics', 'https://images.unsplash.com/photo-1608564697071-ddf911d81370?auto=format&fit=crop&w=900&q=80'),
+    ('Oraimo 20000mAh Power Bank (22.5W)', 'Fast-charging power bank with USB-C PD, dual USB-A output and digital display. 18-month warranty.', 3599, 4500, 'Accessories', 'https://images.unsplash.com/photo-1609592806596-b43bada2f4af?auto=format&fit=crop&w=900&q=80'),
+    ('Anker 65W GaN USB-C Charger', 'Compact 65W GaN fast charger for laptops, tablets and phones. Charges a MacBook Air or Galaxy at full speed.', 4299, 5500, 'Accessories', 'https://images.unsplash.com/photo-1583863788434-e58a36330cf0?auto=format&fit=crop&w=900&q=80'),
+    ('Kingston 500GB NVMe SSD (NV2)', 'Kingston NV2 500GB PCIe 4.0 NVMe SSD, up to 3500MB/s read. Perfect laptop speed upgrade. Fitting available.', 6999, 8500, 'Accessories', 'https://images.unsplash.com/photo-1597872200969-2b65d56bd16b?auto=format&fit=crop&w=900&q=80'),
+    ('TP-Link Archer C6 AC1200 Wi-Fi Router', 'Dual-band gigabit Wi-Fi router with 4 external antennas and MU-MIMO. Great for homes and small offices.', 5299, 6500, 'Accessories', 'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&w=900&q=80')
+), ins AS (
+  INSERT INTO public.products (owner_id, title, description, price, original_price, category, status, whatsapp_number)
+  SELECT 'a98f2605-c048-4feb-ae3e-8fe113d4f021'::uuid, s.title, s.description, s.price, s.original_price, s.category, 'approved', '254712345678'
+  FROM seed s
+  WHERE NOT EXISTS (SELECT 1 FROM public.products p WHERE p.title = s.title)
+  RETURNING id, title
+)
+INSERT INTO public.product_images (product_id, image_url)
+SELECT ins.id, s.img FROM ins JOIN seed s ON s.title = ins.title;
