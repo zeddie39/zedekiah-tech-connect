@@ -150,7 +150,7 @@ const Blog = () => {
 								/>
 								<div className="flex items-center justify-between mb-4">
 									<span className="">{categoryIcon[post.category as keyof typeof categoryIcon]}</span>
-									<span className="bg-accent/10 text-accent px-3 py-1 rounded-full text-sm font-semibold">
+									<span className="bg-accent/10 text-accent-ink px-3 py-1 rounded-full text-sm font-semibold">
 										{post.category}
 									</span>
 								</div>

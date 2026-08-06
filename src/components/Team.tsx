@@ -13,7 +13,7 @@ const Team = () => {
       <div className="container mx-auto px-2 sm:px-4 md:px-6 relative">
         {/* Back to Home link removed as requested */}
         <div className="text-center mb-8 sm:mb-12 md:mb-16">
-          <h2 className="text-2xl sm:text-4xl md:text-5xl font-ubuntu font-bold text-card dark:text-foreground mb-4 sm:mb-6">
+          <h2 className="text-2xl sm:text-4xl md:text-5xl font-ubuntu font-bold text-foreground mb-4 sm:mb-6">
             Meet Our Team
           </h2>
           <p className="text-base sm:text-xl text-gray-600 dark:text-foreground/80 max-w-3xl mx-auto">
@@ -54,10 +54,10 @@ const Team = () => {
             </div>
             {/* CEO Information */}
             <div className="flex-1 text-center md:text-left">
-              <h3 className="text-xl sm:text-3xl font-ubuntu font-bold text-card dark:text-foreground mb-2">
+              <h3 className="text-xl sm:text-3xl font-ubuntu font-bold text-foreground mb-2">
                 Vincent Zedekiah.
               </h3>
-              <p className="text-base sm:text-xl text-amber-500 dark:text-amber-600 dark:text-amber-400 mb-2 sm:mb-4 font-semibold">
+              <p className="text-base sm:text-xl text-amber-600 dark:text-amber-400 mb-2 sm:mb-4 font-semibold">
                 Founder & Chief Executive Officer
               </p>
               <p className="text-gray-700 dark:text-foreground/80 leading-relaxed text-sm sm:text-lg mb-4 sm:mb-6">
@@ -66,7 +66,7 @@ const Team = () => {
                 to everyone. His expertise spans from intricate circuit board repairs to 
                 comprehensive IT infrastructure planning.
                 <button
-                  className="ml-2 text-amber-500 dark:text-amber-600 dark:text-amber-400 underline hover:text-amber-600 dark:text-amber-400 font-semibold focus:outline-none transition-all duration-300 border-b-2 border-amber-500 border-opacity-0 focus:border-opacity-100 hover:border-opacity-100"
+                  className="ml-2 text-amber-600 dark:text-amber-400 underline hover:text-amber-600 dark:text-amber-400 font-semibold focus:outline-none transition-all duration-300 border-b-2 border-amber-500 border-opacity-0 focus:border-opacity-100 hover:border-opacity-100"
                   style={{ boxShadow: 'none' }}
                   onClick={() => setShowReadMore(true)}
                 >
@@ -75,7 +75,7 @@ const Team = () => {
               </p>
               {showReadMore && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm px-2 sm:px-4">
-                  <div className="bg-white dark:bg-card text-card dark:text-foreground border border-gray-200 dark:border-border rounded-2xl shadow-2xl w-full max-w-2xl p-4 sm:p-6 relative flex flex-col md:grid md:grid-cols-2 gap-4 md:gap-6 max-h-screen overflow-y-auto">
+                  <div className="bg-white dark:bg-card text-foreground border border-gray-200 dark:border-border rounded-2xl shadow-2xl w-full max-w-2xl p-4 sm:p-6 relative flex flex-col md:grid md:grid-cols-2 gap-4 md:gap-6 max-h-screen overflow-y-auto">
                     <button
                       className="absolute top-3 right-3 text-muted-foreground hover:text-red-500 text-2xl font-bold p-1"
                       onClick={() => setShowReadMore(false)}
@@ -90,8 +90,8 @@ const Team = () => {
                         alt="Vincent Ombati Detailed"
                         className="w-32 h-32 sm:w-40 sm:h-40 object-cover rounded-full mb-4 border-4 border-amber-500 shadow-lg object-top"
                       />
-                      <h3 className="text-xl sm:text-2xl font-bold text-card dark:text-foreground text-center mb-1">Vincent Ombati</h3>
-                      <p className="text-center text-amber-500 dark:text-amber-600 dark:text-amber-400 font-semibold text-sm mb-4">Founder & Chief Executive Officer<br/>Ztech Electronics Limited</p>
+                      <h3 className="text-xl sm:text-2xl font-bold text-foreground text-center mb-1">Vincent Ombati</h3>
+                      <p className="text-center text-amber-600 dark:text-amber-400 font-semibold text-sm mb-4">Founder & Chief Executive Officer<br/>Ztech Electronics Limited</p>
                     </div>
                     {/* Right: Carded bio */}
                     <div className="space-y-4 max-h-[50vh] sm:max-h-96 overflow-y-auto text-sm sm:text-base">
