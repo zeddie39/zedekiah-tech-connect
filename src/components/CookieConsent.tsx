@@ -24,7 +24,7 @@ const CookieConsent = () => {
       </div>
       <button
         onClick={acceptCookies}
-        className="mt-2 md:mt-0 bg-accent text-white font-semibold rounded px-6 py-2 ml-0 md:ml-4 hover:bg-accent/90 transition-all"
+        className="mt-2 md:mt-0 bg-accent text-accent-foreground font-semibold rounded px-6 py-2 ml-0 md:ml-4 hover:bg-accent/90 transition-all"
       >
         Accept
       </button>

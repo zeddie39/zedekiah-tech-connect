@@ -117,7 +117,7 @@ export default function AdminMessages() {
         <Inbox className="text-accent" />
         <h1 className="text-2xl font-bold text-gray-900">Contact Messages</h1>
         {unreadCount > 0 && (
-          <span className="text-[10px] uppercase font-bold bg-accent text-white px-2 py-0.5 rounded">
+          <span className="text-[10px] uppercase font-bold bg-accent text-accent-foreground px-2 py-0.5 rounded">
             {unreadCount} new
           </span>
         )}
@@ -149,7 +149,7 @@ export default function AdminMessages() {
                 <div className="flex items-center gap-2 flex-wrap">
                   <span className="font-semibold text-gray-900">{m.name}</span>
                   {!m.is_read && (
-                    <span className="text-[10px] uppercase font-bold bg-accent text-white px-2 py-0.5 rounded">New</span>
+                    <span className="text-[10px] uppercase font-bold bg-accent text-accent-foreground px-2 py-0.5 rounded">New</span>
                   )}
                   {m.is_archived && (
                     <span className="text-[10px] uppercase font-bold bg-gray-500 text-white px-2 py-0.5 rounded">Archived</span>

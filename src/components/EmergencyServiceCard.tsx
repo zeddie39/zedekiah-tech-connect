@@ -12,7 +12,7 @@ const EmergencyServiceCard = () => (
       </p>
       <a
         href="tel:0757756763"
-        className="inline-flex items-center gap-2 px-6 py-3 bg-accent text-white font-bold rounded-lg shadow hover:bg-accent/90 transition text-lg"
+        className="inline-flex items-center gap-2 px-6 py-3 bg-accent text-accent-foreground font-bold rounded-lg shadow hover:bg-accent/90 transition text-lg"
         style={{ letterSpacing: "1px" }}
       >
         Call Emergency Line: 0757 756 763

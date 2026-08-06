@@ -182,7 +182,7 @@ const Blog = () => {
 					<div className="text-center mt-12">
 						<Button
 							onClick={loadMorePosts}
-							className="bg-accent hover:bg-accent/90 text-white px-8 py-3 text-lg font-semibold rounded-lg transform hover:scale-105 transition-all duration-200"
+							className="bg-accent hover:bg-accent/90 text-accent-foreground px-8 py-3 text-lg font-semibold rounded-lg transform hover:scale-105 transition-all duration-200"
 						>
 							Load More Articles
 						</Button>
