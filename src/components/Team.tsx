@@ -131,21 +131,21 @@ const Team = () => {
               )}
               
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
-                <div className="bg-white p-4 rounded-lg shadow-md">
-                  <h4 className="font-ubuntu font-bold text-primary mb-1">10+ Years</h4>
-                  <p className="text-gray-600 text-sm">Industry Experience</p>
+                <div className="bg-card p-4 rounded-lg shadow-md border border-border">
+                  <h4 className="font-ubuntu font-bold text-primary dark:text-accent mb-1">10+ Years</h4>
+                  <p className="text-muted-foreground text-sm">Industry Experience</p>
                 </div>
-                <div className="bg-white p-4 rounded-lg shadow-md">
-                  <h4 className="font-ubuntu font-bold text-primary mb-1">1000+</h4>
-                  <p className="text-gray-600 text-sm">Devices Repaired</p>
+                <div className="bg-card p-4 rounded-lg shadow-md border border-border">
+                  <h4 className="font-ubuntu font-bold text-primary dark:text-accent mb-1">1000+</h4>
+                  <p className="text-muted-foreground text-sm">Devices Repaired</p>
                 </div>
-                <div className="bg-white p-4 rounded-lg shadow-md">
-                  <h4 className="font-ubuntu font-bold text-primary mb-1">Certified</h4>
-                  <p className="text-gray-600 text-sm">Electronics Technician</p>
+                <div className="bg-card p-4 rounded-lg shadow-md border border-border">
+                  <h4 className="font-ubuntu font-bold text-primary dark:text-accent mb-1">Certified</h4>
+                  <p className="text-muted-foreground text-sm">Electronics Technician</p>
                 </div>
-                <div className="bg-white p-4 rounded-lg shadow-md">
-                  <h4 className="font-ubuntu font-bold text-primary mb-1">24/7</h4>
-                  <p className="text-gray-600 text-sm">Support Available</p>
+                <div className="bg-card p-4 rounded-lg shadow-md border border-border">
+                  <h4 className="font-ubuntu font-bold text-primary dark:text-accent mb-1">24/7</h4>
+                  <p className="text-muted-foreground text-sm">Support Available</p>
                 </div>
               </div>
 
@@ -194,7 +194,7 @@ const Team = () => {
               </div>
               {/* WhatsApp number display for clarity */}
               <div className="mt-3 flex justify-center md:justify-start">
-                <span className="inline-flex items-center gap-2 text-lg text-primary">
+                <span className="inline-flex items-center gap-2 text-lg text-primary dark:text-accent">
                   <Phone size={18} className="inline-block" />
                   <a
                     href={whatsappUrl}
@@ -204,7 +204,7 @@ const Team = () => {
                   >
                     0757 756 763
                   </a>
-                  <span className="text-sm ml-2 text-gray-500">(WhatsApp)</span>
+                  <span className="text-sm ml-2 text-muted-foreground">(WhatsApp)</span>
                 </span>
               </div>
               {/* Emergency Call Button */}
