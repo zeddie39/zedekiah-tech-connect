@@ -63,7 +63,7 @@ const Contact = () => {
     <section id="contact" className="py-20 bg-white dark:bg-background text-gray-900 dark:text-foreground transition-colors duration-300 relative">
       <div className="container mx-auto px-6">
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-orbitron font-bold text-card dark:text-foreground mb-6 font-playfair">
+          <h2 className="text-4xl md:text-5xl font-orbitron font-bold text-foreground mb-6 font-playfair">
             Get In Touch
           </h2>
           <p className="text-xl text-gray-600 dark:text-foreground/80 max-w-3xl mx-auto">
@@ -75,7 +75,7 @@ const Contact = () => {
           {/* Contact Information */}
           <div className="space-y-8">
             <div>
-              <h3 className="text-2xl font-orbitron font-bold text-card dark:text-foreground mb-6">
+              <h3 className="text-2xl font-orbitron font-bold text-foreground mb-6">
                 Contact Information
               </h3>
               <div className="space-y-6">
@@ -84,7 +84,7 @@ const Contact = () => {
                     <MapPin size={28} />
                   </div>
                   <div>
-                    <h4 className="font-semibold text-card dark:text-foreground">Location</h4>
+                    <h4 className="font-semibold text-foreground">Location</h4>
                     <p className="text-gray-600 dark:text-foreground/80">Kisii University</p>
                   </div>
                 </div>
@@ -93,7 +93,7 @@ const Contact = () => {
                     <Phone size={26} />
                   </div>
                   <div>
-                    <h4 className="font-semibold text-card dark:text-foreground">Phone</h4>
+                    <h4 className="font-semibold text-foreground">Phone</h4>
                     <p className="text-gray-600 dark:text-foreground/80">0757 756 763</p>
                   </div>
                 </div>
@@ -102,7 +102,7 @@ const Contact = () => {
                     <Mail size={26} />
                   </div>
                   <div>
-                    <h4 className="font-semibold text-card dark:text-foreground">Email</h4>
+                    <h4 className="font-semibold text-foreground">Email</h4>
                     <p className="text-gray-600 dark:text-foreground/80">zeedy028@gmail.com</p>
                   </div>
                 </div>
@@ -111,7 +111,7 @@ const Contact = () => {
                     <Clock size={26} />
                   </div>
                   <div>
-                    <h4 className="font-semibold text-card dark:text-foreground">Hours</h4>
+                    <h4 className="font-semibold text-foreground">Hours</h4>
                     <p className="text-gray-600 dark:text-foreground/80">Mon-Fri 9AM-6PM, Sat 10AM-4PM</p>
                   </div>
                 </div>
@@ -124,7 +124,7 @@ const Contact = () => {
           {/* Contact Form */}
           <Card className="glass-card bg-white dark:bg-card/90 border border-gray-200 dark:border-border">
             <CardHeader>
-              <CardTitle className="text-2xl font-orbitron text-card dark:text-foreground">
+              <CardTitle className="text-2xl font-orbitron text-foreground">
                 Send us a Message
               </CardTitle>
             </CardHeader>
@@ -142,7 +142,7 @@ const Contact = () => {
                       required
                       value={formData.name}
                       onChange={handleChange}
-                      className="w-full bg-white dark:bg-background text-card dark:text-foreground border-gray-300 dark:border-border"
+                      className="w-full bg-white dark:bg-background text-foreground border-gray-300 dark:border-border"
                       placeholder="Your name"
                     />
                   </div>
@@ -157,7 +157,7 @@ const Contact = () => {
                       required
                       value={formData.email}
                       onChange={handleChange}
-                      className="w-full bg-white dark:bg-background text-card dark:text-foreground border-gray-300 dark:border-border"
+                      className="w-full bg-white dark:bg-background text-foreground border-gray-300 dark:border-border"
                       placeholder="your@email.com"
                     />
                   </div>
@@ -174,7 +174,7 @@ const Contact = () => {
                       type="tel"
                       value={formData.phone}
                       onChange={handleChange}
-                      className="w-full bg-white dark:bg-background text-card dark:text-foreground border-gray-300 dark:border-border"
+                      className="w-full bg-white dark:bg-background text-foreground border-gray-300 dark:border-border"
                       placeholder="(555) 123-4567"
                     />
                   </div>
@@ -187,7 +187,7 @@ const Contact = () => {
                       name="service"
                       value={formData.service}
                       onChange={handleChange}
-                      className="w-full px-3 py-2 bg-white dark:bg-background text-card dark:text-foreground border border-gray-300 dark:border-border rounded-md focus:outline-none focus:ring-2 focus:ring-accent"
+                      className="w-full px-3 py-2 bg-white dark:bg-background text-foreground border border-gray-300 dark:border-border rounded-md focus:outline-none focus:ring-2 focus:ring-accent"
                     >
                       <option value="">Select a service</option>
                       <option value="phone-repair">Phone/Tablet Repair</option>
@@ -211,7 +211,7 @@ const Contact = () => {
                     value={formData.message}
                     onChange={handleChange}
                     rows={5}
-                    className="w-full bg-white dark:bg-background text-card dark:text-foreground border-gray-300 dark:border-border"
+                    className="w-full bg-white dark:bg-background text-foreground border-gray-300 dark:border-border"
                     placeholder="Tell us about your tech needs..."
                   />
                 </div>

@@ -63,6 +63,8 @@
 
     --accent: 36 100% 50%;
     --accent-foreground: 230 45% 8%;
+    /* Readable accent ink for text on light surfaces */
+    --accent-ink: 28 92% 34%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
@@ -99,6 +101,7 @@
     --muted-foreground: 215 20% 60%;
     --accent: 36 100% 50%;
     --accent-foreground: 230 25% 7%;
+    --accent-ink: 36 100% 62%;
     --destructive: 0 62.8% 40%;
     --destructive-foreground: 210 40% 98%;
     --border: 230 15% 18%;
@@ -205,7 +208,7 @@
     @apply flex items-center gap-3 px-4 py-2 rounded-lg font-medium text-gray-800 transition-all duration-200 bg-white/70 hover:bg-accent hover:text-white shadow-sm border border-accent/10 hover:border-accent;
   }
   .sidebar-link.active {
-    @apply bg-accent text-white border-accent;
+    @apply bg-accent text-accent-foreground border-accent;
   }
 }
 

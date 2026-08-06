@@ -26,7 +26,7 @@ const HomePricingSection: React.FC = () => (
         ))}
       </div>
       <div className="text-center mt-10">
-        <a href="/pricing?category=laptop" className="inline-block px-8 py-3.5 bg-accent hover:bg-accent/90 text-white font-bold rounded-xl shadow-lg transition-transform hover:scale-105">Laptop Pricing Details</a>
+        <a href="/pricing?category=laptop" className="inline-block px-8 py-3.5 bg-accent hover:bg-accent/90 text-accent-foreground font-bold rounded-xl shadow-lg transition-transform hover:scale-105">Laptop Pricing Details</a>
       </div>
     </div>
   </section>

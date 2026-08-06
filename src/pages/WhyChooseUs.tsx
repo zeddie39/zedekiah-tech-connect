@@ -56,7 +56,7 @@ const reasons = [
 const WhyChooseUs = () => (
 	<section id="whychooseus" className="py-16 bg-gradient-to-b from-gray-50 via-white to-gray-100 dark:from-background dark:via-card dark:to-background text-gray-900 dark:text-foreground transition-colors duration-300">
 		<div className="container mx-auto px-4 py-12">
-			<h2 className="text-3xl sm:text-4xl font-extrabold text-center text-card dark:text-foreground mb-6 font-orbitron">
+			<h2 className="text-3xl sm:text-4xl font-extrabold text-center text-foreground mb-6 font-orbitron">
 				Why Choose Ztech Electronics Ltd?
 			</h2>
 			<p className="text-lg text-center text-gray-600 dark:text-foreground/80 mb-10 max-w-2xl mx-auto">
@@ -69,7 +69,7 @@ const WhyChooseUs = () => (
 						key={idx}
 						className="bg-white dark:bg-card/90 rounded-2xl shadow-lg p-8 border border-gray-200 dark:border-border flex flex-col items-center text-center hover:shadow-xl transition-all duration-300"
 					>
-						<h3 className="text-2xl font-bold text-amber-500 dark:text-amber-600 dark:text-amber-400 mb-3 font-orbitron">
+						<h3 className="text-2xl font-bold text-amber-600 dark:text-amber-400 mb-3 font-orbitron">
 							{reason.title}
 						</h3>
 						<p className="text-gray-600 dark:text-foreground/80 text-base leading-relaxed">

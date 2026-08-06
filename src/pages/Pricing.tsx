@@ -26,7 +26,7 @@ const PricingPage: React.FC = () => {
         <main className="flex-grow pt-24 pb-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full">
           {/* Back button */}
           <div className="mb-6">
-            <Link to="/" className="inline-flex items-center gap-2 text-accent hover:text-accent/80 font-medium transition-colors">
+            <Link to="/" className="inline-flex items-center gap-2 text-accent-ink hover:text-accent-ink/80 font-medium transition-colors">
               <ArrowLeft size={20} />
               Back to Home
             </Link>
@@ -34,7 +34,7 @@ const PricingPage: React.FC = () => {
 
           {/* Header section */}
           <div className="text-center mb-12">
-            <h1 className="text-4xl md:text-5xl font-bold text-accent mb-4">ZTECH ELECTRONICS LTD.</h1>
+            <h1 className="text-4xl md:text-5xl font-bold text-accent-ink mb-4">ZTECH ELECTRONICS LTD.</h1>
             <h2 className="text-2xl font-semibold text-gray-700 dark:text-foreground/80 mb-6">SERVICE PRICE GUIDE (2026)</h2>
             
             <div className="max-w-3xl mx-auto bg-blue-50 dark:bg-blue-950/50 border-l-4 border-blue-500 p-4 rounded text-left flex items-start gap-3 shadow-sm">

@@ -28,7 +28,7 @@ export default function BackToTopButton() {
       onMouseLeave={() => setIsHovered(false)}
       className={cn(
         "fixed bottom-6 right-6 z-50 p-3 rounded-full",
-        "bg-accent text-white shadow-lg",
+        "bg-accent text-accent-foreground shadow-lg",
         "transform transition-all duration-300 ease-in-out",
         "hover:bg-accent/90 hover:shadow-xl",
         "focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2",

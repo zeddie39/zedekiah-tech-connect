@@ -61,7 +61,7 @@ const AdminGalleryManager: React.FC = () => {
             {types.map(type => (
               <button
                 key={type}
-                className="bg-accent text-white px-4 py-2 rounded font-semibold hover:bg-accent-dark"
+                className="bg-accent text-accent-foreground px-4 py-2 rounded font-semibold hover:bg-accent-dark"
                 onClick={() => setStep(type)}
               >{type}</button>
             ))}
@@ -73,7 +73,7 @@ const AdminGalleryManager: React.FC = () => {
           <input type="file" accept="image/*" onChange={e => setFile(e.target.files?.[0] || null)} className="block w-full" />
           <input type="text" placeholder="Title" value={title} onChange={e => setTitle(e.target.value)} className="block w-full border rounded px-3 py-2" />
           <textarea placeholder="Description (optional)" value={description} onChange={e => setDescription(e.target.value)} className="block w-full border rounded px-3 py-2" />
-          <button type="submit" disabled={uploading} className="bg-accent text-white px-4 py-2 rounded font-semibold">{uploading ? "Uploading..." : "Upload"}</button>
+          <button type="submit" disabled={uploading} className="bg-accent text-accent-foreground px-4 py-2 rounded font-semibold">{uploading ? "Uploading..." : "Upload"}</button>
         </form>
       )}
       {message && <div className="mt-4 text-center text-sm text-green-700">{message}</div>}

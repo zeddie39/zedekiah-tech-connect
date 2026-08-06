@@ -74,19 +74,19 @@ const Gallery: React.FC = () => {
             </Link>
           </div>
 
-          <h1 className="text-4xl sm:text-5xl font-extrabold text-center text-accent mb-8 font-orbitron">
+          <h1 className="text-4xl sm:text-5xl font-extrabold text-center text-accent-ink mb-8 font-orbitron">
             Work & Project Gallery
           </h1>
         {/* Type Filter */}
         <div className="mb-6 flex flex-wrap gap-2 justify-center">
           <button
-            className={`px-4 py-1 rounded-full border font-medium ${!selectedCategory ? 'bg-accent text-foreground' : 'bg-white text-accent border-accent'}`}
+            className={`px-4 py-1 rounded-full border font-medium ${!selectedCategory ? 'bg-accent text-foreground' : 'bg-card text-accent-ink border-accent'}`}
             onClick={() => setSelectedCategory(null)}
           >All</button>
           {types.map(type => (
             <button
               key={type}
-              className={`px-4 py-1 rounded-full border font-medium ${selectedCategory === type ? 'bg-accent text-foreground' : 'bg-white text-accent border-accent'}`}
+              className={`px-4 py-1 rounded-full border font-medium ${selectedCategory === type ? 'bg-accent text-foreground' : 'bg-card text-accent-ink border-accent'}`}
               onClick={() => setSelectedCategory(type)}
             >{type}</button>
           ))}
@@ -104,15 +104,15 @@ const Gallery: React.FC = () => {
                   className="w-full h-64 object-cover rounded mb-2 cursor-zoom-in transition-transform hover:scale-105"
                   onClick={() => setModalImg(img)}
                 />
-                <div className="font-semibold text-lg text-accent mb-1">{img.title}</div>
+                <div className="font-semibold text-lg text-accent-ink mb-1">{img.title}</div>
                 <div className="text-gray-600 text-sm mb-1">{img.description}</div>
-                <div className="text-xs text-gray-400 mb-1">{img.category ? img.category.charAt(0).toUpperCase() + img.category.slice(1).toLowerCase() : ''}</div>
+                <div className="text-xs text-muted-foreground mb-1">{img.category ? img.category.charAt(0).toUpperCase() + img.category.slice(1).toLowerCase() : ''}</div>
                 <div className="flex gap-2 mt-1">
-                  <button className="text-accent hover:underline text-sm" onClick={() => window.open(img.image_url, '_blank')}>View</button>
-                  <a className="text-accent hover:underline text-sm" href={img.image_url} download target="_blank" rel="noopener noreferrer">Download</a>
-                  <button className="text-accent hover:underline text-sm" onClick={() => navigator.share ? navigator.share({ url: img.image_url, title: img.title, text: img.description }) : alert('Sharing not supported')}>Share</button>
+                  <button className="text-accent-ink hover:underline text-sm" onClick={() => window.open(img.image_url, '_blank')}>View</button>
+                  <a className="text-accent-ink hover:underline text-sm" href={img.image_url} download target="_blank" rel="noopener noreferrer">Download</a>
+                  <button className="text-accent-ink hover:underline text-sm" onClick={() => navigator.share ? navigator.share({ url: img.image_url, title: img.title, text: img.description }) : alert('Sharing not supported')}>Share</button>
                 </div>
-                <div className="text-xs text-gray-400">{new Date(img.created_at).toLocaleString()}</div>
+                <div className="text-xs text-muted-foreground">{new Date(img.created_at).toLocaleString()}</div>
               </div>
             ))}
           </div>
@@ -141,9 +141,9 @@ const Gallery: React.FC = () => {
               </TransformComponent>
             </TransformWrapper>
             <div className="mt-4 text-center">
-              <div className="font-semibold text-lg text-accent mb-1">{modalImg.title}</div>
+              <div className="font-semibold text-lg text-accent-ink mb-1">{modalImg.title}</div>
               <div className="text-gray-600 text-sm mb-1">{modalImg.description}</div>
-              <div className="text-xs text-gray-400">{new Date(modalImg.created_at).toLocaleString()}</div>
+              <div className="text-xs text-muted-foreground">{new Date(modalImg.created_at).toLocaleString()}</div>
             </div>
             <div className="mt-2 text-xs text-gray-500">Scroll or pinch to zoom. Drag to pan.</div>
           </div>

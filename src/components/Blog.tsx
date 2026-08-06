@@ -150,7 +150,7 @@ const Blog = () => {
 								/>
 								<div className="flex items-center justify-between mb-4">
 									<span className="">{categoryIcon[post.category as keyof typeof categoryIcon]}</span>
-									<span className="bg-accent/10 text-accent px-3 py-1 rounded-full text-sm font-semibold">
+									<span className="bg-accent/10 text-accent-ink px-3 py-1 rounded-full text-sm font-semibold">
 										{post.category}
 									</span>
 								</div>
@@ -182,7 +182,7 @@ const Blog = () => {
 					<div className="text-center mt-12">
 						<Button
 							onClick={loadMorePosts}
-							className="bg-accent hover:bg-accent/90 text-white px-8 py-3 text-lg font-semibold rounded-lg transform hover:scale-105 transition-all duration-200"
+							className="bg-accent hover:bg-accent/90 text-accent-foreground px-8 py-3 text-lg font-semibold rounded-lg transform hover:scale-105 transition-all duration-200"
 						>
 							Load More Articles
 						</Button>

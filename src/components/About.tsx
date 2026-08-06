@@ -8,7 +8,7 @@ const About = () => {
           <h2 className="text-4xl md:text-5xl font-orbitron font-bold text-slate-900 dark:text-white mb-4 font-playfair">
             About Ztech Electronics Limited
           </h2>
-          <p className="text-xl text-accent font-semibold mb-2">"Reviving Technology. Empowering People."</p>
+          <p className="text-xl text-accent-ink font-semibold mb-2">"Reviving Technology. Empowering People."</p>
           <p className="text-lg text-muted-foreground leading-relaxed mb-4">
             Ztech Electronics Ltd is a forward-thinking electronics and technology company founded with the mission to bridge the gap between people and the technology they rely on daily. Originally launched as Zedekiah Tech Clinic (ZTC), the company evolved into Ztech Electronics Ltd to reflect its broader vision: delivering smart, accessible, and tech-powered services that go beyond conventional electronics repair.
           </p>
@@ -29,7 +29,7 @@ const About = () => {
 
           {/* Admin Dashboard & BI Card */}
           <div className="bg-card rounded-2xl shadow-lg p-5 sm:p-8 border border-border flex-1 w-full sm:w-auto sm:min-w-[300px] max-w-sm mb-4 hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
-            <h3 className="text-2xl font-orbitron font-bold text-accent mb-2 text-center">Admin Dashboard & BI</h3>
+            <h3 className="text-2xl font-orbitron font-bold text-primary dark:text-accent mb-2 text-center">Admin Dashboard & BI</h3>
             <ul className="list-disc pl-5 space-y-3 text-card-foreground text-base md:text-lg">
               <li>Analytics dashboard for monitoring repairs, sales, and user behavior</li>
               <li>Order and customer management tools</li>
@@ -70,7 +70,7 @@ const About = () => {
 
           {/* Why Ztech Card */}
           <div className="bg-card rounded-2xl shadow-lg p-5 sm:p-8 border border-border flex-1 w-full sm:w-auto sm:min-w-[300px] max-w-sm mb-4 hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
-            <h3 className="text-2xl font-orbitron font-bold text-accent mb-2 text-center">Why Ztech?</h3>
+            <h3 className="text-2xl font-orbitron font-bold text-primary dark:text-accent mb-2 text-center">Why Ztech?</h3>
             <ul className="list-disc pl-5 space-y-3 text-card-foreground text-base md:text-lg">
               <li><span className="font-semibold text-primary dark:text-accent">Expertise:</span> 10+ years in electronics repair, tech consultancy, and product development.</li>
               <li><span className="font-semibold text-primary dark:text-accent">Innovation-Driven:</span> Integrating AI, AR, and automation into traditional services.</li>
